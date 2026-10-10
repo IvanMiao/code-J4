@@ -1,0 +1,195 @@
+# Art manifest (retro). Regenerate: npm run gen:art -- --style retro
+style: retro
+bible: assets/style/bible-retro.md
+items:
+- id: retro/design_linxia
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Character design sheet: LIN XIA (placeholder protagonist): a 26-year-old Chinese woman, short black bob hair, tired but kind eyes,
+    oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Show a front view, side view and
+    back view full body standing in a row, plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image,
+    no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  post:
+  - chromaKey: {}
+  out: public/art/retro/design_linxia.png
+- id: retro/design_juzi
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Character design sheet: JUZI (placeholder talking cat): a chubby orange tabby cat with a white chest and white paws, a small notch
+    in the left ear, bright green eyes, a smug, worldly expression. Show the cat from the front, from the side walking, from the back, sitting,
+    plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient.
+    Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  post:
+  - chromaKey: {}
+  out: public/art/retro/design_juzi.png
+- id: retro/bg_street
+  model: gemini-3.1-flash-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'Repaint the reference image as the same RPG field map in the retro style described above. Keep the exact same composition: every object
+    (store front, door, vending machine, bench, bicycle, plants, street lamp, kerb line, road) stays at exactly the same position and size, because
+    the game''s collision map is shared between styles. Replace any lettering on signs with abstract shapes.'
+  post:
+  - resize:
+      width: 480
+      height: 270
+  - quantize:
+      colors: 96
+  out: public/art/retro/bg_street.png
+  refs:
+  - hd/bg_street
+- id: retro/portrait_linxia_calm
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of Lin Xia from the reference design sheet, three-quarter view facing slightly right, expression:
+    calm, slightly tired, neutral mouth. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground,
+    no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  refs:
+  - retro/design_linxia
+  post:
+  - chromaKey: {}
+  - trim: true
+  - resize:
+      width: 110
+      height: 110
+      fit: contain
+  - quantize:
+      colors: 48
+  out: public/art/retro/portrait_linxia_calm.png
+- id: retro/portrait_linxia_smile
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and
+    framing, three-quarter view facing slightly right, expression: warm small smile. Plain flat pure chroma-key green background (#00FF00) filling
+    the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  refs:
+  - retro/portrait_linxia_calm
+  post:
+  - chromaKey: {}
+  - trim: true
+  - resize:
+      width: 110
+      height: 110
+      fit: contain
+  - quantize:
+      colors: 48
+  out: public/art/retro/portrait_linxia_smile.png
+- id: retro/portrait_linxia_shock
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and
+    framing, three-quarter view facing slightly right, expression: shocked, wide eyes, mouth open. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/portrait_linxia_calm
+  post:
+  - chromaKey: {}
+  - trim: true
+  - resize:
+      width: 110
+      height: 110
+      fit: contain
+  - quantize:
+      colors: 48
+  out: public/art/retro/portrait_linxia_shock.png
+- id: retro/portrait_juzi_calm
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of Juzi the cat from the reference design sheet, three-quarter view facing slightly right,
+    expression: calm, half-closed eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground,
+    no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  refs:
+  - retro/design_juzi
+  post:
+  - chromaKey: {}
+  - trim: true
+  - resize:
+      width: 110
+      height: 110
+      fit: contain
+  - quantize:
+      colors: 48
+  out: public/art/retro/portrait_juzi_calm.png
+- id: retro/portrait_juzi_smug
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and
+    framing, three-quarter view facing slightly right, expression: smug, sly grin, one eye half-closed. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/portrait_juzi_calm
+  post:
+  - chromaKey: {}
+  - trim: true
+  - resize:
+      width: 110
+      height: 110
+      fit: contain
+  - quantize:
+      colors: 48
+  out: public/art/retro/portrait_juzi_smug.png
+- id: retro/portrait_juzi_annoyed
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and
+    framing, three-quarter view facing slightly right, expression: annoyed, ears flattened back. Plain flat pure chroma-key green background (#00FF00)
+    filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the
+    green.'
+  refs:
+  - retro/portrait_juzi_calm
+  post:
+  - chromaKey: {}
+  - trim: true
+  - resize:
+      width: 110
+      height: 110
+      fit: contain
+  - quantize:
+      colors: 48
+  out: public/art/retro/portrait_juzi_annoyed.png
+- id: retro/walk_linxia
+  model: gemini-3-pro-image
+  aspect: '3:4'
+  prompt: 'Sprite sheet of the SAME character, strictly arranged in a grid of 4 ROWS x 3 COLUMNS of equal cells, generous empty green space between
+    cells, every figure the same size and fully inside its cell. Row 1: facing DOWN toward the viewer. Row 2: facing LEFT. Row 3: facing RIGHT.
+    Row 4: facing UP, back to the viewer. Column 1: walking, left foot forward. Column 2: standing neutral. Column 3: walking, right foot forward.
+    Full body, seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: LIN XIA (placeholder protagonist): a 26-year-old
+    Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers,
+    small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image,
+    no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  refs:
+  - retro/design_linxia
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 4
+      frameWidth: 48
+      frameHeight: 64
+  - quantize:
+      colors: 32
+  out: public/art/retro/walk_linxia.png
+- id: retro/walk_juzi
+  model: gemini-3-pro-image
+  aspect: '3:4'
+  prompt: 'Sprite sheet of the SAME character, strictly arranged in a grid of 4 ROWS x 3 COLUMNS of equal cells, generous empty green space between
+    cells, every figure the same size and fully inside its cell. Row 1: facing DOWN toward the viewer. Row 2: facing LEFT. Row 3: facing RIGHT.
+    Row 4: facing UP, back to the viewer. Column 1: walking, left foot forward. Column 2: standing neutral. Column 3: walking, right foot forward.
+    Full body, seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: JUZI (placeholder talking cat): a chubby orange
+    tabby cat with a white chest and white paws, a small notch in the left ear, bright green eyes, a smug, worldly expression. walking on four
+    legs. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on
+    the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  refs:
+  - retro/design_juzi
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 4
+      frameWidth: 40
+      frameHeight: 32
+  - quantize:
+      colors: 32
+  out: public/art/retro/walk_juzi.png

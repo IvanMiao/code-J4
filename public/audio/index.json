@@ -1,0 +1,25 @@
+{
+  "bgm": {
+    "night_street": "bgm/night_street.mp3"
+  },
+  "ambience": {
+    "street_night": "ambience/street_night.mp3"
+  },
+  "sfx": {
+    "door_chime": "sfx/door_chime.mp3",
+    "can_drop": "sfx/can_drop.mp3",
+    "meow_calm": "sfx/meow_calm.mp3",
+    "meow_smug": "sfx/meow_smug.mp3",
+    "meow_annoyed": "sfx/meow_annoyed.mp3",
+    "blip": "sfx/blip.mp3"
+  },
+  "vo": {
+    "intro_1": "vo/intro_1.mp3",
+    "juzi_3": "vo/juzi_3.mp3",
+    "juzi_4": "vo/juzi_4.mp3",
+    "juzi_5": "vo/juzi_5.mp3",
+    "juzi_7": "vo/juzi_7.mp3",
+    "juzi_10": "vo/juzi_10.mp3",
+    "juzi_13": "vo/juzi_13.mp3"
+  }
+}

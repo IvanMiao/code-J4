@@ -1,0 +1,7 @@
+# Bag items. `@give <id>` / `@take <id>` in the story must use an id from here.
+oden:
+  name: 关东煮
+  description: 便利店的关东煮，汤还是热的。
+coffee:
+  name: 罐装咖啡
+  description: 加班人的续命水。

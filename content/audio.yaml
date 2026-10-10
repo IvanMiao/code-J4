@@ -1,0 +1,16 @@
+# Audio manifest for `npm run gen:audio`. Ids are what the story uses: @bgm <id>, @ambience <id>, @sfx <id>.
+bgm:
+  night_street:
+    prompt: "Gentle lo-fi night theme for a 1990s Chinese PC RPG set in a modern city: warm electric piano, soft erhu melody, light brushed drums, nostalgic and a little lonely, seamless loop feel, no vocals."
+    seconds: 60
+ambience:
+  street_night:
+    prompt: "Quiet city street at night: distant traffic hum, a faint electric buzz from a shop sign, occasional far-away scooter, crickets."
+    seconds: 20
+sfx:
+  door_chime: { prompt: "Convenience store automatic door opening with a short two-tone electronic entry chime.", seconds: 1.5 }
+  can_drop: { prompt: "Vending machine: a drink can drops and clunks into the tray.", seconds: 1.2 }
+  meow_calm: { prompt: "A single short relaxed meow from an adult house cat, close mic.", seconds: 0.8 }
+  meow_smug: { prompt: "A single short chirpy, self-satisfied trill-meow from a chubby house cat, close mic.", seconds: 0.8 }
+  meow_annoyed: { prompt: "A single short grumpy low meow from an annoyed house cat, close mic.", seconds: 0.8 }
+  blip: { prompt: "Tiny soft UI text blip, retro game dialogue tick.", seconds: 0.5 }

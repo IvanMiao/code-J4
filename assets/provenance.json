@@ -1,0 +1,168 @@
+{
+  "hd/design_juzi": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "424db7bc91680678",
+    "refs": [],
+    "generatedAt": "2026-10-10T13:30:22.061Z"
+  },
+  "hd/design_linxia": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "1093a61d4491937d",
+    "refs": [],
+    "generatedAt": "2026-10-10T13:30:26.279Z"
+  },
+  "hd/bg_street": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "40b12cb454dcb783",
+    "refs": [],
+    "generatedAt": "2026-10-10T13:30:28.765Z"
+  },
+  "hd/portrait_linxia_calm": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "4d12164a53f8daf5",
+    "refs": [
+      "hd/design_linxia"
+    ],
+    "generatedAt": "2026-10-10T13:30:35.999Z"
+  },
+  "hd/portrait_juzi_calm": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "d946041498337b4b",
+    "refs": [
+      "hd/design_juzi"
+    ],
+    "generatedAt": "2026-10-10T13:30:37.337Z"
+  },
+  "hd/portrait_linxia_smile": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "13995a63e09b0b34",
+    "refs": [
+      "hd/portrait_linxia_calm"
+    ],
+    "generatedAt": "2026-10-10T13:30:45.813Z"
+  },
+  "hd/portrait_juzi_smug": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "d1c77adf3bd3617a",
+    "refs": [
+      "hd/portrait_juzi_calm"
+    ],
+    "generatedAt": "2026-10-10T13:30:46.408Z"
+  },
+  "hd/portrait_linxia_shock": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "f3aad81e8549de17",
+    "refs": [
+      "hd/portrait_linxia_calm"
+    ],
+    "generatedAt": "2026-10-10T13:30:47.347Z"
+  },
+  "hd/portrait_juzi_annoyed": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "e8148d02c84c88a9",
+    "refs": [
+      "hd/portrait_juzi_calm"
+    ],
+    "generatedAt": "2026-10-10T13:30:47.684Z"
+  },
+  "hd/walk_linxia": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "fb26a1fcc0db8def",
+    "refs": [
+      "hd/design_linxia"
+    ],
+    "generatedAt": "2026-10-10T13:31:04.348Z"
+  },
+  "retro/design_juzi": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "c75c252d47e36d56",
+    "refs": [],
+    "generatedAt": "2026-10-10T13:31:04.724Z"
+  },
+  "hd/walk_juzi": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "cdf2d776ef526dcf",
+    "refs": [
+      "hd/design_juzi"
+    ],
+    "generatedAt": "2026-10-10T13:31:04.916Z"
+  },
+  "retro/design_linxia": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "e64c01a9743bc4f8",
+    "refs": [],
+    "generatedAt": "2026-10-10T13:31:05.896Z"
+  },
+  "retro/portrait_linxia_calm": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "9ba46b4655baba62",
+    "refs": [
+      "retro/design_linxia"
+    ],
+    "generatedAt": "2026-10-10T13:31:17.772Z"
+  },
+  "retro/bg_street": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "a9eecbeee977864d",
+    "refs": [
+      "hd/bg_street"
+    ],
+    "generatedAt": "2026-10-10T13:34:58.754Z"
+  },
+  "retro/portrait_linxia_shock": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "e284bb56d4020155",
+    "refs": [
+      "retro/portrait_linxia_calm"
+    ],
+    "generatedAt": "2026-10-10T13:31:28.015Z"
+  },
+  "retro/portrait_linxia_smile": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "f806fd8844496ace",
+    "refs": [
+      "retro/portrait_linxia_calm"
+    ],
+    "generatedAt": "2026-10-10T13:31:28.104Z"
+  },
+  "retro/portrait_juzi_calm": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "5da090962e99bf22",
+    "refs": [
+      "retro/design_juzi"
+    ],
+    "generatedAt": "2026-10-10T13:31:28.271Z"
+  },
+  "retro/portrait_juzi_smug": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "9ededc3f2a0124ad",
+    "refs": [
+      "retro/portrait_juzi_calm"
+    ],
+    "generatedAt": "2026-10-10T13:31:37.596Z"
+  },
+  "retro/portrait_juzi_annoyed": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "ba0bcafc740091b0",
+    "refs": [
+      "retro/portrait_juzi_calm"
+    ],
+    "generatedAt": "2026-10-10T13:31:38.971Z"
+  },
+  "retro/walk_juzi": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "96871c360712bf99",
+    "refs": [
+      "retro/design_juzi"
+    ],
+    "generatedAt": "2026-10-10T13:31:47.017Z"
+  },
+  "retro/walk_linxia": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "8ea4996662d04dfc",
+    "refs": [
+      "retro/design_linxia"
+    ],
+    "generatedAt": "2026-10-10T13:31:48.117Z"
+  }
+}
