@@ -278,5 +278,14 @@
       "retro/design_ayin"
     ],
     "generatedAt": "2026-10-10T14:37:00.932Z"
+  },
+  "retro/walk_linxia_side": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "8695bb3e26f344c7",
+    "refs": [
+      "retro/design_linxia",
+      "retro/walk_linxia_down"
+    ],
+    "generatedAt": "2026-10-10T14:51:00.296Z"
   }
 }

@@ -152,9 +152,9 @@ items:
 - id: retro/walk_linxia
   compose:
   - from: retro/walk_linxia_down
-  - from: retro/walk_linxia_left
-  - from: retro/walk_linxia_left
+  - from: retro/walk_linxia_side
     mirror: true
+  - from: retro/walk_linxia_side
   - from: retro/walk_linxia_up
   out: public/art/retro/walk_linxia.png
 - id: retro/walk_juzi

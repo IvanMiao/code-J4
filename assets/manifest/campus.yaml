@@ -129,16 +129,22 @@ items:
   - quantize:
       colors: 32
   out: assets/strips/walk_linxia_down.png
-- id: retro/walk_linxia_left
+- id: retro/walk_linxia_side
   model: gemini-3-pro-image
   aspect: '16:9'
-  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row, evenly spaced, generous
-    empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the LEFT edge of the image (nose points left, the face is never turned toward the viewer). Frame 1: mid-stride, left foot forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, right foot forward. Seen from the oblique 3/4 top-down game camera. No grid lines, no
-    labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background
-    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
-    from the green.'
+  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row and nothing else, evenly spaced,
+    generous empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT
+    edge of the image: nose, toes and knees point RIGHT, the backpack is on the LEFT side of the body, the face is never turned toward
+    the viewer. Use EXACTLY the same chibi proportions, head size and total height as the front-view walking frames in the second
+    reference image: big head with bob hair about one third of the total height, short stocky body, same pixel size. Frame 1: mid-stride,
+    right leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Seen from the oblique 3/4 top-down
+    game camera. No grid lines, no labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized
+    olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Plain flat pure chroma-key green
+    background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it
+    separates cleanly from the green.'
   refs:
   - retro/design_linxia
+  - retro/walk_linxia_down
   post:
   - chromaKey: {}
   - sheet:
@@ -148,7 +154,7 @@ items:
       frameHeight: 64
   - quantize:
       colors: 32
-  out: assets/strips/walk_linxia_left.png
+  out: assets/strips/walk_linxia_side.png
 - id: retro/walk_linxia_up
   model: gemini-3-pro-image
   aspect: '16:9'
