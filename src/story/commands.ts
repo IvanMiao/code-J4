@@ -20,6 +20,7 @@ export const COMMANDS: Record<string, CommandSpec> = {
   walk: { args: ['actor'], options: { to: 'anchor', speed: 'number' }, help: 'Walk an actor to a map anchor: @walk linxia to=counter' },
   face: { args: ['actor', 'actorOrAnchor'], help: 'Turn to face someone, an anchor or a direction: @face linxia ayin / @face ayin down' },
   emote: { args: ['actor', 'emote'], help: 'Speech-bubble emote: @emote ayin ?   (! ? … ♪ ♥ 💢)' },
+  scare: { args: [], help: 'Startle every bird on the map into flight: @scare' },
   shake: { args: [], options: { time: 'number', strength: 'number' }, help: 'Shake the camera: @shake time=0.3' },
   show: { args: ['actor'], options: { at: 'anchor', face: 'dir' }, help: 'Place an actor on the map: @show ayin at=lib_steps face=left' },
   hide: { args: ['actor'], help: 'Remove an actor from the map: @hide ayin' },

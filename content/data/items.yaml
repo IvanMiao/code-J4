@@ -5,3 +5,9 @@ fish_snack:
 water:
   name: 矿泉水
   description: 一瓶冰过的矿泉水。
+coin:
+  name: 一元硬币
+  description: 在校门口长椅底下捡到的硬币。
+paw_sticker:
+  name: 猫爪贴纸
+  description: 银灰色的小猫爪贴纸，不知道是谁贴在校园各处的。

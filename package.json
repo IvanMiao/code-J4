@@ -14,7 +14,8 @@
     "story:ids": "tsx tools/story-ids.ts",
     "gen:art": "tsx tools/gen-art.ts",
     "gen:audio": "tsx tools/gen-audio.ts",
-    "check": "npm run typecheck && npm test && npm run lint:story && npm run sim"
+    "check": "npm run typecheck && npm test && npm run lint:story && npm run sim",
+    "maps:overlay": "tsx tools/maps/overlay.ts"
   },
   "dependencies": {
     "inkjs": "^2.4.0",

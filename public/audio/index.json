@@ -15,7 +15,10 @@
     "meow_annoyed": "sfx/meow_annoyed.mp3",
     "footsteps_stone": "sfx/footsteps_stone.mp3",
     "page_turn": "sfx/page_turn.mp3",
-    "blip": "sfx/blip.mp3"
+    "blip": "sfx/blip.mp3",
+    "coin_pick": "sfx/coin_pick.mp3",
+    "coin_splash": "sfx/coin_splash.mp3",
+    "bike_bell": "sfx/bike_bell.mp3"
   },
   "vo": {
     "intro_1": "vo/intro_1.mp3",

@@ -11,7 +11,10 @@ interface TiledMap { width: number; height: number; tilewidth: number; tileheigh
 
 export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string }
 /** `face`: the direction the player must face to use it (i.e. the side it is used from). */
-export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null }
+export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean }
+
+/** Decorative life (fountain spray, swaying grass, birds…) placed in a rect; `kind` picks the effect. */
+export interface MapAmbient { kind: string; x: number; y: number; width: number; height: number; props: Record<string, string> }
 
 /** A piece of the background redrawn above actors whose feet are above `baseline` (tree canopies, roofs). */
 export interface MapForeground { polygon: Polygon; baseline: number }
@@ -33,6 +36,7 @@ export interface FieldMap {
   actors: MapActor[];
   triggers: MapTrigger[];
   foreground: MapForeground[];
+  ambient: MapAmbient[];
 }
 
 const prop = (o: { properties?: TiledProperty[] }, name: string) => o.properties?.find((p) => p.name === name)?.value;
@@ -63,11 +67,16 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     triggers: triggers.filter((o) => !prop(o, 'exit')).map((o) => ({
       ...rect(o),
       knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true, face: (prop(o, 'face') as string) ?? null,
+      hidden: String(prop(o, 'hidden')) === 'true',
     })),
     foreground: layer('foreground').map((o) => {
       const polygon = poly(o);
       return { polygon, baseline: Number(prop(o, 'baseline') ?? Math.max(...polygon.map((p) => p.y))) };
     }),
+    ambient: layer('ambient').map((o) => ({
+      ...rect(o), kind: String(prop(o, 'kind') ?? o.name),
+      props: Object.fromEntries((o.properties ?? []).map((p) => [p.name, String(p.value)])),
+    })),
   };
 }
 

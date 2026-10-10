@@ -22,3 +22,6 @@ sfx:
   footsteps_stone: { prompt: "A few soft sneaker footsteps on stone pavement, then stop.", seconds: 1.2 }
   page_turn: { prompt: "Paper notice flapping and a page being turned on a bulletin board.", seconds: 1 }
   blip: { prompt: "Tiny soft UI text blip, retro game dialogue tick.", seconds: 0.5 }
+  coin_pick: { prompt: "A single small metal coin picked up from stone pavement, light bright clink.", seconds: 0.6 }
+  coin_splash: { prompt: "A small coin tossed into a fountain pool: a short flick, then a tiny plop splash in water.", seconds: 1.2 }
+  bike_bell: { prompt: "A classic bicycle thumb bell rung twice, bright ding-ding, outdoors.", seconds: 1 }

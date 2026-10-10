@@ -8,6 +8,14 @@ VAR read_notice = false
 VAR has_snack = false
 VAR ayin_trust = 0
 VAR guard_asked = false
+VAR found_coin = false
+VAR made_wish = false
+VAR rang_bell = false
+VAR paw_stickers = 0
+VAR paw_gate = false
+VAR paw_avenue = false
+VAR paw_library = false
+VAR ayin_paw_told = false
 
 === intro ===
 @fade out time=0
@@ -100,7 +108,18 @@ VAR guard_asked = false
 林夏: 刚才……是猫在说话吗？ #shock #vo #line:ayin_12
 -> END
 = again
+{ paw_stickers >= 3 && ayin_trust >= 1 && not ayin_paw_told: -> paw_secret }
 阿银: 喵。 #smug #line:ayin_13
+-> END
+= paw_secret
+~ ayin_paw_told = true
+@emote ayin ?
+阿银: 喵？ #calm #line:ayin_paw_1
+阿银: ……那些贴纸是我贴的。认路用的。 #smug #line:ayin_paw_2
+阿银: 别告诉门卫老周。 #annoyed #line:ayin_paw_3
+林夏: 猫……会用贴纸？ #shock #line:ayin_paw_4
+@give fish_snack
+阿银: 喵。 #smug #line:ayin_paw_5
 -> END
 
 === library_door ===
@@ -112,3 +131,101 @@ VAR guard_asked = false
 @sfx page_turn
 @emote linxia …
 -> END
+
+
+// ---------- Hidden spots: no hint bubble, a faint twinkle marks the unfound ones ----------
+
+=== gate_bench_coin ===
+{ found_coin: -> nothing }
+~ found_coin = true
+@sfx coin_pick
+长椅底下的砖缝里，卡着一枚一元硬币。 #line:coin_1
+@give coin
+林夏: 今天运气不错。 #smile #line:coin_2
+-> END
+= nothing
+长椅底下只有几片落叶。 #line:coin_3
+-> END
+
+=== gate_tree_paw ===
+{ paw_gate: -> seen }
+~ paw_gate = true
+~ paw_stickers += 1
+@sfx blip
+树干背面贴着一张小小的银灰色猫爪贴纸。 #line:paw_g1
+@give paw_sticker
+-> paw_count
+= seen
+树干上的猫爪贴纸被晒得有点褪色。 #line:paw_g2
+-> END
+
+=== avenue_kiosk_paw ===
+{ paw_avenue: -> seen }
+~ paw_avenue = true
+~ paw_stickers += 1
+@sfx blip
+超市侧墙的墙角，贴着一张银灰色的猫爪贴纸。 #line:paw_a1
+@give paw_sticker
+-> paw_count
+= seen
+墙角的猫爪贴纸还在。 #line:paw_a2
+-> END
+
+=== library_planter_paw ===
+{ paw_library: -> seen }
+~ paw_library = true
+~ paw_stickers += 1
+@sfx blip
+花坛边沿的瓷砖上，印着一张银灰色的猫爪贴纸。 #line:paw_l1
+@give paw_sticker
+-> paw_count
+= seen
+花坛边的猫爪贴纸被浇花的水打湿了一角。 #line:paw_l2
+-> END
+
+=== paw_count ===
+{ paw_stickers >= 3: -> all }
+林夏: 猫爪贴纸……这已经是第 {paw_stickers} 张了。 #calm #line:paw_n
+-> END
+= all
+林夏: 三张了。爪印的方向，好像都指着图书馆。 #shock #line:paw_all
+@emote linxia !
+-> END
+
+=== bike_bell ===
+@sfx bike_bell
+@scare
+{ rang_bell: -> again }
+~ rang_bell = true
+林夏按了一下最边上那辆自行车的车铃。 #line:bell_1
+附近的麻雀扑棱棱全飞了起来。 #line:bell_2
+林夏: ……对不起。 #calm #line:bell_3
+-> END
+= again
+叮铃——。 #line:bell_4
+-> END
+
+=== avenue_bench ===
+林夏在长椅上坐了一会儿，梧桐叶的影子在地上晃来晃去。 #line:bench_1
+@wait 1
+林夏: 好，继续走吧。 #smile #line:bench_2
+-> END
+
+=== fountain ===
+喷泉哗哗地响，池底沉着不少硬币。 #line:fountain_1
+{ found_coin && not made_wish: -> wish }
+-> END
+= wish
+* [投一枚硬币许愿]
+    ~ made_wish = true
+    @take coin
+    @sfx coin_splash
+    ** [希望能和那只猫成为朋友]
+        ~ ayin_trust += 1
+        林夏: ……拜托了。 #smile #line:fountain_2
+    ** [希望这学期一切顺利]
+        林夏: 就当是给自己打打气。 #smile #line:fountain_3
+    -- -> END
+* [还是留着吧]
+    -> END
+

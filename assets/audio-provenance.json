@@ -98,5 +98,20 @@
     "hash": "7bb714a64629b2be",
     "generatedAt": "2026-10-10T14:07:25.096Z",
     "request": "林夏: [gasps] 刚才……是猫在说话吗？"
+  },
+  "sfx/bike_bell": {
+    "hash": "9921a6fe4d415080",
+    "generatedAt": "2026-10-10T14:59:18.932Z",
+    "request": "A classic bicycle thumb bell rung twice, bright ding-ding, outdoors."
+  },
+  "sfx/coin_pick": {
+    "hash": "f49a913a9bbe64b4",
+    "generatedAt": "2026-10-10T14:59:19.116Z",
+    "request": "A single small metal coin picked up from stone pavement, light bright clink."
+  },
+  "sfx/coin_splash": {
+    "hash": "797a9cb1194c27e2",
+    "generatedAt": "2026-10-10T14:59:19.430Z",
+    "request": "A small coin tossed into a fountain pool: a short flick, then a tiny plop splash in water."
   }
 }

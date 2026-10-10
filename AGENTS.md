@@ -54,3 +54,9 @@ AI art and hand-written map data drift apart easily. Most bugs so far come from 
 - Gemini copies the layout of a reference design sheet into its output (extra rows of sitting poses). Use `crop` to keep only the band you asked for, or drop the ref and describe the character in text.
 - Every story trigger has `face` (the direction the player must face to use it). `lint:story` fails if a trigger has no `face` or no walkable spot in front of it.
 - Canopies, roofs and other things actors walk behind go in the `foreground` layer: a polygon hugging the object plus `baseline` (its ground y). Do not use loose rectangles; they hide actors on open ground.
+
+## Ambient and hidden spots
+- Scene motion lives in each map's `ambient` object layer (`kind`: grass, flowers, leaves, motes, fountain, birds, butterflies, glint). Grass and flowers sample the background colour under them, so only place them over real lawns and beds.
+- Hidden spots are normal triggers with `hidden: true` (no hint bubble). Mark them with a `glint` ambient whose `until` names the ink variable that turns true once found.
+- Run `npm run maps:overlay` after changing `walkable`/`blocked` and look at the result: a box that overlaps a bed or hedge silently traps the player.
+

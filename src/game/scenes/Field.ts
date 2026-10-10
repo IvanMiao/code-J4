@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import storyJson from '../../../content/story/main.ink';
 import { cast, encounters, FONT, items, maps, params, START, type AudioIndex } from '../config.ts';
 import { Actor } from '../Actor.ts';
+import { Ambient } from '../Ambient.ts';
 import { DialogueBox } from '../ui/DialogueBox.ts';
 import { ChoiceMenu } from '../ui/ChoiceMenu.ts';
 import type { BattleData } from './Battle.ts';
@@ -14,7 +15,7 @@ import { StoryRunner, type StoryHost } from '../../story/runner.ts';
 import { facingOf, facingVec, step, type Vec, REACH } from '../../engine/walk.ts';
 
 const PLAYER = 'linxia';
-const WALK_SPEED = 150;
+const WALK_SPEED = 190;
 const speakerOf = speakerResolver(cast);
 
 type Target = { actor?: Actor; trigger?: MapTrigger; knot: string; at: Vec };
@@ -39,6 +40,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private mapState: Record<string, Record<string, ActorState>> = {};
   private bg!: Phaser.GameObjects.Image;
   private fg: Phaser.GameObjects.Image[] = [];
+  private ambient?: Ambient;
   private areaLabel!: Phaser.GameObjects.Text;
 
   constructor() {
@@ -84,6 +86,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   }
 
   update(_t: number, dt: number) {
+    this.ambient?.update(dt, this.player.pos);
     if (this.busy) {
       this.hint.setVisible(false);
       return;
@@ -102,7 +105,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.player.setMoving(false);
     }
     const t = this.target();
-    this.hint.setVisible(!!t);
+    this.hint.setVisible(!!t && !t.trigger?.hidden);
     if (t) this.hint.setPosition(t.at.x, t.at.y);
   }
 
@@ -138,6 +141,9 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
         return this.delay(num(a0, 0.5) * 1000);
       case 'fade':
         return this.fade(a0 === 'out', num(c.options.time, 0.6) * 1000);
+      case 'scare':
+        this.ambient?.scare();
+        return;
       case 'shake':
         this.cameras.main.shake(num(c.options.time, 0.3) * 1000, num(c.options.strength, 0.01));
         return this.delay(num(c.options.time, 0.3) * 1000);
@@ -290,6 +296,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.bg.setTexture(`bg:${this.mapId}`).setDisplaySize(m.width, m.height);
     for (const f of this.fg) f.destroy();
     this.fg = m.foreground.map((f, i) => this.cutout(`fg:${this.mapId}:${i}`, f.polygon, f.baseline));
+    this.ambient?.destroy();
+    this.ambient = new Ambient(this, `bg:${this.mapId}`, m.width, m.ambient, (v) => !!this.runner.variables()[v]);
     for (const a of m.actors) {
       const saved = this.mapState[this.mapId]?.[a.id];
       const actor = this.spawn(a.id, saved ?? a);
