@@ -16,26 +16,26 @@ describe('story', () => {
     expect((await simulate()).failures).toEqual([]);
   });
 
-  it('writes the @battle outcome back into ink', async () => {
-    const lose = await playPath(build.json, content, 'juzi_talk', null, [0, 1]);
-    expect(lose.transcript.join('\n')).toContain('下次跑快点');
-    const win = await playPath(build.json, content, 'juzi_talk', null, [0, 0]);
-    expect(win.transcript.join('\n')).toContain('比我想的有用一点');
+  it('the cat only talks once it trusts you', async () => {
+    const ignore = await playPath(build.json, content, 'ayin_talk', null, [1]);
+    expect(ignore.transcript.join('\n')).not.toContain('翻书');
+    const pet = await playPath(build.json, content, 'ayin_talk', null, [0]);
+    expect(pet.transcript.join('\n')).toContain('翻书');
   });
 
-  it('only offers the oden choice after buying it', async () => {
-    const fresh = await playPath(build.json, content, 'juzi_talk', null, []);
-    expect(fresh.transcript.join('\n')).not.toContain('萝卜');
-    const bought = await playPath(build.json, content, 'store_door', null, []);
-    const after = await playPath(build.json, content, 'juzi_talk', bought.endState, []);
-    expect(after.transcript.join('\n')).toContain('萝卜');
+  it('only offers the fish snack after buying it', async () => {
+    const fresh = await playPath(build.json, content, 'ayin_talk', null, []);
+    expect(fresh.transcript.join('\n')).not.toContain('小鱼干');
+    const bought = await playPath(build.json, content, 'kiosk', null, [0]);
+    const after = await playPath(build.json, content, 'ayin_talk', bought.endState, []);
+    expect(after.transcript.join('\n')).toContain('小鱼干');
   });
 
   it('carries variables across a hot reload', () => {
     const a = new StoryRunner(build.json, speakerResolver(content.cast));
-    a.story.variablesState['met_juzi'] = true;
+    a.story.variablesState['met_ayin'] = true;
     const b = new StoryRunner(build.json, speakerResolver(content.cast));
     b.restoreVariables(a.variables());
-    expect(b.story.variablesState['met_juzi']).toBe(true);
+    expect(b.story.variablesState['met_ayin']).toBe(true);
   });
 });

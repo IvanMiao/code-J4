@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { FONT } from '../config.ts';
+import { pixelFrame } from './frame.ts';
 
 /** Vertical choice list (keyboard ↑↓ + confirm, or mouse). */
 export class ChoiceMenu {
@@ -16,21 +17,19 @@ export class ChoiceMenu {
 
   show(options: string[], opts: { x?: number; y?: number; title?: string } = {}): Promise<number> {
     this.close();
-    const width = Math.max(240, ...options.map((o) => o.length * 22 + 70));
+    const width = Math.max(240, ...options.map((o) => o.length * 24 + 80));
     const rowH = 40;
-    const h = options.length * rowH + 24 + (opts.title ? 34 : 0);
+    const h = options.length * rowH + 32 + (opts.title ? 36 : 0);
     const x = opts.x ?? 940 - width, y = opts.y ?? 380 - h;
-    const g = this.scene.add.graphics();
-    g.fillStyle(0x0d1422, 0.94).fillRoundedRect(0, 0, width, h, 8);
-    g.lineStyle(2, 0xd9b86c, 1).strokeRoundedRect(0, 0, width, h, 8);
+    const g = pixelFrame(this.scene.add.graphics(), 0, 0, width, h);
     const items: Phaser.GameObjects.GameObject[] = [g];
-    let top = 12;
+    let top = 16;
     if (opts.title) {
-      items.push(this.scene.add.text(20, top, opts.title, { fontFamily: FONT, fontSize: '18px', color: '#d9b86c' }).setResolution(2));
-      top += 34;
+      items.push(this.scene.add.text(20, top, opts.title, { fontFamily: FONT, fontSize: '24px', color: '#e6c77a' }));
+      top += 36;
     }
     this.rows = options.map((o, i) => {
-      const t = this.scene.add.text(20, top + i * rowH + 6, o, { fontFamily: FONT, fontSize: '21px', color: '#f1ece0' }).setResolution(2);
+      const t = this.scene.add.text(20, top + i * rowH + 6, o, { fontFamily: FONT, fontSize: '24px', color: '#f4ead2' });
       t.setInteractive({ useHandCursor: true })
         .on('pointerover', () => this.select(i))
         .on('pointerdown', (_p: unknown, _x: unknown, _y: unknown, ev: Phaser.Types.Input.EventData) => {
@@ -41,7 +40,7 @@ export class ChoiceMenu {
       return t;
     });
     items.push(...this.rows);
-    this.root = this.scene.add.container(x, y, items).setDepth(10_100);
+    this.root = this.scene.add.container(x, y, items).setDepth(10_100).setScrollFactor(0, 0, true);
     this.select(0);
     return new Promise((r) => (this.resolve = r));
   }
@@ -60,7 +59,7 @@ export class ChoiceMenu {
 
   private select(i: number) {
     this.index = i;
-    this.rows.forEach((t, j) => t.setText(`${j === i ? '▶ ' : '　'}${t.text.replace(/^(▶ |　)/, '')}`).setColor(j === i ? '#ffe39a' : '#c9c2b0'));
+    this.rows.forEach((t, j) => t.setText(`${j === i ? '▶ ' : '　'}${t.text.replace(/^(▶ |　)/, '')}`).setColor(j === i ? '#ffe7a3' : '#b8ae96'));
   }
 
   private close() {

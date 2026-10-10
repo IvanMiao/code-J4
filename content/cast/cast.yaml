@@ -1,4 +1,4 @@
-# Cast. Placeholder characters for M0 — names, looks and voices are Yifan's to decide.
+# Cast. Placeholder characters — names, looks and voices are Yifan's to decide.
 # In ink, write `林夏: 台词 #smile` (display name or id before the colon).
 # portraits: emotion -> art file name (public/art/<style>/<file>.png)
 # voice.tags: emotion -> ElevenLabs v3 audio tag used when a line is voiced (#vo)
@@ -13,17 +13,14 @@ linxia:
   voice:
     id: SyNyPD84lTuHqi1HONfV   # placeholder: ElevenLabs library "Willow" (calm, young female)
     tags: { calm: "[tired]", smile: "[warmly]", shock: "[gasps]" }
-juzi:
-  name: 橘子
+ayin:
+  name: 阿银
   cat: true
-  sprite: walk_juzi
+  sprite: walk_ayin
   default: calm
   portraits:
-    calm: portrait_juzi_calm
-    smug: portrait_juzi_smug
-    annoyed: portrait_juzi_annoyed
-  voice:
-    id: YaHyfWIwVxVEIhSTnKOi   # placeholder: ElevenLabs library "Xiao Bai" (nasal, slow, cheeky)
-    tags: { calm: "[lazily]", smug: "[smugly]", annoyed: "[irritated]" }
-  # Cats always "speak" with a short meow per line (sfx id per emotion); key lines may also be voiced.
+    calm: portrait_ayin_calm
+    smug: portrait_ayin_smug
+    annoyed: portrait_ayin_annoyed
+  # Cats are never voiced: every line plays a meow (sfx id per emotion); the text box shows what it means.
   meows: { calm: meow_calm, smug: meow_smug, annoyed: meow_annoyed }

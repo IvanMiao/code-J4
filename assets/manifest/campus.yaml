@@ -1,0 +1,122 @@
+# Campus demo (retro). Regenerate: npm run gen:art -- --style retro
+style: retro
+bible: assets/style/bible-campus.md
+items:
+- id: retro/design_ayin
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Character design sheet: AYIN (placeholder talking cat): an American Shorthair cat, silver coat with bold black classic tabby swirls
+    ("bullseye" on the flanks), round face with full cheeks, copper-amber eyes, sturdy muscular body, short thick tail with black rings, calm and
+    slightly superior expression. Show the cat from the front, from the side walking, from the back, sitting, plus a head close-up. Plain flat pure
+    chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline
+    so it separates cleanly from the green.'
+  post:
+  - chromaKey: {}
+  out: public/art/retro/design_ayin.png
+- id: retro/walk_ayin
+  model: gemini-3-pro-image
+  aspect: '3:4'
+  prompt: 'Sprite sheet of the SAME cat, strictly arranged in a grid of 4 ROWS x 3 COLUMNS of equal cells, generous empty green space between
+    cells, every figure the same size and fully inside its cell. Row 1: facing DOWN toward the viewer. Row 2: facing LEFT. Row 3: facing RIGHT.
+    Row 4: facing UP, back to the viewer. Column 1: walking, left paw forward. Column 2: standing neutral. Column 3: walking, right paw forward.
+    Full body on four legs, seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Cat: American Shorthair, silver coat with
+    black classic tabby swirls, copper eyes, sturdy body. Match the reference design sheet exactly. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/design_ayin
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 4
+      frameWidth: 40
+      frameHeight: 32
+  - quantize:
+      colors: 32
+  out: public/art/retro/walk_ayin.png
+- id: retro/portrait_ayin_calm
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the American Shorthair cat from the reference design sheet, three-quarter view facing
+    slightly right, expression: calm, half-lidded copper eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no
+    shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  refs:
+  - retro/design_ayin
+  post: &portrait
+  - chromaKey: {}
+  - trim: true
+  - resize:
+      width: 110
+      height: 110
+      fit: contain
+  - quantize:
+      colors: 48
+  out: public/art/retro/portrait_ayin_calm.png
+- id: retro/portrait_ayin_smug
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing,
+    three-quarter view facing slightly right, expression: smug, one eye half-closed, the corner of the mouth curled up. Plain flat pure chroma-key
+    green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/portrait_ayin_calm
+  post: *portrait
+  out: public/art/retro/portrait_ayin_smug.png
+- id: retro/portrait_ayin_annoyed
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing,
+    three-quarter view facing slightly right, expression: annoyed, ears flattened sideways, narrowed eyes. Plain flat pure chroma-key green
+    background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from
+    the green.'
+  refs:
+  - retro/portrait_ayin_calm
+  post: *portrait
+  out: public/art/retro/portrait_ayin_annoyed.png
+- id: retro/bg_gate
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'RPG field map, one continuous scene, no characters: the main gate of a Chinese university, drawn with EXACTLY the same camera as the
+    reference image (straight-on high-angle 3/4 view, building fronts face the viewer, horizontal ground lines, NOT diagonal isometric), same
+    pixel scale, palette and afternoon light. Top centre: a wide grey stone gate arch facing the viewer, with the four large gold characters
+    "江城大学" across its lintel, iron gates open. To the right of the gate a small white guard booth with a small sign "门卫". Below the gate a
+    wide open paved plaza in light granite tiles fills the middle of the image, with a stone bench and a lamp post. A broad paved path leaves the
+    plaza at the RIGHT edge, at mid height. Plane trees and flower beds along the left edge and the bottom edge.'
+  refs:
+  - retro/bg_avenue
+  post: &bg
+  - resize:
+      width: 960
+      height: 540
+  - quantize:
+      colors: 128
+  out: public/art/retro/bg_gate.png
+- id: retro/bg_avenue
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'RPG field map, one continuous scene, no characters: a tree-lined avenue inside a Chinese university campus. A wide paved avenue runs
+    horizontally across the middle of the image from the LEFT edge to the RIGHT edge, lined with big plane trees. Across the top: a four-storey
+    red-brick student dormitory with an entrance door and steps, and a large vertical name board beside the door reading "梧桐苑". In front of the
+    dorm: a long bicycle rack with parked bicycles and a glass-covered notice board with the title "公告栏". Lower right: a small campus shop
+    kiosk with the sign "校园超市". Lower edge: lawn, low hedges and a bench.'
+  post:
+  - resize:
+      width: 960
+      height: 540
+  - quantize:
+      colors: 128
+  out: public/art/retro/bg_avenue.png
+- id: retro/bg_library
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'RPG field map, one continuous scene, no characters: the library plaza of a Chinese university. Across the top: a large modern library
+    building of pale stone and glass with wide steps up to the entrance and three big characters "图书馆" mounted above the entrance. In the middle:
+    a wide open square paved in tiles with a round fountain at its centre, wooden benches and flower beds around it. A paved path enters the
+    square from the LEFT edge of the image. Lower edge: lawn with a few trees.'
+  post: *bg
+  out: public/art/retro/bg_library.png

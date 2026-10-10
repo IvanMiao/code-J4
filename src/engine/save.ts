@@ -9,6 +9,8 @@ export interface SaveData {
   savedAt: string;
   map: string;
   actors: Record<string, ActorState>;
+  /** Actor overrides on maps the player is not on. */
+  maps?: Record<string, Record<string, ActorState>>;
   inventory: Record<string, number>;
   ink: string;
   introDone: boolean;

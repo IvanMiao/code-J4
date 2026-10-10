@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { artUrl, audioUrl, cast, FONT, fieldMap, style, type AudioIndex } from '../config.ts';
+import { artUrl, audioUrl, cast, FONT, maps, style, type AudioIndex } from '../config.ts';
 
 export const DIR_ROW = { down: 0, left: 1, right: 1, up: 3 } as const;
 
@@ -9,8 +9,8 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.add.text(480, 270, '载入中…', { fontFamily: FONT, fontSize: '20px', color: '#d9c9a0' }).setOrigin(0.5);
-    this.load.image('bg', artUrl(fieldMap.background));
+    this.add.text(480, 270, '载入中…', { fontFamily: FONT, fontSize: '24px', color: '#d9c9a0' }).setOrigin(0.5);
+    for (const [id, m] of Object.entries(maps)) this.load.image(`bg:${id}`, artUrl(m.background));
     for (const [id, c] of Object.entries(cast)) {
       this.load.image(`sheet:${id}`, artUrl(c.sprite));
       for (const [emo, file] of Object.entries(c.portraits)) this.load.image(`portrait:${id}:${emo}`, artUrl(file));

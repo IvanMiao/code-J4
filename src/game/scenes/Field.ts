@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import storyJson from '../../../content/story/main.ink';
-import { cast, encounters, FONT, fieldMap, items, params, style, STYLE_LABEL, type AudioIndex } from '../config.ts';
+import { cast, encounters, FONT, items, maps, params, START, type AudioIndex } from '../config.ts';
 import { Actor } from '../Actor.ts';
 import { DialogueBox } from '../ui/DialogueBox.ts';
 import { ChoiceMenu } from '../ui/ChoiceMenu.ts';
@@ -32,29 +32,42 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private toastText!: Phaser.GameObjects.Text;
   private loops: Partial<Record<'bgm' | 'ambience', Phaser.Sound.BaseSound>> = {};
   private voice?: Phaser.Sound.BaseSound;
+  private loopIds: Partial<Record<'bgm' | 'ambience', string>> = {};
   private inBattle = false;
+  private changing = false;
+  private mapId = START.map;
+  private mapState: Record<string, Record<string, ActorState>> = {};
+  private bg!: Phaser.GameObjects.Image;
+  private areaLabel!: Phaser.GameObjects.Text;
 
   constructor() {
     super('field');
   }
 
   get busy() {
-    return this.runner.running || this.choices.open || this.inBattle;
+    return this.runner.running || this.choices.open || this.inBattle || this.changing;
+  }
+
+  get map() {
+    return maps[this.mapId];
   }
 
   create() {
-    this.add.image(0, 0, 'bg').setOrigin(0).setDisplaySize(960, 540).setDepth(-1);
-    this.player = this.spawn(PLAYER, fieldMap.anchors.player_start ?? { x: 480, y: 400 });
-    for (const a of fieldMap.actors) this.spawn(a.id, a).setFace((a.face as Dir) ?? 'down');
+    this.bg = this.add.image(0, 0, `bg:${this.mapId}`).setOrigin(0).setDepth(-1);
+    this.player = this.spawn(PLAYER, { x: 0, y: 0 });
 
     this.dialogue = new DialogueBox(this);
     this.choices = new ChoiceMenu(this);
-    this.hint = this.add.text(0, 0, '空格', { fontFamily: FONT, fontSize: '14px', color: '#0d1422', backgroundColor: '#ffe39a', padding: { x: 6, y: 2 } })
-      .setOrigin(0.5, 1).setDepth(9_000).setVisible(false).setResolution(2);
-    this.toastText = this.add.text(480, 24, '', { fontFamily: FONT, fontSize: '18px', color: '#ffe39a', backgroundColor: '#0d1422cc', padding: { x: 12, y: 6 } })
-      .setOrigin(0.5, 0).setDepth(10_200).setAlpha(0).setResolution(2);
-    this.add.text(12, 516, '方向键/WASD 移动 · 空格/Enter 交谈 · Esc 菜单', { fontFamily: FONT, fontSize: '13px', color: '#ffffffaa' }).setDepth(9_500).setResolution(2);
-    this.add.text(948, 12, `画面：${STYLE_LABEL[style]}`, { fontFamily: FONT, fontSize: '13px', color: '#ffffffaa' }).setOrigin(1, 0).setDepth(9_500).setResolution(2);
+    this.hint = this.add.text(0, 0, '空格', { fontFamily: FONT, fontSize: '12px', color: '#1a120a', backgroundColor: '#e6c77a', padding: { x: 4, y: 2 } })
+      .setOrigin(0.5, 1).setDepth(9_000).setVisible(false);
+    this.toastText = this.add.text(480, 24, '', { fontFamily: FONT, fontSize: '24px', color: '#ffe7a3', backgroundColor: '#131b2fe6', padding: { x: 14, y: 8 } })
+      .setOrigin(0.5, 0).setDepth(10_200).setAlpha(0).setScrollFactor(0);
+    this.add.text(10, 520, '方向键/WASD 移动 · 空格/Enter 交谈 · Esc 菜单', { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
+      .setDepth(9_500).setScrollFactor(0);
+    this.areaLabel = this.add.text(950, 10, '', { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
+      .setOrigin(1, 0).setDepth(9_500).setScrollFactor(0);
+    this.cameras.main.startFollow(this.player.sprite, true, 0.15, 0.15);
+    this.placeMap(params.get('map') ?? START.map, START.anchor);
 
     const kb = this.input.keyboard!;
     this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT') as Record<string, Phaser.Input.Keyboard.Key>;
@@ -80,8 +93,10 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     if (dx || dy) {
       const len = Math.hypot(dx, dy), d = (WALK_SPEED * dt) / 1000;
       this.player.face = facingOf(dx, dy, this.player.face);
-      this.player.setPos(step(this.player.pos, { x: (dx / len) * d, y: (dy / len) * d }, fieldMap.walkable));
+      this.player.setPos(step(this.player.pos, { x: (dx / len) * d, y: (dy / len) * d }, this.map.walkable, this.map.blocked));
       this.player.setMoving(true);
+      const exit = this.map.exits.find((e) => inRect(this.player.pos, e));
+      if (exit) return void this.travel(exit.map, exit.anchor);
     } else {
       this.player.setMoving(false);
     }
@@ -127,21 +142,21 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
         return this.delay(num(c.options.time, 0.3) * 1000);
       case 'walk': {
         this.dialogue.hide();
-        const to = fieldMap.anchors[c.options.to];
+        const to = this.map.anchors[c.options.to];
         if (to) await this.actor(a0).walkTo(to, num(c.options.speed, 120));
         return;
       }
       case 'face': {
         const who = this.actor(a0);
         if ((DIRS as readonly string[]).includes(a1)) who.setFace(a1 as Dir);
-        else who.faceToward(this.actors.get(a1)?.pos ?? fieldMap.anchors[a1]);
+        else who.faceToward(this.actors.get(a1)?.pos ?? this.map.anchors[a1]);
         return;
       }
       case 'emote':
         return this.emote(this.actor(a0), a1);
       case 'show': {
-        const who = this.actors.get(a0) ?? this.spawn(a0, fieldMap.anchors[c.options.at]);
-        if (c.options.at) who.setPos(fieldMap.anchors[c.options.at]);
+        const who = this.actors.get(a0) ?? this.spawn(a0, this.map.anchors[c.options.at]);
+        if (c.options.at) who.setPos(this.map.anchors[c.options.at]);
         if (c.options.face) who.setFace(c.options.face as Dir);
         who.sprite.setVisible(true);
         return;
@@ -205,11 +220,11 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     const f = facingVec(this.player.face);
     const probe = { x: p.x + f.x * 30, y: p.y + f.y * 30 };
     for (const a of this.actors.values()) {
-      const knot = fieldMap.actors.find((m) => m.id === a.id)?.knot;
+      const knot = this.map.actors.find((m) => m.id === a.id)?.knot;
       if (a === this.player || !knot || !a.sprite.visible) continue;
       if (Math.hypot(probe.x - a.pos.x, probe.y - a.pos.y) < 50) return { actor: a, knot, at: { x: a.pos.x, y: a.pos.y - a.height - 4 } };
     }
-    for (const t of fieldMap.triggers) {
+    for (const t of this.map.triggers) {
       if (inRect(probe, t) || inRect(p, t)) return { trigger: t, knot: t.knot, at: { x: t.x + t.width / 2, y: t.y } };
     }
     return null;
@@ -217,29 +232,65 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
 
   private async systemMenu() {
     if (this.busy) return;
-    const other = style === 'hd' ? 'retro' : 'hd';
-    const pick = await this.choices.show(['存档', '读档', `切换为${STYLE_LABEL[other]}画面`, '返回'], { x: 360, y: 150, title: '菜单' });
+    const pick = await this.choices.show(['存档', '读档', '返回'], { x: 360, y: 150, title: '菜单' });
     if (pick === 0) {
       this.saveGame(1);
       this.toast('已存档');
     } else if (pick === 1) {
       this.toast(this.loadGame(1) ? '已读档' : '没有存档');
-    } else if (pick === 2) {
-      this.saveGame(0);
-      const q = new URLSearchParams({ style: other, load: '0' });
-      location.search = q.toString();
     }
+  }
+
+  /** Walk-off exit: fade, swap map, fade back. */
+  private async travel(map: string, anchor: string) {
+    this.changing = true;
+    this.player.setMoving(false);
+    await this.fade(true, 250);
+    this.placeMap(map, anchor);
+    await this.fade(false, 250);
+    this.changing = false;
+    this.toast(this.map.title);
+  }
+
+  /** Swaps background, actors, camera bounds and audio to `id`; puts the player on `anchor` if given. */
+  private placeMap(id: string, anchor: string | null, remember = true) {
+    const here: Record<string, ActorState> = {};
+    for (const [aid, a] of this.actors) {
+      if (a === this.player) continue;
+      here[aid] = { ...a.pos, face: a.face, visible: a.sprite.visible };
+      a.sprite.destroy();
+      this.actors.delete(aid);
+    }
+    if (remember) this.mapState[this.mapId] = here;
+    this.mapId = maps[id] ? id : START.map;
+    const m = this.map;
+    this.bg.setTexture(`bg:${this.mapId}`).setDisplaySize(m.width, m.height);
+    for (const a of m.actors) {
+      const saved = this.mapState[this.mapId]?.[a.id];
+      const actor = this.spawn(a.id, saved ?? a);
+      actor.setFace((saved?.face ?? a.face) as Dir);
+      if (saved) actor.sprite.setVisible(saved.visible);
+    }
+    if (anchor !== null) this.player.setPos(m.anchors[anchor] ?? Object.values(m.anchors)[0]);
+    const cam = this.cameras.main;
+    cam.setBounds(0, 0, m.width, m.height);
+    cam.centerOn(this.player.pos.x, this.player.pos.y);
+    if (m.bgm) this.loop('bgm', m.bgm, 1);
+    if (m.ambience) this.loop('ambience', m.ambience, 1);
+    this.areaLabel.setText(m.title);
   }
 
   saveGame(slot: number) {
     const actors: Record<string, ActorState> = {};
     for (const [id, a] of this.actors) actors[id] = { ...a.pos, face: a.face, visible: a.sprite.visible };
-    return writeSave(localStorage, slot, { map: 'street', actors, inventory: { ...this.inventory }, ink: this.runner.saveState(), introDone: this.introDone });
+    return writeSave(localStorage, slot, { map: this.mapId, maps: { ...this.mapState, [this.mapId]: {} }, actors, inventory: { ...this.inventory }, ink: this.runner.saveState(), introDone: this.introDone });
   }
 
   loadGame(slot: number): boolean {
     const data = readSave(localStorage, slot);
     if (!data) return false;
+    this.mapState = { ...(data.maps ?? {}) };
+    this.placeMap(data.map, null, false);
     for (const [id, s] of Object.entries(data.actors)) {
       const a = this.actors.get(id) ?? this.spawn(id, s);
       a.setPos(s);
@@ -292,6 +343,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   }
 
   private loop(kind: 'bgm' | 'ambience', id: string, fade: number) {
+    if (this.loopIds[kind] === id) return;
+    this.loopIds[kind] = id;
     const old = this.loops[kind];
     if (old) this.tweens.add({ targets: old, volume: 0, duration: fade * 1000, onComplete: () => old.destroy() });
     this.loops[kind] = undefined;
@@ -305,8 +358,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
 
   private async emote(a: Actor, symbol: string) {
     const t = this.add.text(a.pos.x, a.pos.y - a.height - 6, symbol, {
-      fontFamily: FONT, fontSize: '22px', color: '#0d1422', backgroundColor: '#ffffff', padding: { x: 7, y: 2 },
-    }).setOrigin(0.5, 1).setDepth(9_100).setScale(0).setResolution(2);
+      fontFamily: FONT, fontSize: '24px', color: '#1a120a', backgroundColor: '#f4ead2', padding: { x: 6, y: 2 },
+    }).setOrigin(0.5, 1).setDepth(9_100).setScale(0);
     await new Promise<void>((r) => this.tweens.add({ targets: t, scale: 1, duration: 160, ease: 'Back.Out', onComplete: () => r() }));
     await this.delay(650);
     t.destroy();

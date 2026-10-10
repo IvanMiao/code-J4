@@ -12,18 +12,18 @@ export interface CommandSpec {
 export type ArgKind = 'actor' | 'anchor' | 'actorOrAnchor' | 'dir' | 'emote' | 'number' | 'audio' | 'item' | 'id' | 'inOut';
 
 export const COMMANDS: Record<string, CommandSpec> = {
-  bgm: { args: ['audio'], options: { fade: 'number' }, help: 'Play looping music: @bgm night_street fade=2  (@bgm stop to stop)' },
-  ambience: { args: ['audio'], options: { fade: 'number' }, help: 'Play a looping ambience bed: @ambience street_night' },
+  bgm: { args: ['audio'], options: { fade: 'number' }, help: 'Play looping music: @bgm campus_afternoon fade=2  (@bgm stop to stop)' },
+  ambience: { args: ['audio'], options: { fade: 'number' }, help: 'Play a looping ambience bed: @ambience campus_day' },
   sfx: { args: ['audio'], help: 'Play a one-shot sound: @sfx door_chime' },
   fade: { args: ['inOut'], options: { time: 'number' }, help: 'Fade the screen: @fade out time=1 / @fade in' },
   wait: { args: ['number'], help: 'Pause in seconds: @wait 0.5' },
   walk: { args: ['actor'], options: { to: 'anchor', speed: 'number' }, help: 'Walk an actor to a map anchor: @walk linxia to=counter' },
-  face: { args: ['actor', 'actorOrAnchor'], help: 'Turn to face someone, an anchor or a direction: @face linxia juzi / @face juzi down' },
-  emote: { args: ['actor', 'emote'], help: 'Speech-bubble emote: @emote juzi ?   (! ? … ♪ ♥ 💢)' },
+  face: { args: ['actor', 'actorOrAnchor'], help: 'Turn to face someone, an anchor or a direction: @face linxia ayin / @face ayin down' },
+  emote: { args: ['actor', 'emote'], help: 'Speech-bubble emote: @emote ayin ?   (! ? … ♪ ♥ 💢)' },
   shake: { args: [], options: { time: 'number', strength: 'number' }, help: 'Shake the camera: @shake time=0.3' },
-  show: { args: ['actor'], options: { at: 'anchor', face: 'dir' }, help: 'Place an actor on the map: @show juzi at=bench face=left' },
-  hide: { args: ['actor'], help: 'Remove an actor from the map: @hide juzi' },
-  give: { args: ['item'], options: { n: 'number' }, help: 'Add an item to the bag: @give oden n=1' },
+  show: { args: ['actor'], options: { at: 'anchor', face: 'dir' }, help: 'Place an actor on the map: @show ayin at=lib_steps face=left' },
+  hide: { args: ['actor'], help: 'Remove an actor from the map: @hide ayin' },
+  give: { args: ['item'], options: { n: 'number' }, help: 'Add an item to the bag: @give fish_snack n=1' },
   take: { args: ['item'], options: { n: 'number' }, help: 'Remove an item from the bag: @take cat_treat' },
   battle: {
     args: ['id'],

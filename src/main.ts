@@ -5,7 +5,7 @@ import { FieldScene } from './game/scenes/Field.ts';
 import { BattleScene } from './game/scenes/Battle.ts';
 
 // Canvas text needs the CJK web font loaded before the first Text object is drawn.
-await Promise.race([document.fonts.load('22px "Noto Sans SC"', '中文字体'), new Promise((r) => setTimeout(r, 3000))]);
+await Promise.race([document.fonts.load('12px "Fusion Pixel"', '中文字体'), new Promise((r) => setTimeout(r, 3000))]);
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -13,6 +13,7 @@ const game = new Phaser.Game({
   width: WIDTH,
   height: HEIGHT,
   backgroundColor: '#07090f',
+  pixelArt: true,
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   scene: [BootScene, FieldScene, BattleScene],
 });

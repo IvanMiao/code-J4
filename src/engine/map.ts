@@ -7,14 +7,24 @@ interface TiledObject {
   point?: boolean; polygon?: Vec[]; properties?: TiledProperty[];
 }
 interface TiledLayer { type: string; name: string; objects?: TiledObject[] }
-interface TiledMap { properties?: TiledProperty[]; layers: TiledLayer[] }
+interface TiledMap { width: number; height: number; tilewidth: number; tileheight: number; properties?: TiledProperty[]; layers: TiledLayer[] }
 
 export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string }
 export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean }
 
+/** Walking into the rect moves the player to `anchor` on `map`. */
+export interface MapExit { id: string; x: number; y: number; width: number; height: number; map: string; anchor: string }
+
 export interface FieldMap {
+  title: string;
+  width: number;
+  height: number;
   background: string;
+  bgm: string | null;
+  ambience: string | null;
   walkable: Polygon[];
+  blocked: Polygon[];
+  exits: MapExit[];
   anchors: Record<string, Vec>;
   actors: MapActor[];
   triggers: MapTrigger[];
@@ -25,15 +35,28 @@ const prop = (o: { properties?: TiledProperty[] }, name: string) => o.properties
 export function parseMap(raw: string | TiledMap): FieldMap {
   const map: TiledMap = typeof raw === 'string' ? JSON.parse(raw) : raw;
   const layer = (name: string) => map.layers.find((l) => l.type === 'objectgroup' && l.name === name)?.objects ?? [];
+  const poly = (o: TiledObject) => (o.polygon ?? []).map((p) => ({ x: p.x + o.x, y: p.y + o.y }));
+  const rect = (o: TiledObject) => ({ id: o.name, x: o.x, y: o.y, width: o.width ?? 0, height: o.height ?? 0 });
+  const triggers = layer('triggers');
   return {
+    title: String(prop(map, 'title') ?? ''),
+    width: map.width * map.tilewidth,
+    height: map.height * map.tileheight,
     background: String(prop(map, 'background') ?? ''),
-    walkable: layer('walkable').map((o) => (o.polygon ?? []).map((p) => ({ x: p.x + o.x, y: p.y + o.y }))),
+    bgm: (prop(map, 'bgm') as string) ?? null,
+    ambience: (prop(map, 'ambience') as string) ?? null,
+    walkable: layer('walkable').map(poly),
+    blocked: layer('blocked').map(poly),
+    exits: triggers.filter((o) => prop(o, 'exit')).map((o) => {
+      const [m, anchor] = String(prop(o, 'exit')).split(':');
+      return { ...rect(o), map: m, anchor };
+    }),
     anchors: Object.fromEntries(layer('anchors').map((o) => [o.name, { x: o.x, y: o.y }])),
     actors: layer('actors').map((o) => ({
       id: o.name, x: o.x, y: o.y, knot: (prop(o, 'knot') as string) ?? null, face: (prop(o, 'face') as string) ?? 'down',
     })),
-    triggers: layer('triggers').map((o) => ({
-      id: o.name, x: o.x, y: o.y, width: o.width ?? 0, height: o.height ?? 0,
+    triggers: triggers.filter((o) => !prop(o, 'exit')).map((o) => ({
+      ...rect(o),
       knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true,
     })),
   };

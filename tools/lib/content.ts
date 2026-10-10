@@ -22,6 +22,8 @@ export interface Content {
   audio: AudioManifest;
   maps: Record<string, FieldMap>;
   anchors: Set<string>;
+  /** Art file names (without .png) available in public/art/retro. */
+  art: Set<string>;
 }
 
 const yaml = <T>(path: string): T => parse(readFileSync(path, 'utf8')) as T;
@@ -37,6 +39,7 @@ export function loadContent(root = '.'): Content {
     audio: yaml(join(root, 'content/audio.yaml')),
     maps,
     anchors: new Set(Object.values(maps).flatMap((m) => Object.keys(m.anchors))),
+    art: new Set(readdirSync(join(root, 'public/art/retro')).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, ''))),
   };
 }
 
@@ -79,6 +82,24 @@ export function validateCommand(cmd: CommandEvent, c: Content): string[] {
     }
   }
   if (cmd.name === 'walk' && !cmd.options.to) errs.push(`@walk needs to=<anchor>`);
+  return errs;
+}
+
+/** Exits must point at an existing map and anchor. */
+export function checkExits(c: Content): string[] {
+  const errs: string[] = [];
+  for (const [id, m] of Object.entries(c.maps)) {
+    for (const e of m.exits) {
+      const to = c.maps[e.map];
+      if (!to) errs.push(`map ${id}: exit "${e.id}" goes to unknown map "${e.map}"`);
+      else if (!to.anchors[e.anchor]) errs.push(`map ${id}: exit "${e.id}" goes to unknown anchor "${e.map}:${e.anchor}"`);
+    }
+    if (m.background && !c.art.has(m.background)) errs.push(`map ${id}: background "${m.background}" has no art file`);
+    for (const k of ['bgm', 'ambience'] as const) {
+      const v = m[k];
+      if (v && !c.audio[k]?.[v]) errs.push(`map ${id}: unknown ${k} "${v}"`);
+    }
+  }
   return errs;
 }
 

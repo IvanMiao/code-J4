@@ -10,18 +10,18 @@ export function insidePolygon(p: Vec, poly: Polygon): boolean {
   return inside;
 }
 
-export function walkable(p: Vec, areas: Polygon[]): boolean {
-  return areas.some((poly) => insidePolygon(p, poly));
+export function walkable(p: Vec, areas: Polygon[], blocked: Polygon[] = []): boolean {
+  return areas.some((poly) => insidePolygon(p, poly)) && !blocked.some((poly) => insidePolygon(p, poly));
 }
 
 /** Moves from `from` by `delta`, sliding along edges when the full step leaves the walkable area. */
-export function step(from: Vec, delta: Vec, areas: Polygon[]): Vec {
+export function step(from: Vec, delta: Vec, areas: Polygon[], blocked: Polygon[] = []): Vec {
   const full = { x: from.x + delta.x, y: from.y + delta.y };
-  if (walkable(full, areas)) return full;
+  if (walkable(full, areas, blocked)) return full;
   const xOnly = { x: from.x + delta.x, y: from.y };
-  if (delta.x && walkable(xOnly, areas)) return xOnly;
+  if (delta.x && walkable(xOnly, areas, blocked)) return xOnly;
   const yOnly = { x: from.x, y: from.y + delta.y };
-  if (delta.y && walkable(yOnly, areas)) return yOnly;
+  if (delta.y && walkable(yOnly, areas, blocked)) return yOnly;
   return from;
 }
 

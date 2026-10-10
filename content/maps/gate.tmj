@@ -1,0 +1,291 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "江城大学 · 校门"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_gate"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 4,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 570,
+       "y": 410
+      },
+      {
+       "x": 1920,
+       "y": 410
+      },
+      {
+       "x": 1920,
+       "y": 830
+      },
+      {
+       "x": 570,
+       "y": 830
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 800,
+       "y": 290
+      },
+      {
+       "x": 1110,
+       "y": 290
+      },
+      {
+       "x": 1110,
+       "y": 410
+      },
+      {
+       "x": 800,
+       "y": 410
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 6,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 596,
+       "y": 540
+      },
+      {
+       "x": 660,
+       "y": 540
+      },
+      {
+       "x": 660,
+       "y": 700
+      },
+      {
+       "x": 596,
+       "y": 700
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 766,
+       "y": 760
+      },
+      {
+       "x": 924,
+       "y": 760
+      },
+      {
+       "x": 924,
+       "y": 812
+      },
+      {
+       "x": 766,
+       "y": 812
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 600,
+       "y": 490
+      },
+      {
+       "x": 645,
+       "y": 490
+      },
+      {
+       "x": 645,
+       "y": 525
+      },
+      {
+       "x": 600,
+       "y": 525
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1250,
+       "y": 400
+      },
+      {
+       "x": 1400,
+       "y": 400
+      },
+      {
+       "x": 1400,
+       "y": 520
+      },
+      {
+       "x": 1250,
+       "y": 520
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1218,
+       "y": 440
+      },
+      {
+       "x": 1246,
+       "y": 440
+      },
+      {
+       "x": 1246,
+       "y": 516
+      },
+      {
+       "x": 1218,
+       "y": 516
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 11,
+     "name": "player_start",
+     "x": 955,
+     "y": 450,
+     "point": true
+    },
+    {
+     "id": 12,
+     "name": "from_avenue",
+     "x": 1850,
+     "y": 620,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 1,
+     "name": "gate_sign",
+     "x": 800,
+     "y": 290,
+     "width": 310,
+     "height": 40,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "gate_sign"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "name": "guard_booth",
+     "x": 1218,
+     "y": 516,
+     "width": 190,
+     "height": 40,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "guard_booth"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "name": "to_avenue",
+     "x": 1895,
+     "y": 410,
+     "width": 25,
+     "height": 420,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "avenue:from_gate"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

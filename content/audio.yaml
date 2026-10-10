@@ -3,7 +3,13 @@ bgm:
   night_street:
     prompt: "Gentle lo-fi night theme for a 1990s Chinese PC RPG set in a modern city: warm electric piano, soft erhu melody, light brushed drums, nostalgic and a little lonely, seamless loop feel, no vocals."
     seconds: 60
+  campus_afternoon:
+    prompt: "Warm, unhurried afternoon theme for a 1990s Chinese PC RPG set on a modern university campus: plucked guzheng and soft acoustic guitar, light flute melody, gentle hand percussion, nostalgic and sunny with a hint of mystery, seamless loop feel, no vocals."
+    seconds: 60
 ambience:
+  campus_day:
+    prompt: "University campus on a sunny afternoon: birds chirping in plane trees, rustling leaves, distant students chatting, an occasional bicycle bell far away."
+    seconds: 20
   street_night:
     prompt: "Quiet city street at night: distant traffic hum, a faint electric buzz from a shop sign, occasional far-away scooter, crickets."
     seconds: 20
@@ -13,4 +19,6 @@ sfx:
   meow_calm: { prompt: "A single short relaxed meow from an adult house cat, close mic.", seconds: 0.8 }
   meow_smug: { prompt: "A single short chirpy, self-satisfied trill-meow from a chubby house cat, close mic.", seconds: 0.8 }
   meow_annoyed: { prompt: "A single short grumpy low meow from an annoyed house cat, close mic.", seconds: 0.8 }
+  footsteps_stone: { prompt: "A few soft sneaker footsteps on stone pavement, then stop.", seconds: 1.2 }
+  page_turn: { prompt: "Paper notice flapping and a page being turned on a bulletin board.", seconds: 1 }
   blip: { prompt: "Tiny soft UI text blip, retro game dialogue tick.", seconds: 0.5 }

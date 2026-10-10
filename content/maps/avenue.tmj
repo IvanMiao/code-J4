@@ -1,0 +1,448 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "江城大学 · 梧桐苑"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_avenue"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 18,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 530
+      },
+      {
+       "x": 1920,
+       "y": 530
+      },
+      {
+       "x": 1920,
+       "y": 830
+      },
+      {
+       "x": 0,
+       "y": 830
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 80,
+       "y": 430
+      },
+      {
+       "x": 1920,
+       "y": 430
+      },
+      {
+       "x": 1920,
+       "y": 540
+      },
+      {
+       "x": 80,
+       "y": 540
+      }
+     ]
+    },
+    {
+     "id": 20,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 900,
+       "y": 330
+      },
+      {
+       "x": 1050,
+       "y": 330
+      },
+      {
+       "x": 1050,
+       "y": 440
+      },
+      {
+       "x": 900,
+       "y": 440
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 21,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 210,
+       "y": 410
+      },
+      {
+       "x": 600,
+       "y": 410
+      },
+      {
+       "x": 600,
+       "y": 500
+      },
+      {
+       "x": 210,
+       "y": 500
+      }
+     ]
+    },
+    {
+     "id": 22,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 710,
+       "y": 410
+      },
+      {
+       "x": 890,
+       "y": 410
+      },
+      {
+       "x": 890,
+       "y": 500
+      },
+      {
+       "x": 710,
+       "y": 500
+      }
+     ]
+    },
+    {
+     "id": 23,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1120,
+       "y": 440
+      },
+      {
+       "x": 1360,
+       "y": 440
+      },
+      {
+       "x": 1360,
+       "y": 505
+      },
+      {
+       "x": 1120,
+       "y": 505
+      }
+     ]
+    },
+    {
+     "id": 24,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 130,
+       "y": 440
+      },
+      {
+       "x": 190,
+       "y": 440
+      },
+      {
+       "x": 190,
+       "y": 505
+      },
+      {
+       "x": 130,
+       "y": 505
+      }
+     ]
+    },
+    {
+     "id": 25,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 620,
+       "y": 440
+      },
+      {
+       "x": 680,
+       "y": 440
+      },
+      {
+       "x": 680,
+       "y": 505
+      },
+      {
+       "x": 620,
+       "y": 505
+      }
+     ]
+    },
+    {
+     "id": 26,
+     "name": "b5",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1490,
+       "y": 440
+      },
+      {
+       "x": 1560,
+       "y": 440
+      },
+      {
+       "x": 1560,
+       "y": 505
+      },
+      {
+       "x": 1490,
+       "y": 505
+      }
+     ]
+    },
+    {
+     "id": 27,
+     "name": "b6",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1810,
+       "y": 440
+      },
+      {
+       "x": 1870,
+       "y": 440
+      },
+      {
+       "x": 1870,
+       "y": 505
+      },
+      {
+       "x": 1810,
+       "y": 505
+      }
+     ]
+    },
+    {
+     "id": 28,
+     "name": "b7",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1600,
+       "y": 760
+      },
+      {
+       "x": 1920,
+       "y": 760
+      },
+      {
+       "x": 1920,
+       "y": 840
+      },
+      {
+       "x": 1600,
+       "y": 840
+      }
+     ]
+    },
+    {
+     "id": 29,
+     "name": "b8",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1420,
+       "y": 800
+      },
+      {
+       "x": 1500,
+       "y": 800
+      },
+      {
+       "x": 1500,
+       "y": 840
+      },
+      {
+       "x": 1420,
+       "y": 840
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 30,
+     "name": "from_gate",
+     "x": 190,
+     "y": 680,
+     "point": true
+    },
+    {
+     "id": 31,
+     "name": "from_library",
+     "x": 1850,
+     "y": 640,
+     "point": true
+    },
+    {
+     "id": 32,
+     "name": "dorm_door",
+     "x": 975,
+     "y": 350,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 13,
+     "name": "dorm_door",
+     "x": 900,
+     "y": 330,
+     "width": 150,
+     "height": 40,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "dorm_door"
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "name": "notice_board",
+     "x": 1120,
+     "y": 505,
+     "width": 240,
+     "height": 40,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "notice_board"
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "name": "kiosk",
+     "x": 1530,
+     "y": 740,
+     "width": 70,
+     "height": 90,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "kiosk"
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "name": "to_gate",
+     "x": 0,
+     "y": 530,
+     "width": 25,
+     "height": 300,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "gate:from_avenue"
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "name": "to_library",
+     "x": 1895,
+     "y": 430,
+     "width": 25,
+     "height": 400,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "library:from_avenue"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

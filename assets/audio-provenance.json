@@ -35,9 +35,9 @@
     "request": "Tiny soft UI text blip, retro game dialogue tick."
   },
   "vo/intro_1": {
-    "hash": "4cbaf93c9227025a",
-    "generatedAt": "2026-10-10T13:44:07.141Z",
-    "request": "林夏: [tired] 又是十一点。"
+    "hash": "8d2bf94cbedde799",
+    "generatedAt": "2026-10-10T14:07:25.102Z",
+    "request": "林夏: [tired] 江城大学……总算到了。"
   },
   "vo/juzi_3": {
     "hash": "558200330d4c6a22",
@@ -73,5 +73,30 @@
     "hash": "a862a0073e4ffb6c",
     "generatedAt": "2026-10-10T13:44:10.614Z",
     "request": "橘子: [lazily] 不过，今晚巷子里有东西。你最好别一个人回家。"
+  },
+  "bgm/campus_afternoon": {
+    "hash": "a0a43883f7d40c7f",
+    "generatedAt": "2026-10-10T14:00:40.259Z",
+    "request": "Warm, unhurried afternoon theme for a 1990s Chinese PC RPG set on a modern university campus: plucked guzheng and soft acoustic guitar, light flute melody, gentle hand percussion, nostalgic and sunny with a hint of mystery, seamless loop feel, no vocals."
+  },
+  "ambience/campus_day": {
+    "hash": "f8444e94ca9f43fc",
+    "generatedAt": "2026-10-10T14:00:44.791Z",
+    "request": "University campus on a sunny afternoon: birds chirping in plane trees, rustling leaves, distant students chatting, an occasional bicycle bell far away."
+  },
+  "sfx/page_turn": {
+    "hash": "53ed1bb3049b45cd",
+    "generatedAt": "2026-10-10T14:00:46.343Z",
+    "request": "Paper notice flapping and a page being turned on a bulletin board."
+  },
+  "sfx/footsteps_stone": {
+    "hash": "4505ddb8d1d56d06",
+    "generatedAt": "2026-10-10T14:00:46.379Z",
+    "request": "A few soft sneaker footsteps on stone pavement, then stop."
+  },
+  "vo/ayin_12": {
+    "hash": "7bb714a64629b2be",
+    "generatedAt": "2026-10-10T14:07:25.096Z",
+    "request": "林夏: [gasps] 刚才……是猫在说话吗？"
   }
 }

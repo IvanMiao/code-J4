@@ -1,7 +1,7 @@
-# Bag items. `@give <id>` / `@take <id>` in the story must use an id from here.
-oden:
-  name: 关东煮
-  description: 便利店的关东煮，汤还是热的。
-coffee:
-  name: 罐装咖啡
-  description: 加班人的续命水。
+# Items. Ids are what the story uses: @give <id>, @take <id>.
+fish_snack:
+  name: 小鱼干
+  description: 校园超市卖的独立包装小鱼干。
+water:
+  name: 矿泉水
+  description: 一瓶冰过的矿泉水。

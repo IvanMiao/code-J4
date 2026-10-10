@@ -3,7 +3,7 @@
  * each item, keeps the raw output in assets/raw/ and writes the post-processed file to `out`.
  *
  *   npm run gen:art                       # everything missing or changed
- *   npm run gen:art -- --id retro/bg_street --force
+ *   npm run gen:art -- --id retro/bg_gate --force
  *   npm run gen:art -- --style hd --post-only   # re-run post-processing from raw only
  */
 import { createHash } from 'node:crypto';

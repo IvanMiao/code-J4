@@ -1,0 +1,446 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "江城大学 · 图书馆"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_library"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 36,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 240,
+       "y": 480
+      },
+      {
+       "x": 1920,
+       "y": 480
+      },
+      {
+       "x": 1920,
+       "y": 910
+      },
+      {
+       "x": 240,
+       "y": 910
+      }
+     ]
+    },
+    {
+     "id": 37,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 770,
+       "y": 300
+      },
+      {
+       "x": 1630,
+       "y": 300
+      },
+      {
+       "x": 1630,
+       "y": 480
+      },
+      {
+       "x": 770,
+       "y": 480
+      }
+     ]
+    },
+    {
+     "id": 38,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 560
+      },
+      {
+       "x": 240,
+       "y": 560
+      },
+      {
+       "x": 240,
+       "y": 760
+      },
+      {
+       "x": 0,
+       "y": 760
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 39,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1330,
+       "y": 676
+      },
+      {
+       "x": 1292,
+       "y": 743
+      },
+      {
+       "x": 1200,
+       "y": 771
+      },
+      {
+       "x": 1108,
+       "y": 743
+      },
+      {
+       "x": 1070,
+       "y": 676
+      },
+      {
+       "x": 1108,
+       "y": 609
+      },
+      {
+       "x": 1200,
+       "y": 581
+      },
+      {
+       "x": 1292,
+       "y": 609
+      }
+     ]
+    },
+    {
+     "id": 40,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 670,
+       "y": 530
+      },
+      {
+       "x": 810,
+       "y": 530
+      },
+      {
+       "x": 810,
+       "y": 620
+      },
+      {
+       "x": 670,
+       "y": 620
+      }
+     ]
+    },
+    {
+     "id": 41,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 670,
+       "y": 720
+      },
+      {
+       "x": 810,
+       "y": 720
+      },
+      {
+       "x": 810,
+       "y": 816
+      },
+      {
+       "x": 670,
+       "y": 816
+      }
+     ]
+    },
+    {
+     "id": 42,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1600,
+       "y": 530
+      },
+      {
+       "x": 1730,
+       "y": 530
+      },
+      {
+       "x": 1730,
+       "y": 620
+      },
+      {
+       "x": 1600,
+       "y": 620
+      }
+     ]
+    },
+    {
+     "id": 43,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1600,
+       "y": 720
+      },
+      {
+       "x": 1730,
+       "y": 720
+      },
+      {
+       "x": 1730,
+       "y": 816
+      },
+      {
+       "x": 1600,
+       "y": 816
+      }
+     ]
+    },
+    {
+     "id": 44,
+     "name": "b5",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1010,
+       "y": 560
+      },
+      {
+       "x": 1070,
+       "y": 560
+      },
+      {
+       "x": 1070,
+       "y": 610
+      },
+      {
+       "x": 1010,
+       "y": 610
+      }
+     ]
+    },
+    {
+     "id": 45,
+     "name": "b6",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1336,
+       "y": 560
+      },
+      {
+       "x": 1390,
+       "y": 560
+      },
+      {
+       "x": 1390,
+       "y": 610
+      },
+      {
+       "x": 1336,
+       "y": 610
+      }
+     ]
+    },
+    {
+     "id": 46,
+     "name": "b7",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1010,
+       "y": 730
+      },
+      {
+       "x": 1070,
+       "y": 730
+      },
+      {
+       "x": 1070,
+       "y": 780
+      },
+      {
+       "x": 1010,
+       "y": 780
+      }
+     ]
+    },
+    {
+     "id": 47,
+     "name": "b8",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1336,
+       "y": 730
+      },
+      {
+       "x": 1390,
+       "y": 730
+      },
+      {
+       "x": 1390,
+       "y": 780
+      },
+      {
+       "x": 1336,
+       "y": 780
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 48,
+     "name": "from_avenue",
+     "x": 120,
+     "y": 660,
+     "point": true
+    },
+    {
+     "id": 49,
+     "name": "player_start",
+     "x": 1130,
+     "y": 880,
+     "point": true
+    },
+    {
+     "id": 50,
+     "name": "lib_steps",
+     "x": 1290,
+     "y": 420,
+     "point": true
+    },
+    {
+     "id": 51,
+     "name": "fountain_front",
+     "x": 1290,
+     "y": 830,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": [
+    {
+     "id": 33,
+     "name": "ayin",
+     "x": 1290,
+     "y": 830,
+     "point": true,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ayin_talk"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "down"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 34,
+     "name": "library_door",
+     "x": 1080,
+     "y": 300,
+     "width": 240,
+     "height": 40,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "library_door"
+      }
+     ]
+    },
+    {
+     "id": 35,
+     "name": "to_avenue",
+     "x": 0,
+     "y": 560,
+     "width": 25,
+     "height": 200,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "avenue:from_library"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

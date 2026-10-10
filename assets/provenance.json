@@ -164,5 +164,63 @@
       "retro/design_linxia"
     ],
     "generatedAt": "2026-10-10T13:31:48.117Z"
+  },
+  "retro/design_ayin": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "32fedaf7b742e6fa",
+    "refs": [],
+    "generatedAt": "2026-10-10T13:58:58.246Z"
+  },
+  "retro/portrait_ayin_calm": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "bd8070368ac1674c",
+    "refs": [
+      "retro/design_ayin"
+    ],
+    "generatedAt": "2026-10-10T13:59:08.704Z"
+  },
+  "retro/walk_ayin": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "4029f87ecdec4839",
+    "refs": [
+      "retro/design_ayin"
+    ],
+    "generatedAt": "2026-10-10T13:59:15.846Z"
+  },
+  "retro/portrait_ayin_smug": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "ad58f25708f538f9",
+    "refs": [
+      "retro/portrait_ayin_calm"
+    ],
+    "generatedAt": "2026-10-10T13:59:17.373Z"
+  },
+  "retro/portrait_ayin_annoyed": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "423dfb2dbfccb14c",
+    "refs": [
+      "retro/portrait_ayin_calm"
+    ],
+    "generatedAt": "2026-10-10T13:59:18.186Z"
+  },
+  "retro/bg_gate": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "63cd0891797fd45a",
+    "refs": [
+      "retro/bg_avenue"
+    ],
+    "generatedAt": "2026-10-10T14:02:30.488Z"
+  },
+  "retro/bg_avenue": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "f2bf3c38bffe076e",
+    "refs": [],
+    "generatedAt": "2026-10-10T13:59:37.993Z"
+  },
+  "retro/bg_library": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "283367c3a8e90c79",
+    "refs": [],
+    "generatedAt": "2026-10-10T13:59:40.434Z"
   }
 }

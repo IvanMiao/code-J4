@@ -1,5 +1,71 @@
 [
   {
+    "id": "retro/design_ayin",
+    "out": "art/retro/design_ayin.png",
+    "prompt": "Character design sheet: AYIN (placeholder talking cat): an American Shorthair cat, silver coat with bold black classic tabby swirls (\"bullseye\" on the flanks), round face with full cheeks, copper-amber eyes, sturdy muscular body, short thick tail with black rings, calm and slightly superior expression. Show the cat from the front, from the side walking, from the back, sitting, plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "retro/walk_ayin",
+    "out": "art/retro/walk_ayin.png",
+    "prompt": "Sprite sheet of the SAME cat, strictly arranged in a grid of 4 ROWS x 3 COLUMNS of equal cells, generous empty green space between cells, every figure the same size and fully inside its cell. Row 1: facing DOWN toward the viewer. Row 2: facing LEFT. Row 3: facing RIGHT. Row 4: facing UP, back to the viewer. Column 1: walking, left paw forward. Column 2: standing neutral. Column 3: walking, right paw forward. Full body on four legs, seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Cat: American Shorthair, silver coat with black classic tabby swirls, copper eyes, sturdy body. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/design_ayin"
+    ]
+  },
+  {
+    "id": "retro/portrait_ayin_calm",
+    "out": "art/retro/portrait_ayin_calm.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the American Shorthair cat from the reference design sheet, three-quarter view facing slightly right, expression: calm, half-lidded copper eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/design_ayin"
+    ]
+  },
+  {
+    "id": "retro/portrait_ayin_smug",
+    "out": "art/retro/portrait_ayin_smug.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing, three-quarter view facing slightly right, expression: smug, one eye half-closed, the corner of the mouth curled up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/portrait_ayin_calm"
+    ]
+  },
+  {
+    "id": "retro/portrait_ayin_annoyed",
+    "out": "art/retro/portrait_ayin_annoyed.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing, three-quarter view facing slightly right, expression: annoyed, ears flattened sideways, narrowed eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/portrait_ayin_calm"
+    ]
+  },
+  {
+    "id": "retro/bg_gate",
+    "out": "art/retro/bg_gate.png",
+    "prompt": "RPG field map, one continuous scene, no characters: the main gate of a Chinese university, drawn with EXACTLY the same camera as the reference image (straight-on high-angle 3/4 view, building fronts face the viewer, horizontal ground lines, NOT diagonal isometric), same pixel scale, palette and afternoon light. Top centre: a wide grey stone gate arch facing the viewer, with the four large gold characters \"江城大学\" across its lintel, iron gates open. To the right of the gate a small white guard booth with a small sign \"门卫\". Below the gate a wide open paved plaza in light granite tiles fills the middle of the image, with a stone bench and a lamp post. A broad paved path leaves the plaza at the RIGHT edge, at mid height. Plane trees and flower beds along the left edge and the bottom edge.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_avenue"
+    ]
+  },
+  {
+    "id": "retro/bg_avenue",
+    "out": "art/retro/bg_avenue.png",
+    "prompt": "RPG field map, one continuous scene, no characters: a tree-lined avenue inside a Chinese university campus. A wide paved avenue runs horizontally across the middle of the image from the LEFT edge to the RIGHT edge, lined with big plane trees. Across the top: a four-storey red-brick student dormitory with an entrance door and steps, and a large vertical name board beside the door reading \"梧桐苑\". In front of the dorm: a long bicycle rack with parked bicycles and a glass-covered notice board with the title \"公告栏\". Lower right: a small campus shop kiosk with the sign \"校园超市\". Lower edge: lawn, low hedges and a bench.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "retro/bg_library",
+    "out": "art/retro/bg_library.png",
+    "prompt": "RPG field map, one continuous scene, no characters: the library plaza of a Chinese university. Across the top: a large modern library building of pale stone and glass with wide steps up to the entrance and three big characters \"图书馆\" mounted above the entrance. In the middle: a wide open square paved in tiles with a round fountain at its centre, wooden benches and flower beds around it. A paved path enters the square from the LEFT edge of the image. Lower edge: lawn with a few trees.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
     "id": "hd/design_linxia",
     "out": "art/hd/design_linxia.png",
     "prompt": "Character design sheet: LIN XIA (placeholder protagonist): a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Show a front view, side view and back view full body standing in a row, plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",

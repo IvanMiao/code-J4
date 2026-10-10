@@ -3,7 +3,7 @@
  *
  *   npm run gen:audio                 generate anything new or changed (cached by request hash)
  *   npm run gen:audio -- --only vo    one kind: bgm | ambience | sfx | vo
- *   npm run gen:audio -- --id juzi_5 --force
+ *   npm run gen:audio -- --id ayin_12 --force
  *   npm run gen:audio -- --dry        list jobs and the voice-over character count, call nothing
  *
  * Inputs: content/audio.yaml (bgm/ambience/sfx prompts) and every story line tagged #vo #line:<id>

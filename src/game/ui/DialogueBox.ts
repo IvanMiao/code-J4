@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { cast, FONT, PORTRAIT_HEIGHT } from '../config.ts';
 import type { LineEvent } from '../../story/parse.ts';
+import { pixelFrame } from './frame.ts';
 
 const BOX = { x: 16, y: 392, w: 928, h: 136 };
 const CPS = 36;
@@ -19,20 +20,16 @@ export class DialogueBox {
   private done?: () => void;
 
   constructor(private scene: Phaser.Scene) {
-    const g = scene.add.graphics();
-    g.fillStyle(0x0d1422, 0.9).fillRoundedRect(BOX.x, BOX.y, BOX.w, BOX.h, 8);
-    g.lineStyle(2, 0xd9b86c, 1).strokeRoundedRect(BOX.x, BOX.y, BOX.w, BOX.h, 8);
-    g.lineStyle(1, 0x8a6f3a, 1).strokeRoundedRect(BOX.x + 5, BOX.y + 5, BOX.w - 10, BOX.h - 10, 6);
+    const g = pixelFrame(scene.add.graphics(), BOX.x, BOX.y, BOX.w, BOX.h);
     this.portrait = scene.add.image(BOX.x + 18, BOX.y + BOX.h - 4, '__DEFAULT').setOrigin(0, 1).setVisible(false);
     this.namePlate = scene.add.graphics();
-    this.name = scene.add.text(0, BOX.y - 15, '', { fontFamily: FONT, fontSize: '20px', color: '#f3dfa8', fontStyle: 'bold' }).setOrigin(0, 0.5);
-    this.body = scene.add.text(0, BOX.y + 22, '', {
-      fontFamily: FONT, fontSize: '22px', color: '#f1ece0', lineSpacing: 8, wordWrap: { width: 600, useAdvancedWrap: true },
+    this.name = scene.add.text(0, BOX.y - 18, '', { fontFamily: FONT, fontSize: '24px', color: '#ffe7a3' }).setOrigin(0, 0.5);
+    this.body = scene.add.text(0, BOX.y + 24, '', {
+      fontFamily: FONT, fontSize: '24px', color: '#f4ead2', lineSpacing: 12, wordWrap: { width: 600, useAdvancedWrap: true },
     });
-    this.arrow = scene.add.text(BOX.x + BOX.w - 30, BOX.y + BOX.h - 30, '▼', { fontFamily: FONT, fontSize: '16px', color: '#d9b86c' }).setVisible(false);
+    this.arrow = scene.add.text(BOX.x + BOX.w - 30, BOX.y + BOX.h - 30, '▼', { fontFamily: FONT, fontSize: '24px', color: '#e6c77a' }).setVisible(false);
     scene.tweens.add({ targets: this.arrow, y: '+=4', yoyo: true, repeat: -1, duration: 400 });
-    for (const t of [this.name, this.body, this.arrow]) t.setResolution(window.devicePixelRatio || 1);
-    this.root = scene.add.container(0, 0, [g, this.portrait, this.namePlate, this.name, this.body, this.arrow]).setDepth(10_000).setVisible(false);
+    this.root = scene.add.container(0, 0, [g, this.portrait, this.namePlate, this.name, this.body, this.arrow]).setDepth(10_000).setVisible(false).setScrollFactor(0, 0, true);
   }
 
   get open() {
@@ -55,8 +52,10 @@ export class DialogueBox {
     this.name.setText(member?.name ?? '');
     if (member) {
       this.name.setX(textX + 12);
-      this.namePlate.fillStyle(0x3a2716, 0.95).fillRoundedRect(textX, BOX.y - 30, this.name.width + 24, 30, 6);
-      this.namePlate.lineStyle(2, 0xd9b86c, 1).strokeRoundedRect(textX, BOX.y - 30, this.name.width + 24, 30, 6);
+      const w = this.name.width + 24;
+      this.namePlate.fillStyle(0x1a120a, 1).fillRect(textX, BOX.y - 36, w, 38);
+      this.namePlate.fillStyle(0xe6c77a, 1).fillRect(textX + 2, BOX.y - 34, w - 4, 34);
+      this.namePlate.fillStyle(0x4a2f17, 1).fillRect(textX + 4, BOX.y - 32, w - 8, 30);
     }
     this.body.setX(textX).setWordWrapWidth(BOX.x + BOX.w - 40 - textX);
     this.full = line.text;
