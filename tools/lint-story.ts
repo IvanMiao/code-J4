@@ -5,7 +5,7 @@
 import { readFileSync } from 'node:fs';
 import { relative } from 'node:path';
 import { compileInk } from './lib/ink.ts';
-import { checkExits, entryKnots, loadContent, sourceLines, STORY_ENTRY, validateCommand } from './lib/content.ts';
+import { checkExits, checkTriggers, entryKnots, loadContent, sourceLines, STORY_ENTRY, validateCommand } from './lib/content.ts';
 import { speakerResolver } from '../src/engine/content.ts';
 import { parseCommand, parseStoryLine } from '../src/story/parse.ts';
 import { StoryRunner } from '../src/story/runner.ts';
@@ -55,7 +55,7 @@ export function lintStory(root = '.') {
     if ([...ev.text].length > MAX_LINE_CHARS) warnings.push(`${at(s)}  line is ${[...ev.text].length} chars; the box fits ~${MAX_LINE_CHARS}`);
   }
 
-  errors.push(...checkExits(content));
+  errors.push(...checkExits(content), ...checkTriggers(content));
   const entries = entryKnots(content);
   for (const k of entries) if (!knots.includes(k)) errors.push(`map/game uses knot "${k}" but it is not in the story`);
   const diverted = new Set(build.files.flatMap((f) => [...readFileSync(f, 'utf8').matchAll(/->\s*(\w+)/g)].map((m) => m[1])));

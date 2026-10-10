@@ -1,6 +1,8 @@
 import sharp from 'sharp';
 
 export type PostStep =
+  /** Keep a horizontal band, as fractions of the height (drops layouts copied from a reference sheet). */
+  | { crop: { y: number; h: number } }
   | { resize: { width: number; height: number; fit?: 'cover' | 'contain' | 'fill'; kernel?: 'nearest' | 'lanczos3' } }
   | { chromaKey: { hueMin?: number; hueMax?: number; satMin?: number; valMin?: number } }
   | { trim: true }
@@ -111,7 +113,12 @@ async function packSheet(r: Raw, o: { cols: number; rows: number; frameWidth: nu
 export async function runPost(input: Buffer, steps: PostStep[]): Promise<Buffer> {
   let r = await toRaw(input);
   for (const step of steps) {
-    if ('resize' in step) {
+    if ('crop' in step) {
+      const png = await fromRaw(r).png().toBuffer();
+      const md = await sharp(png).metadata();
+      const top = Math.round(md.height! * step.crop.y), height = Math.round(md.height! * step.crop.h);
+      r = await toRaw(await sharp(png).extract({ left: 0, top, width: md.width!, height }).png().toBuffer());
+    } else if ('resize' in step) {
       const s = step.resize;
       r = await toRaw(await fromRaw(r).resize(s.width, s.height, { fit: s.fit ?? 'cover', kernel: s.kernel ?? 'lanczos3', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer());
     } else if ('chromaKey' in step) {
@@ -130,4 +137,22 @@ export async function runPost(input: Buffer, steps: PostStep[]): Promise<Buffer>
     }
   }
   return fromRaw(r).png({ compressionLevel: 9 }).toBuffer();
+}
+
+/** Stacks images vertically (left-aligned); `mirror` flips that row horizontally, frame order included. */
+export async function stackRows(rows: { png: Buffer; mirror: boolean }[]): Promise<Buffer> {
+  const parts = await Promise.all(
+    rows.map(async (r) => {
+      const { data, info } = await (r.mirror ? sharp(r.png).flop() : sharp(r.png)).png().toBuffer({ resolveWithObject: true });
+      return { data, w: info.width, h: info.height };
+    }),
+  );
+  let top = 0;
+  const layers = parts.map((p) => {
+    const l = { input: p.data, left: 0, top };
+    top += p.h;
+    return l;
+  });
+  const width = Math.max(...parts.map((p) => p.w));
+  return sharp({ create: { width, height: top, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } }).composite(layers).png().toBuffer();
 }

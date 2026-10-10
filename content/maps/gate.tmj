@@ -252,6 +252,11 @@
        "name": "knot",
        "type": "string",
        "value": "gate_sign"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
       }
      ]
     },
@@ -267,6 +272,11 @@
        "name": "knot",
        "type": "string",
        "value": "guard_booth"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
       }
      ]
     },
@@ -286,6 +296,11 @@
      ]
     }
    ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": []
   }
  ]
 }

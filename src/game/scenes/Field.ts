@@ -11,7 +11,7 @@ import { addItem, readSave, writeSave, type ActorState } from '../../engine/save
 import { DIRS, type Dir } from '../../story/commands.ts';
 import type { CommandEvent, LineEvent } from '../../story/parse.ts';
 import { StoryRunner, type StoryHost } from '../../story/runner.ts';
-import { facingOf, facingVec, step, type Vec } from '../../engine/walk.ts';
+import { facingOf, facingVec, step, type Vec, REACH } from '../../engine/walk.ts';
 
 const PLAYER = 'linxia';
 const WALK_SPEED = 150;
@@ -38,6 +38,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private mapId = START.map;
   private mapState: Record<string, Record<string, ActorState>> = {};
   private bg!: Phaser.GameObjects.Image;
+  private fg: Phaser.GameObjects.Image[] = [];
   private areaLabel!: Phaser.GameObjects.Text;
 
   constructor() {
@@ -218,14 +219,15 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private target(): Target | null {
     const p = this.player.pos;
     const f = facingVec(this.player.face);
-    const probe = { x: p.x + f.x * 30, y: p.y + f.y * 30 };
+    const probe = { x: p.x + f.x * REACH, y: p.y + f.y * REACH };
     for (const a of this.actors.values()) {
       const knot = this.map.actors.find((m) => m.id === a.id)?.knot;
       if (a === this.player || !knot || !a.sprite.visible) continue;
       if (Math.hypot(probe.x - a.pos.x, probe.y - a.pos.y) < 50) return { actor: a, knot, at: { x: a.pos.x, y: a.pos.y - a.height - 4 } };
     }
     for (const t of this.map.triggers) {
-      if (inRect(probe, t) || inRect(p, t)) return { trigger: t, knot: t.knot, at: { x: t.x + t.width / 2, y: t.y } };
+      const hit = t.face ? t.face === this.player.face && inRect(probe, t) : inRect(probe, t) || inRect(p, t);
+      if (hit) return { trigger: t, knot: t.knot, at: { x: t.x + t.width / 2, y: t.y } };
     }
     return null;
   }
@@ -252,6 +254,27 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.toast(this.map.title);
   }
 
+  /** Copies a polygon of the current background into its own image drawn above actors standing behind `baseline`. */
+  private cutout(key: string, poly: Vec[], baseline: number) {
+    const src = this.textures.get(`bg:${this.mapId}`).getSourceImage() as HTMLImageElement;
+    const k = src.width / this.map.width;
+    const xs = poly.map((p) => p.x), ys = poly.map((p) => p.y);
+    const x0 = Math.floor(Math.min(...xs)), y0 = Math.floor(Math.min(...ys));
+    if (!this.textures.exists(key)) {
+      const w = Math.ceil(Math.max(...xs)) - x0, h = Math.ceil(Math.max(...ys)) - y0;
+      const tex = this.textures.createCanvas(key, Math.ceil(w * k), Math.ceil(h * k))!;
+      const ctx = tex.context;
+      ctx.imageSmoothingEnabled = false;
+      ctx.beginPath();
+      poly.forEach((p, i) => (i ? ctx.lineTo((p.x - x0) * k, (p.y - y0) * k) : ctx.moveTo((p.x - x0) * k, (p.y - y0) * k)));
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(src, -x0 * k, -y0 * k);
+      tex.refresh();
+    }
+    return this.add.image(x0, y0, key).setOrigin(0).setScale(1 / k).setDepth(baseline);
+  }
+
   /** Swaps background, actors, camera bounds and audio to `id`; puts the player on `anchor` if given. */
   private placeMap(id: string, anchor: string | null, remember = true) {
     const here: Record<string, ActorState> = {};
@@ -265,6 +288,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.mapId = maps[id] ? id : START.map;
     const m = this.map;
     this.bg.setTexture(`bg:${this.mapId}`).setDisplaySize(m.width, m.height);
+    for (const f of this.fg) f.destroy();
+    this.fg = m.foreground.map((f, i) => this.cutout(`fg:${this.mapId}:${i}`, f.polygon, f.baseline));
     for (const a of m.actors) {
       const saved = this.mapState[this.mapId]?.[a.id];
       const actor = this.spawn(a.id, saved ?? a);

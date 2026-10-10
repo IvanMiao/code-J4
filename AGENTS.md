@@ -45,3 +45,10 @@ AI art and hand-written map data drift apart easily. Most bugs so far come from 
 - Use every trigger from its intended side, and try it from the wrong sides too: it must not fire.
 - Hold each direction for at least a second, for every actor sheet, and watch for pose flicker.
 - Look at the full background at 1x with the walkable/blocked polygons overlaid before tuning numbers. A debug overlay is worth adding.
+
+## Conventions added by the fixes
+
+- Walk sheets are built from one 3-frame strip per direction (`assets/strips/`) and stacked by a `compose` item in the manifest. Rows: down, left, right, up. Mirror a side strip at build time, never at runtime.
+- Gemini copies the layout of a reference design sheet into its output (extra rows of sitting poses). Use `crop` to keep only the band you asked for, or drop the ref and describe the character in text.
+- Every story trigger has `face` (the direction the player must face to use it). `lint:story` fails if a trigger has no `face` or no walkable spot in front of it.
+- Canopies, roofs and other things actors walk behind go in the `foreground` layer: a polygon hugging the object plus `baseline` (its ground y). Do not use loose rectangles; they hide actors on open ground.

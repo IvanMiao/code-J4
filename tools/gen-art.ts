@@ -12,7 +12,7 @@ import { dirname, join } from 'node:path';
 import { parse } from 'yaml';
 import { z } from 'zod';
 import { generateImage } from './lib/gemini.ts';
-import { runPost, type PostStep } from './lib/image.ts';
+import { runPost, stackRows, type PostStep } from './lib/image.ts';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const Item = z.object({
@@ -20,7 +20,9 @@ const Item = z.object({
   model: z.string().default('gemini-3.1-flash-image'),
   aspect: z.string().default('1:1'),
   size: z.enum(['1K', '2K', '4K']).optional(),
-  prompt: z.string(),
+  prompt: z.string().default(''),
+  /** Build-only item: stacks other items' outputs as rows (e.g. walk strips into one sheet). No API call. */
+  compose: z.array(z.object({ from: z.string(), mirror: z.boolean().default(false) })).optional(),
   refs: z.array(z.string()).default([]),
   post: z.array(z.any()).default([]),
   out: z.string(),
@@ -65,6 +67,19 @@ async function buildOnce(id: string): Promise<void> {
   const entry = items.get(id);
   if (!entry) throw new Error(`Unknown art id "${id}"`);
   const { item, bible } = entry;
+  if (item.compose) {
+    await Promise.all(item.compose.map((r) => build(r.from)));
+    const rows = item.compose.map((r) => {
+      const src = items.get(r.from);
+      if (!src) throw new Error(`${id}: unknown compose source "${r.from}"`);
+      return { png: readFileSync(join(ROOT, src.item.out)), mirror: r.mirror };
+    });
+    const out = join(ROOT, item.out);
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, await stackRows(rows));
+    console.log(`[compose] ${id} -> ${item.out}`);
+    return;
+  }
   await Promise.all(item.refs.filter((r) => items.has(r)).map(build));
   const hash = hashOf(item, bible);
   const raw = rawPath(id);

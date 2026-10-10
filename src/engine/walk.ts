@@ -1,4 +1,7 @@
 export interface Vec { x: number; y: number }
+
+/** How far in front of the player interactions are probed. */
+export const REACH = 30;
 export type Polygon = Vec[];
 
 export function insidePolygon(p: Vec, poly: Polygon): boolean {

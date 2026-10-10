@@ -213,14 +213,70 @@
   },
   "retro/bg_avenue": {
     "model": "gemini-3-pro-image",
-    "promptHash": "f2bf3c38bffe076e",
-    "refs": [],
-    "generatedAt": "2026-10-10T13:59:37.993Z"
+    "promptHash": "37f1b29068412414",
+    "refs": [
+      "retro/bg_library"
+    ],
+    "generatedAt": "2026-10-10T14:27:13.859Z"
   },
   "retro/bg_library": {
     "model": "gemini-3-pro-image",
     "promptHash": "283367c3a8e90c79",
     "refs": [],
     "generatedAt": "2026-10-10T13:59:40.434Z"
+  },
+  "retro/walk_linxia_down": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "28358dd7672fb0aa",
+    "refs": [
+      "retro/design_linxia"
+    ],
+    "generatedAt": "2026-10-10T14:27:35.308Z"
+  },
+  "retro/walk_linxia_left": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "21b9f87dd7d80088",
+    "refs": [
+      "retro/design_linxia"
+    ],
+    "generatedAt": "2026-10-10T14:27:54.079Z"
+  },
+  "retro/walk_linxia_up": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "bc046000eeddaf2e",
+    "refs": [
+      "retro/design_linxia"
+    ],
+    "generatedAt": "2026-10-10T14:28:13.889Z"
+  },
+  "retro/walk_ayin_down": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "e338a4e13076c1b4",
+    "refs": [],
+    "generatedAt": "2026-10-10T14:38:17.589Z"
+  },
+  "retro/walk_ayin_left": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "d6043a1354862d9e",
+    "refs": [
+      "retro/design_ayin"
+    ],
+    "generatedAt": "2026-10-10T14:29:38.055Z"
+  },
+  "retro/walk_ayin_up": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "f567e1f7c0c8fb2e",
+    "refs": [
+      "retro/design_ayin"
+    ],
+    "generatedAt": "2026-10-10T14:30:35.807Z"
+  },
+  "retro/walk_ayin_side": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "0788584b59b1426f",
+    "refs": [
+      "retro/design_ayin"
+    ],
+    "generatedAt": "2026-10-10T14:37:00.932Z"
   }
 }

@@ -66,7 +66,7 @@ export class Actor {
 
   private sync() {
     this.sprite.setDepth(this.sprite.y);
-    this.sprite.setFlipX(this.face === 'right');
+    this.sprite.setFlipX(style === 'hd' && this.face === 'right');
     const key = `${this.id}:walk:${this.face}`;
     if (this.moving) {
       if (this.sprite.anims.currentAnim?.key !== key || !this.sprite.anims.isPlaying) this.sprite.play(key);

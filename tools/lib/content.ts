@@ -4,6 +4,7 @@ import { parse } from 'yaml';
 import type { Cast, Item } from '../../src/engine/content.ts';
 import type { Encounter } from '../../src/engine/battle.ts';
 import { parseMap, type FieldMap } from '../../src/engine/map.ts';
+import { facingVec, REACH, walkable, type Facing } from '../../src/engine/walk.ts';
 import { COMMANDS, DIRS, EMOTES, type ArgKind } from '../../src/story/commands.ts';
 import type { CommandEvent } from '../../src/story/parse.ts';
 
@@ -136,4 +137,25 @@ export function sourceLines(files: string[]): SourceLine[] {
     });
   }
   return out;
+}
+
+/** Every story trigger declares the side it is used from, and a player can stand there facing it. */
+export function checkTriggers(c: Content): string[] {
+  const errs: string[] = [];
+  const faces = ['up', 'down', 'left', 'right'];
+  for (const [id, m] of Object.entries(c.maps)) {
+    for (const t of m.triggers) {
+      if (!t.face || !faces.includes(t.face)) {
+        errs.push(`map ${id}: trigger "${t.id}" needs face=up|down|left|right (the direction the player faces to use it)`);
+        continue;
+      }
+      const f = facingVec(t.face as Facing);
+      let ok = false;
+      for (let x = t.x; x <= t.x + t.width && !ok; x += 4)
+        for (let y = t.y; y <= t.y + t.height && !ok; y += 4)
+          ok = walkable({ x: x - f.x * REACH, y: y - f.y * REACH }, m.walkable, m.blocked);
+      if (!ok) errs.push(`map ${id}: trigger "${t.id}" cannot be reached by a player facing ${t.face}`);
+    }
+  }
+  return errs;
 }

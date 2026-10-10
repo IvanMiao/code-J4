@@ -10,7 +10,11 @@ interface TiledLayer { type: string; name: string; objects?: TiledObject[] }
 interface TiledMap { width: number; height: number; tilewidth: number; tileheight: number; properties?: TiledProperty[]; layers: TiledLayer[] }
 
 export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string }
-export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean }
+/** `face`: the direction the player must face to use it (i.e. the side it is used from). */
+export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null }
+
+/** A piece of the background redrawn above actors whose feet are above `baseline` (tree canopies, roofs). */
+export interface MapForeground { polygon: Polygon; baseline: number }
 
 /** Walking into the rect moves the player to `anchor` on `map`. */
 export interface MapExit { id: string; x: number; y: number; width: number; height: number; map: string; anchor: string }
@@ -28,6 +32,7 @@ export interface FieldMap {
   anchors: Record<string, Vec>;
   actors: MapActor[];
   triggers: MapTrigger[];
+  foreground: MapForeground[];
 }
 
 const prop = (o: { properties?: TiledProperty[] }, name: string) => o.properties?.find((p) => p.name === name)?.value;
@@ -57,8 +62,12 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     })),
     triggers: triggers.filter((o) => !prop(o, 'exit')).map((o) => ({
       ...rect(o),
-      knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true,
+      knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true, face: (prop(o, 'face') as string) ?? null,
     })),
+    foreground: layer('foreground').map((o) => {
+      const polygon = poly(o);
+      return { polygon, baseline: Number(prop(o, 'baseline') ?? Math.max(...polygon.map((p) => p.y))) };
+    }),
   };
 }
 

@@ -150,26 +150,12 @@ items:
       colors: 48
   out: public/art/retro/portrait_juzi_annoyed.png
 - id: retro/walk_linxia
-  model: gemini-3-pro-image
-  aspect: '3:4'
-  prompt: 'Sprite sheet of the SAME character, strictly arranged in a grid of 4 ROWS x 3 COLUMNS of equal cells, generous empty green space between
-    cells, every figure the same size and fully inside its cell. Row 1: facing DOWN toward the viewer. Row 2: facing LEFT. Row 3: facing RIGHT.
-    Row 4: facing UP, back to the viewer. Column 1: walking, left foot forward. Column 2: standing neutral. Column 3: walking, right foot forward.
-    Full body, seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: LIN XIA (placeholder protagonist): a 26-year-old
-    Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers,
-    small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image,
-    no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
-  refs:
-  - retro/design_linxia
-  post:
-  - chromaKey: {}
-  - sheet:
-      cols: 3
-      rows: 4
-      frameWidth: 48
-      frameHeight: 64
-  - quantize:
-      colors: 32
+  compose:
+  - from: retro/walk_linxia_down
+  - from: retro/walk_linxia_left
+  - from: retro/walk_linxia_left
+    mirror: true
+  - from: retro/walk_linxia_up
   out: public/art/retro/walk_linxia.png
 - id: retro/walk_juzi
   model: gemini-3-pro-image
