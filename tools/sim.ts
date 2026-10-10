@@ -4,8 +4,8 @@
  * errors/warnings, invalid commands, missing portraits or runaway loops.
  *
  *   npm run sim                         explore everything
- *   npm run sim -- --print ayin_talk    print one playthrough (first option everywhere)
- *   npm run sim -- --print ayin_talk --pick 1,0   choose option 2 at the first decision, 1 at the second
+ *   npm run sim -- --print nika_talk    print one playthrough (first option everywhere)
+ *   npm run sim -- --print nika_talk --pick 1,0   choose option 2 at the first decision, 1 at the second
  */
 import { compileInk } from './lib/ink.ts';
 import { entryKnots, loadContent, STORY_ENTRY, validateCommand, type Content } from './lib/content.ts';

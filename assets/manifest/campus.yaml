@@ -2,33 +2,34 @@
 style: retro
 bible: assets/style/bible-campus.md
 items:
-- id: retro/design_ayin
+- id: retro/design_nika
   model: gemini-3-pro-image
   aspect: '16:9'
-  prompt: 'Character design sheet: AYIN (placeholder talking cat): an American Shorthair cat, silver coat with bold black classic tabby swirls
-    ("bullseye" on the flanks), round face with full cheeks, copper-amber eyes, sturdy muscular body, short thick tail with black rings, calm and
-    slightly superior expression. Show the cat from the front, from the side walking, from the back, sitting, plus a head close-up. Plain flat pure
+  prompt: 'Character design sheet: NIKA (placeholder talking cat): an American Shorthair silver tabby-and-white bicolour cat: silver coat with bold
+    black classic tabby swirls ("bullseye" on the flanks) on the back, flanks, tail and top of the head; a white blaze up the middle of the face
+    between the eyes, pure white muzzle, chin, chest and belly, and four white paws like socks; round face with full cheeks, big copper-amber
+    eyes, sturdy muscular body, short thick tail with black rings, calm and slightly superior expression. Show the cat from the front, from the side walking, from the back, sitting, plus a head close-up. Plain flat pure
     chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline
     so it separates cleanly from the green.'
   post:
   - chromaKey: {}
-  out: public/art/retro/design_ayin.png
-- id: retro/walk_ayin
+  out: public/art/retro/design_nika.png
+- id: retro/walk_nika
   compose:
-  - from: retro/walk_ayin_down
-  - from: retro/walk_ayin_side
+  - from: retro/walk_nika_down
+  - from: retro/walk_nika_side
     mirror: true
-  - from: retro/walk_ayin_side
-  - from: retro/walk_ayin_up
-  out: public/art/retro/walk_ayin.png
-- id: retro/portrait_ayin_calm
+  - from: retro/walk_nika_side
+  - from: retro/walk_nika_up
+  out: public/art/retro/walk_nika.png
+- id: retro/portrait_nika_calm
   model: gemini-3.1-flash-image
   aspect: '1:1'
-  prompt: 'Dialogue portrait: head-and-shoulders bust of the American Shorthair cat from the reference design sheet, three-quarter view facing
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the silver tabby-and-white American Shorthair cat from the reference design sheet (white blaze, white muzzle and chest), three-quarter view facing
     slightly right, expression: calm, half-lidded copper eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no
     shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
   refs:
-  - retro/design_ayin
+  - retro/design_nika
   post: &portrait
   - chromaKey: {}
   - trim: true
@@ -38,8 +39,8 @@ items:
       fit: contain
   - quantize:
       colors: 48
-  out: public/art/retro/portrait_ayin_calm.png
-- id: retro/portrait_ayin_smug
+  out: public/art/retro/portrait_nika_calm.png
+- id: retro/portrait_nika_smug
   model: gemini-3.1-flash-image
   aspect: '1:1'
   prompt: 'Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing,
@@ -47,10 +48,10 @@ items:
     green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly
     from the green.'
   refs:
-  - retro/portrait_ayin_calm
+  - retro/portrait_nika_calm
   post: *portrait
-  out: public/art/retro/portrait_ayin_smug.png
-- id: retro/portrait_ayin_annoyed
+  out: public/art/retro/portrait_nika_smug.png
+- id: retro/portrait_nika_annoyed
   model: gemini-3.1-flash-image
   aspect: '1:1'
   prompt: 'Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing,
@@ -58,9 +59,9 @@ items:
     background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from
     the green.'
   refs:
-  - retro/portrait_ayin_calm
+  - retro/portrait_nika_calm
   post: *portrait
-  out: public/art/retro/portrait_ayin_annoyed.png
+  out: public/art/retro/portrait_nika_annoyed.png
 - id: retro/bg_gate
   model: gemini-3-pro-image
   aspect: '16:9'
@@ -175,63 +176,65 @@ items:
   - quantize:
       colors: 32
   out: assets/strips/walk_linxia_up.png
-- id: retro/walk_ayin_down
+- id: retro/walk_nika_down
   model: gemini-3-pro-image
   aspect: '16:9'
   prompt: 'Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous
-    empty green space between them, all the same size. ALL THREE frames show the cat walking straight TOWARD the viewer, head-on front view: face, chest and both front legs visible, body foreshortened behind the head, tail mostly hidden behind the body. Not side view, not sitting. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Seen from the oblique 3/4 top-down game camera. No grid lines, no
-    labels. Cat: an American Shorthair cat, silver coat with black classic tabby swirls, copper eyes, sturdy body, short ringed tail. Match the coat and colours of the reference cat exactly, but do NOT copy the reference sheet layout: draw only the single row of three walking cats in the TOP HALF of the image, leave the bottom half empty green. Plain flat pure chroma-key green background
+    empty green space between them, all the same size. ALL THREE frames show the cat walking straight TOWARD the viewer, head-on front view: face, chest and both front legs visible, body foreshortened behind the head, tail mostly hidden behind the body. Not side view, not sitting. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Compact game-sprite proportions: big round head in front, the body behind it short and mostly hidden, the whole cat about two thirds as wide as it is tall. Seen from the oblique 3/4 top-down game camera. No grid lines, no
+    labels. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. draw exactly ONE row of exactly THREE walking cats side by side across the middle of the image, nothing else, never a 2x2 grid. Plain flat pure chroma-key green background
     (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
     from the green.'
   post:
-  - crop: { y: 0, h: 0.5 }
   - chromaKey: {}
   - sheet:
       cols: 3
       rows: 1
-      frameWidth: 40
+      frameWidth: 48
       frameHeight: 32
+      fitHeight: 26
   - quantize:
       colors: 32
-  out: assets/strips/walk_ayin_down.png
-- id: retro/walk_ayin_side
+  out: assets/strips/walk_nika_down.png
+- id: retro/walk_nika_side
   model: gemini-3-pro-image
   aspect: '16:9'
   prompt: 'Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous
-    empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: head and nose on the RIGHT, tail on the LEFT, the face never turned toward the viewer. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Seen from the oblique 3/4 top-down game camera. No grid lines, no
-    labels. Cat: an American Shorthair cat, silver coat with black classic tabby swirls, copper eyes, sturdy body, short ringed tail. Match the coat and colours of the reference cat exactly, but do NOT copy the reference sheet layout: draw only the single row of three walking cats in the TOP HALF of the image, leave the bottom half empty green. Plain flat pure chroma-key green background
-    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
-    from the green.'
-  refs:
-  - retro/design_ayin
-  post:
-  - crop: { y: 0, h: 0.5 }
-  - chromaKey: {}
-  - sheet:
-      cols: 3
-      rows: 1
-      frameWidth: 40
-      frameHeight: 32
-  - quantize:
-      colors: 32
-  out: assets/strips/walk_ayin_side.png
-- id: retro/walk_ayin_up
-  model: gemini-3-pro-image
-  aspect: '16:9'
-  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous
-    empty green space between them, all the same size. ALL THREE frames face UP, walking straight away from the viewer: only the back is visible, no face at all. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Seen from the oblique 3/4 top-down game camera. No grid lines, no
-    labels. Cat: an American Shorthair cat, silver coat with black classic tabby swirls, copper eyes, sturdy body, short ringed tail. Match the reference design sheet exactly. Plain flat pure chroma-key green background
+    empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: head and nose on the RIGHT, tail on the LEFT, the face never turned toward the viewer. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. The side-view cat is about one and a half times as long as it is tall. Seen from the oblique 3/4 top-down game camera. No grid lines, no
+    labels. Use the same body proportions, head size and coat pattern as the front-view cats in the second reference image. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. Match the coat and colours of the reference cat exactly, but do NOT copy the reference sheet layout: draw exactly ONE row of exactly THREE walking cats side by side across the middle of the image, nothing else, never a 2x2 grid. Plain flat pure chroma-key green background
     (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
     from the green.'
   refs:
-  - retro/design_ayin
+  - retro/design_nika
+  - retro/walk_nika_down
   post:
   - chromaKey: {}
   - sheet:
       cols: 3
       rows: 1
-      frameWidth: 40
+      frameWidth: 48
       frameHeight: 32
+      fitHeight: 22
   - quantize:
       colors: 32
-  out: assets/strips/walk_ayin_up.png
+  out: assets/strips/walk_nika_side.png
+- id: retro/walk_nika_up
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous
+    empty green space between them, all the same size. ALL THREE frames face UP, walking straight away from the viewer: only the back is visible, no face at all. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Seen from behind: back of the head and both ears, rounded back, white hind paws, ringed tail held up behind. Compact game-sprite proportions: the whole cat about two thirds as wide as it is tall, same size as the front-view cats. Seen from the oblique 3/4 top-down game camera. No grid lines, no
+    labels. Use the same body proportions, head size and coat pattern as the front-view cats in the reference image. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. Match the reference design sheet exactly. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/walk_nika_down
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 48
+      frameHeight: 32
+      fitHeight: 26
+  - quantize:
+      colors: 32
+  out: assets/strips/walk_nika_up.png

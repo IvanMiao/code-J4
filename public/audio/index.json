@@ -18,10 +18,11 @@
     "blip": "sfx/blip.mp3",
     "coin_pick": "sfx/coin_pick.mp3",
     "coin_splash": "sfx/coin_splash.mp3",
+    "sparrow_flush": "sfx/sparrow_flush.mp3",
     "bike_bell": "sfx/bike_bell.mp3"
   },
   "vo": {
     "intro_1": "vo/intro_1.mp3",
-    "ayin_12": "vo/ayin_12.mp3"
+    "nika_12": "vo/nika_12.mp3"
   }
 }

@@ -26,7 +26,7 @@ export const maps: Record<string, FieldMap> = Object.fromEntries(
 export const START = { map: 'gate', anchor: 'player_start' };
 
 /** On-screen height (px, 960×540 world) of each actor's walk frame. */
-export const ACTOR_HEIGHT: Record<string, number> = { linxia: 96, ayin: 64 };
+export const ACTOR_HEIGHT: Record<string, number> = { linxia: 96, nika: 64 };
 export const PORTRAIT_HEIGHT = 220;
 
 export const artUrl = (file: string) => `${import.meta.env.BASE_URL}art/${style}/${file}.png`;

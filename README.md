@@ -3,7 +3,7 @@
 A 2D RPG in the spirit of 仙剑奇侠传 98, set on a present-day Chinese university campus — with a few talking cats and a little magic.
 Web first (Phaser 4 + TypeScript + Vite). Chinese first, English later.
 
-> Everything in `content/` right now (林夏, 阿银, 江城大学, every line) is **placeholder** content
+> Everything in `content/` right now (林夏, 尼卡, 江城大学, every line) is **placeholder** content
 > that exists only to exercise the systems.
 
 ## Run
@@ -18,7 +18,7 @@ URL parameters while writing:
 
 | param | effect |
 | --- | --- |
-| `?start=ayin_talk` | skip the intro and play that knot (replays automatically when the .ink file is saved) |
+| `?start=nika_talk` | skip the intro and play that knot (replays automatically when the .ink file is saved) |
 | `?set=read_notice:true,has_snack:true` | set ink variables first |
 | `?map=library` | start on another map (`gate`, `avenue`, `library`) |
 | `?style=hd` | old HD sample art (retro is the default) |
@@ -32,12 +32,12 @@ The story is plain [ink](https://github.com/inkle/ink/blob/master/Documentation/
 `content/story/*.ink` (Inky works as an editor). Saving the file hot-reloads it in the running game. Two conventions sit on top of ink:
 
 ```ink
-=== ayin_talk ===
-@emote ayin ?                            // a command: the story waits until it finishes
-阿银: 喵——呜。 #annoyed #line:ayin_4
+=== nika_talk ===
+@emote nika ?                            // a command: the story waits until it finishes
+尼卡: 喵——呜。 #annoyed #line:nika_4
 //  speaker: text   #emotion (portrait + voice tone)   #vo (gets voice-over)   #line:id (stable id)
 * [蹲下来，伸出手]
-    ~ ayin_trust += 1
+    ~ nika_trust += 1
 - @battle ch1_alley_rats                 // sets battle_result to "win" / "lose"
 ```
 
@@ -51,7 +51,7 @@ Checks:
 ```bash
 npm run lint:story                      # unknown commands, actors, anchors, items, audio, portraits, duplicate line ids, missing knots
 npm run sim                             # plays every knot through every choice and battle outcome, headless
-npm run sim -- --print ayin_talk --pick 1,0
+npm run sim -- --print nika_talk --pick 1,0
 npm run story:ids                       # adds #line:<knot>_<n> to lines that lack one
 ```
 
@@ -65,7 +65,7 @@ Raw generations go to `assets/raw/` (git-ignored), finished files to `public/art
 
 ```bash
 npm run gen:art                                   # only new/changed items (cached by prompt+refs hash)
-npm run gen:art -- --id retro/portrait_ayin_smug --force
+npm run gen:art -- --id retro/portrait_nika_smug --force
 npm run gen:art -- --style retro --post-only       # re-run post-processing, no API calls
 ```
 
@@ -80,7 +80,7 @@ speaker's `voice.id` and the emotion's v3 audio tag from `cast.yaml`. Output in 
 ```bash
 npm run gen:audio -- --dry      # list jobs + voice-over character count
 npm run gen:audio
-npm run gen:audio -- --only vo --id ayin_12 --force
+npm run gen:audio -- --only vo --id nika_12 --force
 ```
 
 ## Layout

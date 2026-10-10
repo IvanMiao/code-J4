@@ -60,3 +60,8 @@ AI art and hand-written map data drift apart easily. Most bugs so far come from 
 - Hidden spots are normal triggers with `hidden: true` (no hint bubble). Mark them with a `glint` ambient whose `until` names the ink variable that turns true once found.
 - Run `npm run maps:overlay` after changing `walkable`/`blocked` and look at the result: a box that overlaps a bed or hedge silently traps the player.
 
+## Lessons from the Nika (cat) redesign
+- Passing a multi-pose design sheet as a ref makes Gemini copy its grid layout (2x3, 2x2) instead of one row of three. Generate the down strip with no ref, then use finished strips (single-row) as refs for the others. Never blind-`crop` a strip: check the raw first.
+- Equal box height is not equal size. A cat's front/back view includes the raised tail and foreshortened body, so use per-strip `fitHeight` (sheet post step) and compare head width across rows, not frame height.
+- Animated effects on top of painted art: if the background already paints the effect (fountain ripples), cover it first (the fountain ambient flattens the water) or the result reads as static art plus a second layer.
+

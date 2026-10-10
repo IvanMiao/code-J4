@@ -8,7 +8,7 @@ export type PostStep =
   | { trim: true }
   | { quantize: { colors: number; dither?: number } }
   | { pixelate: { factor: number } }
-  | { sheet: { cols: number; rows: number; frameWidth: number; frameHeight: number; padding?: number } };
+  | { sheet: { cols: number; rows: number; frameWidth: number; frameHeight: number; padding?: number; fitHeight?: number } };
 
 interface Raw {
   data: Buffer;
@@ -77,7 +77,7 @@ function alphaBox(r: Raw, x0: number, y0: number, w: number, h: number) {
  * Splits an AI sprite sheet into an equal grid, trims each cell to its content and
  * re-packs every frame bottom-centred at one shared scale, so feet line up across frames.
  */
-async function packSheet(r: Raw, o: { cols: number; rows: number; frameWidth: number; frameHeight: number; padding?: number }): Promise<Raw> {
+async function packSheet(r: Raw, o: { cols: number; rows: number; frameWidth: number; frameHeight: number; padding?: number; fitHeight?: number }): Promise<Raw> {
   const cw = Math.floor(r.width / o.cols);
   const ch = Math.floor(r.height / o.rows);
   const boxes = [];
@@ -86,7 +86,9 @@ async function packSheet(r: Raw, o: { cols: number; rows: number; frameWidth: nu
   const pad = o.padding ?? 2;
   const maxH = Math.max(...boxes.map((b) => b?.h ?? 0));
   const maxW = Math.max(...boxes.map((b) => b?.w ?? 0));
-  const scale = Math.min((o.frameHeight - pad) / maxH, (o.frameWidth - pad * 2) / maxW);
+  const widthCap = (o.frameWidth - pad * 2) / maxW;
+  const scale = Math.min((o.fitHeight ?? o.frameHeight - pad) / maxH, widthCap);
+  if (o.fitHeight && widthCap < o.fitHeight / maxH) console.warn(`[sheet] width-limited: content ${Math.round(maxH * scale)}px tall, wanted ${o.fitHeight}`);
   const src = fromRaw(r);
   const srcPng = await src.png().toBuffer();
   const composites: Exclude<Parameters<ReturnType<typeof sharp>["composite"]>[0], undefined> = [];

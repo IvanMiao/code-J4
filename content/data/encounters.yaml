@@ -6,4 +6,4 @@ ch1_alley_rats:
     - { name: 发光的老鼠, hp: 18, attack: 4 }
   party:
     - { id: linxia, hp: 40, attack: 9 }
-    - { id: ayin, hp: 25, attack: 6 }
+    - { id: nika, hp: 25, attack: 6 }

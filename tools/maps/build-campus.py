@@ -56,7 +56,7 @@ maps = {
          BOX(1010, 560, 1070, 610), BOX(1336, 560, 1390, 610), BOX(1010, 730, 1070, 780), BOX(1336, 730, 1390, 780),
          BOX(296, 330, 350, 470), BOX(420, 1000, 460, 1040), BOX(845, 1040, 885, 1080), BOX(1450, 1020, 1490, 1060), BOX(1810, 1010, 1850, 1060)],
         {"from_avenue": (120, 660), "player_start": (1130, 880), "lib_steps": (1290, 420), "fountain_front": (1290, 830)},
-        [pt("ayin", 1290, 830, {"knot": "ayin_talk", "face": "down"})],
+        [pt("nika", 1290, 830, {"knot": "nika_talk", "face": "down"})],
         [rect("library_door", 1080, 300, 240, 40, {"knot": "library_door", "face": "up"}), rect("to_avenue", 0, 560, 25, 200, {"exit": "avenue:from_library"}),
          rect("fountain", 1130, 740, 140, 40, {"knot": "fountain", "face": "up"}), rect("library_planter_paw", 300, 380, 50, 60, {"knot": "library_planter_paw", "face": "left", "hidden": "true"})],
         [(octo(440, 855, 104, 80), 1020), (octo(865, 930, 70, 64), 1070), (octo(1465, 925, 70, 60), 1050), (octo(1840, 910, 76, 76), 1040)],

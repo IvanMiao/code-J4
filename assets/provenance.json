@@ -287,5 +287,58 @@
       "retro/walk_linxia_down"
     ],
     "generatedAt": "2026-10-10T14:51:00.296Z"
+  },
+  "retro/design_nika": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "5da4f528f607133f",
+    "refs": [],
+    "generatedAt": "2026-10-10T15:16:25.522Z"
+  },
+  "retro/portrait_nika_calm": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "ca9098021599f88b",
+    "refs": [
+      "retro/design_nika"
+    ],
+    "generatedAt": "2026-10-10T15:16:37.905Z"
+  },
+  "retro/portrait_nika_smug": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "853ccbffa241839d",
+    "refs": [
+      "retro/portrait_nika_calm"
+    ],
+    "generatedAt": "2026-10-10T15:16:48.568Z"
+  },
+  "retro/portrait_nika_annoyed": {
+    "model": "gemini-3.1-flash-image",
+    "promptHash": "d6b86e3d95bcebc0",
+    "refs": [
+      "retro/portrait_nika_calm"
+    ],
+    "generatedAt": "2026-10-10T15:16:58.780Z"
+  },
+  "retro/walk_nika_down": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "a8dc87b63d946f55",
+    "refs": [],
+    "generatedAt": "2026-10-10T15:23:00.964Z"
+  },
+  "retro/walk_nika_side": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "b4d052f2804c0ba1",
+    "refs": [
+      "retro/design_nika",
+      "retro/walk_nika_down"
+    ],
+    "generatedAt": "2026-10-10T15:20:28.271Z"
+  },
+  "retro/walk_nika_up": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "79895dcb508c31c0",
+    "refs": [
+      "retro/walk_nika_down"
+    ],
+    "generatedAt": "2026-10-10T15:23:20.594Z"
   }
 }

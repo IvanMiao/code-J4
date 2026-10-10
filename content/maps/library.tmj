@@ -555,7 +555,7 @@
    "objects": [
     {
      "id": 67,
-     "name": "ayin",
+     "name": "nika",
      "x": 1290,
      "y": 830,
      "point": true,
@@ -563,7 +563,7 @@
       {
        "name": "knot",
        "type": "string",
-       "value": "ayin_talk"
+       "value": "nika_talk"
       },
       {
        "name": "face",

@@ -94,7 +94,7 @@
     "generatedAt": "2026-10-10T14:00:46.379Z",
     "request": "A few soft sneaker footsteps on stone pavement, then stop."
   },
-  "vo/ayin_12": {
+  "vo/nika_12": {
     "hash": "7bb714a64629b2be",
     "generatedAt": "2026-10-10T14:07:25.096Z",
     "request": "林夏: [gasps] 刚才……是猫在说话吗？"
@@ -113,5 +113,10 @@
     "hash": "797a9cb1194c27e2",
     "generatedAt": "2026-10-10T14:59:19.430Z",
     "request": "A small coin tossed into a fountain pool: a short flick, then a tiny plop splash in water."
+  },
+  "sfx/sparrow_flush": {
+    "hash": "65b5792d454dffa9",
+    "generatedAt": "2026-10-10T15:16:12.028Z",
+    "request": "A small flock of tree sparrows chirping and suddenly flapping away together, light quick wingbeats, outdoors."
   }
 }

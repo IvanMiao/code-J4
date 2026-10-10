@@ -3,10 +3,10 @@
 // @command args key=value             — staging / mechanics, awaited by the game
 // Cats only ever meow out loud; the text box shows what they mean.
 
-VAR met_ayin = false
+VAR met_nika = false
 VAR read_notice = false
 VAR has_snack = false
-VAR ayin_trust = 0
+VAR nika_trust = 0
 VAR guard_asked = false
 VAR found_coin = false
 VAR made_wish = false
@@ -15,7 +15,7 @@ VAR paw_stickers = 0
 VAR paw_gate = false
 VAR paw_avenue = false
 VAR paw_library = false
-VAR ayin_paw_told = false
+VAR nika_paw_told = false
 
 === intro ===
 @fade out time=0
@@ -34,7 +34,7 @@ VAR ayin_paw_told = false
 门卫室的窗户半开着，收音机在放评书。 #line:guard_1
 { guard_asked: -> radio }
 ~ guard_asked = true
-窗户里飘出一句话——“同学，看见一只银灰色的猫没有？胖胖的，凶得很。” #line:guard_2
+窗户里飘出一句话——“同学，看见一只银色花纹、白爪子的猫没有？胖胖的，凶得很。” #line:guard_2
 林夏: 没……没有。 #calm #line:guard_3
 -> END
 = radio
@@ -42,7 +42,7 @@ VAR ayin_paw_told = false
 -> END
 
 === dorm_door ===
-{ met_ayin: -> after_cat }
+{ met_nika: -> after_cat }
 宿舍楼门禁亮着红灯。门上贴着纸条：“宿管外出，十五分钟后回。” #line:dorm_1
 林夏: 那就先在学校里转转吧。 #calm #line:dorm_2
 -> END
@@ -53,7 +53,7 @@ VAR ayin_paw_told = false
 === notice_board ===
 @sfx page_turn
 公告栏上贴满了社团招新。角落里有一张手写的寻猫启事。 #line:notice_1
-“寻猫——阿银，美国短毛，银色虎斑。脾气大，会自己开门。见到请勿投喂。——图书馆 老周” #line:notice_2
+“寻猫——尼卡，美国短毛，银虎斑加白，四只白爪子。脾气大，会自己开门。见到请勿投喂。——图书馆 老周” #line:notice_2
 ~ read_notice = true
 林夏: 会自己开门的猫？ #shock #line:notice_3
 -> END
@@ -73,58 +73,58 @@ VAR ayin_paw_told = false
 店员趴在收银台上打瞌睡。 #line:kiosk_4
 -> END
 
-=== ayin_talk ===
-{ met_ayin: -> again }
-@emote ayin ?
-阿银: 喵。 #calm #line:ayin_1
+=== nika_talk ===
+{ met_nika: -> again }
+@emote nika ?
+尼卡: 喵。 #calm #line:nika_1
 { read_notice:
-    林夏: 银色虎斑……你就是寻猫启事上的阿银？ #shock #line:ayin_2
+    林夏: 白爪子……你就是寻猫启事上的尼卡？ #shock #line:nika_2
 - else:
-    林夏: 好胖的猫。 #smile #line:ayin_3
+    林夏: 好胖的猫。 #smile #line:nika_3
 }
-阿银: 喵——呜。 #annoyed #line:ayin_4
+尼卡: 喵——呜。 #annoyed #line:nika_4
 * [蹲下来，伸出手]
-    ~ ayin_trust += 1
-    阿银: 喵。 #calm #line:ayin_5
+    ~ nika_trust += 1
+    尼卡: 喵。 #calm #line:nika_5
 * {has_snack} [拿出小鱼干]
-    ~ ayin_trust += 2
+    ~ nika_trust += 2
     @take fish_snack
-    @emote ayin ♥
-    阿银: 喵！ #smug #line:ayin_6
+    @emote nika ♥
+    尼卡: 喵！ #smug #line:nika_6
 * [还是别惹它了]
-    阿银: …… #annoyed #line:ayin_7
-- ~ met_ayin = true
-{ ayin_trust >= 1: -> speaks }
+    尼卡: …… #annoyed #line:nika_7
+- ~ met_nika = true
+{ nika_trust >= 1: -> speaks }
 -> END
 = speaks
-@face ayin linxia
-阿银: 你看起来，不像会给我惹麻烦的人。 #smug #line:ayin_8
+@face nika linxia
+尼卡: 你看起来，不像会给我惹麻烦的人。 #smug #line:nika_8
 @emote linxia !
-林夏: ……？！ #shock #line:ayin_9
-阿银: 图书馆今天不开门。里面有东西在翻书。 #calm #line:ayin_10
-阿银: 喵。 #calm #line:ayin_11
-@walk ayin to=lib_steps
-@face ayin down
-林夏: 刚才……是猫在说话吗？ #shock #vo #line:ayin_12
+林夏: ……？！ #shock #line:nika_9
+尼卡: 图书馆今天不开门。里面有东西在翻书。 #calm #line:nika_10
+尼卡: 喵。 #calm #line:nika_11
+@walk nika to=lib_steps
+@face nika down
+林夏: 刚才……是猫在说话吗？ #shock #vo #line:nika_12
 -> END
 = again
-{ paw_stickers >= 3 && ayin_trust >= 1 && not ayin_paw_told: -> paw_secret }
-阿银: 喵。 #smug #line:ayin_13
+{ paw_stickers >= 3 && nika_trust >= 1 && not nika_paw_told: -> paw_secret }
+尼卡: 喵。 #smug #line:nika_13
 -> END
 = paw_secret
-~ ayin_paw_told = true
-@emote ayin ?
-阿银: 喵？ #calm #line:ayin_paw_1
-阿银: ……那些贴纸是我贴的。认路用的。 #smug #line:ayin_paw_2
-阿银: 别告诉门卫老周。 #annoyed #line:ayin_paw_3
-林夏: 猫……会用贴纸？ #shock #line:ayin_paw_4
+~ nika_paw_told = true
+@emote nika ?
+尼卡: 喵？ #calm #line:nika_paw_1
+尼卡: ……那些贴纸是我贴的。认路用的。 #smug #line:nika_paw_2
+尼卡: 别告诉门卫老周。 #annoyed #line:nika_paw_3
+林夏: 猫……会用贴纸？ #shock #line:nika_paw_4
 @give fish_snack
-阿银: 喵。 #smug #line:ayin_paw_5
+尼卡: 喵。 #smug #line:nika_paw_5
 -> END
 
 === library_door ===
 玻璃门上贴着告示——“内部整理，暂停开放。” #line:lib_1
-{ met_ayin && ayin_trust >= 1: -> hint }
+{ met_nika && nika_trust >= 1: -> hint }
 -> END
 = hint
 门缝里，好像有一页纸自己翻了过去。 #line:lib_2
@@ -221,7 +221,7 @@ VAR ayin_paw_told = false
     @take coin
     @sfx coin_splash
     ** [希望能和那只猫成为朋友]
-        ~ ayin_trust += 1
+        ~ nika_trust += 1
         林夏: ……拜托了。 #smile #line:fountain_2
     ** [希望这学期一切顺利]
         林夏: 就当是给自己打打气。 #smile #line:fountain_3
