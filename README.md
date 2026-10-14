@@ -20,7 +20,7 @@ URL parameters while writing:
 | --- | --- |
 | `?start=nika_talk` | skip the intro and play that knot (replays automatically when the .ink file is saved) |
 | `?set=read_notice:true,has_snack:true` | set ink variables first |
-| `?map=library` | start on another map (`gate`, `avenue`, `library`) |
+| `?map=library` | start on another map (`gate`, `avenue`, `library`, `archive`, `city_overpass`, `city_tenement`, `city_ferry`, `suburb_wireframe`, `suburb_dyeworks`, `suburb_breakwater`) |
 | `?style=hd` | old HD sample art (retro is the default) |
 | `?load=1` | load save slot 1 |
 

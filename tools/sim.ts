@@ -88,8 +88,19 @@ export async function simulate(root = '.') {
   if (build.errors.length) return { paths: 0, failures: build.errors.map((e) => ({ knot: '(compile)', state: '', picks: [], errors: [e] })) };
   const content = loadContent(root);
   const entries = entryKnots(content);
+  const probe = new StoryRunner(build.json, speakerResolver(content.cast));
+  const freshVars = JSON.stringify(probe.variables());
+  const seenVars = new Set<string>([freshVars]);
   const starts: { label: string; state: string | null }[] = [{ label: 'fresh', state: null }];
-  for (const k of entries) starts.push({ label: `after ${k}`, state: (await playPath(build.json, content, k, null, [])).endState });
+  for (const k of entries) {
+    const endState = (await playPath(build.json, content, k, null, [])).endState;
+    probe.loadState(endState);
+    const v = JSON.stringify(probe.variables());
+    if (!seenVars.has(v)) {
+      seenVars.add(v);
+      starts.push({ label: `after ${k}`, state: endState });
+    }
+  }
   let paths = 0;
   const failures: { knot: string; state: string; picks: number[]; errors: string[] }[] = [];
   for (const s of starts) {

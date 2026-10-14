@@ -1,0 +1,717 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "市郊 · 第三印染厂"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_suburb_dyeworks"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 281,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 430
+      },
+      {
+       "x": 1650,
+       "y": 430
+      },
+      {
+       "x": 1650,
+       "y": 700
+      },
+      {
+       "x": 0,
+       "y": 700
+      }
+     ]
+    },
+    {
+     "id": 282,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 30,
+       "y": 350
+      },
+      {
+       "x": 420,
+       "y": 350
+      },
+      {
+       "x": 420,
+       "y": 450
+      },
+      {
+       "x": 30,
+       "y": 450
+      }
+     ]
+    },
+    {
+     "id": 283,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 460,
+       "y": 350
+      },
+      {
+       "x": 960,
+       "y": 350
+      },
+      {
+       "x": 960,
+       "y": 450
+      },
+      {
+       "x": 460,
+       "y": 450
+      }
+     ]
+    },
+    {
+     "id": 284,
+     "name": "w3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 960,
+       "y": 380
+      },
+      {
+       "x": 1650,
+       "y": 380
+      },
+      {
+       "x": 1650,
+       "y": 450
+      },
+      {
+       "x": 960,
+       "y": 450
+      }
+     ]
+    },
+    {
+     "id": 285,
+     "name": "w4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 160,
+       "y": 700
+      },
+      {
+       "x": 1520,
+       "y": 700
+      },
+      {
+       "x": 1520,
+       "y": 1055
+      },
+      {
+       "x": 160,
+       "y": 1055
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 286,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 250
+      },
+      {
+       "x": 310,
+       "y": 250
+      },
+      {
+       "x": 310,
+       "y": 400
+      },
+      {
+       "x": 0,
+       "y": 400
+      }
+     ]
+    },
+    {
+     "id": 287,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 420,
+       "y": 40
+      },
+      {
+       "x": 1000,
+       "y": 40
+      },
+      {
+       "x": 1000,
+       "y": 385
+      },
+      {
+       "x": 420,
+       "y": 385
+      }
+     ]
+    },
+    {
+     "id": 288,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1060,
+       "y": 110
+      },
+      {
+       "x": 1680,
+       "y": 110
+      },
+      {
+       "x": 1680,
+       "y": 395
+      },
+      {
+       "x": 1060,
+       "y": 395
+      }
+     ]
+    },
+    {
+     "id": 289,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 720
+      },
+      {
+       "x": 135,
+       "y": 720
+      },
+      {
+       "x": 135,
+       "y": 910
+      },
+      {
+       "x": 0,
+       "y": 910
+      }
+     ]
+    },
+    {
+     "id": 290,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 150,
+       "y": 900
+      },
+      {
+       "x": 395,
+       "y": 900
+      },
+      {
+       "x": 395,
+       "y": 1060
+      },
+      {
+       "x": 150,
+       "y": 1060
+      }
+     ]
+    },
+    {
+     "id": 291,
+     "name": "b5",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1520,
+       "y": 680
+      },
+      {
+       "x": 1650,
+       "y": 680
+      },
+      {
+       "x": 1650,
+       "y": 860
+      },
+      {
+       "x": 1520,
+       "y": 860
+      }
+     ]
+    },
+    {
+     "id": 292,
+     "name": "b6",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 920,
+       "y": 680
+      },
+      {
+       "x": 1385,
+       "y": 680
+      },
+      {
+       "x": 1385,
+       "y": 965
+      },
+      {
+       "x": 920,
+       "y": 965
+      }
+     ]
+    },
+    {
+     "id": 293,
+     "name": "b7",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1650,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 1080
+      },
+      {
+       "x": 1650,
+       "y": 1080
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 294,
+     "name": "from_wireframe",
+     "x": 120,
+     "y": 560,
+     "point": true
+    },
+    {
+     "id": 295,
+     "name": "from_breakwater",
+     "x": 1560,
+     "y": 560,
+     "point": true
+    },
+    {
+     "id": 296,
+     "name": "factory_front",
+     "x": 690,
+     "y": 420,
+     "point": true
+    },
+    {
+     "id": 297,
+     "name": "lagoon_front",
+     "x": 1320,
+     "y": 430,
+     "point": true
+    },
+    {
+     "id": 298,
+     "name": "wireframe_front",
+     "x": 1150,
+     "y": 1000,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 270,
+     "name": "to_wireframe",
+     "x": 0,
+     "y": 450,
+     "width": 25,
+     "height": 250,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "suburb_wireframe:from_dyeworks"
+      }
+     ]
+    },
+    {
+     "id": 271,
+     "name": "to_breakwater",
+     "x": 1620,
+     "y": 450,
+     "width": 30,
+     "height": 220,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "suburb_breakwater:from_dyeworks"
+      }
+     ]
+    },
+    {
+     "id": 272,
+     "name": "pipe_valve",
+     "x": 50,
+     "y": 380,
+     "width": 240,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "pipe_valve"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 273,
+     "name": "factory_gate",
+     "x": 550,
+     "y": 365,
+     "width": 290,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "factory_gate"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 274,
+     "name": "dye_lagoon",
+     "x": 1080,
+     "y": 380,
+     "width": 500,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "dye_lagoon"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 275,
+     "name": "chroma_edge",
+     "x": 1560,
+     "y": 380,
+     "width": 80,
+     "height": 60,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "chroma_edge"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "right"
+      }
+     ]
+    },
+    {
+     "id": 276,
+     "name": "wireframe_pavilion",
+     "x": 940,
+     "y": 940,
+     "width": 420,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "wireframe_pavilion"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": [
+    {
+     "id": 299,
+     "name": "fg0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 185,
+       "y": 680
+      },
+      {
+       "x": 153,
+       "y": 758
+      },
+      {
+       "x": 75,
+       "y": 790
+      },
+      {
+       "x": -3,
+       "y": 758
+      },
+      {
+       "x": -35,
+       "y": 680
+      },
+      {
+       "x": -3,
+       "y": 602
+      },
+      {
+       "x": 75,
+       "y": 570
+      },
+      {
+       "x": 153,
+       "y": 602
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "880"
+      }
+     ]
+    },
+    {
+     "id": 300,
+     "name": "fg1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1670,
+       "y": 650
+      },
+      {
+       "x": 1642,
+       "y": 721
+      },
+      {
+       "x": 1575,
+       "y": 750
+      },
+      {
+       "x": 1508,
+       "y": 721
+      },
+      {
+       "x": 1480,
+       "y": 650
+      },
+      {
+       "x": 1508,
+       "y": 579
+      },
+      {
+       "x": 1575,
+       "y": 550
+      },
+      {
+       "x": 1642,
+       "y": 579
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "830"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 277,
+     "name": "grass",
+     "x": 400,
+     "y": 720,
+     "width": 500,
+     "height": 300,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "grass"
+      }
+     ]
+    },
+    {
+     "id": 278,
+     "name": "leaves",
+     "x": 0,
+     "y": 580,
+     "width": 300,
+     "height": 350,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "leaves"
+      },
+      {
+       "name": "every",
+       "type": "string",
+       "value": "1200"
+      }
+     ]
+    },
+    {
+     "id": 279,
+     "name": "motes",
+     "x": 1060,
+     "y": 110,
+     "width": 600,
+     "height": 300,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    },
+    {
+     "id": 280,
+     "name": "butterflies",
+     "x": 400,
+     "y": 720,
+     "width": 1050,
+     "height": 280,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "butterflies"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "3"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
