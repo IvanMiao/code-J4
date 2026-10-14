@@ -1,0 +1,529 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "老城区 · 江滩轮渡码头"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_city_ferry"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 225,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 350
+      },
+      {
+       "x": 1920,
+       "y": 350
+      },
+      {
+       "x": 1920,
+       "y": 1080
+      },
+      {
+       "x": 0,
+       "y": 1080
+      }
+     ]
+    },
+    {
+     "id": 226,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1400,
+       "y": 280
+      },
+      {
+       "x": 1540,
+       "y": 280
+      },
+      {
+       "x": 1540,
+       "y": 380
+      },
+      {
+       "x": 1400,
+       "y": 380
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 227,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 0
+      },
+      {
+       "x": 860,
+       "y": 0
+      },
+      {
+       "x": 860,
+       "y": 350
+      },
+      {
+       "x": 0,
+       "y": 350
+      }
+     ]
+    },
+    {
+     "id": 228,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 425,
+       "y": 220
+      },
+      {
+       "x": 790,
+       "y": 220
+      },
+      {
+       "x": 790,
+       "y": 425
+      },
+      {
+       "x": 425,
+       "y": 425
+      }
+     ]
+    },
+    {
+     "id": 229,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 790,
+       "y": 290
+      },
+      {
+       "x": 855,
+       "y": 290
+      },
+      {
+       "x": 855,
+       "y": 380
+      },
+      {
+       "x": 790,
+       "y": 380
+      }
+     ]
+    },
+    {
+     "id": 230,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 860,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 385
+      },
+      {
+       "x": 860,
+       "y": 385
+      }
+     ]
+    },
+    {
+     "id": 231,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 940,
+       "y": 395
+      },
+      {
+       "x": 1005,
+       "y": 395
+      },
+      {
+       "x": 1005,
+       "y": 465
+      },
+      {
+       "x": 940,
+       "y": 465
+      }
+     ]
+    },
+    {
+     "id": 232,
+     "name": "b5",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1815,
+       "y": 395
+      },
+      {
+       "x": 1885,
+       "y": 395
+      },
+      {
+       "x": 1885,
+       "y": 465
+      },
+      {
+       "x": 1815,
+       "y": 465
+      }
+     ]
+    },
+    {
+     "id": 233,
+     "name": "b6",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 225,
+       "y": 835
+      },
+      {
+       "x": 635,
+       "y": 835
+      },
+      {
+       "x": 635,
+       "y": 1030
+      },
+      {
+       "x": 225,
+       "y": 1030
+      }
+     ]
+    },
+    {
+     "id": 234,
+     "name": "b7",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1120,
+       "y": 875
+      },
+      {
+       "x": 1470,
+       "y": 875
+      },
+      {
+       "x": 1470,
+       "y": 1005
+      },
+      {
+       "x": 1120,
+       "y": 1005
+      }
+     ]
+    },
+    {
+     "id": 235,
+     "name": "b8",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1540,
+       "y": 855
+      },
+      {
+       "x": 1605,
+       "y": 855
+      },
+      {
+       "x": 1605,
+       "y": 940
+      },
+      {
+       "x": 1540,
+       "y": 940
+      }
+     ]
+    },
+    {
+     "id": 236,
+     "name": "b9",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1735,
+       "y": 855
+      },
+      {
+       "x": 1800,
+       "y": 855
+      },
+      {
+       "x": 1800,
+       "y": 940
+      },
+      {
+       "x": 1735,
+       "y": 940
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 237,
+     "name": "from_tenement",
+     "x": 120,
+     "y": 640,
+     "point": true
+    },
+    {
+     "id": 238,
+     "name": "from_suburb",
+     "x": 1820,
+     "y": 640,
+     "point": true
+    },
+    {
+     "id": 239,
+     "name": "pier_gangplank",
+     "x": 1470,
+     "y": 420,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 217,
+     "name": "to_tenement",
+     "x": 0,
+     "y": 480,
+     "width": 25,
+     "height": 340,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "city_tenement:from_ferry"
+      }
+     ]
+    },
+    {
+     "id": 218,
+     "name": "to_suburb_wireframe",
+     "x": 1895,
+     "y": 480,
+     "width": 25,
+     "height": 340,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "suburb_wireframe:from_ferry"
+      }
+     ]
+    },
+    {
+     "id": 219,
+     "name": "ferry_ticket_booth",
+     "x": 450,
+     "y": 405,
+     "width": 320,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ferry_ticket_booth"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 220,
+     "name": "ferry_gangplank",
+     "x": 1395,
+     "y": 365,
+     "width": 150,
+     "height": 50,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ferry_gangplank"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 221,
+     "name": "pier_crates",
+     "x": 240,
+     "y": 805,
+     "width": 380,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "pier_crates"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "down"
+      }
+     ]
+    },
+    {
+     "id": 222,
+     "name": "pier_bench",
+     "x": 1130,
+     "y": 845,
+     "width": 320,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "pier_bench"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "down"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 223,
+     "name": "birds",
+     "x": 100,
+     "y": 460,
+     "width": 1700,
+     "height": 320,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "birds"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "4"
+      }
+     ]
+    },
+    {
+     "id": 224,
+     "name": "motes",
+     "x": 900,
+     "y": 40,
+     "width": 960,
+     "height": 320,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

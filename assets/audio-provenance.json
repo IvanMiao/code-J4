@@ -1,0 +1,122 @@
+{
+  "sfx/door_chime": {
+    "hash": "b11ae91a2eab99f0",
+    "generatedAt": "2026-10-10T13:44:02.856Z",
+    "request": "Convenience store automatic door opening with a short two-tone electronic entry chime."
+  },
+  "sfx/can_drop": {
+    "hash": "dc75f3c65512063d",
+    "generatedAt": "2026-10-10T13:44:04.042Z",
+    "request": "Vending machine: a drink can drops and clunks into the tray."
+  },
+  "ambience/street_night": {
+    "hash": "d12dea0543ed9256",
+    "generatedAt": "2026-10-10T13:44:04.552Z",
+    "request": "Quiet city street at night: distant traffic hum, a faint electric buzz from a shop sign, occasional far-away scooter, crickets."
+  },
+  "sfx/meow_calm": {
+    "hash": "d547d86be84bc9bb",
+    "generatedAt": "2026-10-10T13:44:05.041Z",
+    "request": "A single short relaxed meow from an adult house cat, close mic."
+  },
+  "sfx/meow_annoyed": {
+    "hash": "c829d1b5817ff62b",
+    "generatedAt": "2026-10-10T13:44:06.021Z",
+    "request": "A single short grumpy low meow from an annoyed house cat, close mic."
+  },
+  "sfx/meow_smug": {
+    "hash": "e3d078708023eef3",
+    "generatedAt": "2026-10-10T13:44:06.386Z",
+    "request": "A single short chirpy, self-satisfied trill-meow from a chubby house cat, close mic."
+  },
+  "sfx/blip": {
+    "hash": "74fdaa7a9e654cd6",
+    "generatedAt": "2026-10-10T13:44:07.062Z",
+    "request": "Tiny soft UI text blip, retro game dialogue tick."
+  },
+  "vo/intro_1": {
+    "hash": "8d2bf94cbedde799",
+    "generatedAt": "2026-10-10T14:07:25.102Z",
+    "request": "林夏: [tired] 江城大学……总算到了。"
+  },
+  "vo/juzi_3": {
+    "hash": "558200330d4c6a22",
+    "generatedAt": "2026-10-10T13:44:07.854Z",
+    "request": "橘子: [irritated] ……谁是小胖子？"
+  },
+  "vo/juzi_4": {
+    "hash": "cfd9eccf1612becb",
+    "generatedAt": "2026-10-10T13:44:08.171Z",
+    "request": "林夏: [gasps] 刚、刚才是你在说话？"
+  },
+  "vo/juzi_5": {
+    "hash": "658fafcb09a6859b",
+    "generatedAt": "2026-10-10T13:44:08.632Z",
+    "request": "橘子: [smugly] 别这样看着我，人类。"
+  },
+  "vo/juzi_7": {
+    "hash": "3f5c4a9ac7d9c7b5",
+    "generatedAt": "2026-10-10T13:44:09.165Z",
+    "request": "橘子: [smugly] ……汤底要多一点。下次记住。"
+  },
+  "bgm/night_street": {
+    "hash": "cd4b2556d6fec3f4",
+    "generatedAt": "2026-10-10T13:44:09.519Z",
+    "request": "Gentle lo-fi night theme for a 1990s Chinese PC RPG set in a modern city: warm electric piano, soft erhu melody, light brushed drums, nostalgic and a little lonely, seamless loop feel, no vocals."
+  },
+  "vo/juzi_13": {
+    "hash": "013ee15ca0f186b7",
+    "generatedAt": "2026-10-10T13:44:10.316Z",
+    "request": "橘子: [smugly] 还行。比我想的有用一点。"
+  },
+  "vo/juzi_10": {
+    "hash": "a862a0073e4ffb6c",
+    "generatedAt": "2026-10-10T13:44:10.614Z",
+    "request": "橘子: [lazily] 不过，今晚巷子里有东西。你最好别一个人回家。"
+  },
+  "bgm/campus_afternoon": {
+    "hash": "a0a43883f7d40c7f",
+    "generatedAt": "2026-10-10T14:00:40.259Z",
+    "request": "Warm, unhurried afternoon theme for a 1990s Chinese PC RPG set on a modern university campus: plucked guzheng and soft acoustic guitar, light flute melody, gentle hand percussion, nostalgic and sunny with a hint of mystery, seamless loop feel, no vocals."
+  },
+  "ambience/campus_day": {
+    "hash": "f8444e94ca9f43fc",
+    "generatedAt": "2026-10-10T14:00:44.791Z",
+    "request": "University campus on a sunny afternoon: birds chirping in plane trees, rustling leaves, distant students chatting, an occasional bicycle bell far away."
+  },
+  "sfx/page_turn": {
+    "hash": "53ed1bb3049b45cd",
+    "generatedAt": "2026-10-10T14:00:46.343Z",
+    "request": "Paper notice flapping and a page being turned on a bulletin board."
+  },
+  "sfx/footsteps_stone": {
+    "hash": "4505ddb8d1d56d06",
+    "generatedAt": "2026-10-10T14:00:46.379Z",
+    "request": "A few soft sneaker footsteps on stone pavement, then stop."
+  },
+  "vo/nika_12": {
+    "hash": "7bb714a64629b2be",
+    "generatedAt": "2026-10-10T14:07:25.096Z",
+    "request": "林夏: [gasps] 刚才……是猫在说话吗？"
+  },
+  "sfx/bike_bell": {
+    "hash": "9921a6fe4d415080",
+    "generatedAt": "2026-10-10T14:59:18.932Z",
+    "request": "A classic bicycle thumb bell rung twice, bright ding-ding, outdoors."
+  },
+  "sfx/coin_pick": {
+    "hash": "f49a913a9bbe64b4",
+    "generatedAt": "2026-10-10T14:59:19.116Z",
+    "request": "A single small metal coin picked up from stone pavement, light bright clink."
+  },
+  "sfx/coin_splash": {
+    "hash": "797a9cb1194c27e2",
+    "generatedAt": "2026-10-10T14:59:19.430Z",
+    "request": "A small coin tossed into a fountain pool: a short flick, then a tiny plop splash in water."
+  },
+  "sfx/sparrow_flush": {
+    "hash": "65b5792d454dffa9",
+    "generatedAt": "2026-10-10T15:16:12.028Z",
+    "request": "A small flock of tree sparrows chirping and suddenly flapping away together, light quick wingbeats, outdoors."
+  }
+}

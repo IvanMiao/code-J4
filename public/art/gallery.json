@@ -1,0 +1,308 @@
+[
+  {
+    "id": "retro/design_nika",
+    "out": "art/retro/design_nika.png",
+    "prompt": "Character design sheet: NIKA (placeholder talking cat): an American Shorthair silver tabby-and-white bicolour cat: silver coat with bold black classic tabby swirls (\"bullseye\" on the flanks) on the back, flanks, tail and top of the head; a white blaze up the middle of the face between the eyes, pure white muzzle, chin, chest and belly, and four white paws like socks; round face with full cheeks, big copper-amber eyes, sturdy muscular body, short thick tail with black rings, calm and slightly superior expression. Show the cat from the front, from the side walking, from the back, sitting, plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "retro/walk_nika",
+    "out": "art/retro/walk_nika.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
+  },
+  {
+    "id": "retro/portrait_nika_calm",
+    "out": "art/retro/portrait_nika_calm.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the silver tabby-and-white American Shorthair cat from the reference design sheet (white blaze, white muzzle and chest), three-quarter view facing slightly right, expression: calm, half-lidded copper eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/design_nika"
+    ]
+  },
+  {
+    "id": "retro/portrait_nika_smug",
+    "out": "art/retro/portrait_nika_smug.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing, three-quarter view facing slightly right, expression: smug, one eye half-closed, the corner of the mouth curled up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/portrait_nika_calm"
+    ]
+  },
+  {
+    "id": "retro/portrait_nika_annoyed",
+    "out": "art/retro/portrait_nika_annoyed.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing, three-quarter view facing slightly right, expression: annoyed, ears flattened sideways, narrowed eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/portrait_nika_calm"
+    ]
+  },
+  {
+    "id": "retro/bg_gate",
+    "out": "art/retro/bg_gate.png",
+    "prompt": "RPG field map, one continuous scene, no characters: the main gate of a Chinese university, drawn with EXACTLY the same camera as the reference image (straight-on high-angle 3/4 view, building fronts face the viewer, horizontal ground lines, NOT diagonal isometric), same pixel scale, palette and afternoon light. Top centre: a wide grey stone gate arch facing the viewer, with the four large gold characters \"江城大学\" across its lintel, iron gates open. To the right of the gate a small white guard booth with a small sign \"门卫\". Below the gate a wide open paved plaza in light granite tiles fills the middle of the image, with a stone bench and a lamp post. A broad paved path leaves the plaza at the RIGHT edge, at mid height. Plane trees and flower beds along the left edge and the bottom edge.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_avenue"
+    ]
+  },
+  {
+    "id": "retro/bg_avenue",
+    "out": "art/retro/bg_avenue.png",
+    "prompt": "RPG field map, one continuous scene, no characters, drawn with EXACTLY the same camera as the reference image (straight-on high-angle 3/4 view, building fronts face the viewer, horizontal ground lines, NOT diagonal isometric), same pixel scale, palette and afternoon light: a tree-lined avenue inside a Chinese university campus. A wide paved avenue runs horizontally across the middle of the image, fully open from the LEFT edge to the RIGHT edge: nothing stands on the avenue or overhangs it, and the avenue is completely clear where it meets both edges. Across the top, all facing the viewer: a four-storey red-brick student dormitory with an entrance door and steps and a large vertical name board beside the door reading \"梧桐苑\"; to its right a glass-covered notice board titled \"公告栏\"; further right a small campus shop whose shop front, open door and counter face the viewer, with the sign \"校园超市\" above the door. A strip of sidewalk runs between these buildings and the avenue, with a bicycle rack in front of the dorm. Plane trees stand only behind the sidewalk between the buildings and in a row on the lawn along the bottom edge, never on the avenue. At the right end of the avenue, on the edge of the sidewalk, a small wooden signpost with an arrow pointing right and the characters \"图书馆\"; at the left end a matching signpost with an arrow pointing left and the characters \"校门\". Lower edge: lawn, low hedges and a bench.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_library"
+    ]
+  },
+  {
+    "id": "retro/bg_library",
+    "out": "art/retro/bg_library.png",
+    "prompt": "RPG field map, one continuous scene, no characters: the library plaza of a Chinese university. Across the top: a large modern library building of pale stone and glass with wide steps up to the entrance and three big characters \"图书馆\" mounted above the entrance. In the middle: a wide open square paved in tiles with a round fountain at its centre, wooden benches and flower beds around it. A paved path enters the square from the LEFT edge of the image. Lower edge: lawn with a few trees.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "retro/walk_linxia_down",
+    "out": "assets/strips/walk_linxia_down.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row, evenly spaced, generous empty green space between them, all the same size. ALL THREE frames face DOWN, walking straight toward the viewer (front view, face visible). Frame 1: mid-stride, left foot forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, right foot forward. Seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/design_linxia"
+    ]
+  },
+  {
+    "id": "retro/walk_linxia_side",
+    "out": "assets/strips/walk_linxia_side.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row and nothing else, evenly spaced, generous empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: nose, toes and knees point RIGHT, the backpack is on the LEFT side of the body, the face is never turned toward the viewer. Use EXACTLY the same chibi proportions, head size and total height as the front-view walking frames in the second reference image: big head with bob hair about one third of the total height, short stocky body, same pixel size. Frame 1: mid-stride, right leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/design_linxia",
+      "retro/walk_linxia_down"
+    ]
+  },
+  {
+    "id": "retro/walk_linxia_up",
+    "out": "assets/strips/walk_linxia_up.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row, evenly spaced, generous empty green space between them, all the same size. ALL THREE frames face UP, walking straight away from the viewer: only the back is visible, no face at all. Frame 1: mid-stride, left foot forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, right foot forward. Seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/design_linxia"
+    ]
+  },
+  {
+    "id": "retro/walk_nika_down",
+    "out": "assets/strips/walk_nika_down.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous empty green space between them, all the same size. ALL THREE frames show the cat walking straight TOWARD the viewer, head-on front view: face, chest and both front legs visible, body foreshortened behind the head, tail mostly hidden behind the body. Not side view, not sitting. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Compact game-sprite proportions: big round head in front, the body behind it short and mostly hidden, the whole cat about two thirds as wide as it is tall. Seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. draw exactly ONE row of exactly THREE walking cats side by side across the middle of the image, nothing else, never a 2x2 grid. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "retro/walk_nika_side",
+    "out": "assets/strips/walk_nika_side.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: head and nose on the RIGHT, tail on the LEFT, the face never turned toward the viewer. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. The side-view cat is about one and a half times as long as it is tall. Seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Use the same body proportions, head size and coat pattern as the front-view cats in the second reference image. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. Match the coat and colours of the reference cat exactly, but do NOT copy the reference sheet layout: draw exactly ONE row of exactly THREE walking cats side by side across the middle of the image, nothing else, never a 2x2 grid. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/design_nika",
+      "retro/walk_nika_down"
+    ]
+  },
+  {
+    "id": "retro/walk_nika_up",
+    "out": "assets/strips/walk_nika_up.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous empty green space between them, all the same size. ALL THREE frames face UP, walking straight away from the viewer: only the back is visible, no face at all. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Seen from behind: back of the head and both ears, rounded back, white hind paws, ringed tail held up behind. Compact game-sprite proportions: the whole cat about two thirds as wide as it is tall, same size as the front-view cats. Seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Use the same body proportions, head size and coat pattern as the front-view cats in the reference image. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/walk_nika_down"
+    ]
+  },
+  {
+    "id": "hd/design_linxia",
+    "out": "art/hd/design_linxia.png",
+    "prompt": "Character design sheet: LIN XIA (placeholder protagonist): a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Show a front view, side view and back view full body standing in a row, plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "hd/design_juzi",
+    "out": "art/hd/design_juzi.png",
+    "prompt": "Character design sheet: JUZI (placeholder talking cat): a chubby orange tabby cat with a white chest and white paws, a small notch in the left ear, bright green eyes, a smug, worldly expression. Show the cat from the front, from the side walking, from the back, sitting, plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "hd/bg_street",
+    "out": "art/hd/bg_street.png",
+    "prompt": "Field map background for an RPG: a quiet night street corner in front of a small 24-hour convenience store in an old residential neighbourhood of a modern Chinese city. The store front runs along the top edge of the image with glowing windows and a glass sliding door slightly left of centre; a drinks vending machine beside the door; a wooden bench on the right; a parked shared bicycle and a few potted plants at the lower left; one street lamp at the right edge; an overhead tangle of power lines. The middle and lower two thirds of the image are an EMPTY open paved sidewalk and quiet street where characters will walk. No people, no animals, no cars in the middle. Shop signs use abstract shapes only, no readable text.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "hd/portrait_linxia_calm",
+    "out": "art/hd/portrait_linxia_calm.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of Lin Xia from the reference design sheet, three-quarter view facing slightly right, expression: calm, slightly tired, neutral mouth. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "hd/design_linxia"
+    ]
+  },
+  {
+    "id": "hd/portrait_linxia_smile",
+    "out": "art/hd/portrait_linxia_smile.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and framing, three-quarter view facing slightly right, expression: warm small smile. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "hd/portrait_linxia_calm"
+    ]
+  },
+  {
+    "id": "hd/portrait_linxia_shock",
+    "out": "art/hd/portrait_linxia_shock.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and framing, three-quarter view facing slightly right, expression: shocked, wide eyes, mouth open. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "hd/portrait_linxia_calm"
+    ]
+  },
+  {
+    "id": "hd/portrait_juzi_calm",
+    "out": "art/hd/portrait_juzi_calm.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of Juzi the cat from the reference design sheet, three-quarter view facing slightly right, expression: calm, half-closed eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "hd/design_juzi"
+    ]
+  },
+  {
+    "id": "hd/portrait_juzi_smug",
+    "out": "art/hd/portrait_juzi_smug.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and framing, three-quarter view facing slightly right, expression: smug, sly grin, one eye half-closed. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "hd/portrait_juzi_calm"
+    ]
+  },
+  {
+    "id": "hd/portrait_juzi_annoyed",
+    "out": "art/hd/portrait_juzi_annoyed.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and framing, three-quarter view facing slightly right, expression: annoyed, ears flattened back. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "hd/portrait_juzi_calm"
+    ]
+  },
+  {
+    "id": "hd/walk_linxia",
+    "out": "art/hd/walk_linxia.png",
+    "prompt": "Sprite sheet of the SAME character, strictly arranged in a grid of 4 ROWS x 3 COLUMNS of equal cells, generous empty green space between cells, every figure the same size and fully inside its cell. Row 1: facing DOWN toward the viewer. Row 2: facing LEFT. Row 3: facing RIGHT. Row 4: facing UP, back to the viewer. Column 1: walking, left foot forward. Column 2: standing neutral. Column 3: walking, right foot forward. Full body, seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: LIN XIA (placeholder protagonist): a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "hd/design_linxia"
+    ]
+  },
+  {
+    "id": "hd/walk_juzi",
+    "out": "art/hd/walk_juzi.png",
+    "prompt": "Sprite sheet of the SAME character, strictly arranged in a grid of 4 ROWS x 3 COLUMNS of equal cells, generous empty green space between cells, every figure the same size and fully inside its cell. Row 1: facing DOWN toward the viewer. Row 2: facing LEFT. Row 3: facing RIGHT. Row 4: facing UP, back to the viewer. Column 1: walking, left foot forward. Column 2: standing neutral. Column 3: walking, right foot forward. Full body, seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: JUZI (placeholder talking cat): a chubby orange tabby cat with a white chest and white paws, a small notch in the left ear, bright green eyes, a smug, worldly expression. walking on four legs. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "hd/design_juzi"
+    ]
+  },
+  {
+    "id": "retro/design_linxia",
+    "out": "art/retro/design_linxia.png",
+    "prompt": "Character design sheet: LIN XIA (placeholder protagonist): a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Show a front view, side view and back view full body standing in a row, plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "retro/design_juzi",
+    "out": "art/retro/design_juzi.png",
+    "prompt": "Character design sheet: JUZI (placeholder talking cat): a chubby orange tabby cat with a white chest and white paws, a small notch in the left ear, bright green eyes, a smug, worldly expression. Show the cat from the front, from the side walking, from the back, sitting, plus a head close-up. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "retro/bg_street",
+    "out": "art/retro/bg_street.png",
+    "prompt": "Repaint the reference image as the same RPG field map in the retro style described above. Keep the exact same composition: every object (store front, door, vending machine, bench, bicycle, plants, street lamp, kerb line, road) stays at exactly the same position and size, because the game's collision map is shared between styles. Replace any lettering on signs with abstract shapes.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "hd/bg_street"
+    ]
+  },
+  {
+    "id": "retro/portrait_linxia_calm",
+    "out": "art/retro/portrait_linxia_calm.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of Lin Xia from the reference design sheet, three-quarter view facing slightly right, expression: calm, slightly tired, neutral mouth. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/design_linxia"
+    ]
+  },
+  {
+    "id": "retro/portrait_linxia_smile",
+    "out": "art/retro/portrait_linxia_smile.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and framing, three-quarter view facing slightly right, expression: warm small smile. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/portrait_linxia_calm"
+    ]
+  },
+  {
+    "id": "retro/portrait_linxia_shock",
+    "out": "art/retro/portrait_linxia_shock.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and framing, three-quarter view facing slightly right, expression: shocked, wide eyes, mouth open. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/portrait_linxia_calm"
+    ]
+  },
+  {
+    "id": "retro/portrait_juzi_calm",
+    "out": "art/retro/portrait_juzi_calm.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of Juzi the cat from the reference design sheet, three-quarter view facing slightly right, expression: calm, half-closed eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/design_juzi"
+    ]
+  },
+  {
+    "id": "retro/portrait_juzi_smug",
+    "out": "art/retro/portrait_juzi_smug.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and framing, three-quarter view facing slightly right, expression: smug, sly grin, one eye half-closed. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/portrait_juzi_calm"
+    ]
+  },
+  {
+    "id": "retro/portrait_juzi_annoyed",
+    "out": "art/retro/portrait_juzi_annoyed.png",
+    "prompt": "Dialogue portrait: head-and-shoulders bust of the same character as in the reference portrait, identical design, outfit, colours and framing, three-quarter view facing slightly right, expression: annoyed, ears flattened back. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "retro/portrait_juzi_calm"
+    ]
+  },
+  {
+    "id": "retro/walk_linxia",
+    "out": "art/retro/walk_linxia.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
+  },
+  {
+    "id": "retro/walk_juzi",
+    "out": "art/retro/walk_juzi.png",
+    "prompt": "Sprite sheet of the SAME character, strictly arranged in a grid of 4 ROWS x 3 COLUMNS of equal cells, generous empty green space between cells, every figure the same size and fully inside its cell. Row 1: facing DOWN toward the viewer. Row 2: facing LEFT. Row 3: facing RIGHT. Row 4: facing UP, back to the viewer. Column 1: walking, left foot forward. Column 2: standing neutral. Column 3: walking, right foot forward. Full body, seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: JUZI (placeholder talking cat): a chubby orange tabby cat with a white chest and white paws, a small notch in the left ear, bright green eyes, a smug, worldly expression. walking on four legs. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/design_juzi"
+    ]
+  }
+]

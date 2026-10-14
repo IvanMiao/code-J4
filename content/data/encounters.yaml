@@ -1,0 +1,9 @@
+# Encounters started by `@battle <id>`. M0 battle is a stub (one-button turn loop); real system comes in M2.
+ch1_alley_rats:
+  name: 巷子里的影子
+  enemies:
+    - { name: 发光的老鼠, hp: 18, attack: 4 }
+    - { name: 发光的老鼠, hp: 18, attack: 4 }
+  party:
+    - { id: linxia, hp: 40, attack: 9 }
+    - { id: nika, hp: 25, attack: 6 }

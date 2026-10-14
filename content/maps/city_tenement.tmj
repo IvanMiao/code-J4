@@ -1,0 +1,644 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "老城区 · 背街筒子楼"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_city_tenement"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 200,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 450
+      },
+      {
+       "x": 1920,
+       "y": 450
+      },
+      {
+       "x": 1920,
+       "y": 1080
+      },
+      {
+       "x": 0,
+       "y": 1080
+      }
+     ]
+    },
+    {
+     "id": 201,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 820,
+       "y": 40
+      },
+      {
+       "x": 1120,
+       "y": 40
+      },
+      {
+       "x": 1120,
+       "y": 450
+      },
+      {
+       "x": 820,
+       "y": 450
+      }
+     ]
+    },
+    {
+     "id": 202,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1220,
+       "y": 380
+      },
+      {
+       "x": 1680,
+       "y": 380
+      },
+      {
+       "x": 1680,
+       "y": 450
+      },
+      {
+       "x": 1220,
+       "y": 450
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 203,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 0
+      },
+      {
+       "x": 820,
+       "y": 0
+      },
+      {
+       "x": 820,
+       "y": 460
+      },
+      {
+       "x": 0,
+       "y": 460
+      }
+     ]
+    },
+    {
+     "id": 204,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 440,
+       "y": 330
+      },
+      {
+       "x": 800,
+       "y": 330
+      },
+      {
+       "x": 800,
+       "y": 515
+      },
+      {
+       "x": 440,
+       "y": 515
+      }
+     ]
+    },
+    {
+     "id": 205,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 820,
+       "y": 340
+      },
+      {
+       "x": 905,
+       "y": 340
+      },
+      {
+       "x": 905,
+       "y": 430
+      },
+      {
+       "x": 820,
+       "y": 430
+      }
+     ]
+    },
+    {
+     "id": 206,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1120,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 390
+      },
+      {
+       "x": 1120,
+       "y": 390
+      }
+     ]
+    },
+    {
+     "id": 207,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1120,
+       "y": 390
+      },
+      {
+       "x": 1230,
+       "y": 390
+      },
+      {
+       "x": 1230,
+       "y": 500
+      },
+      {
+       "x": 1120,
+       "y": 500
+      }
+     ]
+    },
+    {
+     "id": 208,
+     "name": "b5",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1480,
+       "y": 390
+      },
+      {
+       "x": 1920,
+       "y": 390
+      },
+      {
+       "x": 1920,
+       "y": 500
+      },
+      {
+       "x": 1480,
+       "y": 500
+      }
+     ]
+    },
+    {
+     "id": 209,
+     "name": "b6",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 70,
+       "y": 860
+      },
+      {
+       "x": 185,
+       "y": 860
+      },
+      {
+       "x": 185,
+       "y": 1045
+      },
+      {
+       "x": 70,
+       "y": 1045
+      }
+     ]
+    },
+    {
+     "id": 210,
+     "name": "b7",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1745,
+       "y": 860
+      },
+      {
+       "x": 1860,
+       "y": 860
+      },
+      {
+       "x": 1860,
+       "y": 1045
+      },
+      {
+       "x": 1745,
+       "y": 1045
+      }
+     ]
+    },
+    {
+     "id": 211,
+     "name": "b8",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 820,
+       "y": 850
+      },
+      {
+       "x": 1105,
+       "y": 850
+      },
+      {
+       "x": 1105,
+       "y": 1065
+      },
+      {
+       "x": 820,
+       "y": 1065
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 212,
+     "name": "from_overpass",
+     "x": 120,
+     "y": 640,
+     "point": true
+    },
+    {
+     "id": 213,
+     "name": "from_ferry",
+     "x": 1820,
+     "y": 640,
+     "point": true
+    },
+    {
+     "id": 214,
+     "name": "alley_north",
+     "x": 980,
+     "y": 140,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 191,
+     "name": "to_overpass",
+     "x": 0,
+     "y": 480,
+     "width": 25,
+     "height": 340,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "city_overpass:from_tenement"
+      }
+     ]
+    },
+    {
+     "id": 192,
+     "name": "to_ferry",
+     "x": 1895,
+     "y": 480,
+     "width": 25,
+     "height": 340,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "city_ferry:from_tenement"
+      }
+     ]
+    },
+    {
+     "id": 193,
+     "name": "newsstand_stall",
+     "x": 460,
+     "y": 495,
+     "width": 320,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "newsstand_stall"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 194,
+     "name": "tenement_alley",
+     "x": 900,
+     "y": 40,
+     "width": 180,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "tenement_alley"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 195,
+     "name": "grocery_shop",
+     "x": 1240,
+     "y": 430,
+     "width": 240,
+     "height": 50,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "grocery_shop"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 196,
+     "name": "chess_table",
+     "x": 830,
+     "y": 820,
+     "width": 260,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "chess_table"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "down"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": [
+    {
+     "id": 215,
+     "name": "fg0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 325,
+       "y": 575
+      },
+      {
+       "x": 271,
+       "y": 706
+      },
+      {
+       "x": 140,
+       "y": 760
+      },
+      {
+       "x": 9,
+       "y": 706
+      },
+      {
+       "x": -45,
+       "y": 575
+      },
+      {
+       "x": 9,
+       "y": 444
+      },
+      {
+       "x": 140,
+       "y": 390
+      },
+      {
+       "x": 271,
+       "y": 444
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "980"
+      }
+     ]
+    },
+    {
+     "id": 216,
+     "name": "fg1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1970,
+       "y": 575
+      },
+      {
+       "x": 1916,
+       "y": 706
+      },
+      {
+       "x": 1785,
+       "y": 760
+      },
+      {
+       "x": 1654,
+       "y": 706
+      },
+      {
+       "x": 1600,
+       "y": 575
+      },
+      {
+       "x": 1654,
+       "y": 444
+      },
+      {
+       "x": 1785,
+       "y": 390
+      },
+      {
+       "x": 1916,
+       "y": 444
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "980"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 197,
+     "name": "leaves",
+     "x": 40,
+     "y": 520,
+     "width": 1840,
+     "height": 420,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "leaves"
+      },
+      {
+       "name": "every",
+       "type": "string",
+       "value": "1100"
+      }
+     ]
+    },
+    {
+     "id": 198,
+     "name": "birds",
+     "x": 200,
+     "y": 520,
+     "width": 1500,
+     "height": 280,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "birds"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "3"
+      }
+     ]
+    },
+    {
+     "id": 199,
+     "name": "motes",
+     "x": 820,
+     "y": 40,
+     "width": 320,
+     "height": 420,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

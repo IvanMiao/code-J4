@@ -1,0 +1,1106 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "江城大学 · 图书馆"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_library"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 88,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 240,
+       "y": 480
+      },
+      {
+       "x": 1920,
+       "y": 480
+      },
+      {
+       "x": 1920,
+       "y": 910
+      },
+      {
+       "x": 240,
+       "y": 910
+      }
+     ]
+    },
+    {
+     "id": 89,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 770,
+       "y": 300
+      },
+      {
+       "x": 1630,
+       "y": 300
+      },
+      {
+       "x": 1630,
+       "y": 480
+      },
+      {
+       "x": 770,
+       "y": 480
+      }
+     ]
+    },
+    {
+     "id": 90,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 560
+      },
+      {
+       "x": 240,
+       "y": 560
+      },
+      {
+       "x": 240,
+       "y": 760
+      },
+      {
+       "x": 0,
+       "y": 760
+      }
+     ]
+    },
+    {
+     "id": 91,
+     "name": "w3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 240,
+       "y": 0
+      },
+      {
+       "x": 430,
+       "y": 0
+      },
+      {
+       "x": 430,
+       "y": 920
+      },
+      {
+       "x": 240,
+       "y": 920
+      }
+     ]
+    },
+    {
+     "id": 92,
+     "name": "w4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 340,
+       "y": 910
+      },
+      {
+       "x": 1920,
+       "y": 910
+      },
+      {
+       "x": 1920,
+       "y": 1080
+      },
+      {
+       "x": 340,
+       "y": 1080
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 93,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1330,
+       "y": 676
+      },
+      {
+       "x": 1292,
+       "y": 743
+      },
+      {
+       "x": 1200,
+       "y": 771
+      },
+      {
+       "x": 1108,
+       "y": 743
+      },
+      {
+       "x": 1070,
+       "y": 676
+      },
+      {
+       "x": 1108,
+       "y": 609
+      },
+      {
+       "x": 1200,
+       "y": 581
+      },
+      {
+       "x": 1292,
+       "y": 609
+      }
+     ]
+    },
+    {
+     "id": 94,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 670,
+       "y": 530
+      },
+      {
+       "x": 810,
+       "y": 530
+      },
+      {
+       "x": 810,
+       "y": 620
+      },
+      {
+       "x": 670,
+       "y": 620
+      }
+     ]
+    },
+    {
+     "id": 95,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 670,
+       "y": 720
+      },
+      {
+       "x": 810,
+       "y": 720
+      },
+      {
+       "x": 810,
+       "y": 816
+      },
+      {
+       "x": 670,
+       "y": 816
+      }
+     ]
+    },
+    {
+     "id": 96,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1600,
+       "y": 530
+      },
+      {
+       "x": 1730,
+       "y": 530
+      },
+      {
+       "x": 1730,
+       "y": 620
+      },
+      {
+       "x": 1600,
+       "y": 620
+      }
+     ]
+    },
+    {
+     "id": 97,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1600,
+       "y": 720
+      },
+      {
+       "x": 1730,
+       "y": 720
+      },
+      {
+       "x": 1730,
+       "y": 816
+      },
+      {
+       "x": 1600,
+       "y": 816
+      }
+     ]
+    },
+    {
+     "id": 98,
+     "name": "b5",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1010,
+       "y": 560
+      },
+      {
+       "x": 1070,
+       "y": 560
+      },
+      {
+       "x": 1070,
+       "y": 610
+      },
+      {
+       "x": 1010,
+       "y": 610
+      }
+     ]
+    },
+    {
+     "id": 99,
+     "name": "b6",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1336,
+       "y": 560
+      },
+      {
+       "x": 1390,
+       "y": 560
+      },
+      {
+       "x": 1390,
+       "y": 610
+      },
+      {
+       "x": 1336,
+       "y": 610
+      }
+     ]
+    },
+    {
+     "id": 100,
+     "name": "b7",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1010,
+       "y": 730
+      },
+      {
+       "x": 1070,
+       "y": 730
+      },
+      {
+       "x": 1070,
+       "y": 780
+      },
+      {
+       "x": 1010,
+       "y": 780
+      }
+     ]
+    },
+    {
+     "id": 101,
+     "name": "b8",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1336,
+       "y": 730
+      },
+      {
+       "x": 1390,
+       "y": 730
+      },
+      {
+       "x": 1390,
+       "y": 780
+      },
+      {
+       "x": 1336,
+       "y": 780
+      }
+     ]
+    },
+    {
+     "id": 102,
+     "name": "b9",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 296,
+       "y": 330
+      },
+      {
+       "x": 350,
+       "y": 330
+      },
+      {
+       "x": 350,
+       "y": 470
+      },
+      {
+       "x": 296,
+       "y": 470
+      }
+     ]
+    },
+    {
+     "id": 103,
+     "name": "b10",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 420,
+       "y": 1000
+      },
+      {
+       "x": 460,
+       "y": 1000
+      },
+      {
+       "x": 460,
+       "y": 1040
+      },
+      {
+       "x": 420,
+       "y": 1040
+      }
+     ]
+    },
+    {
+     "id": 104,
+     "name": "b11",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 845,
+       "y": 1040
+      },
+      {
+       "x": 885,
+       "y": 1040
+      },
+      {
+       "x": 885,
+       "y": 1080
+      },
+      {
+       "x": 845,
+       "y": 1080
+      }
+     ]
+    },
+    {
+     "id": 105,
+     "name": "b12",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1450,
+       "y": 1020
+      },
+      {
+       "x": 1490,
+       "y": 1020
+      },
+      {
+       "x": 1490,
+       "y": 1060
+      },
+      {
+       "x": 1450,
+       "y": 1060
+      }
+     ]
+    },
+    {
+     "id": 106,
+     "name": "b13",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1810,
+       "y": 1010
+      },
+      {
+       "x": 1850,
+       "y": 1010
+      },
+      {
+       "x": 1850,
+       "y": 1060
+      },
+      {
+       "x": 1810,
+       "y": 1060
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 107,
+     "name": "from_avenue",
+     "x": 120,
+     "y": 660,
+     "point": true
+    },
+    {
+     "id": 108,
+     "name": "from_archive",
+     "x": 1820,
+     "y": 680,
+     "point": true
+    },
+    {
+     "id": 109,
+     "name": "player_start",
+     "x": 1130,
+     "y": 880,
+     "point": true
+    },
+    {
+     "id": 110,
+     "name": "lib_steps",
+     "x": 1290,
+     "y": 420,
+     "point": true
+    },
+    {
+     "id": 111,
+     "name": "fountain_front",
+     "x": 1290,
+     "y": 830,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": [
+    {
+     "id": 69,
+     "name": "nika",
+     "x": 1290,
+     "y": 830,
+     "point": true,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "nika_talk"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "down"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 70,
+     "name": "library_door",
+     "x": 1080,
+     "y": 300,
+     "width": 240,
+     "height": 40,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "library_door"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 71,
+     "name": "to_avenue",
+     "x": 0,
+     "y": 560,
+     "width": 25,
+     "height": 200,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "avenue:from_library"
+      }
+     ]
+    },
+    {
+     "id": 72,
+     "name": "to_archive",
+     "x": 1895,
+     "y": 520,
+     "width": 25,
+     "height": 350,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "archive:from_library"
+      }
+     ]
+    },
+    {
+     "id": 73,
+     "name": "fountain",
+     "x": 1130,
+     "y": 740,
+     "width": 140,
+     "height": 40,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "fountain"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 74,
+     "name": "library_planter_paw",
+     "x": 300,
+     "y": 380,
+     "width": 50,
+     "height": 60,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "library_planter_paw"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "left"
+      },
+      {
+       "name": "hidden",
+       "type": "string",
+       "value": "true"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": [
+    {
+     "id": 112,
+     "name": "fg0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 544,
+       "y": 855
+      },
+      {
+       "x": 514,
+       "y": 912
+      },
+      {
+       "x": 440,
+       "y": 935
+      },
+      {
+       "x": 366,
+       "y": 912
+      },
+      {
+       "x": 336,
+       "y": 855
+      },
+      {
+       "x": 366,
+       "y": 798
+      },
+      {
+       "x": 440,
+       "y": 775
+      },
+      {
+       "x": 514,
+       "y": 798
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "1020"
+      }
+     ]
+    },
+    {
+     "id": 113,
+     "name": "fg1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 935,
+       "y": 930
+      },
+      {
+       "x": 914,
+       "y": 975
+      },
+      {
+       "x": 865,
+       "y": 994
+      },
+      {
+       "x": 816,
+       "y": 975
+      },
+      {
+       "x": 795,
+       "y": 930
+      },
+      {
+       "x": 816,
+       "y": 885
+      },
+      {
+       "x": 865,
+       "y": 866
+      },
+      {
+       "x": 914,
+       "y": 885
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "1070"
+      }
+     ]
+    },
+    {
+     "id": 114,
+     "name": "fg2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1535,
+       "y": 925
+      },
+      {
+       "x": 1514,
+       "y": 967
+      },
+      {
+       "x": 1465,
+       "y": 985
+      },
+      {
+       "x": 1416,
+       "y": 967
+      },
+      {
+       "x": 1395,
+       "y": 925
+      },
+      {
+       "x": 1416,
+       "y": 883
+      },
+      {
+       "x": 1465,
+       "y": 865
+      },
+      {
+       "x": 1514,
+       "y": 883
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "1050"
+      }
+     ]
+    },
+    {
+     "id": 115,
+     "name": "fg3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1916,
+       "y": 910
+      },
+      {
+       "x": 1894,
+       "y": 964
+      },
+      {
+       "x": 1840,
+       "y": 986
+      },
+      {
+       "x": 1786,
+       "y": 964
+      },
+      {
+       "x": 1764,
+       "y": 910
+      },
+      {
+       "x": 1786,
+       "y": 856
+      },
+      {
+       "x": 1840,
+       "y": 834
+      },
+      {
+       "x": 1894,
+       "y": 856
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "1040"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 75,
+     "name": "fountain",
+     "x": 1090,
+     "y": 600,
+     "width": 220,
+     "height": 152,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "fountain"
+      },
+      {
+       "name": "spout",
+       "type": "string",
+       "value": "14"
+      }
+     ]
+    },
+    {
+     "id": 76,
+     "name": "flowers",
+     "x": 670,
+     "y": 530,
+     "width": 140,
+     "height": 90,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "flowers"
+      }
+     ]
+    },
+    {
+     "id": 77,
+     "name": "flowers",
+     "x": 670,
+     "y": 720,
+     "width": 140,
+     "height": 96,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "flowers"
+      }
+     ]
+    },
+    {
+     "id": 78,
+     "name": "flowers",
+     "x": 1600,
+     "y": 530,
+     "width": 130,
+     "height": 90,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "flowers"
+      }
+     ]
+    },
+    {
+     "id": 79,
+     "name": "flowers",
+     "x": 1600,
+     "y": 720,
+     "width": 130,
+     "height": 96,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "flowers"
+      }
+     ]
+    },
+    {
+     "id": 80,
+     "name": "flowers",
+     "x": 580,
+     "y": 410,
+     "width": 180,
+     "height": 50,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "flowers"
+      }
+     ]
+    },
+    {
+     "id": 81,
+     "name": "flowers",
+     "x": 1640,
+     "y": 410,
+     "width": 190,
+     "height": 50,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "flowers"
+      }
+     ]
+    },
+    {
+     "id": 82,
+     "name": "grass",
+     "x": 340,
+     "y": 920,
+     "width": 1580,
+     "height": 160,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "grass"
+      }
+     ]
+    },
+    {
+     "id": 83,
+     "name": "leaves",
+     "x": 330,
+     "y": 770,
+     "width": 1590,
+     "height": 250,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "leaves"
+      },
+      {
+       "name": "every",
+       "type": "string",
+       "value": "1100"
+      }
+     ]
+    },
+    {
+     "id": 84,
+     "name": "birds",
+     "x": 480,
+     "y": 480,
+     "width": 1440,
+     "height": 380,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "birds"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "4"
+      }
+     ]
+    },
+    {
+     "id": 85,
+     "name": "butterflies",
+     "x": 600,
+     "y": 400,
+     "width": 1300,
+     "height": 450,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "butterflies"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "2"
+      }
+     ]
+    },
+    {
+     "id": 86,
+     "name": "motes",
+     "x": 0,
+     "y": 0,
+     "width": 600,
+     "height": 500,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    },
+    {
+     "id": 87,
+     "name": "glint",
+     "x": 352,
+     "y": 420,
+     "width": 4,
+     "height": 4,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "glint"
+      },
+      {
+       "name": "until",
+       "type": "string",
+       "value": "paw_library"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+  "bgm": {
+    "night_street": "bgm/night_street.mp3",
+    "campus_afternoon": "bgm/campus_afternoon.mp3"
+  },
+  "ambience": {
+    "campus_day": "ambience/campus_day.mp3",
+    "street_night": "ambience/street_night.mp3"
+  },
+  "sfx": {
+    "door_chime": "sfx/door_chime.mp3",
+    "can_drop": "sfx/can_drop.mp3",
+    "meow_calm": "sfx/meow_calm.mp3",
+    "meow_smug": "sfx/meow_smug.mp3",
+    "meow_annoyed": "sfx/meow_annoyed.mp3",
+    "footsteps_stone": "sfx/footsteps_stone.mp3",
+    "page_turn": "sfx/page_turn.mp3",
+    "blip": "sfx/blip.mp3",
+    "coin_pick": "sfx/coin_pick.mp3",
+    "coin_splash": "sfx/coin_splash.mp3",
+    "sparrow_flush": "sfx/sparrow_flush.mp3",
+    "bike_bell": "sfx/bike_bell.mp3"
+  },
+  "vo": {
+    "intro_1": "vo/intro_1.mp3",
+    "nika_12": "vo/nika_12.mp3"
+  }
+}

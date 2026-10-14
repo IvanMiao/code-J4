@@ -1,0 +1,303 @@
+# Campus demo (retro). Regenerate: npm run gen:art -- --style retro
+style: retro
+bible: assets/style/bible-campus.md
+items:
+- id: retro/design_nika
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Character design sheet: NIKA (placeholder talking cat): an American Shorthair silver tabby-and-white bicolour cat: silver coat with bold
+    black classic tabby swirls ("bullseye" on the flanks) on the back, flanks, tail and top of the head; a white blaze up the middle of the face
+    between the eyes, pure white muzzle, chin, chest and belly, and four white paws like socks; round face with full cheeks, big copper-amber
+    eyes, sturdy muscular body, short thick tail with black rings, calm and slightly superior expression. Show the cat from the front, from the side walking, from the back, sitting, plus a head close-up. Plain flat pure
+    chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline
+    so it separates cleanly from the green.'
+  post:
+  - chromaKey: {}
+  out: public/art/retro/design_nika.png
+- id: retro/walk_nika
+  compose:
+  - from: retro/walk_nika_down
+  - from: retro/walk_nika_side
+    mirror: true
+  - from: retro/walk_nika_side
+  - from: retro/walk_nika_up
+  out: public/art/retro/walk_nika.png
+- id: retro/portrait_nika_calm
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the silver tabby-and-white American Shorthair cat from the reference design sheet (white blaze, white muzzle and chest), three-quarter view facing
+    slightly right, expression: calm, half-lidded copper eyes. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no
+    shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.'
+  refs:
+  - retro/design_nika
+  post: &portrait
+  - chromaKey: {}
+  - trim: true
+  - resize:
+      width: 110
+      height: 110
+      fit: contain
+  - quantize:
+      colors: 48
+  out: public/art/retro/portrait_nika_calm.png
+- id: retro/portrait_nika_smug
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing,
+    three-quarter view facing slightly right, expression: smug, one eye half-closed, the corner of the mouth curled up. Plain flat pure chroma-key
+    green background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/portrait_nika_calm
+  post: *portrait
+  out: public/art/retro/portrait_nika_smug.png
+- id: retro/portrait_nika_annoyed
+  model: gemini-3.1-flash-image
+  aspect: '1:1'
+  prompt: 'Dialogue portrait: head-and-shoulders bust of the same cat as in the reference portrait, identical design, colours and framing,
+    three-quarter view facing slightly right, expression: annoyed, ears flattened sideways, narrowed eyes. Plain flat pure chroma-key green
+    background (#00FF00) filling the whole image, no shadow, no gradient. Give the subject a thin 2px white outline so it separates cleanly from
+    the green.'
+  refs:
+  - retro/portrait_nika_calm
+  post: *portrait
+  out: public/art/retro/portrait_nika_annoyed.png
+- id: retro/bg_gate
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'RPG field map, one continuous scene, no characters: the main gate of a Chinese university, drawn with EXACTLY the same camera as the
+    reference image (straight-on high-angle 3/4 view, building fronts face the viewer, horizontal ground lines, NOT diagonal isometric), same
+    pixel scale, palette and afternoon light. Top centre: a wide grey stone gate arch facing the viewer, with the four large gold characters
+    "江城大学" across its lintel, iron gates open. To the right of the gate a small white guard booth with a small sign "门卫". Below the gate a
+    wide open paved plaza in light granite tiles fills the middle of the image, with a stone bench and a lamp post. A broad paved path leaves the
+    plaza at the RIGHT edge, at mid height. Plane trees and flower beds along the left edge and the bottom edge.'
+  refs:
+  - retro/bg_avenue
+  post: &bg
+  - resize:
+      width: 960
+      height: 540
+  - quantize:
+      colors: 128
+  out: public/art/retro/bg_gate.png
+- id: retro/bg_avenue
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'RPG field map, one continuous scene, no characters, drawn with EXACTLY the same camera as the reference image (straight-on high-angle
+    3/4 view, building fronts face the viewer, horizontal ground lines, NOT diagonal isometric), same pixel scale, palette and afternoon light: a
+    tree-lined avenue inside a Chinese university campus. A wide paved avenue runs horizontally across the middle of the image, fully open from
+    the LEFT edge to the RIGHT edge: nothing stands on the avenue or overhangs it, and the avenue is completely clear where it meets both edges.
+    Across the top, all facing the viewer: a four-storey red-brick student dormitory with an entrance door and steps and a large vertical name
+    board beside the door reading "梧桐苑"; to its right a glass-covered notice board titled "公告栏"; further right a small campus shop whose
+    shop front, open door and counter face the viewer, with the sign "校园超市" above the door. A strip of sidewalk runs between these buildings
+    and the avenue, with a bicycle rack in front of the dorm. Plane trees stand only behind the sidewalk between the buildings and in a row on the
+    lawn along the bottom edge, never on the avenue. At the right end of the avenue, on the edge of the sidewalk, a small wooden signpost with an
+    arrow pointing right and the characters "图书馆"; at the left end a matching signpost with an arrow pointing left and the characters "校门".
+    Lower edge: lawn, low hedges and a bench.'
+  refs:
+  - retro/bg_library
+  post: *bg
+  out: public/art/retro/bg_avenue.png
+- id: retro/bg_library
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'RPG field map, one continuous scene, no characters: the library plaza of a Chinese university. Across the top: a large modern library
+    building of pale stone and glass with wide steps up to the entrance and three big characters "图书馆" mounted above the entrance. In the middle:
+    a wide open square paved in tiles with a round fountain at its centre, wooden benches and flower beds around it. A paved path enters the
+    square from the LEFT edge of the image. Lower edge: lawn with a few trees.'
+  post: *bg
+  out: public/art/retro/bg_library.png
+- id: retro/bg_archive
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'Layout-first RPG field map: university archives (校史馆) and old boiler room courtyard, stone tortoise stela, lotus pond, retro vending machines, open paved road from left to right, plane trees along lower sidewalk.'
+  refs:
+  - retro/bg_avenue
+  post: *bg
+  out: public/art/retro/bg_archive.png
+- id: retro/bg_city_overpass
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'Layout-first RPG field map: Under Overpass No. 9 (九号高架桥底), e-bike repair shop (电动车修理), public payphone and transformer box, claypot beef noodle stall (砂锅牛肉面), 302 bus stop, open asphalt street, parked delivery scooters and plastic tables on lower sidewalk.'
+  refs:
+  - retro/bg_avenue
+  post: *bg
+  out: public/art/retro/bg_city_overpass.png
+- id: retro/bg_suburb_dyeworks
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'Layout-first RPG field map: Abandoned Dye Works No. 3 (第三印染厂), iridescent rainbow dye lagoon, rusted pipe valve, gravel road, glowing white 2D wireframe ruin on lower lawn, jagged #00FF00 chroma-key tear on the right edge.'
+  refs:
+  - retro/bg_avenue
+  post: *bg
+  out: public/art/retro/bg_suburb_dyeworks.png
+- id: retro/bg_city_tenement
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'Layout-first RPG field map: Old City Backstreet Tenement (背街筒子楼), Old Book Newsstand (旧书报亭), North Back-Alley, Corner Grocery (便民杂货), stone chess table and plane trees along lower sidewalk.'
+  refs:
+  - retro/bg_city_overpass
+  post: *bg
+  out: public/art/retro/bg_city_tenement.png
+- id: retro/bg_city_ferry
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'Layout-first RPG field map: Old City River Ferry Pier (江城轮渡), concrete flood wall and ticket booth, moored rust-red iron ferry boat with wooden gangplank, cargo crates and riverside bench.'
+  refs:
+  - retro/bg_city_overpass
+  post: *bg
+  out: public/art/retro/bg_city_ferry.png
+- id: retro/bg_suburb_wireframe
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'Layout-first RPG field map: Suburban Wireframe Villa Commune (烂尾线稿别墅区), half red-brick and half glowing white 2D wireframe villa, campfire kettle, rusted pipeline pump station, concrete drainage pipes and wireframe arch.'
+  refs:
+  - retro/bg_suburb_dyeworks
+  post: *bg
+  out: public/art/retro/bg_suburb_wireframe.png
+- id: retro/bg_suburb_breakwater
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: 'Layout-first RPG field map: Chroma-Key Breakwater Pier (绿幕防波堤), corrugated iron barrier reading 清样重地, concrete pier extending into #00FF00 green void, brass surveyor telescope, wireframe tetrapod reefs.'
+  refs:
+  - retro/bg_suburb_dyeworks
+  post: *bg
+  out: public/art/retro/bg_suburb_breakwater.png
+- id: retro/walk_linxia_down
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row, evenly spaced, generous
+    empty green space between them, all the same size. ALL THREE frames face DOWN, walking straight toward the viewer (front view, face visible). Frame 1: mid-stride, left foot forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, right foot forward. Seen from the oblique 3/4 top-down game camera. No grid lines, no
+    labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/design_linxia
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 48
+      frameHeight: 64
+  - quantize:
+      colors: 32
+  out: assets/strips/walk_linxia_down.png
+- id: retro/walk_linxia_side
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row and nothing else, evenly spaced,
+    generous empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT
+    edge of the image: nose, toes and knees point RIGHT, the backpack is on the LEFT side of the body, the face is never turned toward
+    the viewer. Use EXACTLY the same chibi proportions, head size and total height as the front-view walking frames in the second
+    reference image: big head with bob hair about one third of the total height, short stocky body, same pixel size. Frame 1: mid-stride,
+    right leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Seen from the oblique 3/4 top-down
+    game camera. No grid lines, no labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized
+    olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Plain flat pure chroma-key green
+    background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it
+    separates cleanly from the green.'
+  refs:
+  - retro/design_linxia
+  - retro/walk_linxia_down
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 48
+      frameHeight: 64
+  - quantize:
+      colors: 32
+  out: assets/strips/walk_linxia_side.png
+- id: retro/walk_linxia_up
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row, evenly spaced, generous
+    empty green space between them, all the same size. ALL THREE frames face UP, walking straight away from the viewer: only the back is visible, no face at all. Frame 1: mid-stride, left foot forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, right foot forward. Seen from the oblique 3/4 top-down game camera. No grid lines, no
+    labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/design_linxia
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 48
+      frameHeight: 64
+  - quantize:
+      colors: 32
+  out: assets/strips/walk_linxia_up.png
+- id: retro/walk_nika_down
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous
+    empty green space between them, all the same size. ALL THREE frames show the cat walking straight TOWARD the viewer, head-on front view: face, chest and both front legs visible, body foreshortened behind the head, tail mostly hidden behind the body. Not side view, not sitting. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Compact game-sprite proportions: big round head in front, the body behind it short and mostly hidden, the whole cat about two thirds as wide as it is tall. Seen from the oblique 3/4 top-down game camera. No grid lines, no
+    labels. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. draw exactly ONE row of exactly THREE walking cats side by side across the middle of the image, nothing else, never a 2x2 grid. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 48
+      frameHeight: 32
+      fitHeight: 26
+  - quantize:
+      colors: 32
+  out: assets/strips/walk_nika_down.png
+- id: retro/walk_nika_side
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous
+    empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: head and nose on the RIGHT, tail on the LEFT, the face never turned toward the viewer. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. The side-view cat is about one and a half times as long as it is tall. Seen from the oblique 3/4 top-down game camera. No grid lines, no
+    labels. Use the same body proportions, head size and coat pattern as the front-view cats in the second reference image. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. Match the coat and colours of the reference cat exactly, but do NOT copy the reference sheet layout: draw exactly ONE row of exactly THREE walking cats side by side across the middle of the image, nothing else, never a 2x2 grid. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/design_nika
+  - retro/walk_nika_down
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 48
+      frameHeight: 32
+      fitHeight: 22
+  - quantize:
+      colors: 32
+  out: assets/strips/walk_nika_side.png
+- id: retro/walk_nika_up
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous
+    empty green space between them, all the same size. ALL THREE frames face UP, walking straight away from the viewer: only the back is visible, no face at all. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. Seen from behind: back of the head and both ears, rounded back, white hind paws, ringed tail held up behind. Compact game-sprite proportions: the whole cat about two thirds as wide as it is tall, same size as the front-view cats. Seen from the oblique 3/4 top-down game camera. No grid lines, no
+    labels. Use the same body proportions, head size and coat pattern as the front-view cats in the reference image. Cat: an American Shorthair silver tabby-and-white bicolour cat: silver back with black classic tabby swirls, white blaze between the eyes, white muzzle, white chest and belly, four white paws, copper eyes, sturdy body, short ringed tail. Match the reference design sheet exactly. Plain flat pure chroma-key green background
+    (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly
+    from the green.'
+  refs:
+  - retro/walk_nika_down
+  post:
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 48
+      frameHeight: 32
+      fitHeight: 26
+  - quantize:
+      colors: 32
+  out: assets/strips/walk_nika_up.png

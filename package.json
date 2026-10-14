@@ -1,0 +1,34 @@
+{
+  "name": "code-j4",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint:story": "tsx tools/lint-story.ts",
+    "sim": "tsx tools/sim.ts",
+    "story:ids": "tsx tools/story-ids.ts",
+    "gen:art": "tsx tools/gen-art.ts",
+    "gen:audio": "tsx tools/gen-audio.ts",
+    "check": "npm run typecheck && npm test && npm run lint:story && npm run sim",
+    "maps:overlay": "tsx tools/maps/overlay.ts"
+  },
+  "dependencies": {
+    "inkjs": "^2.4.0",
+    "phaser": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "sharp": "^0.35.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
+  }
+}

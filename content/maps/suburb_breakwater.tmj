@@ -1,0 +1,406 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "市郊 · 绿幕防波堤"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_suburb_breakwater"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 308,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 360
+      },
+      {
+       "x": 1460,
+       "y": 360
+      },
+      {
+       "x": 1460,
+       "y": 640
+      },
+      {
+       "x": 0,
+       "y": 640
+      }
+     ]
+    },
+    {
+     "id": 309,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 40,
+       "y": 280
+      },
+      {
+       "x": 760,
+       "y": 280
+      },
+      {
+       "x": 760,
+       "y": 360
+      },
+      {
+       "x": 40,
+       "y": 360
+      }
+     ]
+    },
+    {
+     "id": 310,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 40,
+       "y": 640
+      },
+      {
+       "x": 560,
+       "y": 640
+      },
+      {
+       "x": 560,
+       "y": 960
+      },
+      {
+       "x": 40,
+       "y": 960
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 311,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 0
+      },
+      {
+       "x": 780,
+       "y": 0
+      },
+      {
+       "x": 780,
+       "y": 285
+      },
+      {
+       "x": 0,
+       "y": 285
+      }
+     ]
+    },
+    {
+     "id": 312,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 780,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 360
+      },
+      {
+       "x": 780,
+       "y": 360
+      }
+     ]
+    },
+    {
+     "id": 313,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1290,
+       "y": 330
+      },
+      {
+       "x": 1445,
+       "y": 330
+      },
+      {
+       "x": 1445,
+       "y": 485
+      },
+      {
+       "x": 1290,
+       "y": 485
+      }
+     ]
+    },
+    {
+     "id": 314,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 560,
+       "y": 640
+      },
+      {
+       "x": 1920,
+       "y": 640
+      },
+      {
+       "x": 1920,
+       "y": 1080
+      },
+      {
+       "x": 560,
+       "y": 1080
+      }
+     ]
+    },
+    {
+     "id": 315,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1460,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 1080
+      },
+      {
+       "x": 1460,
+       "y": 1080
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 316,
+     "name": "from_dyeworks",
+     "x": 120,
+     "y": 500,
+     "point": true
+    },
+    {
+     "id": 317,
+     "name": "pier_tip",
+     "x": 1240,
+     "y": 480,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 301,
+     "name": "to_dyeworks",
+     "x": 0,
+     "y": 380,
+     "width": 25,
+     "height": 250,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "suburb_dyeworks:from_breakwater"
+      }
+     ]
+    },
+    {
+     "id": 302,
+     "name": "clearance_barrier",
+     "x": 180,
+     "y": 270,
+     "width": 440,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "clearance_barrier"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 303,
+     "name": "pier_telescope",
+     "x": 1250,
+     "y": 440,
+     "width": 180,
+     "height": 55,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "pier_telescope"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 304,
+     "name": "tetrapod_shore",
+     "x": 200,
+     "y": 620,
+     "width": 340,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "tetrapod_shore"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "down"
+      }
+     ]
+    },
+    {
+     "id": 305,
+     "name": "breakwater_void",
+     "x": 1410,
+     "y": 480,
+     "width": 55,
+     "height": 150,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "breakwater_void"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "right"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 306,
+     "name": "grass",
+     "x": 40,
+     "y": 660,
+     "width": 460,
+     "height": 260,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "grass"
+      }
+     ]
+    },
+    {
+     "id": 307,
+     "name": "motes",
+     "x": 1180,
+     "y": 40,
+     "width": 700,
+     "height": 960,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

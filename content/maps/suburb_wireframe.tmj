@@ -1,0 +1,711 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "市郊 · 烂尾线稿别墅区"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_suburb_wireframe"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "campus_day"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 251,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 420
+      },
+      {
+       "x": 1920,
+       "y": 420
+      },
+      {
+       "x": 1920,
+       "y": 700
+      },
+      {
+       "x": 0,
+       "y": 700
+      }
+     ]
+    },
+    {
+     "id": 252,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 140,
+       "y": 310
+      },
+      {
+       "x": 1420,
+       "y": 310
+      },
+      {
+       "x": 1420,
+       "y": 430
+      },
+      {
+       "x": 140,
+       "y": 430
+      }
+     ]
+    },
+    {
+     "id": 253,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1420,
+       "y": 395
+      },
+      {
+       "x": 1700,
+       "y": 395
+      },
+      {
+       "x": 1700,
+       "y": 430
+      },
+      {
+       "x": 1420,
+       "y": 430
+      }
+     ]
+    },
+    {
+     "id": 254,
+     "name": "w3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 180,
+       "y": 700
+      },
+      {
+       "x": 1740,
+       "y": 700
+      },
+      {
+       "x": 1740,
+       "y": 1040
+      },
+      {
+       "x": 180,
+       "y": 1040
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 255,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 0
+      },
+      {
+       "x": 160,
+       "y": 0
+      },
+      {
+       "x": 160,
+       "y": 410
+      },
+      {
+       "x": 0,
+       "y": 410
+      }
+     ]
+    },
+    {
+     "id": 256,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 160,
+       "y": 0
+      },
+      {
+       "x": 1060,
+       "y": 0
+      },
+      {
+       "x": 1060,
+       "y": 310
+      },
+      {
+       "x": 160,
+       "y": 310
+      }
+     ]
+    },
+    {
+     "id": 257,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 355,
+       "y": 305
+      },
+      {
+       "x": 555,
+       "y": 305
+      },
+      {
+       "x": 555,
+       "y": 405
+      },
+      {
+       "x": 355,
+       "y": 405
+      }
+     ]
+    },
+    {
+     "id": 258,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 745,
+       "y": 260
+      },
+      {
+       "x": 905,
+       "y": 260
+      },
+      {
+       "x": 905,
+       "y": 405
+      },
+      {
+       "x": 745,
+       "y": 405
+      }
+     ]
+    },
+    {
+     "id": 259,
+     "name": "b4",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1330,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 0
+      },
+      {
+       "x": 1920,
+       "y": 395
+      },
+      {
+       "x": 1330,
+       "y": 395
+      }
+     ]
+    },
+    {
+     "id": 260,
+     "name": "b5",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 710
+      },
+      {
+       "x": 160,
+       "y": 710
+      },
+      {
+       "x": 160,
+       "y": 960
+      },
+      {
+       "x": 0,
+       "y": 960
+      }
+     ]
+    },
+    {
+     "id": 261,
+     "name": "b6",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 230,
+       "y": 740
+      },
+      {
+       "x": 860,
+       "y": 740
+      },
+      {
+       "x": 860,
+       "y": 1080
+      },
+      {
+       "x": 230,
+       "y": 1080
+      }
+     ]
+    },
+    {
+     "id": 262,
+     "name": "b7",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1135,
+       "y": 880
+      },
+      {
+       "x": 1240,
+       "y": 880
+      },
+      {
+       "x": 1240,
+       "y": 1055
+      },
+      {
+       "x": 1135,
+       "y": 1055
+      }
+     ]
+    },
+    {
+     "id": 263,
+     "name": "b8",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1280,
+       "y": 680
+      },
+      {
+       "x": 1415,
+       "y": 680
+      },
+      {
+       "x": 1415,
+       "y": 1020
+      },
+      {
+       "x": 1280,
+       "y": 1020
+      }
+     ]
+    },
+    {
+     "id": 264,
+     "name": "b9",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1625,
+       "y": 680
+      },
+      {
+       "x": 1765,
+       "y": 680
+      },
+      {
+       "x": 1765,
+       "y": 1020
+      },
+      {
+       "x": 1625,
+       "y": 1020
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 265,
+     "name": "from_ferry",
+     "x": 120,
+     "y": 560,
+     "point": true
+    },
+    {
+     "id": 266,
+     "name": "from_dyeworks",
+     "x": 1820,
+     "y": 560,
+     "point": true
+    },
+    {
+     "id": 267,
+     "name": "villa_front",
+     "x": 640,
+     "y": 360,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 240,
+     "name": "to_ferry",
+     "x": 0,
+     "y": 450,
+     "width": 25,
+     "height": 240,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "city_ferry:from_suburb"
+      }
+     ]
+    },
+    {
+     "id": 241,
+     "name": "to_dyeworks",
+     "x": 1895,
+     "y": 450,
+     "width": 25,
+     "height": 240,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "suburb_dyeworks:from_wireframe"
+      }
+     ]
+    },
+    {
+     "id": 242,
+     "name": "wireframe_villa",
+     "x": 560,
+     "y": 295,
+     "width": 180,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "wireframe_villa"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 243,
+     "name": "villa_campfire",
+     "x": 355,
+     "y": 385,
+     "width": 200,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "villa_campfire"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 244,
+     "name": "pump_station",
+     "x": 1440,
+     "y": 375,
+     "width": 260,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "pump_station"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 245,
+     "name": "concrete_pipes",
+     "x": 260,
+     "y": 710,
+     "width": 560,
+     "height": 45,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "concrete_pipes"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "down"
+      }
+     ]
+    },
+    {
+     "id": 246,
+     "name": "wireframe_arch",
+     "x": 1420,
+     "y": 880,
+     "width": 200,
+     "height": 50,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "wireframe_arch"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": [
+    {
+     "id": 268,
+     "name": "fg0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 175,
+       "y": 660
+      },
+      {
+       "x": 143,
+       "y": 745
+      },
+      {
+       "x": 65,
+       "y": 780
+      },
+      {
+       "x": -13,
+       "y": 745
+      },
+      {
+       "x": -45,
+       "y": 660
+      },
+      {
+       "x": -13,
+       "y": 575
+      },
+      {
+       "x": 65,
+       "y": 540
+      },
+      {
+       "x": 143,
+       "y": 575
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "890"
+      }
+     ]
+    },
+    {
+     "id": 269,
+     "name": "fg1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1280,
+       "y": 600
+      },
+      {
+       "x": 1765,
+       "y": 600
+      },
+      {
+       "x": 1765,
+       "y": 760
+      },
+      {
+       "x": 1280,
+       "y": 760
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "990"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 247,
+     "name": "grass",
+     "x": 880,
+     "y": 730,
+     "width": 250,
+     "height": 260,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "grass"
+      }
+     ]
+    },
+    {
+     "id": 248,
+     "name": "leaves",
+     "x": 0,
+     "y": 560,
+     "width": 260,
+     "height": 340,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "leaves"
+      },
+      {
+       "name": "every",
+       "type": "string",
+       "value": "1200"
+      }
+     ]
+    },
+    {
+     "id": 249,
+     "name": "butterflies",
+     "x": 880,
+     "y": 720,
+     "width": 700,
+     "height": 260,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "butterflies"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "2"
+      }
+     ]
+    },
+    {
+     "id": 250,
+     "name": "motes",
+     "x": 450,
+     "y": 20,
+     "width": 650,
+     "height": 300,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
