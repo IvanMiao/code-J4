@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { exitEdge } from '../src/engine/map.ts';
 import { facingOf, step, walkable, walkableFoot } from '../src/engine/walk.ts';
 import { addItem, readSave, writeSave } from '../src/engine/save.ts';
 import { createBattle, outcome, playRound } from '../src/engine/battle.ts';
@@ -20,6 +21,16 @@ describe('walk', () => {
     expect(facingOf(1, 0.2, 'down')).toBe('right');
     expect(facingOf(0, -1, 'down')).toBe('up');
     expect(facingOf(0, 0, 'left')).toBe('left');
+  });
+});
+
+describe('map exits', () => {
+  it('detects each edge and uses the door-facing direction away from edges', () => {
+    expect(exitEdge({ x: 0, y: 30, width: 10, height: 20, face: 'down' }, 100, 100)).toBe('left');
+    expect(exitEdge({ x: 90, y: 30, width: 10, height: 20, face: 'up' }, 100, 100)).toBe('right');
+    expect(exitEdge({ x: 30, y: 0, width: 20, height: 10, face: 'down' }, 100, 100)).toBe('up');
+    expect(exitEdge({ x: 30, y: 90, width: 20, height: 10, face: 'left' }, 100, 100)).toBe('down');
+    expect(exitEdge({ x: 30, y: 30, width: 20, height: 20, face: 'right' }, 100, 100)).toBe('right');
   });
 });
 

@@ -1,4 +1,4 @@
-import type { Polygon, Vec } from './walk.ts';
+import type { Facing, Polygon, Vec } from './walk.ts';
 
 /** The subset of the Tiled .tmj format the game reads. */
 interface TiledProperty { name: string; type?: string; value: unknown }
@@ -20,7 +20,19 @@ export interface MapAmbient { kind: string; x: number; y: number; width: number;
 export interface MapForeground { polygon: Polygon; baseline: number }
 
 /** Walking into the rect moves the player to `anchor` on `map`. */
-export interface MapExit { id: string; x: number; y: number; width: number; height: number; map: string; anchor: string }
+export interface MapExit {
+  id: string; x: number; y: number; width: number; height: number; map: string; anchor: string; face: Facing; sfx?: string;
+}
+
+export type ExitEdge = Facing;
+
+export function exitEdge(exit: Pick<MapExit, 'x' | 'y' | 'width' | 'height' | 'face'>, mapW: number, mapH: number): ExitEdge {
+  if (exit.x <= 0) return 'left';
+  if (exit.x + exit.width >= mapW) return 'right';
+  if (exit.y <= 0) return 'up';
+  if (exit.y + exit.height >= mapH) return 'down';
+  return exit.face ?? 'up';
+}
 
 export interface FieldMap {
   title: string;
@@ -60,7 +72,11 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     blocked: layer('blocked').map(poly),
     exits: triggers.filter((o) => prop(o, 'exit')).map((o) => {
       const [m, anchor] = String(prop(o, 'exit')).split(':');
-      return { ...rect(o), map: m, anchor };
+      return {
+        ...rect(o), map: m, anchor,
+        face: String(prop(o, 'face') ?? 'up') as Facing,
+        sfx: (prop(o, 'sfx') as string) ?? undefined,
+      };
     }),
     anchors: Object.fromEntries(layer('anchors').map((o) => [o.name, { x: o.x, y: o.y }])),
     actors: layer('actors').map((o) => ({

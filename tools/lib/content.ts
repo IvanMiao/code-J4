@@ -96,6 +96,7 @@ export function checkExits(c: Content): string[] {
       const to = c.maps[e.map];
       if (!to) errs.push(`map ${id}: exit "${e.id}" goes to unknown map "${e.map}"`);
       else if (!to.anchors[e.anchor]) errs.push(`map ${id}: exit "${e.id}" goes to unknown anchor "${e.map}:${e.anchor}"`);
+      if (e.sfx && !(c.audioIds?.has(e.sfx) ?? !!c.audio.sfx?.[e.sfx])) errs.push(`map ${id}: exit "${e.id}" has unknown sfx "${e.sfx}"`);
     }
     if (m.background && !c.art.has(m.background)) errs.push(`map ${id}: background "${m.background}" has no art file`);
     for (const k of ['bgm', 'ambience'] as const) {

@@ -308,5 +308,15 @@
     "hash": "b69d5e8593db218e",
     "generatedAt": "2026-10-14T20:15:26.146Z",
     "request": "A crow bursting off a fence with loud flapping and a startled caw, outdoors."
+  },
+  "ambience/back_alley": {
+    "hash": "0d957cc01f586748",
+    "generatedAt": "2026-10-14T20:58:56.998Z",
+    "request": "narrow residential back alley in an old Chinese city, dripping tap, distant TV through a window, clothes flapping, faint traffic beyond the buildings, no music, no voices up close"
+  },
+  "ambience/shop_interior": {
+    "hash": "30844786dad3ea9b",
+    "generatedAt": "2026-10-14T20:58:57.169Z",
+    "request": "inside a small convenience store, steady fluorescent light hum, chest freezer compressor, quiet, occasional plastic bag rustle, no music, no voices"
   }
 }

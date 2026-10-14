@@ -76,19 +76,22 @@ export class Ambient {
   private pools: Pool[] = [];
   private t = 0;
   private pixels: ImageData;
-  private k: number;
+  private kx: number;
+  private ky: number;
 
   constructor(
     private scene: Phaser.Scene,
     bgKey: string,
     mapWidth: number,
+    mapHeight: number,
     specs: MapAmbient[],
     private flag: (name: string) => boolean = () => false,
     private sound: (id: string, options?: { volume?: number; detune?: number }) => boolean = () => false,
   ) {
     Ambient.ensureTextures(scene);
     const src = scene.textures.get(bgKey).getSourceImage() as HTMLImageElement;
-    this.k = src.width / mapWidth;
+    this.kx = src.width / mapWidth;
+    this.ky = src.height / mapHeight;
     const c = document.createElement('canvas');
     c.width = src.width;
     c.height = src.height;
@@ -113,8 +116,8 @@ export class Ambient {
   }
 
   private color(x: number, y: number): [number, number, number] {
-    const px = Math.min(this.pixels.width - 1, Math.max(0, Math.round(x * this.k)));
-    const py = Math.min(this.pixels.height - 1, Math.max(0, Math.round(y * this.k)));
+    const px = Math.min(this.pixels.width - 1, Math.max(0, Math.round(x * this.kx)));
+    const py = Math.min(this.pixels.height - 1, Math.max(0, Math.round(y * this.ky)));
     const i = (py * this.pixels.width + px) * 4;
     return [this.pixels.data[i], this.pixels.data[i + 1], this.pixels.data[i + 2]];
   }
@@ -179,7 +182,7 @@ export class Ambient {
    * background, then keeps rings expanding from the jet plus small rings where drops land.
    */
   private fountain(a: MapAmbient) {
-    const k = this.k, W = this.pixels.width, d = this.pixels.data;
+    const k = this.kx, W = this.pixels.width, d = this.pixels.data;
     const x0 = Math.floor(a.x * k), y0 = Math.floor(a.y * k), w = Math.ceil(a.width * k), h = Math.ceil(a.height * k);
     const water: number[] = [];
     for (let y = y0; y < y0 + h; y++)

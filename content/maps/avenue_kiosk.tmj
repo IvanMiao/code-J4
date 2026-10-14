@@ -1,0 +1,424 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 60,
+ "height": 34,
+ "tilewidth": 24,
+ "tileheight": 24,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "江城大学 · 校园超市"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_avenue_kiosk"
+  },
+  {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
+   "name": "bgm",
+   "type": "string",
+   "value": "campus_afternoon"
+  },
+  {
+   "name": "ambience",
+   "type": "string",
+   "value": "shop_interior"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 239,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 50,
+       "y": 40
+      },
+      {
+       "x": 1390,
+       "y": 40
+      },
+      {
+       "x": 1390,
+       "y": 760
+      },
+      {
+       "x": 50,
+       "y": 760
+      }
+     ]
+    },
+    {
+     "id": 240,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 660,
+       "y": 740
+      },
+      {
+       "x": 780,
+       "y": 740
+      },
+      {
+       "x": 780,
+       "y": 816
+      },
+      {
+       "x": 660,
+       "y": 816
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 241,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 500,
+       "y": 100
+      },
+      {
+       "x": 1020,
+       "y": 100
+      },
+      {
+       "x": 1020,
+       "y": 245
+      },
+      {
+       "x": 500,
+       "y": 245
+      }
+     ]
+    },
+    {
+     "id": 242,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 240,
+       "y": 330
+      },
+      {
+       "x": 440,
+       "y": 330
+      },
+      {
+       "x": 440,
+       "y": 620
+      },
+      {
+       "x": 240,
+       "y": 620
+      }
+     ]
+    },
+    {
+     "id": 243,
+     "name": "b2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 600,
+       "y": 320
+      },
+      {
+       "x": 800,
+       "y": 320
+      },
+      {
+       "x": 800,
+       "y": 620
+      },
+      {
+       "x": 600,
+       "y": 620
+      }
+     ]
+    },
+    {
+     "id": 244,
+     "name": "b3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 1180,
+       "y": 340
+      },
+      {
+       "x": 1380,
+       "y": 340
+      },
+      {
+       "x": 1380,
+       "y": 650
+      },
+      {
+       "x": 1180,
+       "y": 650
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 245,
+     "name": "from_avenue",
+     "x": 720,
+     "y": 740,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 235,
+     "name": "kiosk_counter",
+     "x": 550,
+     "y": 240,
+     "width": 430,
+     "height": 50,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "kiosk"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "talk"
+      }
+     ]
+    },
+    {
+     "id": 236,
+     "name": "kiosk_freezer",
+     "x": 1160,
+     "y": 380,
+     "width": 40,
+     "height": 220,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "kiosk_freezer"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "right"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
+      }
+     ]
+    },
+    {
+     "id": 237,
+     "name": "kiosk_shelf",
+     "x": 440,
+     "y": 380,
+     "width": 40,
+     "height": 200,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "kiosk_shelf"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "left"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
+      }
+     ]
+    },
+    {
+     "id": 238,
+     "name": "to_avenue",
+     "x": 660,
+     "y": 780,
+     "width": 120,
+     "height": 36,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "avenue:kiosk_front"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "down"
+      },
+      {
+       "name": "sfx",
+       "type": "string",
+       "value": "door_glass"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": [
+    {
+     "id": 246,
+     "name": "fg0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 500,
+       "y": 100
+      },
+      {
+       "x": 1020,
+       "y": 100
+      },
+      {
+       "x": 1020,
+       "y": 245
+      },
+      {
+       "x": 500,
+       "y": 245
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "275"
+      }
+     ]
+    },
+    {
+     "id": 247,
+     "name": "fg1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 240,
+       "y": 330
+      },
+      {
+       "x": 440,
+       "y": 330
+      },
+      {
+       "x": 440,
+       "y": 620
+      },
+      {
+       "x": 240,
+       "y": 620
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "635"
+      }
+     ]
+    },
+    {
+     "id": 248,
+     "name": "fg2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 600,
+       "y": 320
+      },
+      {
+       "x": 800,
+       "y": 320
+      },
+      {
+       "x": 800,
+       "y": 620
+      },
+      {
+       "x": 600,
+       "y": 620
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "635"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": []
+  }
+ ]
+}

@@ -240,6 +240,13 @@
      "x": 515,
      "y": 436,
      "point": true
+    },
+    {
+     "id": 63,
+     "name": "kiosk_front",
+     "x": 1570,
+     "y": 470,
+     "point": true
     }
    ]
   },
@@ -304,16 +311,16 @@
     },
     {
      "id": 41,
-     "name": "kiosk",
+     "name": "to_kiosk",
      "x": 1420,
-     "y": 418,
+     "y": 448,
      "width": 300,
      "height": 30,
      "properties": [
       {
-       "name": "knot",
+       "name": "exit",
        "type": "string",
-       "value": "kiosk"
+       "value": "avenue_kiosk:from_avenue"
       },
       {
        "name": "face",
@@ -321,9 +328,9 @@
        "value": "up"
       },
       {
-       "name": "icon",
+       "name": "sfx",
        "type": "string",
-       "value": "door"
+       "value": "door_chime"
       }
      ]
     },
@@ -449,7 +456,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 63,
+     "id": 64,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -496,7 +503,7 @@
      ]
     },
     {
-     "id": 64,
+     "id": 65,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -543,7 +550,7 @@
      ]
     },
     {
-     "id": 65,
+     "id": 66,
      "name": "fg2",
      "x": 0,
      "y": 0,
@@ -590,7 +597,7 @@
      ]
     },
     {
-     "id": 66,
+     "id": 67,
      "name": "fg3",
      "x": 0,
      "y": 0,

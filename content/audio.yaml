@@ -25,6 +25,12 @@ ambience:
   tenement_alley:
     prompt: "Narrow back alley between old Chinese apartment blocks in the afternoon: a distant radio playing opera, a wok sizzling through an open window, mahjong tiles clacking far away, pigeons cooing, a bicycle rattling past."
     seconds: 20
+  back_alley:
+    prompt: "narrow residential back alley in an old Chinese city, dripping tap, distant TV through a window, clothes flapping, faint traffic beyond the buildings, no music, no voices up close"
+    seconds: 20
+  shop_interior:
+    prompt: "inside a small convenience store, steady fluorescent light hum, chest freezer compressor, quiet, occasional plastic bag rustle, no music, no voices"
+    seconds: 20
   river_ferry:
     prompt: "Old river ferry pier on a breezy day: wide river water lapping against concrete steps and wooden pilings, a ferry horn sounding far away, seagulls calling, ropes creaking, light wind."
     seconds: 20
