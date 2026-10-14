@@ -33,25 +33,24 @@ export function ensureInteractionHintTextures(scene: Phaser.Scene) {
       pixel(5, 3, 'a'); pixel(6, 3, 'a'); pixel(5, 4, 'a'); pixel(6, 4, 'a');
       pixel(8, 6, 'k'); pixel(9, 7, 'k');
     } else if (icon === 'door') {
-      for (let y = 3; y <= 7; y++) {
-        pixel(4, y, 'k');
-        pixel(9, y, 'k');
+      for (let y = 2; y <= 7; y++) {
+        pixel(5, y, 'k');
+        pixel(8, y, 'k');
       }
-      for (let x = 4; x <= 9; x++) {
-        pixel(x, 3, 'k');
+      for (let x = 5; x <= 8; x++) {
+        pixel(x, 2, 'k');
         pixel(x, 7, 'k');
       }
-      for (let y = 4; y <= 6; y++) for (let x = 5; x <= 8; x++) pixel(x, y, 'a');
-      pixel(8, 6, 'k');
+      for (let y = 3; y <= 6; y++) {
+        pixel(6, y, 'f');
+        pixel(7, y, 'a');
+      }
+      pixel(7, 5, 'k');
     } else {
-      const hand: [number, number, string][] = [
-        [4, 3, 'k'], [6, 2, 'k'], [8, 3, 'k'], [4, 4, 'k'], [6, 3, 'k'], [8, 4, 'k'],
-        [3, 5, 'k'], [4, 5, 'k'], [8, 5, 'k'], [9, 6, 'k'], [8, 7, 'k'], [7, 8, 'k'],
-        [5, 8, 'k'], [4, 7, 'k'], [3, 6, 'k'],
-        [5, 4, 'a'], [6, 4, 'a'], [7, 4, 'a'], [5, 5, 'a'], [6, 5, 'a'], [7, 5, 'a'],
-        [5, 6, 'a'], [6, 6, 'a'], [7, 6, 'a'], [5, 7, 'a'], [6, 7, 'a'], [7, 7, 'a'],
-      ];
-      for (const [x, y, color] of hand) pixel(x, y, color);
+      const gear = ['...kk...', '..kaak..', '.kaaaak.', 'kkaafakk', '.kaaaak.', '...kk...'];
+      gear.forEach((row, y) => row.split('').forEach((color, x) => {
+        if (color !== '.') pixel(x + 3, y + 2, color);
+      }));
     }
 
     const texture = scene.textures.createCanvas(key, 14 * PX, 12 * PX)!;

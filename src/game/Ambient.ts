@@ -7,8 +7,8 @@ import type { Vec } from '../engine/walk.ts';
 const PX = 2;
 
 const SPARROW = { c: '#8a4a26', w: '#f2eee2', k: '#1e1a18', g: '#6b625a', b: '#a07448', B: '#4a3424', p: '#d3c8b6', t: '#5e4632', l: '#7a5a40' };
-const PIGEON = { g: '#778b9d', k: '#24282d', G: '#4f927b', P: '#795e91', b: '#4e6273', p: '#d3d5d5', o: '#b47b3d', t: '#41484f' };
-const GULL = { w: '#f2f0e8', g: '#77818a', k: '#292d31', y: '#e3be54', p: '#d1d4d1' };
+const PIGEON = { h: '#b7c2ca', g: '#d7dde0', k: '#202428', G: '#4f927b', P: '#795e91', b: '#8494a1', d: '#505e6b', t: '#3c4650', c: '#ece1c4', o: '#626b72', l: '#b6877f' };
+const GULL = { w: '#f7f5ed', g: '#b4bec4', k: '#292e33', y: '#e6bf53', c: '#b39a61', p: '#c17d72' };
 const CROW = { k: '#202632', b: '#526780', g: '#82909d', p: '#c0c4c6' };
 
 /** Tiny pixel textures; `#` = white (tinted at runtime), other letters map to fixed colours. Birds face left. */
@@ -24,14 +24,14 @@ const SPRITES: Record<string, { rows: string[]; colors?: Record<string, string> 
   sparrow_peck: { rows: ['..........', '.....bB...', '..cccbbBbt', '.ccccwbBtt', 'gkcwkppb..', '.kkwpppp..', '...l..l...'], colors: SPARROW },
   sparrow_up: { rows: ['....Bb....', '..ccbBb...', '.cccbbBbtt', 'gkwwpbbt..', '.kpppp....'], colors: SPARROW },
   sparrow_down: { rows: ['..cc......', '.ccccbbBtt', 'gkwwpbBt..', '.kppbBb...', '....Bb....'], colors: SPARROW },
-  pigeon: { rows: ['..ggg.....', '.ggggg....', 'gkgGPGg...', 'gkgggGbB..', '.gppggbBtt', '..gppg.....', '...g.g.....'], colors: PIGEON },
-  pigeon_peck: { rows: ['..........', '.....o....', '..ggggbB..', '.ggggGbBtt', 'gkgGPGg...', '.gppggbB...', '...g..g....'], colors: PIGEON },
-  pigeon_up: { rows: ['....bb....', '..gggb....', '.gkgGPGg..', 'gkgggGbB..', '.gppgg.....'], colors: PIGEON },
-  pigeon_down: { rows: ['..ggg.....', '.ggggbB...', 'gkgGPGg...', '.gppggbB..', '....bb....'], colors: PIGEON },
-  gull: { rows: ['..www.....', '.wwwww....', 'gkwyyw....', '.gwwwwg...', '..gwwg.....', '..wwww.....', '...g.g.....'], colors: GULL },
-  gull_peck: { rows: ['..........', '.....y....', '..wwwwg...', '.gkwyyw....', '..gwwww....', '...wwww....', '...g..g....'], colors: GULL },
-  gull_up: { rows: ['....gg....', '..gwwg....', '.gkwyyw...', 'gwwwwwwg..', '..gwwg.....'], colors: GULL },
-  gull_down: { rows: ['..gwwg.....', '.gwwwwg....', 'gkwyyw.....', '.gwwwwg....', '....gg.....'], colors: GULL },
+  pigeon: { rows: ['...hhh......', '..hhhhh.....', 'ockhhh......', '.hhGPGgbbbtt', '.gggwwbdbdtt', '..ggwwbdbdtt', '...lll......', '............'], colors: PIGEON },
+  pigeon_peck: { rows: ['............', '.....hhh....', '....hhhhh...', '...ggwwbbttt', '..ggwwbdbdtt', 'ockhGPGg....', '...lll......', '............'], colors: PIGEON },
+  pigeon_up: { rows: ['k..bb....b.k', '.kbbbb..bbk.', '..bbbbbbbb..', '...GwwwwG...', '..ockhhhbbtt', '....ggbbbbtt', '....lll.....', '............'], colors: PIGEON },
+  pigeon_down: { rows: ['..k......k..', '.kgg....ggk.', 'kgggg..ggggk', '.gggggggggg.', '..ockhhhbbtt', '....ggbbbbtt', '....lll.....', '............'], colors: PIGEON },
+  gull: { rows: ['....ww......', '...wwww.....', 'yckwwwgggkk.', '..wwwwwgggkk', '...wwwwgggk.', '....wwggg...', '....p..p....', '............'], colors: GULL },
+  gull_peck: { rows: ['............', '.....ww.....', '....wwww....', '...wwwwwggkk', '..wwwwgggkk.', '.yckwwggggk.', '...wwgg.....', '....p..p....'], colors: GULL },
+  gull_up: { rows: ['k..g....g..k', 'kgggg..ggggk', '.gggggggggg.', '...gwwwwg...', '..ykwgg.....', '....ww......', '....p..p....', '............'], colors: GULL },
+  gull_down: { rows: ['..k......k..', '.kgg....ggk.', 'kgggg..ggggk', '.gggggggggg.', '..ykwgg.....', '....ww......', '....p..p....', '............'], colors: GULL },
   crow: { rows: ['..kkk.....', '.kkkkk....', 'kkbkbb....', '.kkkbbg...', '..kbbbkk...', '...kkkk....', '...k..k....'], colors: CROW },
   crow_peck: { rows: ['..........', '.....b....', '..kkkbb....', '.kkbkbbg...', 'kkkbbg.....', '.kkkkk.....', '...k..k....'], colors: CROW },
   crow_up: { rows: ['....bb....', '..kkbkk...', '.kkbkbb....', 'kkkbbgk....', '.kkkbb.....'], colors: CROW },
@@ -509,11 +509,13 @@ export class Ambient {
       const sign = b.img.flipX ? 1 : -1;
       const dx = sign * rand(config.walker ? 18 : 10, config.walker ? 32 : 22);
       const toX = Phaser.Math.Clamp(b.img.x + dx, b.flock.area.x, b.flock.area.x + b.flock.area.width);
-      const y = Phaser.Math.Clamp(b.img.y + rand(-6, 6), b.flock.area.y, b.flock.area.y + b.flock.area.height);
+      const y = config.walker ? b.img.y : Phaser.Math.Clamp(b.img.y + rand(-6, 6), b.flock.area.y, b.flock.area.y + b.flock.area.height);
       if (config.walker) {
+        const baseY = b.img.y;
         b.img.setFlipX(dx > 0);
-        this.scene.tweens.add({ targets: b.img, x: toX, y: y - 2, duration: 360, yoyo: true, onComplete: () => b.img.setY(y) });
-        this.scene.tweens.add({ targets: b.shadow, x: toX, y, duration: 360, yoyo: true });
+        this.scene.tweens.add({ targets: b.img, x: toX, duration: 360, onComplete: () => b.img.setY(baseY) });
+        this.scene.tweens.add({ targets: b.img, y: baseY - 1, duration: 90, yoyo: true, repeat: 1, onComplete: () => b.img.setY(baseY) });
+        this.scene.tweens.add({ targets: b.shadow, x: toX, duration: 360 });
       } else {
         this.hopTo(b, { x: toX, y }, config.sideHop ? 10 : 7, 160, () => { b.state = 'ground'; });
       }
