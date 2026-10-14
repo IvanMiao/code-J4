@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { facingOf, step, walkable } from '../src/engine/walk.ts';
+import { exitEdge } from '../src/engine/map.ts';
+import { facingOf, step, walkable, walkableFoot } from '../src/engine/walk.ts';
 import { addItem, readSave, writeSave } from '../src/engine/save.ts';
 import { createBattle, outcome, playRound } from '../src/engine/battle.ts';
 
@@ -8,13 +9,28 @@ const square = [[{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y
 describe('walk', () => {
   it('stays inside the walkable area and slides along edges', () => {
     expect(walkable({ x: 50, y: 50 }, square)).toBe(true);
-    expect(step({ x: 95, y: 50 }, { x: 10, y: 10 }, square)).toEqual({ x: 95, y: 60 });
-    expect(step({ x: 99, y: 99 }, { x: 5, y: 5 }, square)).toEqual({ x: 99, y: 99 });
+    expect(step({ x: 80, y: 50 }, { x: 10, y: 10 }, square)).toEqual({ x: 80, y: 60 });
+    expect(step({ x: 85, y: 90 }, { x: 10, y: 10 }, square)).toEqual({ x: 85, y: 90 });
+  });
+  it('requires the whole footprint to fit and slides it along an edge', () => {
+    expect(walkableFoot({ x: 10, y: 50 }, square)).toBe(false);
+    expect(walkableFoot({ x: 20, y: 50 }, square)).toBe(true);
+    expect(step({ x: 80, y: 50 }, { x: 10, y: 10 }, square)).toEqual({ x: 80, y: 60 });
   });
   it('picks the dominant facing', () => {
     expect(facingOf(1, 0.2, 'down')).toBe('right');
     expect(facingOf(0, -1, 'down')).toBe('up');
     expect(facingOf(0, 0, 'left')).toBe('left');
+  });
+});
+
+describe('map exits', () => {
+  it('detects each edge and uses the door-facing direction away from edges', () => {
+    expect(exitEdge({ x: 0, y: 30, width: 10, height: 20, face: 'down' }, 100, 100)).toBe('left');
+    expect(exitEdge({ x: 90, y: 30, width: 10, height: 20, face: 'up' }, 100, 100)).toBe('right');
+    expect(exitEdge({ x: 30, y: 0, width: 20, height: 10, face: 'down' }, 100, 100)).toBe('up');
+    expect(exitEdge({ x: 30, y: 90, width: 20, height: 10, face: 'left' }, 100, 100)).toBe('down');
+    expect(exitEdge({ x: 30, y: 30, width: 20, height: 20, face: 'right' }, 100, 100)).toBe('right');
   });
 });
 
