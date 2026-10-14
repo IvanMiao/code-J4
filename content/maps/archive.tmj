@@ -20,6 +20,11 @@
    "value": "bg_archive"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
    "value": "campus_afternoon"
@@ -36,7 +41,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 129,
+     "id": 124,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -60,7 +65,7 @@
      ]
     },
     {
-     "id": 130,
+     "id": 125,
      "name": "w1",
      "x": 0,
      "y": 0,
@@ -84,7 +89,7 @@
      ]
     },
     {
-     "id": 131,
+     "id": 126,
      "name": "w2",
      "x": 0,
      "y": 0,
@@ -108,18 +113,18 @@
      ]
     },
     {
-     "id": 132,
+     "id": 127,
      "name": "w3",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 798,
-       "y": 285
+       "y": 325
       },
       {
        "x": 1122,
-       "y": 285
+       "y": 325
       },
       {
        "x": 1122,
@@ -127,30 +132,6 @@
       },
       {
        "x": 798,
-       "y": 385
-      }
-     ]
-    },
-    {
-     "id": 133,
-     "name": "w4",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 1740,
-       "y": 355
-      },
-      {
-       "x": 1900,
-       "y": 355
-      },
-      {
-       "x": 1900,
-       "y": 385
-      },
-      {
-       "x": 1740,
        "y": 385
       }
      ]
@@ -162,7 +143,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 134,
+     "id": 128,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -186,7 +167,7 @@
      ]
     },
     {
-     "id": 135,
+     "id": 129,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -210,7 +191,7 @@
      ]
     },
     {
-     "id": 136,
+     "id": 130,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -234,7 +215,7 @@
      ]
     },
     {
-     "id": 137,
+     "id": 131,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -258,7 +239,7 @@
      ]
     },
     {
-     "id": 138,
+     "id": 132,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -282,7 +263,7 @@
      ]
     },
     {
-     "id": 139,
+     "id": 133,
      "name": "b5",
      "x": 0,
      "y": 0,
@@ -306,7 +287,7 @@
      ]
     },
     {
-     "id": 140,
+     "id": 134,
      "name": "b6",
      "x": 0,
      "y": 0,
@@ -330,7 +311,7 @@
      ]
     },
     {
-     "id": 141,
+     "id": 135,
      "name": "b7",
      "x": 0,
      "y": 0,
@@ -354,7 +335,7 @@
      ]
     },
     {
-     "id": 142,
+     "id": 136,
      "name": "b8",
      "x": 0,
      "y": 0,
@@ -378,7 +359,7 @@
      ]
     },
     {
-     "id": 143,
+     "id": 137,
      "name": "b9",
      "x": 0,
      "y": 0,
@@ -402,7 +383,7 @@
      ]
     },
     {
-     "id": 144,
+     "id": 138,
      "name": "b10",
      "x": 0,
      "y": 0,
@@ -426,7 +407,7 @@
      ]
     },
     {
-     "id": 145,
+     "id": 139,
      "name": "b11",
      "x": 0,
      "y": 0,
@@ -450,7 +431,7 @@
      ]
     },
     {
-     "id": 146,
+     "id": 140,
      "name": "b12",
      "x": 0,
      "y": 0,
@@ -474,7 +455,7 @@
      ]
     },
     {
-     "id": 147,
+     "id": 141,
      "name": "b13",
      "x": 0,
      "y": 0,
@@ -498,7 +479,7 @@
      ]
     },
     {
-     "id": 148,
+     "id": 142,
      "name": "b14",
      "x": 0,
      "y": 0,
@@ -522,7 +503,7 @@
      ]
     },
     {
-     "id": 149,
+     "id": 143,
      "name": "b15",
      "x": 0,
      "y": 0,
@@ -552,28 +533,28 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 150,
+     "id": 144,
      "name": "from_library",
      "x": 120,
      "y": 640,
      "point": true
     },
     {
-     "id": 151,
+     "id": 145,
      "name": "from_city",
      "x": 1820,
      "y": 640,
      "point": true
     },
     {
-     "id": 152,
+     "id": 146,
      "name": "archive_steps",
      "x": 960,
      "y": 340,
      "point": true
     },
     {
-     "id": 153,
+     "id": 147,
      "name": "boiler_front",
      "x": 1845,
      "y": 410,
@@ -591,7 +572,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 116,
+     "id": 111,
      "name": "to_library",
      "x": 0,
      "y": 460,
@@ -606,7 +587,7 @@
      ]
     },
     {
-     "id": 117,
+     "id": 112,
      "name": "to_city_overpass",
      "x": 1895,
      "y": 460,
@@ -621,7 +602,7 @@
      ]
     },
     {
-     "id": 118,
+     "id": 113,
      "name": "archive_north_alley",
      "x": 100,
      "y": 40,
@@ -637,16 +618,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 119,
+     "id": 114,
      "name": "archive_door",
      "x": 860,
-     "y": 270,
+     "y": 285,
      "width": 200,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -657,11 +643,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 120,
+     "id": 115,
      "name": "stone_stela",
      "x": 580,
      "y": 470,
@@ -677,11 +668,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 121,
+     "id": 116,
      "name": "koi_pond",
      "x": 1200,
      "y": 475,
@@ -697,16 +693,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 122,
+     "id": 117,
      "name": "vending_machine",
      "x": 1480,
-     "y": 445,
+     "y": 465,
      "width": 260,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -717,16 +718,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "use"
       }
      ]
     },
     {
-     "id": 123,
+     "id": 118,
      "name": "boiler_door",
      "x": 1790,
-     "y": 345,
+     "y": 355,
      "width": 110,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -737,11 +743,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 124,
+     "id": 119,
      "name": "courtyard_bench",
      "x": 640,
      "y": 800,
@@ -757,6 +768,11 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -767,7 +783,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 154,
+     "id": 148,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -814,7 +830,7 @@
      ]
     },
     {
-     "id": 155,
+     "id": 149,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -861,7 +877,7 @@
      ]
     },
     {
-     "id": 156,
+     "id": 150,
      "name": "fg2",
      "x": 0,
      "y": 0,
@@ -914,7 +930,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 125,
+     "id": 120,
      "name": "leaves",
      "x": 120,
      "y": 680,
@@ -934,7 +950,7 @@
      ]
     },
     {
-     "id": 126,
+     "id": 121,
      "name": "birds",
      "x": 100,
      "y": 460,
@@ -954,7 +970,7 @@
      ]
     },
     {
-     "id": 127,
+     "id": 122,
      "name": "motes",
      "x": 50,
      "y": 0,
@@ -969,7 +985,7 @@
      ]
     },
     {
-     "id": 128,
+     "id": 123,
      "name": "butterflies",
      "x": 1180,
      "y": 330,

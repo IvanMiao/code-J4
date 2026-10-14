@@ -20,6 +20,11 @@
    "value": "bg_city_overpass"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
    "value": "campus_afternoon"
@@ -36,7 +41,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 168,
+     "id": 162,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -58,78 +63,6 @@
        "y": 1080
       }
      ]
-    },
-    {
-     "id": 169,
-     "name": "w1",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 440,
-       "y": 360
-      },
-      {
-       "x": 760,
-       "y": 360
-      },
-      {
-       "x": 760,
-       "y": 420
-      },
-      {
-       "x": 440,
-       "y": 420
-      }
-     ]
-    },
-    {
-     "id": 170,
-     "name": "w2",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 1170,
-       "y": 365
-      },
-      {
-       "x": 1500,
-       "y": 365
-      },
-      {
-       "x": 1500,
-       "y": 420
-      },
-      {
-       "x": 1170,
-       "y": 420
-      }
-     ]
-    },
-    {
-     "id": 171,
-     "name": "w3",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 1805,
-       "y": 370
-      },
-      {
-       "x": 1920,
-       "y": 370
-      },
-      {
-       "x": 1920,
-       "y": 420
-      },
-      {
-       "x": 1805,
-       "y": 420
-      }
-     ]
     }
    ]
   },
@@ -138,7 +71,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 172,
+     "id": 163,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -162,7 +95,7 @@
      ]
     },
     {
-     "id": 173,
+     "id": 164,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -186,7 +119,7 @@
      ]
     },
     {
-     "id": 174,
+     "id": 165,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -210,7 +143,7 @@
      ]
     },
     {
-     "id": 175,
+     "id": 166,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -234,7 +167,7 @@
      ]
     },
     {
-     "id": 176,
+     "id": 167,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -258,7 +191,7 @@
      ]
     },
     {
-     "id": 177,
+     "id": 168,
      "name": "b5",
      "x": 0,
      "y": 0,
@@ -282,7 +215,7 @@
      ]
     },
     {
-     "id": 178,
+     "id": 169,
      "name": "b6",
      "x": 0,
      "y": 0,
@@ -306,7 +239,7 @@
      ]
     },
     {
-     "id": 179,
+     "id": 170,
      "name": "b7",
      "x": 0,
      "y": 0,
@@ -330,7 +263,7 @@
      ]
     },
     {
-     "id": 180,
+     "id": 171,
      "name": "b8",
      "x": 0,
      "y": 0,
@@ -354,7 +287,7 @@
      ]
     },
     {
-     "id": 181,
+     "id": 172,
      "name": "b9",
      "x": 0,
      "y": 0,
@@ -378,7 +311,7 @@
      ]
     },
     {
-     "id": 182,
+     "id": 173,
      "name": "b10",
      "x": 0,
      "y": 0,
@@ -408,35 +341,35 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 183,
+     "id": 174,
      "name": "from_gate",
      "x": 120,
      "y": 640,
      "point": true
     },
     {
-     "id": 184,
+     "id": 175,
      "name": "from_archive",
      "x": 120,
      "y": 640,
      "point": true
     },
     {
-     "id": 185,
+     "id": 176,
      "name": "from_tenement",
      "x": 1820,
      "y": 640,
      "point": true
     },
     {
-     "id": 186,
+     "id": 177,
      "name": "repair_front",
      "x": 600,
      "y": 430,
      "point": true
     },
     {
-     "id": 187,
+     "id": 178,
      "name": "noodle_front",
      "x": 1280,
      "y": 460,
@@ -454,7 +387,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 157,
+     "id": 151,
      "name": "to_gate",
      "x": 0,
      "y": 480,
@@ -469,7 +402,7 @@
      ]
     },
     {
-     "id": 158,
+     "id": 152,
      "name": "to_tenement",
      "x": 1895,
      "y": 480,
@@ -484,7 +417,7 @@
      ]
     },
     {
-     "id": 159,
+     "id": 153,
      "name": "bus_stop_302",
      "x": 54,
      "y": 495,
@@ -500,16 +433,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 160,
+     "id": 154,
      "name": "repair_shop",
      "x": 460,
-     "y": 360,
+     "y": 390,
      "width": 280,
-     "height": 50,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -520,16 +458,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 161,
+     "id": 155,
      "name": "payphone_box",
      "x": 890,
-     "y": 475,
+     "y": 462,
      "width": 200,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -540,16 +483,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "use"
       }
      ]
     },
     {
-     "id": 162,
+     "id": 156,
      "name": "noodle_stall",
      "x": 1255,
-     "y": 450,
+     "y": 470,
      "width": 250,
-     "height": 55,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -560,16 +508,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 163,
+     "id": 157,
      "name": "overpass_alley",
      "x": 1810,
-     "y": 370,
+     "y": 390,
      "width": 105,
-     "height": 50,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -580,11 +533,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 164,
+     "id": 158,
      "name": "ebike_row",
      "x": 220,
      "y": 805,
@@ -600,11 +558,16 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "use"
       }
      ]
     },
     {
-     "id": 165,
+     "id": 159,
      "name": "night_tables",
      "x": 1240,
      "y": 825,
@@ -620,6 +583,11 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -630,7 +598,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 188,
+     "id": 179,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -661,7 +629,7 @@
      ]
     },
     {
-     "id": 189,
+     "id": 180,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -692,7 +660,7 @@
      ]
     },
     {
-     "id": 190,
+     "id": 181,
      "name": "fg2",
      "x": 0,
      "y": 0,
@@ -729,7 +697,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 166,
+     "id": 160,
      "name": "motes",
      "x": 380,
      "y": 180,
@@ -744,7 +712,7 @@
      ]
     },
     {
-     "id": 167,
+     "id": 161,
      "name": "birds",
      "x": 100,
      "y": 520,

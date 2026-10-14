@@ -20,6 +20,11 @@
    "value": "bg_avenue"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
    "value": "campus_afternoon"
@@ -36,7 +41,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 54,
+     "id": 53,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -58,102 +63,6 @@
        "y": 890
       }
      ]
-    },
-    {
-     "id": 55,
-     "name": "w1",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 430,
-       "y": 336
-      },
-      {
-       "x": 600,
-       "y": 336
-      },
-      {
-       "x": 600,
-       "y": 426
-      },
-      {
-       "x": 430,
-       "y": 426
-      }
-     ]
-    },
-    {
-     "id": 56,
-     "name": "w2",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 940,
-       "y": 340
-      },
-      {
-       "x": 1030,
-       "y": 340
-      },
-      {
-       "x": 1030,
-       "y": 426
-      },
-      {
-       "x": 940,
-       "y": 426
-      }
-     ]
-    },
-    {
-     "id": 57,
-     "name": "w3",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 1280,
-       "y": 340
-      },
-      {
-       "x": 1376,
-       "y": 340
-      },
-      {
-       "x": 1376,
-       "y": 426
-      },
-      {
-       "x": 1280,
-       "y": 426
-      }
-     ]
-    },
-    {
-     "id": 58,
-     "name": "w4",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 1732,
-       "y": 340
-      },
-      {
-       "x": 1920,
-       "y": 340
-      },
-      {
-       "x": 1920,
-       "y": 426
-      },
-      {
-       "x": 1732,
-       "y": 426
-      }
-     ]
     }
    ]
   },
@@ -162,7 +71,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 59,
+     "id": 54,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -186,7 +95,7 @@
      ]
     },
     {
-     "id": 60,
+     "id": 55,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -210,7 +119,7 @@
      ]
     },
     {
-     "id": 61,
+     "id": 56,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -240,24 +149,24 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 62,
+     "id": 57,
      "name": "from_gate",
      "x": 120,
      "y": 640,
      "point": true
     },
     {
-     "id": 63,
+     "id": 58,
      "name": "from_library",
      "x": 1820,
      "y": 640,
      "point": true
     },
     {
-     "id": 64,
+     "id": 59,
      "name": "dorm_door",
      "x": 515,
-     "y": 360,
+     "y": 436,
      "point": true
     }
    ]
@@ -272,12 +181,12 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 40,
+     "id": 39,
      "name": "dorm_door",
      "x": 430,
-     "y": 320,
+     "y": 396,
      "width": 170,
-     "height": 60,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -288,16 +197,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 41,
+     "id": 40,
      "name": "notice_board",
      "x": 1036,
      "y": 396,
      "width": 244,
-     "height": 64,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -308,16 +222,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 42,
+     "id": 41,
      "name": "kiosk",
      "x": 1420,
      "y": 396,
      "width": 300,
-     "height": 64,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -328,16 +247,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 43,
+     "id": 42,
      "name": "bike_bell",
      "x": 640,
-     "y": 400,
+     "y": 426,
      "width": 270,
-     "height": 60,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -353,16 +277,21 @@
        "name": "hidden",
        "type": "string",
        "value": "true"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "use"
       }
      ]
     },
     {
-     "id": 44,
+     "id": 43,
      "name": "avenue_kiosk_paw",
      "x": 1740,
-     "y": 320,
+     "y": 396,
      "width": 100,
-     "height": 50,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -378,11 +307,16 @@
        "name": "hidden",
        "type": "string",
        "value": "true"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 45,
+     "id": 44,
      "name": "avenue_bench",
      "x": 1110,
      "y": 880,
@@ -398,11 +332,16 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 46,
+     "id": 45,
      "name": "to_gate",
      "x": 0,
      "y": 426,
@@ -417,7 +356,7 @@
      ]
     },
     {
-     "id": 47,
+     "id": 46,
      "name": "to_library",
      "x": 1895,
      "y": 426,
@@ -438,7 +377,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 65,
+     "id": 60,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -485,7 +424,7 @@
      ]
     },
     {
-     "id": 66,
+     "id": 61,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -532,7 +471,7 @@
      ]
     },
     {
-     "id": 67,
+     "id": 62,
      "name": "fg2",
      "x": 0,
      "y": 0,
@@ -579,7 +518,7 @@
      ]
     },
     {
-     "id": 68,
+     "id": 63,
      "name": "fg3",
      "x": 0,
      "y": 0,
@@ -632,7 +571,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 48,
+     "id": 47,
      "name": "grass",
      "x": 0,
      "y": 890,
@@ -647,7 +586,7 @@
      ]
     },
     {
-     "id": 49,
+     "id": 48,
      "name": "leaves",
      "x": 300,
      "y": 760,
@@ -667,7 +606,7 @@
      ]
     },
     {
-     "id": 50,
+     "id": 49,
      "name": "birds",
      "x": 0,
      "y": 800,
@@ -687,7 +626,7 @@
      ]
     },
     {
-     "id": 51,
+     "id": 50,
      "name": "birds",
      "x": 0,
      "y": 432,
@@ -707,7 +646,7 @@
      ]
     },
     {
-     "id": 52,
+     "id": 51,
      "name": "butterflies",
      "x": 0,
      "y": 900,
@@ -727,7 +666,7 @@
      ]
     },
     {
-     "id": 53,
+     "id": 52,
      "name": "glint",
      "x": 1790,
      "y": 336,

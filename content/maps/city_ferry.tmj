@@ -20,6 +20,11 @@
    "value": "bg_city_ferry"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
    "value": "campus_afternoon"
@@ -36,7 +41,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 225,
+     "id": 216,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -60,7 +65,7 @@
      ]
     },
     {
-     "id": 226,
+     "id": 217,
      "name": "w1",
      "x": 0,
      "y": 0,
@@ -90,7 +95,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 227,
+     "id": 218,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -114,7 +119,7 @@
      ]
     },
     {
-     "id": 228,
+     "id": 219,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -138,7 +143,7 @@
      ]
     },
     {
-     "id": 229,
+     "id": 220,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -162,7 +167,7 @@
      ]
     },
     {
-     "id": 230,
+     "id": 221,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -186,7 +191,7 @@
      ]
     },
     {
-     "id": 231,
+     "id": 222,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -210,7 +215,7 @@
      ]
     },
     {
-     "id": 232,
+     "id": 223,
      "name": "b5",
      "x": 0,
      "y": 0,
@@ -234,7 +239,7 @@
      ]
     },
     {
-     "id": 233,
+     "id": 224,
      "name": "b6",
      "x": 0,
      "y": 0,
@@ -258,7 +263,7 @@
      ]
     },
     {
-     "id": 234,
+     "id": 225,
      "name": "b7",
      "x": 0,
      "y": 0,
@@ -282,7 +287,7 @@
      ]
     },
     {
-     "id": 235,
+     "id": 226,
      "name": "b8",
      "x": 0,
      "y": 0,
@@ -306,7 +311,7 @@
      ]
     },
     {
-     "id": 236,
+     "id": 227,
      "name": "b9",
      "x": 0,
      "y": 0,
@@ -336,21 +341,21 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 237,
+     "id": 228,
      "name": "from_tenement",
      "x": 120,
      "y": 640,
      "point": true
     },
     {
-     "id": 238,
+     "id": 229,
      "name": "from_suburb",
      "x": 1820,
      "y": 640,
      "point": true
     },
     {
-     "id": 239,
+     "id": 230,
      "name": "pier_gangplank",
      "x": 1470,
      "y": 420,
@@ -368,7 +373,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 217,
+     "id": 208,
      "name": "to_tenement",
      "x": 0,
      "y": 480,
@@ -383,7 +388,7 @@
      ]
     },
     {
-     "id": 218,
+     "id": 209,
      "name": "to_suburb_wireframe",
      "x": 1895,
      "y": 480,
@@ -398,12 +403,12 @@
      ]
     },
     {
-     "id": 219,
+     "id": 210,
      "name": "ferry_ticket_booth",
      "x": 450,
-     "y": 405,
+     "y": 395,
      "width": 320,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -414,16 +419,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 220,
+     "id": 211,
      "name": "ferry_gangplank",
      "x": 1395,
-     "y": 365,
+     "y": 385,
      "width": 150,
-     "height": 50,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -434,11 +444,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 221,
+     "id": 212,
      "name": "pier_crates",
      "x": 240,
      "y": 805,
@@ -454,11 +469,16 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 222,
+     "id": 213,
      "name": "pier_bench",
      "x": 1130,
      "y": 845,
@@ -474,6 +494,11 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -489,7 +514,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 223,
+     "id": 214,
      "name": "birds",
      "x": 100,
      "y": 460,
@@ -509,7 +534,7 @@
      ]
     },
     {
-     "id": 224,
+     "id": 215,
      "name": "motes",
      "x": 900,
      "y": 40,

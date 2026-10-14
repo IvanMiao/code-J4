@@ -160,7 +160,8 @@ export class Ambient {
     const median = ls[Math.floor(ls.length / 2)];
     const base = water.find((i) => Math.abs(lum(d[i], d[i + 1], d[i + 2]) - median) < 1.5) ?? water[0];
     const [br, bg, bb] = [d[base], d[base + 1], d[base + 2]];
-    const cover = this.scene.textures.createCanvas(`amb:pool:${a.x}:${a.y}`, w, h) ?? (this.scene.textures.get(`amb:pool:${a.x}:${a.y}`) as Phaser.Textures.CanvasTexture);
+    const key = `amb:pool:${a.x}:${a.y}`;
+    const cover = (this.scene.textures.exists(key) ? this.scene.textures.get(key) : this.scene.textures.createCanvas(key, w, h)) as Phaser.Textures.CanvasTexture;
     cover.context.clearRect(0, 0, w, h);
     cover.context.fillStyle = `rgb(${br},${bg},${bb})`;
     let sx = 0, sy = 0, minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -295,9 +296,9 @@ export class Ambient {
     const roll = Math.random();
     if (roll < 0.45) {
       b.img.setTexture('amb:sparrow_peck');
-      this.scene.time.delayedCall(160, () => b.state === 'ground' && b.img.setTexture('amb:sparrow'));
-      if (Math.random() < 0.5) this.scene.time.delayedCall(320, () => b.state === 'ground' && b.img.setTexture('amb:sparrow_peck'));
-      this.scene.time.delayedCall(480, () => b.state === 'ground' && b.img.setTexture('amb:sparrow'));
+      this.timers.push(this.scene.time.delayedCall(160, () => b.state === 'ground' && b.img.setTexture('amb:sparrow')));
+      if (Math.random() < 0.5) this.timers.push(this.scene.time.delayedCall(320, () => b.state === 'ground' && b.img.setTexture('amb:sparrow_peck')));
+      this.timers.push(this.scene.time.delayedCall(480, () => b.state === 'ground' && b.img.setTexture('amb:sparrow')));
     } else if (roll < 0.6) {
       b.img.setFlipX(!b.img.flipX);
     } else {
@@ -338,7 +339,10 @@ export class Ambient {
 
   destroy() {
     for (const tm of this.timers) tm.remove();
-    for (const o of this.objs) o.destroy();
+    for (const o of this.objs) {
+      this.scene.tweens.killTweensOf(o);
+      o.destroy();
+    }
     this.objs = [];
     this.sway = [];
     this.birds = [];

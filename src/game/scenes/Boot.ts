@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { artUrl, audioUrl, cast, FONT, maps, style, type AudioIndex } from '../config.ts';
+import { ensureInteractionHintTextures } from '../ui/InteractionHint.ts';
 
 /** Retro sheets have a real right row (mirrored at build time); old HD sheets mirror the left row at runtime. */
 export const DIR_ROW = { down: 0, left: 1, right: style === 'hd' ? 1 : 2, up: 3 } as const;
@@ -21,6 +22,7 @@ export class BootScene extends Phaser.Scene {
 
   create() {
     for (const id of Object.keys(cast)) this.buildWalkSheet(id);
+    ensureInteractionHintTextures(this);
     if (style === 'retro') {
       for (const key of this.textures.getTextureKeys()) this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
     }

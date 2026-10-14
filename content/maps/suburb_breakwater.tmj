@@ -20,6 +20,11 @@
    "value": "bg_suburb_breakwater"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
    "value": "campus_afternoon"
@@ -36,7 +41,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 308,
+     "id": 299,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -60,7 +65,7 @@
      ]
     },
     {
-     "id": 309,
+     "id": 300,
      "name": "w1",
      "x": 0,
      "y": 0,
@@ -84,7 +89,7 @@
      ]
     },
     {
-     "id": 310,
+     "id": 301,
      "name": "w2",
      "x": 0,
      "y": 0,
@@ -114,7 +119,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 311,
+     "id": 302,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -138,7 +143,7 @@
      ]
     },
     {
-     "id": 312,
+     "id": 303,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -162,7 +167,7 @@
      ]
     },
     {
-     "id": 313,
+     "id": 304,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -186,7 +191,7 @@
      ]
     },
     {
-     "id": 314,
+     "id": 305,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -210,7 +215,7 @@
      ]
     },
     {
-     "id": 315,
+     "id": 306,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -240,14 +245,14 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 316,
+     "id": 307,
      "name": "from_dyeworks",
      "x": 120,
      "y": 500,
      "point": true
     },
     {
-     "id": 317,
+     "id": 308,
      "name": "pier_tip",
      "x": 1240,
      "y": 480,
@@ -265,7 +270,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 301,
+     "id": 292,
      "name": "to_dyeworks",
      "x": 0,
      "y": 380,
@@ -280,7 +285,7 @@
      ]
     },
     {
-     "id": 302,
+     "id": 293,
      "name": "clearance_barrier",
      "x": 180,
      "y": 270,
@@ -296,16 +301,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 303,
+     "id": 294,
      "name": "pier_telescope",
      "x": 1250,
-     "y": 440,
+     "y": 455,
      "width": 180,
-     "height": 55,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -316,11 +326,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "use"
       }
      ]
     },
     {
-     "id": 304,
+     "id": 295,
      "name": "tetrapod_shore",
      "x": 200,
      "y": 620,
@@ -336,11 +351,16 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 305,
+     "id": 296,
      "name": "breakwater_void",
      "x": 1410,
      "y": 480,
@@ -356,6 +376,11 @@
        "name": "face",
        "type": "string",
        "value": "right"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -371,7 +396,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 306,
+     "id": 297,
      "name": "grass",
      "x": 40,
      "y": 660,
@@ -386,7 +411,7 @@
      ]
     },
     {
-     "id": 307,
+     "id": 298,
      "name": "motes",
      "x": 1180,
      "y": 40,
