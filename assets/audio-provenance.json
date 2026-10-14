@@ -118,5 +118,195 @@
     "hash": "65b5792d454dffa9",
     "generatedAt": "2026-10-10T15:16:12.028Z",
     "request": "A small flock of tree sparrows chirping and suddenly flapping away together, light quick wingbeats, outdoors."
+  },
+  "ambience/tenement_alley": {
+    "hash": "96e6105f065abcf8",
+    "generatedAt": "2026-10-14T20:15:09.225Z",
+    "request": "Narrow back alley between old Chinese apartment blocks in the afternoon: a distant radio playing opera, a wok sizzling through an open window, mahjong tiles clacking far away, pigeons cooing, a bicycle rattling past."
+  },
+  "ambience/overpass_day": {
+    "hash": "36efdf3afded43ec",
+    "generatedAt": "2026-10-14T20:15:09.326Z",
+    "request": "Under a city highway overpass in the daytime: heavy traffic rumbling overhead with rhythmic expansion-joint thumps, scooters passing on the street below, distant market vendors calling, pigeons cooing nearby."
+  },
+  "bgm/old_town": {
+    "hash": "1f759010224ef1b4",
+    "generatedAt": "2026-10-14T20:15:12.208Z",
+    "request": "Lively but wistful daytime theme for a 1990s Chinese PC RPG set in the old quarter of a river city: plucked pipa and yangqin melody over warm upright bass and light street-band percussion, a touch of accordion, bustling and nostalgic, seamless loop feel, no vocals."
+  },
+  "bgm/outskirts": {
+    "hash": "33d64b1bc2ae00f6",
+    "generatedAt": "2026-10-14T20:15:12.425Z",
+    "request": "Sparse, dreamlike theme for a 1990s Chinese PC RPG set on the unfinished outskirts of a city where the world looks half-drawn: soft xiao flute and music-box celesta over slow warm synth pads and distant bell tones, gentle and slightly uncanny, curious rather than scary, seamless loop feel, no vocals."
+  },
+  "ambience/wireframe_estate": {
+    "hash": "6538606e1ffc3bd2",
+    "generatedAt": "2026-10-14T20:15:13.349Z",
+    "request": "Empty unfinished housing estate on the edge of a city: steady wind over bare concrete and scaffolding, a loose tarp flapping, a faint electrical hum, crows cawing in the distance, no people."
+  },
+  "ambience/river_ferry": {
+    "hash": "3002c80dd959124e",
+    "generatedAt": "2026-10-14T20:15:13.658Z",
+    "request": "Old river ferry pier on a breezy day: wide river water lapping against concrete steps and wooden pilings, a ferry horn sounding far away, seagulls calling, ropes creaking, light wind."
+  },
+  "sfx/step_stone_1": {
+    "hash": "cf32827adafae201",
+    "generatedAt": "2026-10-14T20:15:57.685Z",
+    "request": "One single clearly audible sneaker footstep on stone pavement, close mic, crisp heel-toe tap, dry, no reverb."
+  },
+  "sfx/step_stone_2": {
+    "hash": "fa29f85a61f5c697",
+    "generatedAt": "2026-10-14T20:15:57.105Z",
+    "request": "One single clearly audible sneaker step on gritty concrete, close mic, short crunchy scuff, dry."
+  },
+  "sfx/step_stone_3": {
+    "hash": "7d0b963a46e61f45",
+    "generatedAt": "2026-10-14T20:15:15.829Z",
+    "request": "One single quiet rubber-soled footstep on a stone tile, close, short scuff."
+  },
+  "ambience/dyeworks_yard": {
+    "hash": "455d32ebad3599b1",
+    "generatedAt": "2026-10-14T20:15:16.387Z",
+    "request": "Abandoned textile dye factory yard: water dripping into puddles, wind whistling through broken windows, an old metal sheet creaking, a distant crow, a faint hum of an old transformer."
+  },
+  "sfx/door_wood": {
+    "hash": "53f2eafe8d9d2447",
+    "generatedAt": "2026-10-14T20:15:16.432Z",
+    "request": "An old wooden dormitory door being pushed open with a short creak and a soft latch click."
+  },
+  "ambience/breakwater_wind": {
+    "hash": "76afeebf5af29ee7",
+    "generatedAt": "2026-10-14T20:15:16.650Z",
+    "request": "Concrete breakwater by the sea: waves washing against the stones, strong steady sea wind, seagulls crying overhead, occasional spray splash."
+  },
+  "sfx/door_glass": {
+    "hash": "91401d6ec1722933",
+    "generatedAt": "2026-10-14T20:15:17.104Z",
+    "request": "A heavy glass library door swinging open with a soft rubber seal whoosh and a light metal handle click."
+  },
+  "sfx/sparrow_chirp_1": {
+    "hash": "a30a1f868c5b083e",
+    "generatedAt": "2026-10-14T20:15:17.599Z",
+    "request": "A single tree sparrow chirping twice, cheep cheep, close, outdoors, no other birds."
+  },
+  "sfx/door_metal": {
+    "hash": "4c2abfe42b86c502",
+    "generatedAt": "2026-10-14T20:15:17.671Z",
+    "request": "A heavy rusty iron boiler-room door scraping and creaking open, then a dull metal clank."
+  },
+  "sfx/sparrow_chirp_2": {
+    "hash": "ab8398ca46369b90",
+    "generatedAt": "2026-10-14T20:15:17.887Z",
+    "request": "Two tree sparrows exchanging quick bright chirps, outdoors, close."
+  },
+  "sfx/sparrow_chirp_3": {
+    "hash": "d35c439293f42889",
+    "generatedAt": "2026-10-14T20:15:18.168Z",
+    "request": "One tiny sparrow giving a short sharp alarm chirp, outdoors, close."
+  },
+  "sfx/sparrow_flush_1": {
+    "hash": "1944f18eb89b34c2",
+    "generatedAt": "2026-10-14T20:15:18.960Z",
+    "request": "A small flock of tree sparrows suddenly flapping away together with startled chirps, light quick wingbeats, outdoors."
+  },
+  "sfx/sparrow_flush_2": {
+    "hash": "455fcc385bec92a0",
+    "generatedAt": "2026-10-14T20:15:18.975Z",
+    "request": "Two or three sparrows taking off from the ground, a quick flutter of small wings and one alarmed chirp, outdoors."
+  },
+  "sfx/sparrow_flush_3": {
+    "hash": "bb7f89b99595ebfb",
+    "generatedAt": "2026-10-14T20:15:19.101Z",
+    "request": "A single small bird bursting into flight, short sharp wing flutter, outdoors."
+  },
+  "sfx/pigeon_chirp_1": {
+    "hash": "4bad4007bc4cffdb",
+    "generatedAt": "2026-10-14T20:15:19.383Z",
+    "request": "A city pigeon cooing softly, low throaty coo-roo-coo, close, outdoors."
+  },
+  "sfx/pigeon_chirp_3": {
+    "hash": "437fa080bef7366f",
+    "generatedAt": "2026-10-14T20:15:20.087Z",
+    "request": "A single short pigeon coo, close, outdoors."
+  },
+  "sfx/pigeon_chirp_2": {
+    "hash": "c04a85d4ab87db72",
+    "generatedAt": "2026-10-14T20:15:20.651Z",
+    "request": "Two pigeons cooing and murmuring together on a ledge, low and throaty, outdoors."
+  },
+  "sfx/pigeon_flush_1": {
+    "hash": "5f0607f464a20139",
+    "generatedAt": "2026-10-14T20:15:20.785Z",
+    "request": "Several city pigeons taking off at once, loud clapping wingbeats, outdoors."
+  },
+  "sfx/pigeon_flush_2": {
+    "hash": "359296bce71b5d6f",
+    "generatedAt": "2026-10-14T20:15:21.050Z",
+    "request": "One pigeon flapping up from the pavement, two loud wing claps then gliding away, outdoors."
+  },
+  "sfx/pigeon_flush_3": {
+    "hash": "3938c9ee26fa631a",
+    "generatedAt": "2026-10-14T20:15:21.957Z",
+    "request": "A small group of pigeons fluttering up and resettling nearby, heavy wing flaps, outdoors."
+  },
+  "sfx/gull_chirp_1": {
+    "hash": "5486a37102b9afd6",
+    "generatedAt": "2026-10-14T20:15:22.344Z",
+    "request": "A single seagull crying, a long laughing kee-ow call, outdoors by the water."
+  },
+  "sfx/gull_chirp_3": {
+    "hash": "60b6f1094a527e98",
+    "generatedAt": "2026-10-14T20:15:22.449Z",
+    "request": "One seagull giving a short sharp squawk, close, outdoors."
+  },
+  "sfx/gull_chirp_2": {
+    "hash": "dcba841688ac53a7",
+    "generatedAt": "2026-10-14T20:15:22.496Z",
+    "request": "Two seagulls calling to each other, short squawks, outdoors by the sea."
+  },
+  "sfx/gull_flush_1": {
+    "hash": "4ede8fc1f45e7369",
+    "generatedAt": "2026-10-14T20:15:23.155Z",
+    "request": "A few seagulls taking off from the ground with heavy slow wingbeats and squawks, outdoors by the sea."
+  },
+  "sfx/crow_chirp_1": {
+    "hash": "3d059acd17a97a3e",
+    "generatedAt": "2026-10-14T20:15:23.818Z",
+    "request": "A single crow cawing twice, caw caw, outdoors, slight distance."
+  },
+  "sfx/gull_flush_2": {
+    "hash": "3f8829800fa490ec",
+    "generatedAt": "2026-10-14T20:15:24.082Z",
+    "request": "One seagull lifting off with two big wing flaps and an annoyed squawk, outdoors."
+  },
+  "sfx/gull_flush_3": {
+    "hash": "54cfbde5b666f237",
+    "generatedAt": "2026-10-14T20:15:24.300Z",
+    "request": "A seagull flapping up into the wind with a long cry, outdoors by the water."
+  },
+  "sfx/crow_chirp_2": {
+    "hash": "a77dc3f755abebe9",
+    "generatedAt": "2026-10-14T20:15:24.465Z",
+    "request": "Two crows calling back and forth, rough caws, outdoors."
+  },
+  "sfx/crow_chirp_3": {
+    "hash": "7403e06ea609b58c",
+    "generatedAt": "2026-10-14T20:15:25.038Z",
+    "request": "One crow giving a short low rattling croak, close, outdoors."
+  },
+  "sfx/crow_flush_1": {
+    "hash": "19701b5a1695b9af",
+    "generatedAt": "2026-10-14T20:15:25.564Z",
+    "request": "Two crows taking off from the ground with heavy wingbeats and harsh alarmed caws, outdoors."
+  },
+  "sfx/crow_flush_2": {
+    "hash": "fea9ba93927d38ba",
+    "generatedAt": "2026-10-14T20:15:25.934Z",
+    "request": "A single crow flapping up with three heavy wingbeats and one harsh caw, outdoors."
+  },
+  "sfx/crow_flush_3": {
+    "hash": "b69d5e8593db218e",
+    "generatedAt": "2026-10-14T20:15:26.146Z",
+    "request": "A crow bursting off a fence with loud flapping and a startled caw, outdoors."
   }
 }

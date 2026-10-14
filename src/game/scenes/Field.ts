@@ -58,6 +58,9 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private ambient?: Ambient;
   private areaLabel!: Phaser.GameObjects.Text;
   private currentSpeed = 0;
+  private wasBusy = false;
+  private lastAmbientPos: Vec | null = null;
+  private stillFor = 0;
 
   constructor() {
     super('field');
@@ -85,12 +88,13 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.choices = new ChoiceMenu(this);
     this.hintRoot = this.add.container(0, 0).setDepth(9_000).setAlpha(0).setVisible(false);
     this.hintBob = this.add.container(0, 0);
-    this.hintBubble = this.add.image(0, 0, 'hint:look').setOrigin(0.5, 1);
+    this.hintBubble = this.add.image(-31, 0, 'hint:look').setOrigin(0.5, 1);
     this.hintKeyFrame = this.add.graphics();
-    this.hintKeyFrame.fillStyle(0x1a120a).fillRect(18, -22, 44, 20);
-    this.hintKeyFrame.fillStyle(0xe6c77a).fillRect(20, -20, 40, 16);
-    this.hintKeyFrame.fillStyle(0xf4ead2).fillRect(22, -18, 36, 12);
-    this.hintKeyText = this.add.text(40, -12, '空格', { fontFamily: FONT, fontSize: '12px', color: '#1a120a' }).setOrigin(0.5);
+    this.hintKeyFrame.fillStyle(0x1a120a).fillRect(-6, -35, 58, 26);
+    this.hintKeyFrame.fillStyle(0xf4ead2).fillRect(-5, -34, 56, 21);
+    this.hintKeyFrame.fillStyle(0xfff5dd).fillRect(-4, -33, 54, 2);
+    this.hintKeyFrame.fillStyle(0x8c6e3d).fillRect(-5, -13, 56, 3);
+    this.hintKeyText = this.add.text(23, -23, '空格', { fontFamily: FONT, fontSize: '12px', color: '#1a120a' }).setOrigin(0.5);
     this.hintBob.add([this.hintBubble, this.hintKeyFrame, this.hintKeyText]);
     this.hintRoot.add(this.hintBob);
     this.exitCue = this.add.container(0, 0).setDepth(9_100).setAlpha(0).setVisible(false).setScrollFactor(0);
@@ -122,14 +126,23 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   }
 
   update(_t: number, dt: number) {
-    this.ambient?.update(dt, this.player.pos);
+    const playerPos = this.player.pos;
+    const moved = this.lastAmbientPos ? Math.hypot(playerPos.x - this.lastAmbientPos.x, playerPos.y - this.lastAmbientPos.y) : 0;
+    const playerSpeed = dt > 0 ? moved * 1000 / dt : 0;
+    this.stillFor = moved < 0.5 ? this.stillFor + dt : 0;
+    this.lastAmbientPos = { ...playerPos };
+    const nika = this.actors.get('nika');
+    const cat = nika?.sprite.visible ? nika.pos : undefined;
+    this.ambient?.update(dt, { pos: playerPos, speed: playerSpeed, stillFor: this.stillFor }, cat);
     this.updateExitCue();
     if (this.busy) {
       this.currentSpeed = 0;
-      this.player.setMoving(false);
+      if (!this.wasBusy) this.player.setMoving(false);
+      this.wasBusy = true;
       this.updateHint(null);
       return;
     }
+    this.wasBusy = false;
     const k = this.keys;
     const dx = (k.RIGHT.isDown || k.D.isDown ? 1 : 0) - (k.LEFT.isDown || k.A.isDown ? 1 : 0);
     const dy = (k.DOWN.isDown || k.S.isDown ? 1 : 0) - (k.UP.isDown || k.W.isDown ? 1 : 0);
@@ -182,13 +195,14 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       case 'ambience':
         return this.loop(c.name, a0, num(c.options.fade, 1));
       case 'sfx':
-        return this.sfx(a0);
+        this.sfx(a0);
+        return;
       case 'wait':
         return this.delay(num(a0, 0.5) * 1000);
       case 'fade':
         return this.fade(a0 === 'out', num(c.options.time, 0.6) * 1000);
       case 'scare':
-        this.ambient?.scare();
+        this.ambient?.scare(this.player.pos);
         return;
       case 'shake':
         this.cameras.main.shake(num(c.options.time, 0.3) * 1000, num(c.options.strength, 0.01));
@@ -265,6 +279,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.player.faceToward(t.actor.pos);
     }
     this.player.setMoving(false);
+    if (t.trigger?.sfx) this.sfx(t.trigger.sfx);
     this.run(t.knot);
   }
 
@@ -450,7 +465,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     for (const f of this.fg) f.destroy();
     this.fg = m.foreground.map((f, i) => this.cutout(`fg:${this.mapId}:${i}`, f.polygon, f.baseline));
     this.ambient?.destroy();
-    this.ambient = new Ambient(this, `bg:${this.mapId}`, m.width, m.ambient, (v) => !!this.runner.variables()[v], (id) => void this.sfx(id));
+    this.ambient = new Ambient(this, `bg:${this.mapId}`, m.width, m.ambient, (v) => !!this.runner.variables()[v], (id, options) => this.sfx(id, options));
     for (const a of m.actors) {
       const saved = this.mapState[this.mapId]?.[a.id];
       const actor = this.spawn(a.id, saved ?? a);
@@ -458,11 +473,13 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       if (saved) actor.sprite.setVisible(saved.visible);
     }
     if (anchor !== null) this.player.setPos(m.anchors[anchor] ?? Object.values(m.anchors)[0]);
+    this.lastAmbientPos = { ...this.player.pos };
+    this.stillFor = 0;
     const cam = this.cameras.main;
     cam.setBounds(0, 0, m.width, m.height);
     cam.centerOn(this.player.pos.x, this.player.pos.y);
-    if (m.bgm) this.loop('bgm', m.bgm, 1);
-    if (m.ambience) this.loop('ambience', m.ambience, 1);
+    if (m.bgm) this.loop('bgm', m.bgm, 1.5);
+    if (m.ambience) this.loop('ambience', m.ambience, 1.5);
     this.areaLabel.setText(m.title);
   }
 
@@ -525,7 +542,9 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   }
 
   private sfx(id: string | undefined, options: { volume?: number; detune?: number } = {}) {
-    if (id && this.cache.audio.exists(`sfx:${id}`)) this.sound.play(`sfx:${id}`, { volume: options.volume ?? 0.7, detune: options.detune });
+    if (!id || !this.cache.audio.exists(`sfx:${id}`)) return false;
+    this.sound.play(`sfx:${id}`, { volume: options.volume ?? 0.7, detune: options.detune });
+    return true;
   }
 
   private loop(kind: 'bgm' | 'ambience', id: string, fade: number) {

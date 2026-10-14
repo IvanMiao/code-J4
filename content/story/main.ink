@@ -262,7 +262,6 @@ VAR nika_paw_told = false
 -> END
 
 === boiler_door ===
-@sfx door_chime
 旧锅炉房的铁门半掩着，门后传出烧废底片的焦糊味。 #line:boiler_1
 里面有个沙哑的声音喊道：“找老焦？等我把这炉旧胶卷烧完！” #line:boiler_2
 林夏: 烧胶卷的烟尘飘在院子里，连空气里的像素网格都变模糊了。 #calm #line:boiler_3

@@ -25,6 +25,7 @@ export interface Content {
   anchors: Set<string>;
   /** Art file names (without .png) available in public/art/retro. */
   art: Set<string>;
+  audioIds?: Set<string>;
 }
 
 const yaml = <T>(path: string): T => parse(readFileSync(path, 'utf8')) as T;
@@ -41,6 +42,7 @@ export function loadContent(root = '.'): Content {
     maps,
     anchors: new Set(Object.values(maps).flatMap((m) => Object.keys(m.anchors))),
     art: new Set(readdirSync(join(root, 'public/art/retro')).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, ''))),
+    audioIds: new Set(Object.keys(JSON.parse(readFileSync(join(root, 'public/audio/index.json'), 'utf8')).sfx ?? {})),
   };
 }
 
@@ -151,6 +153,7 @@ export function checkTriggers(c: Content): string[] {
       if (!walkableFoot(a, m.walkable, m.blocked)) errs.push(`map ${id}: actor "${a.id}" spawn is not footprint-walkable`);
     for (const t of m.triggers) {
       if (t.icon && !icons.includes(t.icon)) errs.push(`map ${id}: trigger "${t.id}" has invalid icon "${t.icon}" (use ${icons.join('|')})`);
+      if (t.sfx && !(c.audioIds?.has(t.sfx) ?? !!c.audio.sfx?.[t.sfx])) errs.push(`map ${id}: trigger "${t.id}" has unknown sfx "${t.sfx}"`);
       if (!t.face || !faces.includes(t.face)) {
         errs.push(`map ${id}: trigger "${t.id}" needs face=up|down|left|right (the direction the player faces to use it)`);
         continue;

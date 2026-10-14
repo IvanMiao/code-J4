@@ -6,12 +6,36 @@ bgm:
   campus_afternoon:
     prompt: "Warm, unhurried afternoon theme for a 1990s Chinese PC RPG set on a modern university campus: plucked guzheng and soft acoustic guitar, light flute melody, gentle hand percussion, nostalgic and sunny with a hint of mystery, seamless loop feel, no vocals."
     seconds: 60
+  old_town:
+    prompt: "Lively but wistful daytime theme for a 1990s Chinese PC RPG set in the old quarter of a river city: plucked pipa and yangqin melody over warm upright bass and light street-band percussion, a touch of accordion, bustling and nostalgic, seamless loop feel, no vocals."
+    seconds: 60
+  outskirts:
+    prompt: "Sparse, dreamlike theme for a 1990s Chinese PC RPG set on the unfinished outskirts of a city where the world looks half-drawn: soft xiao flute and music-box celesta over slow warm synth pads and distant bell tones, gentle and slightly uncanny, curious rather than scary, seamless loop feel, no vocals."
+    seconds: 60
 ambience:
   campus_day:
     prompt: "University campus on a sunny afternoon: birds chirping in plane trees, rustling leaves, distant students chatting, an occasional bicycle bell far away."
     seconds: 20
   street_night:
     prompt: "Quiet city street at night: distant traffic hum, a faint electric buzz from a shop sign, occasional far-away scooter, crickets."
+    seconds: 20
+  overpass_day:
+    prompt: "Under a city highway overpass in the daytime: heavy traffic rumbling overhead with rhythmic expansion-joint thumps, scooters passing on the street below, distant market vendors calling, pigeons cooing nearby."
+    seconds: 20
+  tenement_alley:
+    prompt: "Narrow back alley between old Chinese apartment blocks in the afternoon: a distant radio playing opera, a wok sizzling through an open window, mahjong tiles clacking far away, pigeons cooing, a bicycle rattling past."
+    seconds: 20
+  river_ferry:
+    prompt: "Old river ferry pier on a breezy day: wide river water lapping against concrete steps and wooden pilings, a ferry horn sounding far away, seagulls calling, ropes creaking, light wind."
+    seconds: 20
+  wireframe_estate:
+    prompt: "Empty unfinished housing estate on the edge of a city: steady wind over bare concrete and scaffolding, a loose tarp flapping, a faint electrical hum, crows cawing in the distance, no people."
+    seconds: 20
+  dyeworks_yard:
+    prompt: "Abandoned textile dye factory yard: water dripping into puddles, wind whistling through broken windows, an old metal sheet creaking, a distant crow, a faint hum of an old transformer."
+    seconds: 20
+  breakwater_wind:
+    prompt: "Concrete breakwater by the sea: waves washing against the stones, strong steady sea wind, seagulls crying overhead, occasional spray splash."
     seconds: 20
 sfx:
   door_chime: { prompt: "Convenience store automatic door opening with a short two-tone electronic entry chime.", seconds: 1.5 }
@@ -26,3 +50,33 @@ sfx:
   coin_splash: { prompt: "A small coin tossed into a fountain pool: a short flick, then a tiny plop splash in water.", seconds: 1.2 }
   sparrow_flush: { prompt: "A small flock of tree sparrows chirping and suddenly flapping away together, light quick wingbeats, outdoors.", seconds: 1.2 }
   bike_bell: { prompt: "A classic bicycle thumb bell rung twice, bright ding-ding, outdoors.", seconds: 1 }
+  step_stone_1: { prompt: "One single clearly audible sneaker footstep on stone pavement, close mic, crisp heel-toe tap, dry, no reverb.", seconds: 0.5 }
+  step_stone_2: { prompt: "One single clearly audible sneaker step on gritty concrete, close mic, short crunchy scuff, dry.", seconds: 0.5 }
+  step_stone_3: { prompt: "One single quiet rubber-soled footstep on a stone tile, close, short scuff.", seconds: 0.5 }
+  door_wood: { prompt: "An old wooden dormitory door being pushed open with a short creak and a soft latch click.", seconds: 1.2 }
+  door_glass: { prompt: "A heavy glass library door swinging open with a soft rubber seal whoosh and a light metal handle click.", seconds: 1.2 }
+  door_metal: { prompt: "A heavy rusty iron boiler-room door scraping and creaking open, then a dull metal clank.", seconds: 1.5 }
+  sparrow_chirp_1: { prompt: "A single tree sparrow chirping twice, cheep cheep, close, outdoors, no other birds.", seconds: 0.6 }
+  sparrow_chirp_2: { prompt: "Two tree sparrows exchanging quick bright chirps, outdoors, close.", seconds: 0.8 }
+  sparrow_chirp_3: { prompt: "One tiny sparrow giving a short sharp alarm chirp, outdoors, close.", seconds: 0.5 }
+  sparrow_flush_1: { prompt: "A small flock of tree sparrows suddenly flapping away together with startled chirps, light quick wingbeats, outdoors.", seconds: 1.2 }
+  sparrow_flush_2: { prompt: "Two or three sparrows taking off from the ground, a quick flutter of small wings and one alarmed chirp, outdoors.", seconds: 0.9 }
+  sparrow_flush_3: { prompt: "A single small bird bursting into flight, short sharp wing flutter, outdoors.", seconds: 0.6 }
+  pigeon_chirp_1: { prompt: "A city pigeon cooing softly, low throaty coo-roo-coo, close, outdoors.", seconds: 1.2 }
+  pigeon_chirp_2: { prompt: "Two pigeons cooing and murmuring together on a ledge, low and throaty, outdoors.", seconds: 1.5 }
+  pigeon_chirp_3: { prompt: "A single short pigeon coo, close, outdoors.", seconds: 0.7 }
+  pigeon_flush_1: { prompt: "Several city pigeons taking off at once, loud clapping wingbeats, outdoors.", seconds: 1.5 }
+  pigeon_flush_2: { prompt: "One pigeon flapping up from the pavement, two loud wing claps then gliding away, outdoors.", seconds: 1 }
+  pigeon_flush_3: { prompt: "A small group of pigeons fluttering up and resettling nearby, heavy wing flaps, outdoors.", seconds: 1.3 }
+  gull_chirp_1: { prompt: "A single seagull crying, a long laughing kee-ow call, outdoors by the water.", seconds: 1.2 }
+  gull_chirp_2: { prompt: "Two seagulls calling to each other, short squawks, outdoors by the sea.", seconds: 1.3 }
+  gull_chirp_3: { prompt: "One seagull giving a short sharp squawk, close, outdoors.", seconds: 0.6 }
+  gull_flush_1: { prompt: "A few seagulls taking off from the ground with heavy slow wingbeats and squawks, outdoors by the sea.", seconds: 1.5 }
+  gull_flush_2: { prompt: "One seagull lifting off with two big wing flaps and an annoyed squawk, outdoors.", seconds: 1.1 }
+  gull_flush_3: { prompt: "A seagull flapping up into the wind with a long cry, outdoors by the water.", seconds: 1.3 }
+  crow_chirp_1: { prompt: "A single crow cawing twice, caw caw, outdoors, slight distance.", seconds: 1 }
+  crow_chirp_2: { prompt: "Two crows calling back and forth, rough caws, outdoors.", seconds: 1.4 }
+  crow_chirp_3: { prompt: "One crow giving a short low rattling croak, close, outdoors.", seconds: 0.7 }
+  crow_flush_1: { prompt: "Two crows taking off from the ground with heavy wingbeats and harsh alarmed caws, outdoors.", seconds: 1.4 }
+  crow_flush_2: { prompt: "A single crow flapping up with three heavy wingbeats and one harsh caw, outdoors.", seconds: 1.1 }
+  crow_flush_3: { prompt: "A crow bursting off a fence with loud flapping and a startled caw, outdoors.", seconds: 1.2 }

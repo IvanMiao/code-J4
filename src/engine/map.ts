@@ -11,7 +11,7 @@ interface TiledMap { width: number; height: number; tilewidth: number; tileheigh
 
 export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string }
 /** `face`: the direction the player must face to use it (i.e. the side it is used from). */
-export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean; icon?: string }
+export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean; icon?: string; sfx?: string }
 
 /** Decorative life (fountain spray, swaying grass, birds…) placed in a rect; `kind` picks the effect. */
 export interface MapAmbient { kind: string; x: number; y: number; width: number; height: number; props: Record<string, string> }
@@ -71,6 +71,7 @@ export function parseMap(raw: string | TiledMap): FieldMap {
       knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true, face: (prop(o, 'face') as string) ?? null,
       hidden: String(prop(o, 'hidden')) === 'true',
       icon: (prop(o, 'icon') as string) ?? undefined,
+      sfx: (prop(o, 'sfx') as string) ?? undefined,
     })),
     foreground: layer('foreground').map((o) => {
       const polygon = poly(o);
