@@ -13,6 +13,7 @@ export interface LayoutGlyph {
 
 const CORRECTION = /〔([^〔〕｜]*)｜([^〔〕]*)〕/g;
 const CLOSING = new Set([...'，。、；：？！…」』）》〕']);
+const OPENING = new Set([...'「『']);
 
 export function parseCorrections(text: string): CorrectionSegment[] {
   const segments: CorrectionSegment[] = [];
@@ -46,6 +47,10 @@ export function layoutGlyphs(segments: CorrectionSegment[], maxCols: number): La
   for (let seg = 0; seg < segments.length; seg++) {
     for (const ch of segments[seg].text) {
       if (col >= cols && !CLOSING.has(ch)) {
+        row++;
+        col = 0;
+      }
+      if (cols > 1 && OPENING.has(ch) && col === cols - 1) {
         row++;
         col = 0;
       }

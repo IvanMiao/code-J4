@@ -5,11 +5,12 @@ import { spawnSync } from 'node:child_process';
 import { parse } from 'yaml';
 import { plainText } from '../../src/engine/handwriting.ts';
 import type { CastMember } from '../../src/engine/content.ts';
-import type { FieldMap } from '../../src/engine/map.ts';
+import { inRect, type FieldMap, type MapExit, type MapTrigger } from '../../src/engine/map.ts';
+import { facingVec, REACH, walkable, type Facing, type Vec } from '../../src/engine/walk.ts';
 import { compileInk } from '../lib/ink.ts';
 import { sourceLines } from '../lib/content.ts';
 import {
-  APPROVALS_PATH, loadApprovals, reviewAssets, serializeApprovals, type ApprovalStatus, type ReviewAsset,
+  APPROVALS_PATH, isLegacyAsset, loadApprovals, reviewAssets, serializeApprovals, type ApprovalStatus, type ReviewAsset,
 } from '../lib/approvals.ts';
 
 const ROOT = process.cwd();
@@ -93,6 +94,113 @@ function missingGlyphs(fontPath: string, lines: string[]): string[] {
   return result.status === 0 ? [...new Set(result.stdout.trim())] : [];
 }
 
+interface StampPoint {
+  kind: 'trigger' | 'exit';
+  label: string;
+  x: number;
+  y: number;
+  face: Facing;
+  valid: boolean;
+}
+
+function triggerHit(map: FieldMap, trigger: MapTrigger, point: Vec, face: Facing): boolean {
+  const facing = facingVec(face);
+  const probe = { x: point.x + facing.x * REACH, y: point.y + facing.y * REACH };
+  if (map.view === 'side') {
+    const above = { x: point.x, y: point.y - REACH };
+    const faceOk = !trigger.face || trigger.face === 'up' || trigger.face === 'down' || trigger.face === face;
+    return faceOk && [point, above, probe].some((candidate) => inRect(candidate, trigger));
+  }
+  return trigger.face
+    ? trigger.face === face && inRect(probe, trigger)
+    : inRect(probe, trigger) || inRect(point, trigger);
+}
+
+function candidateRange(rect: MapTrigger, face: Facing) {
+  const vector = facingVec(face);
+  return {
+    x1: rect.x - vector.x * REACH,
+    x2: rect.x + rect.width - vector.x * REACH,
+    y1: rect.y - vector.y * REACH,
+    y2: rect.y + rect.height - vector.y * REACH,
+  };
+}
+
+function topTriggerStand(map: FieldMap, trigger: MapTrigger): { point: Vec; face: Facing } | null {
+  const faces: Facing[] = trigger.face ? [trigger.face as Facing] : ['up', 'down', 'left', 'right'];
+  const candidates: Array<{ point: Vec; face: Facing; distance: number }> = [];
+  for (const face of faces) {
+    const range = candidateRange(trigger, face);
+    const x1 = Math.max(0, Math.ceil(Math.min(range.x1, range.x2)));
+    const x2 = Math.min(map.width, Math.floor(Math.max(range.x1, range.x2)));
+    const y1 = Math.max(0, Math.ceil(Math.min(range.y1, range.y2)));
+    const y2 = Math.min(map.height, Math.floor(Math.max(range.y1, range.y2)));
+    const center = { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
+    for (let y = y1; y <= y2; y++) {
+      for (let x = x1; x <= x2; x++) {
+        const point = { x, y };
+        if (!walkable(point, map.walkable, map.blocked) || !triggerHit(map, trigger, point, face)) continue;
+        candidates.push({ point, face, distance: (x - center.x) ** 2 + (y - center.y) ** 2 });
+      }
+    }
+  }
+  if (!trigger.face) {
+    const center = { x: trigger.x + trigger.width / 2, y: trigger.y + trigger.height / 2 };
+    for (let y = Math.max(0, Math.ceil(trigger.y)); y <= Math.min(map.height, Math.floor(trigger.y + trigger.height)); y++) {
+      for (let x = Math.max(0, Math.ceil(trigger.x)); x <= Math.min(map.width, Math.floor(trigger.x + trigger.width)); x++) {
+        const point = { x, y };
+        if (walkable(point, map.walkable, map.blocked) && triggerHit(map, trigger, point, 'down')) {
+          candidates.push({ point, face: 'down', distance: (x - center.x) ** 2 + (y - center.y) ** 2 });
+        }
+      }
+    }
+  }
+  candidates.sort((a, b) => a.distance - b.distance);
+  return candidates[0] ? { point: candidates[0].point, face: candidates[0].face } : null;
+}
+
+function sideTriggerStand(map: FieldMap, trigger: MapTrigger): { point: Vec; face: Facing } | null {
+  const x = trigger.x + trigger.width / 2;
+  const faces: Facing[] = trigger.face === 'left' || trigger.face === 'right'
+    ? [trigger.face]
+    : ['right', 'left'];
+  for (let y = Math.max(0, Math.ceil(trigger.y + trigger.height)); y <= map.height; y++) {
+    const point = { x, y };
+    if (!walkable(point, map.walkable, map.blocked)) continue;
+    const face = faces.find((candidate) => triggerHit(map, trigger, point, candidate));
+    if (face) return { point, face };
+  }
+  return null;
+}
+
+function exitStand(map: FieldMap, exit: MapExit): { point: Vec; face: Facing } | null {
+  const center = { x: exit.x + exit.width / 2, y: exit.y + exit.height / 2 };
+  let nearest: { point: Vec; face: Facing; distance: number } | null = null;
+  for (let y = Math.max(0, Math.ceil(exit.y)); y <= Math.min(map.height, Math.floor(exit.y + exit.height)); y++) {
+    for (let x = Math.max(0, Math.ceil(exit.x)); x <= Math.min(map.width, Math.floor(exit.x + exit.width)); x++) {
+      const point = { x, y };
+      if (!walkable(point, map.walkable, map.blocked)) continue;
+      const distance = (x - center.x) ** 2 + (y - center.y) ** 2;
+      if (!nearest || distance < nearest.distance) nearest = { point, face: 'right', distance };
+    }
+  }
+  return nearest;
+}
+
+function stampPoints(map: FieldMap): StampPoint[] {
+  const triggers = map.triggers.map((trigger) => {
+    const stand = map.view === 'side' ? sideTriggerStand(map, trigger) : topTriggerStand(map, trigger);
+    const point = stand?.point ?? { x: trigger.x + trigger.width / 2, y: trigger.y + trigger.height + REACH };
+    return { kind: 'trigger' as const, label: trigger.knot, x: point.x, y: point.y, face: stand?.face ?? 'right', valid: !!stand };
+  });
+  const exits = map.exits.map((exit) => {
+    const stand = exitStand(map, exit);
+    const point = stand?.point ?? { x: exit.x + exit.width / 2, y: exit.y + exit.height / 2 };
+    return { kind: 'exit' as const, label: `${exit.map}:${exit.anchor}`, x: point.x, y: point.y, face: stand?.face ?? 'right', valid: !!stand };
+  });
+  return [...triggers, ...exits];
+}
+
 function cardData(asset: ReviewAsset): Record<string, unknown> {
   if (asset.kind === 'bg') {
     const map = asset.data.map as FieldMap;
@@ -104,10 +212,8 @@ function cardData(asset: ReviewAsset): Record<string, unknown> {
       actors,
       manifest: findManifest(map),
       backgroundUrl: fileUrl(asset.path),
-      stampPoints: [
-        ...map.triggers.map((trigger) => ({ kind: 'trigger' as const, x: trigger.x, y: trigger.y, width: trigger.width, height: trigger.height, face: trigger.face, label: trigger.knot })),
-        ...map.exits.map((exit) => ({ kind: 'exit' as const, x: exit.x, y: exit.y, width: exit.width, height: exit.height, face: null, label: `${exit.map}:${exit.anchor}` })),
-      ],
+      reach: REACH,
+      stampPoints: stampPoints(map),
     };
   }
   if (asset.kind === 'sprite') {
@@ -157,7 +263,7 @@ const server = createServer(async (req, res) => {
     const previous = approvals[asset.key];
     approvals[asset.key] = {
       status: input.status, hash: asset.hash, note: input.note ?? '', at: new Date().toISOString().slice(0, 10),
-      legacy: previous?.legacy ?? asset.legacy,
+      legacy: previous?.legacy ?? isLegacyAsset(ROOT, asset.path),
       history: [...(previous?.history ?? []), ...(previous ? [{ status: previous.status, hash: previous.hash, note: previous.note, at: previous.at }] : [])],
     };
     writeFileSync(join(ROOT, APPROVALS_PATH), serializeApprovals(approvals));

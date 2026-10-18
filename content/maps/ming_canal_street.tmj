@@ -66,7 +66,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 10,
+     "id": 9,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -90,7 +90,7 @@
      ]
     },
     {
-     "id": 11,
+     "id": 10,
      "name": "w1",
      "x": 0,
      "y": 0,
@@ -114,7 +114,7 @@
      ]
     },
     {
-     "id": 12,
+     "id": 11,
      "name": "w2",
      "x": 0,
      "y": 0,
@@ -138,7 +138,7 @@
      ]
     },
     {
-     "id": 13,
+     "id": 12,
      "name": "w3",
      "x": 0,
      "y": 0,
@@ -173,14 +173,14 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 14,
+     "id": 13,
      "name": "player_start",
      "x": 240,
      "y": 480,
      "point": true
     },
     {
-     "id": 15,
+     "id": 14,
      "name": "from_scriptorium",
      "x": 1100,
      "y": 440,
@@ -345,26 +345,6 @@
     },
     {
      "id": 8,
-     "name": "birds",
-     "x": 300,
-     "y": 410,
-     "width": 900,
-     "height": 90,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "birds"
-      },
-      {
-       "name": "n",
-       "type": "string",
-       "value": "2"
-      }
-     ]
-    },
-    {
-     "id": 9,
      "name": "motes",
      "x": 0,
      "y": 0,

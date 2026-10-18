@@ -48,6 +48,8 @@ export function lintStory(root = '.') {
     if (scriptByFile.get(s.file) !== 'hant') continue;
     const offending = [...new Set([...s.text].filter((ch) => toTraditional(ch) !== ch))];
     if (offending.length) errors.push(`${at(s)}  hant text contains simplified characters: ${offending.join('')}`);
+    const quoteMarks = [...new Set([...s.text].filter((ch) => '“”‘’'.includes(ch)))];
+    if (quoteMarks.length) errors.push(`${at(s)}  hant text uses non-Traditional quotation marks: ${quoteMarks.join('')}`);
   }
 
   for (const s of sources) {

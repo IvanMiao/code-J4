@@ -66,7 +66,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 24,
+     "id": 23,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -96,7 +96,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 25,
+     "id": 24,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -126,21 +126,21 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 26,
+     "id": 25,
      "name": "player_start",
      "x": 300,
      "y": 470,
      "point": true
     },
     {
-     "id": 27,
+     "id": 26,
      "name": "from_street",
      "x": 60,
      "y": 400,
      "point": true
     },
     {
-     "id": 28,
+     "id": 27,
      "name": "debate_spot",
      "x": 560,
      "y": 470,
@@ -153,7 +153,7 @@
    "name": "actors",
    "objects": [
     {
-     "id": 16,
+     "id": 15,
      "name": "kuang",
      "x": 720,
      "y": 470,
@@ -172,7 +172,7 @@
      ]
     },
     {
-     "id": 17,
+     "id": 16,
      "name": "linu",
      "x": 165,
      "y": 418,
@@ -197,7 +197,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 18,
+     "id": 17,
      "name": "to_street",
      "x": 0,
      "y": 380,
@@ -212,7 +212,7 @@
      ]
     },
     {
-     "id": 19,
+     "id": 18,
      "name": "ming_reading_table",
      "x": 450,
      "y": 365,
@@ -232,7 +232,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 19,
      "name": "ming_monk_left",
      "x": 200,
      "y": 355,
@@ -252,7 +252,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 20,
      "name": "ming_monk_right",
      "x": 760,
      "y": 355,
@@ -272,7 +272,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 21,
      "name": "ming_sutra_chest",
      "x": 180,
      "y": 430,
@@ -303,7 +303,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 23,
+     "id": 22,
      "name": "motes",
      "x": 0,
      "y": 0,

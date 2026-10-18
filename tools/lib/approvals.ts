@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { join, relative, resolve } from 'node:path';
 import { parse, stringify } from 'yaml';
 import type { CastMember } from '../../src/engine/content.ts';
 import { parseMap, type FieldMap } from '../../src/engine/map.ts';
@@ -21,7 +22,6 @@ export interface RequiredAsset {
   kind: 'bg' | 'sprite' | 'hand';
   hash: string;
   path: string;
-  legacy: boolean;
   data: Record<string, unknown>;
 }
 
@@ -91,7 +91,6 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
       kind: 'bg',
       hash,
       path: relative(root, path),
-      legacy: map.art !== 'ming' && !id.startsWith('ming_'),
       data: { map, mapId: id, backgroundUrl: `/${relative(root, path).replaceAll('\\', '/')}` },
     });
   }
@@ -112,7 +111,6 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
       kind: 'sprite',
       hash: sha256(readFileSync(path), Buffer.from(signature)),
       path: relative(root, path),
-      legacy: member.art !== 'ming' && !id.match(/^(?:shen|kuang|andreas|linu)$/),
       data: { castId: id, member, imageUrl: `/${relative(root, path).replaceAll('\\', '/')}` },
     });
   }
@@ -127,14 +125,11 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
   if (Object.values(maps).some((map) => map.dialogue === 'bubble' && map.art === 'ming')) handIds.add('song');
   for (const id of [...handIds].sort()) {
     const path = join(root, HANDS_PATH, `${id}.woff2`);
-    const mingHand = ['song', 'brush', 'xing', 'rough'].includes(id)
-      || [...bubbleMembers].some((memberId) => cast[memberId]?.art === 'ming' && (cast[memberId]?.hand ?? 'kai') === id);
     assets.push({
       key: `hand:${id}`,
       kind: 'hand',
       hash: sha256(readFileSync(path)),
       path: relative(root, path),
-      legacy: !mingHand,
       data: { handId: id, fontUrl: `/${relative(root, path).replaceAll('\\', '/')}` },
     });
   }
@@ -149,18 +144,34 @@ export function reviewAssets(root = '.'): ReviewAsset[] {
   });
 }
 
-export function seedApprovals(root = '.'): Record<string, Decision> {
-  const decisions = Object.fromEntries(requiredAssets(root).map((asset) => [
-    asset.key,
-    {
-      status: asset.legacy ? 'approved' : 'pending',
+export function isLegacyAsset(root: string, path: string): boolean {
+  const shown = spawnSync('git', ['show', `origin/main:${path.replaceAll('\\', '/')}`], {
+    cwd: resolve(root),
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  if (shown.status !== 0 || !Buffer.isBuffer(shown.stdout)) return false;
+  try {
+    return shown.stdout.equals(readFileSync(join(root, path)));
+  } catch {
+    return false;
+  }
+}
+
+export function seedApprovals(root = '.', existing = loadApprovals(root)): Record<string, Decision> {
+  const decisions: Record<string, Decision> = { ...existing };
+  for (const asset of requiredAssets(root)) {
+    const previous = existing[asset.key];
+    const legacy = isLegacyAsset(root, asset.path);
+    if (!legacy && previous && !previous.legacy) continue;
+    decisions[asset.key] = {
+      status: legacy ? 'approved' : 'pending',
       hash: asset.hash,
-      note: asset.legacy ? LEGACY_NOTE : '',
+      note: legacy ? LEGACY_NOTE : '',
       at: LEGACY_DATE,
-      legacy: asset.legacy,
-      history: [],
-    } satisfies Decision,
-  ]));
+      legacy,
+      history: previous?.history ?? [],
+    };
+  }
   return decisions;
 }
 

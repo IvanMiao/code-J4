@@ -22,4 +22,12 @@ describe('handwriting corrections', () => {
     expect(kinsoku.find((glyph) => glyph.ch === '。')).toMatchObject({ row: 0, col: 3 });
     expect(kinsoku.find((glyph) => glyph.ch === '丁')?.row).toBe(1);
   });
+
+  it('keeps opening quotation marks off line ends and closing marks off line starts', () => {
+    const glyphs = layoutGlyphs([{ text: '甲乙「丙丁『戊己」庚辛』', struck: false }], 3);
+    expect(glyphs.find((glyph) => glyph.ch === '「')).toMatchObject({ row: 1, col: 0 });
+    expect(glyphs.find((glyph) => glyph.ch === '『')).toMatchObject({ row: 2, col: 0 });
+    expect(glyphs.find((glyph) => glyph.ch === '」')).toMatchObject({ row: 2, col: 3 });
+    expect(glyphs.find((glyph) => glyph.ch === '』')).toMatchObject({ row: 3, col: 2 });
+  });
 });

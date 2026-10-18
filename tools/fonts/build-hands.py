@@ -98,7 +98,19 @@ def make_subset(key: str, config: dict[str, str | bool], chars: str) -> None:
     if missing:
         raise RuntimeError(f"{key} misses Ming glyphs: {''.join(missing)}")
     if config.get("variable"):
-        instantiateVariableFont(font, {"wght": 600}, inplace=True)
+        instantiateVariableFont(font, {"wght": 500}, inplace=True)
+        if key == "song":
+            font["OS/2"].usWeightClass = 500
+            names = {
+                1: "Noto Serif TC",
+                2: "Medium",
+                4: "Noto Serif TC Medium",
+                6: "NotoSerifTC-Medium",
+                17: "Medium",
+            }
+            for record in font["name"].names:
+                if record.nameID in names:
+                    record.string = names[record.nameID].encode(record.getEncoding())
     options = subset.Options()
     options.flavor = "woff2"
     options.retain_gids = False

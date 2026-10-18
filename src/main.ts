@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { HEIGHT, WIDTH } from './game/config.ts';
+import { HANDS, HEIGHT, WIDTH } from './game/config.ts';
 import { BootScene } from './game/scenes/Boot.ts';
 import { FieldScene } from './game/scenes/Field.ts';
 import { BattleScene } from './game/scenes/Battle.ts';
@@ -8,7 +8,7 @@ import { BattleScene } from './game/scenes/Battle.ts';
 await Promise.race([
   Promise.all([
     document.fonts.load('12px "Fusion Pixel"', '中文字体'),
-    ...['Hand Song', 'Hand Kai', 'Hand Brush', 'Hand Xing', 'Hand Rough'].map((family) => document.fonts.load(`24px "${family}"`, '中文字体')),
+    ...Object.values(HANDS).map(({ family }) => document.fonts.load(`24px "${family}"`, '中文字体')),
   ]),
   new Promise((r) => setTimeout(r, 3000)),
 ]);
