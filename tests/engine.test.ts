@@ -125,7 +125,7 @@ describe('painted scene fit', () => {
   it('measures rendered alpha height against the painted reference', () => {
     const rendered = renderedAlphaHeight(metrics, 100);
     expect(rendered).toBe(90);
-    expect(paintedScalePass(rendered, 92)).toBe(true);
+    expect(paintedScalePass(rendered, 91)).toBe(true);
     expect(paintedScalePass(rendered, 100)).toBe(false);
   });
 });

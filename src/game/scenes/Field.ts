@@ -427,6 +427,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     const edge = exitEdge(exit, this.map.width, this.map.height);
     const title = (maps[exit.map]?.title ?? exit.map).split('·').pop()?.trim() ?? exit.map;
     const isMapEdge = exit.x <= 0 || exit.x + exit.width >= this.map.width || exit.y <= 0 || exit.y + exit.height >= this.map.height;
+    const paperCue = this.map.art === 'ming' && this.map.view === 'side';
     const key = `${exit.id}:${edge}:${title}:${isMapEdge ? 'edge' : 'door'}`;
     const camera = this.cameras.main;
     const viewWidth = this.scale.width;
@@ -435,8 +436,16 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     const screenY = Math.round(Math.max(24, Math.min(viewHeight - 24,
       (exit.y + exit.height / 2 - camera.scrollY) * camera.zoom + camera.y)));
     this.exitCueText.setText(title);
+    const paperWidth = this.exitCueText.width + 38;
+    const paperX = isMapEdge && edge === 'left' ? 10
+      : isMapEdge && edge === 'right' ? viewWidth - paperWidth - 10
+        : Math.max(10, Math.min(viewWidth - paperWidth - 10, screenX - paperWidth / 2));
+    const paperY = isMapEdge && edge === 'up' ? 24
+      : isMapEdge && edge === 'down' ? viewHeight - 24 : screenY;
     const labelOnLeft = screenX + this.exitCueText.width + 28 > viewWidth;
-    if (isMapEdge && (edge === 'left' || edge === 'right')) {
+    if (paperCue) {
+      this.exitCue.setPosition(paperX, paperY);
+    } else if (isMapEdge && (edge === 'left' || edge === 'right')) {
       this.exitCue.setPosition(0, screenY);
     } else if (isMapEdge) {
       this.exitCue.setPosition(Math.max(100, Math.min(viewWidth - 100, screenX)), edge === 'up' ? 24 : viewHeight - 24);
@@ -451,6 +460,29 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.tweens.killTweensOf(this.exitCue);
     this.exitCue.setAlpha(0).setVisible(true);
     this.exitCueGraphics.clear();
+    if (paperCue) {
+      const ink = 0x2a1d12;
+      this.exitCueGraphics.fillStyle(0xefe3c4, 0.98).lineStyle(1, ink, 1);
+      this.exitCueGraphics.fillRoundedRect(0, -14, paperWidth, 28, 4)
+        .strokeRoundedRect(0, -14, paperWidth, 28, 4);
+      this.exitCueGraphics.lineStyle(1.5, ink, 1);
+      if (edge === 'left') {
+        this.exitCueGraphics.lineBetween(22, 0, 10, 0)
+          .lineBetween(10, 0, 15, -5).lineBetween(10, 0, 15, 5);
+      } else if (edge === 'right') {
+        this.exitCueGraphics.lineBetween(10, 0, 22, 0)
+          .lineBetween(22, 0, 17, -5).lineBetween(22, 0, 17, 5);
+      } else if (edge === 'up') {
+        this.exitCueGraphics.lineBetween(16, 6, 16, -6)
+          .lineBetween(16, -6, 11, -1).lineBetween(16, -6, 21, -1);
+      } else {
+        this.exitCueGraphics.lineBetween(16, -6, 16, 6)
+          .lineBetween(16, 6, 11, 1).lineBetween(16, 6, 21, 1);
+      }
+      this.exitCueText.setOrigin(0, 0.5).setPosition(30, 0);
+      this.tweens.add({ targets: this.exitCue, alpha: 1, duration: 160 });
+      return;
+    }
     if (isMapEdge && edge === 'left') {
       this.exitCueGraphics.fillStyle(0x1a120a).fillRect(0, -7, 24, 14);
       this.exitCueGraphics.fillStyle(0xe6c77a)
@@ -548,6 +580,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     if (remember) this.mapState[this.mapId] = here;
     this.mapId = maps[id] ? id : START.map;
     const m = this.map;
+    this.exitCueKey = '';
     if (m.player !== this.player.id) {
       this.player.sprite.destroy();
       this.actors.delete(this.player.id);
@@ -593,6 +626,9 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.dialogue = m.dialogue === 'bubble' ? this.speechBubble : this.dialogueBox;
     this.choices.setTheme(m.dialogue === 'bubble' ? 'paper' : 'pixel');
     this.setPaperTheme(m.dialogue === 'bubble');
+    this.exitCueText.setStyle(framed
+      ? { fontFamily: HANDS.song.family, fontSize: '15px', color: '#22170d', stroke: '#efe3c4', strokeThickness: 0 }
+      : { fontFamily: FONT, fontSize: '12px', color: '#f4ead2', stroke: '#1a120a', strokeThickness: 3 });
     this.speechBubble.setDepth(framed ? 9_700 : 10_000);
     this.controlsLine.setDepth(framed ? 9_900 : 9_500);
     this.areaLabel.setDepth(framed ? 9_900 : 9_500);

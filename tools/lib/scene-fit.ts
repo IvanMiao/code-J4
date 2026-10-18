@@ -18,7 +18,7 @@ export function renderedAlphaHeight(metrics: SpriteMetrics, castHeight: number, 
   return metrics.alphaHeight * castHeight / metrics.frameHeight * depthScale;
 }
 
-export function paintedScalePass(rendered: number, painted: number, tolerance = 0.05) {
+export function paintedScalePass(rendered: number, painted: number, tolerance = 0.02) {
   return Math.abs(rendered - painted) <= painted * tolerance;
 }
 
@@ -33,7 +33,7 @@ export function frameInsetErrors(
       const depth = scaleAtFeet(map, p.y);
       const base = castHeight / metrics.frameHeight * depth;
       const halfWidth = metrics.alphaWidth * base / 2;
-      const head = p.y - castHeight * depth;
+      const head = p.y - renderedAlphaHeight(metrics, castHeight, depth);
       if (p.x - halfWidth < map.frameInset || p.x + halfWidth > map.width - map.frameInset) {
         errors.push(`walkable point (${p.x},${p.y}) crosses the page frame`);
       }

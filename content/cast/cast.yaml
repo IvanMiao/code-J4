@@ -31,7 +31,7 @@ shen:
   art: ming
   sheet: side
   sprite: walk_shen
-  height: 284
+  height: 295
   hand: kai
   default: calm
   emotions: [calm, shock]
@@ -40,7 +40,7 @@ kuang:
   art: ming
   sheet: side
   sprite: walk_kuang
-  height: 272
+  height: 283.15
   hand: xing
   default: calm
   emotions: [calm, amused, stern]

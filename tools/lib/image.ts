@@ -128,13 +128,20 @@ export async function runPost(input: Buffer, steps: PostStep[]): Promise<Buffer>
       r = chromaKey(r, step.chromaKey);
     } else if ('removeGroundLine' in step) {
       const out = Buffer.from(r.data);
-      for (let y = Math.floor(r.height * 0.92); y < r.height; y++) {
+      for (let y = Math.floor(r.height * 0.88); y < r.height; y++) {
         let dark = 0;
+        let minX = r.width;
+        let maxX = -1;
         for (let x = 0; x < r.width; x++) {
           const i = (y * r.width + x) * 4;
-          if (out[i] < 55 && out[i + 1] < 55 && out[i + 2] < 55) dark++;
+          if (out[i] < 65 && out[i + 1] < 65 && out[i + 2] < 65) {
+            dark++;
+            minX = Math.min(minX, x);
+            maxX = x;
+          }
         }
-        if (dark / r.width >= 0.55) {
+        const span = maxX - minX + 1;
+        if (span >= r.width * 0.75 && dark >= r.width * 0.25) {
           for (let x = 0; x < r.width; x++) {
             const i = (y * r.width + x) * 4;
             out[i] = 0;

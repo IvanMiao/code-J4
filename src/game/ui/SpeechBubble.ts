@@ -47,11 +47,16 @@ export class SpeechBubble {
     const actor = this.actorFor(line.speaker ?? this.focusActorId ?? '');
     const handMember = member ?? (this.focusActorId ? cast[this.focusActorId] : null);
     const camera = this.scene.cameras.main;
-    const actorScreenX = actor ? (actor.pos.x - camera.scrollX) * camera.zoom + camera.x : 0;
-    const actorScreenY = actor ? (actor.pos.y - camera.scrollY) * camera.zoom + camera.y : 0;
-    const actorOnscreen = !!actor?.sprite.visible
-      && actorScreenX >= camera.x && actorScreenX <= camera.x + camera.width
-      && actorScreenY >= camera.y && actorScreenY <= camera.y + camera.height;
+    const worldBounds = actor?.sprite.getBounds();
+    const bounds = worldBounds && {
+      left: (worldBounds.left - camera.scrollX) * camera.zoom + camera.x,
+      right: (worldBounds.right - camera.scrollX) * camera.zoom + camera.x,
+      top: (worldBounds.top - camera.scrollY) * camera.zoom + camera.y,
+      bottom: (worldBounds.bottom - camera.scrollY) * camera.zoom + camera.y,
+    };
+    const actorOnscreen = !!actor?.sprite.visible && !!bounds
+      && bounds.right > camera.x && bounds.left < camera.x + camera.width
+      && bounds.bottom > camera.y && bounds.top < camera.y + camera.height;
     const hand = actorOnscreen
       ? HANDS[handMember?.hand ?? 'kai'] ?? HANDS.kai
       : HANDS.song;
@@ -64,33 +69,60 @@ export class SpeechBubble {
     const width = Math.min(WIDTH - 32, cols * fontSize + 32);
     const height = rows * fontSize + 28;
     const tail = actorOnscreen ? 20 : 0;
-    let x: number;
-    let y: number;
-    let speakerX = actorScreenX;
-    let speakerY = actor ? actorScreenY - actor.height * 0.88 * camera.zoom : 0;
-    let tailOnTop = false;
-    if (actorOnscreen && actor) {
-      x = Phaser.Math.Clamp(speakerX - width / 2, 16, WIDTH - width - 16);
-      const above = speakerY - height - tail;
-      tailOnTop = above < 36;
-      y = tailOnTop
-        ? Phaser.Math.Clamp(speakerY + tail, 36, HEIGHT - height - 16)
-        : Phaser.Math.Clamp(above, 36, HEIGHT - height - tail - 16);
-    } else {
-      x = (WIDTH - width) / 2;
-      y = 24;
+    let x = (WIDTH - width) / 2;
+    let y = 24;
+    let tailDirection: 'down' | 'left' | 'right' | null = null;
+    let tailX = width / 2;
+    let tailY = height / 2;
+    if (actorOnscreen && bounds) {
+      const speakerX = (bounds.left + bounds.right) / 2;
+      const speakerY = (bounds.top + bounds.bottom) / 2;
+      const centeredX = Phaser.Math.Clamp(speakerX - width / 2, 10, WIDTH - width - 10);
+      const aboveY = bounds.top - height - tail - 4;
+      const nameTabHeight = member ? 28 : 0;
+      if (aboveY - nameTabHeight >= 10) {
+        x = centeredX;
+        y = aboveY;
+        tailDirection = 'down';
+        tailX = Phaser.Math.Clamp(speakerX - x, 24, width - 24);
+      } else {
+        const preferred = speakerX < WIDTH / 2 ? 'right' : 'left';
+        const sides = preferred === 'right' ? ['right', 'left'] as const : ['left', 'right'] as const;
+        const side = sides.find((candidate) => {
+          const sideX = candidate === 'right'
+            ? bounds.right + tail + 4
+            : bounds.left - width - tail - 4;
+          return sideX >= 10 && sideX + width <= WIDTH - 10;
+        });
+        const placement = side ?? preferred;
+        x = placement === 'right'
+          ? bounds.right + tail + 4
+          : bounds.left - width - tail - 4;
+        y = Phaser.Math.Clamp(
+          speakerY - height / 2,
+          10 + nameTabHeight,
+          HEIGHT - height - 10,
+        );
+        tailDirection = placement === 'right' ? 'left' : 'right';
+        tailY = Phaser.Math.Clamp(speakerY - y, 18, height - 18);
+      }
     }
     const background = this.scene.add.graphics();
-    const tailX = actorOnscreen && actor
-      ? Phaser.Math.Clamp(speakerX - x, 24, width - 24)
-      : width / 2;
-    if (actorOnscreen) {
+    if (tailDirection) {
       background.fillStyle(PAPER, 0.96).lineStyle(2, 0x2a1d12, 1);
-      const tailBase = tailOnTop ? 0 : height - 1;
-      const tailTip = tailOnTop ? -tail : height + tail;
-      background.fillTriangle(tailX - 12, tailBase, tailX + 12, tailBase, tailX, tailTip);
-      background.lineBetween(tailX - 12, tailBase, tailX, tailTip);
-      background.lineBetween(tailX + 12, tailBase, tailX, tailTip);
+      if (tailDirection === 'down') {
+        background.fillTriangle(tailX - 12, height - 1, tailX + 12, height - 1, tailX, height + tail);
+        background.lineBetween(tailX - 12, height - 1, tailX, height + tail);
+        background.lineBetween(tailX + 12, height - 1, tailX, height + tail);
+      } else if (tailDirection === 'left') {
+        background.fillTriangle(0, tailY - 12, -tail, tailY, 0, tailY + 12);
+        background.lineBetween(0, tailY - 12, -tail, tailY);
+        background.lineBetween(-tail, tailY, 0, tailY + 12);
+      } else {
+        background.fillTriangle(width, tailY - 12, width + tail, tailY, width, tailY + 12);
+        background.lineBetween(width, tailY - 12, width + tail, tailY);
+        background.lineBetween(width + tail, tailY, width, tailY + 12);
+      }
     }
     background.fillStyle(PAPER, 0.96).lineStyle(2, 0x2a1d12, 1);
     background.fillRoundedRect(0, 0, width, height, 12).strokeRoundedRect(0, 0, width, height, 12);
