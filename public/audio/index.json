@@ -1,11 +1,21 @@
 {
   "bgm": {
     "night_street": "bgm/night_street.mp3",
-    "campus_afternoon": "bgm/campus_afternoon.mp3"
+    "campus_afternoon": "bgm/campus_afternoon.mp3",
+    "old_town": "bgm/old_town.mp3",
+    "outskirts": "bgm/outskirts.mp3"
   },
   "ambience": {
     "campus_day": "ambience/campus_day.mp3",
-    "street_night": "ambience/street_night.mp3"
+    "street_night": "ambience/street_night.mp3",
+    "overpass_day": "ambience/overpass_day.mp3",
+    "tenement_alley": "ambience/tenement_alley.mp3",
+    "back_alley": "ambience/back_alley.mp3",
+    "shop_interior": "ambience/shop_interior.mp3",
+    "river_ferry": "ambience/river_ferry.mp3",
+    "wireframe_estate": "ambience/wireframe_estate.mp3",
+    "dyeworks_yard": "ambience/dyeworks_yard.mp3",
+    "breakwater_wind": "ambience/breakwater_wind.mp3"
   },
   "sfx": {
     "door_chime": "sfx/door_chime.mp3",
@@ -19,7 +29,37 @@
     "coin_pick": "sfx/coin_pick.mp3",
     "coin_splash": "sfx/coin_splash.mp3",
     "sparrow_flush": "sfx/sparrow_flush.mp3",
-    "bike_bell": "sfx/bike_bell.mp3"
+    "bike_bell": "sfx/bike_bell.mp3",
+    "step_stone_1": "sfx/step_stone_1.mp3",
+    "step_stone_2": "sfx/step_stone_2.mp3",
+    "step_stone_3": "sfx/step_stone_3.mp3",
+    "door_wood": "sfx/door_wood.mp3",
+    "door_glass": "sfx/door_glass.mp3",
+    "door_metal": "sfx/door_metal.mp3",
+    "sparrow_chirp_1": "sfx/sparrow_chirp_1.mp3",
+    "sparrow_chirp_2": "sfx/sparrow_chirp_2.mp3",
+    "sparrow_chirp_3": "sfx/sparrow_chirp_3.mp3",
+    "sparrow_flush_1": "sfx/sparrow_flush_1.mp3",
+    "sparrow_flush_2": "sfx/sparrow_flush_2.mp3",
+    "sparrow_flush_3": "sfx/sparrow_flush_3.mp3",
+    "pigeon_chirp_1": "sfx/pigeon_chirp_1.mp3",
+    "pigeon_chirp_2": "sfx/pigeon_chirp_2.mp3",
+    "pigeon_chirp_3": "sfx/pigeon_chirp_3.mp3",
+    "pigeon_flush_1": "sfx/pigeon_flush_1.mp3",
+    "pigeon_flush_2": "sfx/pigeon_flush_2.mp3",
+    "pigeon_flush_3": "sfx/pigeon_flush_3.mp3",
+    "gull_chirp_1": "sfx/gull_chirp_1.mp3",
+    "gull_chirp_2": "sfx/gull_chirp_2.mp3",
+    "gull_chirp_3": "sfx/gull_chirp_3.mp3",
+    "gull_flush_1": "sfx/gull_flush_1.mp3",
+    "gull_flush_2": "sfx/gull_flush_2.mp3",
+    "gull_flush_3": "sfx/gull_flush_3.mp3",
+    "crow_chirp_1": "sfx/crow_chirp_1.mp3",
+    "crow_chirp_2": "sfx/crow_chirp_2.mp3",
+    "crow_chirp_3": "sfx/crow_chirp_3.mp3",
+    "crow_flush_1": "sfx/crow_flush_1.mp3",
+    "crow_flush_2": "sfx/crow_flush_2.mp3",
+    "crow_flush_3": "sfx/crow_flush_3.mp3"
   },
   "vo": {
     "intro_1": "vo/intro_1.mp3",

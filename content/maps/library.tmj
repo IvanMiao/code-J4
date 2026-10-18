@@ -20,6 +20,11 @@
    "value": "bg_library"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
    "value": "campus_afternoon"
@@ -36,7 +41,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 88,
+     "id": 87,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -60,18 +65,18 @@
      ]
     },
     {
-     "id": 89,
+     "id": 88,
      "name": "w1",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 770,
-       "y": 300
+       "y": 340
       },
       {
        "x": 1630,
-       "y": 300
+       "y": 340
       },
       {
        "x": 1630,
@@ -84,7 +89,7 @@
      ]
     },
     {
-     "id": 90,
+     "id": 89,
      "name": "w2",
      "x": 0,
      "y": 0,
@@ -108,7 +113,7 @@
      ]
     },
     {
-     "id": 91,
+     "id": 90,
      "name": "w3",
      "x": 0,
      "y": 0,
@@ -132,7 +137,7 @@
      ]
     },
     {
-     "id": 92,
+     "id": 91,
      "name": "w4",
      "x": 0,
      "y": 0,
@@ -162,7 +167,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 93,
+     "id": 92,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -202,7 +207,7 @@
      ]
     },
     {
-     "id": 94,
+     "id": 93,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -226,7 +231,7 @@
      ]
     },
     {
-     "id": 95,
+     "id": 94,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -250,7 +255,7 @@
      ]
     },
     {
-     "id": 96,
+     "id": 95,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -274,7 +279,7 @@
      ]
     },
     {
-     "id": 97,
+     "id": 96,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -298,7 +303,7 @@
      ]
     },
     {
-     "id": 98,
+     "id": 97,
      "name": "b5",
      "x": 0,
      "y": 0,
@@ -322,7 +327,7 @@
      ]
     },
     {
-     "id": 99,
+     "id": 98,
      "name": "b6",
      "x": 0,
      "y": 0,
@@ -346,7 +351,7 @@
      ]
     },
     {
-     "id": 100,
+     "id": 99,
      "name": "b7",
      "x": 0,
      "y": 0,
@@ -370,7 +375,7 @@
      ]
     },
     {
-     "id": 101,
+     "id": 100,
      "name": "b8",
      "x": 0,
      "y": 0,
@@ -394,7 +399,7 @@
      ]
     },
     {
-     "id": 102,
+     "id": 101,
      "name": "b9",
      "x": 0,
      "y": 0,
@@ -418,7 +423,7 @@
      ]
     },
     {
-     "id": 103,
+     "id": 102,
      "name": "b10",
      "x": 0,
      "y": 0,
@@ -442,7 +447,7 @@
      ]
     },
     {
-     "id": 104,
+     "id": 103,
      "name": "b11",
      "x": 0,
      "y": 0,
@@ -466,7 +471,7 @@
      ]
     },
     {
-     "id": 105,
+     "id": 104,
      "name": "b12",
      "x": 0,
      "y": 0,
@@ -490,7 +495,7 @@
      ]
     },
     {
-     "id": 106,
+     "id": 105,
      "name": "b13",
      "x": 0,
      "y": 0,
@@ -520,35 +525,35 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 107,
+     "id": 106,
      "name": "from_avenue",
      "x": 120,
      "y": 660,
      "point": true
     },
     {
-     "id": 108,
+     "id": 107,
      "name": "from_archive",
      "x": 1820,
      "y": 680,
      "point": true
     },
     {
-     "id": 109,
+     "id": 108,
      "name": "player_start",
      "x": 1130,
      "y": 880,
      "point": true
     },
     {
-     "id": 110,
+     "id": 109,
      "name": "lib_steps",
      "x": 1290,
      "y": 420,
      "point": true
     },
     {
-     "id": 111,
+     "id": 110,
      "name": "fountain_front",
      "x": 1290,
      "y": 830,
@@ -561,7 +566,7 @@
    "name": "actors",
    "objects": [
     {
-     "id": 69,
+     "id": 68,
      "name": "nika",
      "x": 1290,
      "y": 830,
@@ -586,12 +591,12 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 70,
+     "id": 69,
      "name": "library_door",
      "x": 1080,
-     "y": 300,
+     "y": 310,
      "width": 240,
-     "height": 40,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -602,11 +607,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 71,
+     "id": 70,
      "name": "to_avenue",
      "x": 0,
      "y": 560,
@@ -621,7 +631,7 @@
      ]
     },
     {
-     "id": 72,
+     "id": 71,
      "name": "to_archive",
      "x": 1895,
      "y": 520,
@@ -636,7 +646,7 @@
      ]
     },
     {
-     "id": 73,
+     "id": 72,
      "name": "fountain",
      "x": 1130,
      "y": 740,
@@ -652,11 +662,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 74,
+     "id": 73,
      "name": "library_planter_paw",
      "x": 300,
      "y": 380,
@@ -677,6 +692,11 @@
        "name": "hidden",
        "type": "string",
        "value": "true"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -687,7 +707,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 112,
+     "id": 111,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -734,7 +754,7 @@
      ]
     },
     {
-     "id": 113,
+     "id": 112,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -781,7 +801,7 @@
      ]
     },
     {
-     "id": 114,
+     "id": 113,
      "name": "fg2",
      "x": 0,
      "y": 0,
@@ -828,7 +848,7 @@
      ]
     },
     {
-     "id": 115,
+     "id": 114,
      "name": "fg3",
      "x": 0,
      "y": 0,
@@ -881,7 +901,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 75,
+     "id": 74,
      "name": "fountain",
      "x": 1090,
      "y": 600,
@@ -901,7 +921,7 @@
      ]
     },
     {
-     "id": 76,
+     "id": 75,
      "name": "flowers",
      "x": 670,
      "y": 530,
@@ -916,12 +936,27 @@
      ]
     },
     {
-     "id": 77,
+     "id": 76,
      "name": "flowers",
      "x": 670,
      "y": 720,
      "width": 140,
      "height": 96,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "flowers"
+      }
+     ]
+    },
+    {
+     "id": 77,
+     "name": "flowers",
+     "x": 1600,
+     "y": 530,
+     "width": 130,
+     "height": 90,
      "properties": [
       {
        "name": "kind",
@@ -934,21 +969,6 @@
      "id": 78,
      "name": "flowers",
      "x": 1600,
-     "y": 530,
-     "width": 130,
-     "height": 90,
-     "properties": [
-      {
-       "name": "kind",
-       "type": "string",
-       "value": "flowers"
-      }
-     ]
-    },
-    {
-     "id": 79,
-     "name": "flowers",
-     "x": 1600,
      "y": 720,
      "width": 130,
      "height": 96,
@@ -961,7 +981,7 @@
      ]
     },
     {
-     "id": 80,
+     "id": 79,
      "name": "flowers",
      "x": 580,
      "y": 410,
@@ -976,7 +996,7 @@
      ]
     },
     {
-     "id": 81,
+     "id": 80,
      "name": "flowers",
      "x": 1640,
      "y": 410,
@@ -991,7 +1011,7 @@
      ]
     },
     {
-     "id": 82,
+     "id": 81,
      "name": "grass",
      "x": 340,
      "y": 920,
@@ -1006,7 +1026,7 @@
      ]
     },
     {
-     "id": 83,
+     "id": 82,
      "name": "leaves",
      "x": 330,
      "y": 770,
@@ -1026,7 +1046,7 @@
      ]
     },
     {
-     "id": 84,
+     "id": 83,
      "name": "birds",
      "x": 480,
      "y": 480,
@@ -1046,7 +1066,7 @@
      ]
     },
     {
-     "id": 85,
+     "id": 84,
      "name": "butterflies",
      "x": 600,
      "y": 400,
@@ -1066,7 +1086,7 @@
      ]
     },
     {
-     "id": 86,
+     "id": 85,
      "name": "motes",
      "x": 0,
      "y": 0,
@@ -1081,7 +1101,7 @@
      ]
     },
     {
-     "id": 87,
+     "id": 86,
      "name": "glint",
      "x": 352,
      "y": 420,

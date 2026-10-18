@@ -20,14 +20,19 @@
    "value": "bg_city_overpass"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
-   "value": "campus_afternoon"
+   "value": "old_town"
   },
   {
    "name": "ambience",
    "type": "string",
-   "value": "campus_day"
+   "value": "overpass_day"
   }
  ],
  "layers": [
@@ -36,18 +41,18 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 168,
+     "id": 167,
      "name": "w0",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 0,
-       "y": 420
+       "y": 460
       },
       {
        "x": 1920,
-       "y": 420
+       "y": 460
       },
       {
        "x": 1920,
@@ -60,74 +65,26 @@
      ]
     },
     {
-     "id": 169,
+     "id": 168,
      "name": "w1",
      "x": 0,
      "y": 0,
      "polygon": [
       {
-       "x": 440,
-       "y": 360
-      },
-      {
-       "x": 760,
-       "y": 360
-      },
-      {
-       "x": 760,
-       "y": 420
-      },
-      {
-       "x": 440,
-       "y": 420
-      }
-     ]
-    },
-    {
-     "id": 170,
-     "name": "w2",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 1170,
-       "y": 365
-      },
-      {
-       "x": 1500,
-       "y": 365
-      },
-      {
-       "x": 1500,
-       "y": 420
-      },
-      {
-       "x": 1170,
-       "y": 420
-      }
-     ]
-    },
-    {
-     "id": 171,
-     "name": "w3",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 1805,
-       "y": 370
+       "x": 1810,
+       "y": 390
       },
       {
        "x": 1920,
-       "y": 370
+       "y": 390
       },
       {
        "x": 1920,
-       "y": 420
+       "y": 460
       },
       {
-       "x": 1805,
-       "y": 420
+       "x": 1810,
+       "y": 460
       }
      ]
     }
@@ -138,7 +95,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 172,
+     "id": 169,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -162,7 +119,7 @@
      ]
     },
     {
-     "id": 173,
+     "id": 170,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -186,7 +143,7 @@
      ]
     },
     {
-     "id": 174,
+     "id": 171,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -210,7 +167,7 @@
      ]
     },
     {
-     "id": 175,
+     "id": 172,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -234,7 +191,7 @@
      ]
     },
     {
-     "id": 176,
+     "id": 173,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -258,7 +215,7 @@
      ]
     },
     {
-     "id": 177,
+     "id": 174,
      "name": "b5",
      "x": 0,
      "y": 0,
@@ -282,7 +239,7 @@
      ]
     },
     {
-     "id": 178,
+     "id": 175,
      "name": "b6",
      "x": 0,
      "y": 0,
@@ -306,7 +263,7 @@
      ]
     },
     {
-     "id": 179,
+     "id": 176,
      "name": "b7",
      "x": 0,
      "y": 0,
@@ -330,7 +287,7 @@
      ]
     },
     {
-     "id": 180,
+     "id": 177,
      "name": "b8",
      "x": 0,
      "y": 0,
@@ -354,7 +311,7 @@
      ]
     },
     {
-     "id": 181,
+     "id": 178,
      "name": "b9",
      "x": 0,
      "y": 0,
@@ -378,7 +335,7 @@
      ]
     },
     {
-     "id": 182,
+     "id": 179,
      "name": "b10",
      "x": 0,
      "y": 0,
@@ -408,38 +365,45 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 183,
+     "id": 180,
      "name": "from_gate",
      "x": 120,
      "y": 640,
      "point": true
     },
     {
-     "id": 184,
+     "id": 181,
      "name": "from_archive",
      "x": 120,
      "y": 640,
      "point": true
     },
     {
-     "id": 185,
+     "id": 182,
      "name": "from_tenement",
      "x": 1820,
      "y": 640,
      "point": true
     },
     {
-     "id": 186,
-     "name": "repair_front",
-     "x": 600,
+     "id": 183,
+     "name": "from_backalley",
+     "x": 1840,
      "y": 430,
      "point": true
     },
     {
-     "id": 187,
+     "id": 184,
+     "name": "repair_front",
+     "x": 600,
+     "y": 480,
+     "point": true
+    },
+    {
+     "id": 185,
      "name": "noodle_front",
      "x": 1280,
-     "y": 460,
+     "y": 480,
      "point": true
     }
    ]
@@ -454,7 +418,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 157,
+     "id": 155,
      "name": "to_gate",
      "x": 0,
      "y": 480,
@@ -469,7 +433,7 @@
      ]
     },
     {
-     "id": 158,
+     "id": 156,
      "name": "to_tenement",
      "x": 1895,
      "y": 480,
@@ -484,7 +448,27 @@
      ]
     },
     {
-     "id": 159,
+     "id": 157,
+     "name": "to_backalley",
+     "x": 1895,
+     "y": 390,
+     "width": 25,
+     "height": 70,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "city_backalley:from_overpass"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "right"
+      }
+     ]
+    },
+    {
+     "id": 158,
      "name": "bus_stop_302",
      "x": 54,
      "y": 495,
@@ -500,16 +484,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 160,
+     "id": 159,
      "name": "repair_shop",
      "x": 460,
-     "y": 360,
+     "y": 430,
      "width": 280,
-     "height": 50,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -520,16 +509,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 161,
+     "id": 160,
      "name": "payphone_box",
      "x": 890,
-     "y": 475,
+     "y": 462,
      "width": 200,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -540,16 +534,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "use"
       }
      ]
     },
     {
-     "id": 162,
+     "id": 161,
      "name": "noodle_stall",
      "x": 1255,
-     "y": 450,
+     "y": 430,
      "width": 250,
-     "height": 55,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -560,16 +559,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 163,
+     "id": 162,
      "name": "overpass_alley",
      "x": 1810,
-     "y": 370,
-     "width": 105,
-     "height": 50,
+     "y": 390,
+     "width": 60,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -580,11 +584,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 164,
+     "id": 163,
      "name": "ebike_row",
      "x": 220,
      "y": 805,
@@ -600,11 +609,16 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "use"
       }
      ]
     },
     {
-     "id": 165,
+     "id": 164,
      "name": "night_tables",
      "x": 1240,
      "y": 825,
@@ -620,6 +634,11 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -630,7 +649,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 188,
+     "id": 186,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -661,7 +680,7 @@
      ]
     },
     {
-     "id": 189,
+     "id": 187,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -692,7 +711,7 @@
      ]
     },
     {
-     "id": 190,
+     "id": 188,
      "name": "fg2",
      "x": 0,
      "y": 0,
@@ -729,7 +748,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 166,
+     "id": 165,
      "name": "motes",
      "x": 380,
      "y": 180,
@@ -744,7 +763,7 @@
      ]
     },
     {
-     "id": 167,
+     "id": 166,
      "name": "birds",
      "x": 100,
      "y": 520,
@@ -760,6 +779,11 @@
        "name": "n",
        "type": "string",
        "value": "2"
+      },
+      {
+       "name": "species",
+       "type": "string",
+       "value": "pigeon"
       }
      ]
     }

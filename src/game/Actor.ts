@@ -7,6 +7,7 @@ export class Actor {
   readonly sprite: Phaser.GameObjects.Sprite;
   face: Facing = 'down';
   private moving = false;
+  private rate = 1;
 
   constructor(private scene: Phaser.Scene, readonly id: string, x: number, y: number) {
     this.sprite = scene.add.sprite(x, y, `sheet:${id}`, 1).setOrigin(0.5, 0.96);
@@ -39,8 +40,9 @@ export class Actor {
     this.setFace(facingOf(p.x - this.sprite.x, p.y - this.sprite.y, this.face));
   }
 
-  setMoving(m: boolean) {
+  setMoving(m: boolean, rate = 1) {
     this.moving = m;
+    this.rate = m ? rate : 1;
     this.sync();
   }
 
@@ -74,5 +76,6 @@ export class Actor {
       this.sprite.stop();
       this.sprite.setFrame(DIR_ROW[this.face] * 3 + 1);
     }
+    this.sprite.anims.timeScale = this.rate;
   }
 }
