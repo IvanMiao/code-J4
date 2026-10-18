@@ -32,7 +32,10 @@ def tmj(w, title, bg, walk, blocked, anchors, actors, triggers, ambient=(), fore
                        layer("ambient", list(ambient))]}
 with open(ROOT / "assets/scenes/ming_scriptorium.art.json", encoding="utf-8") as f:
     scene = json.load(f)
+with open(ROOT / "assets/scenes/ming_scriptorium.yaml", encoding="utf-8") as f:
+    scene_spec = json.load(f)
 pose_actor = {key: data["actor"] for key, data in scene["poses"].items()}
+linu_silhouette = [tuple(p) for p in scene_spec["poses"]["linu"]["foreground_silhouette_art"]]
 maps = {
     "ming_canal_street": tmj(1260, "水鄉 · 文林閣前", "bg_canal_street",
         [BOX(0, 450, 1260, 505), BOX(330, 400, 800, 450), BOX(800, 415, 975, 450), BOX(975, 412, 1250, 450)],
@@ -43,14 +46,14 @@ maps = {
          rect("ming_drying_sheets", 195, 425, 135, 25, {"knot": "ming_drying_sheets", "face": "up"}),
          rect("ming_teahouse", 350, 380, 110, 25, {"knot": "ming_teahouse", "face": "up"}),
          rect("ming_bridge", 500, 380, 230, 25, {"knot": "ming_bridge", "face": "up"}),
-         rect("to_scriptorium", 1040, 395, 125, 25, {"exit": "ming_scriptorium:from_street"})],
+         rect("to_scriptorium", 1040, 395, 125, 35, {"exit": "ming_scriptorium:from_street"})],
         [amb("leaves", 330, 40, 280, 300, every=1400), amb("motes", 0, 0, 1260, 380)],
         intro="ming_intro", ground="stone"),
     "ming_scriptorium": tmj(960, "經藏院 · 寫經房", "bg_scriptorium",
         [BOX(110, 304, 140, 395), BOX(110, 323, 850, 342), BOX(110, 333, 850, 458)],
         [BOX(144, 341, 398, 458), BOX(850, 300, 960, 458)],
-        {"player_start": (125, 350), "from_street": (125, 350), "debate_spot": (465, 452),
-         "behind_chest": (350, 336), "left_extreme": (125, 350), "right_extreme": (835, 350)},
+        {"player_start": (145, 336), "from_street": (145, 336), "debate_spot": (465, 452),
+         "behind_chest": (350, 336), "left_extreme": (145, 336), "right_extreme": (835, 350)},
         [pt("kuang", 696, 452, {"knot": "ming_kuang", "face": "left"}),
          pt("monk_left", *pose_actor["monk_left"], {"depth": str(scene["poses"]["monk_left"]["depth"])}),
          pt("monk_right", *pose_actor["monk_right"], {"depth": str(scene["poses"]["monk_right"]["depth"])}),
@@ -64,10 +67,7 @@ maps = {
         [amb("motes", 0, 0, 960, 380)],
         foreground=[
             ([(144, 348), (160, 330), (380, 330), (398, 348), (398, 456), (380, 466), (160, 466), (144, 452)], 466),
-            ([(212, 338), (216, 328), (225, 320), (234, 314), (241, 309), (248, 313), (253, 320),
-              (259, 311), (267, 307), (279, 305), (292, 307), (304, 311), (317, 318), (326, 326),
-              (332, 337), (330, 348), (323, 357), (313, 362), (300, 365), (285, 363), (270, 361),
-              (258, 359), (247, 364), (235, 364), (224, 360), (218, 352)], 466),
+            (linu_silhouette, 466),
         ],
         intro="ming_scriptorium_intro", scaleFar="1", scaleNear="1", frameInset="10"),
 }

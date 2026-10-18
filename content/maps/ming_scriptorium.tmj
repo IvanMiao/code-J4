@@ -205,15 +205,15 @@
     {
      "id": 31,
      "name": "player_start",
-     "x": 125,
-     "y": 350,
+     "x": 145,
+     "y": 336,
      "point": true
     },
     {
      "id": 32,
      "name": "from_street",
-     "x": 125,
-     "y": 350,
+     "x": 145,
+     "y": 336,
      "point": true
     },
     {
@@ -233,8 +233,8 @@
     {
      "id": 35,
      "name": "left_extreme",
-     "x": 125,
-     "y": 350,
+     "x": 145,
+     "y": 336,
      "point": true
     },
     {

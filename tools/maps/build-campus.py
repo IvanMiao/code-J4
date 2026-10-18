@@ -45,7 +45,7 @@ maps = {
     "avenue": tmj("江城大学 · 梧桐苑", "bg_avenue",
         [BOX(0, 448, 1920, 890), BOX(430, 426, 600, 448), BOX(1036, 426, 1280, 448), BOX(1740, 426, 1840, 448)],
         [BOX(630, 426, 920, 446), BOX(1810, 470, 1840, 500), BOX(70, 830, 100, 860)],
-        {"from_gate": (120, 640), "from_library": (1820, 640), "dorm_door": (515, 436), "kiosk_front": (1570, 470)}, [],
+        {"from_gate": (120, 640), "from_library": (1820, 640), "dorm_door": (515, 436), "kiosk_front": (1570, 480)}, [],
         [rect("dorm_door", 430, 396, 170, 30, {"knot": "dorm_door", "face": "up", "icon": "door"}), rect("notice_board", 1036, 396, 244, 30, {"knot": "notice_board", "face": "up"}),
          rect("to_kiosk", 1420, 448, 300, 30, {"exit": "avenue_kiosk:from_avenue", "face": "up", "sfx": "door_chime"}),
          rect("bike_bell", 640, 426, 270, 30, {"knot": "bike_bell", "face": "up", "hidden": "true", "icon": "use"}), rect("avenue_kiosk_paw", 1740, 396, 100, 30, {"knot": "avenue_kiosk_paw", **H}),

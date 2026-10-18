@@ -40,6 +40,7 @@ describe('ground-line removal', () => {
 describe('Ming pose overlays', () => {
   const scene = JSON.parse(readFileSync(fileURLToPath(new URL('../assets/scenes/ming_scriptorium.yaml', import.meta.url)), 'utf8')) as {
     pose_min_changed_pixels: number;
+    poses: { linu: { foreground_silhouette_art: [number, number][] } };
   };
 
   for (const id of ['linu', 'monk_left', 'monk_right']) {
@@ -62,4 +63,37 @@ describe('Ming pose overlays', () => {
       expect(frame1Opaque).toBeGreaterThanOrEqual(scene.pose_min_changed_pixels);
     });
   }
+
+  it('covers Linu’s full foreground silhouette in frame 1', async () => {
+    const path = fileURLToPath(new URL('../public/art/ming/pose_linu.png', import.meta.url));
+    const sidecar = JSON.parse(readFileSync(fileURLToPath(new URL('../assets/scenes/ming_scriptorium.art.json', import.meta.url)), 'utf8')) as {
+      poses: { linu: { origin: [number, number] } };
+    };
+    const { data, info } = await sharp(path).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    const frameWidth = info.width / 2;
+    const [originX, originY] = sidecar.poses.linu.origin;
+    const points = scene.poses.linu.foreground_silhouette_art;
+    const minX = Math.max(originX, Math.floor(Math.min(...points.map(([x]) => x))));
+    const maxX = Math.min(originX + frameWidth, Math.ceil(Math.max(...points.map(([x]) => x))));
+    const minY = Math.max(originY, Math.floor(Math.min(...points.map(([, y]) => y))));
+    const maxY = Math.min(originY + info.height, Math.ceil(Math.max(...points.map(([, y]) => y))));
+    const inside = (x: number, y: number) => {
+      let result = false;
+      for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+        const [ax, ay] = points[i], [bx, by] = points[j];
+        if ((ay > y) !== (by > y) && x < ((bx - ax) * (y - ay)) / (by - ay) + ax) result = !result;
+      }
+      return result;
+    };
+    let minAlpha = 255;
+    let samples = 0;
+    for (let y = minY; y < maxY; y++) for (let x = minX; x < maxX; x++) {
+      if (!inside(x + 0.5, y + 0.5)) continue;
+      const alpha = data[((y - originY) * info.width + frameWidth + x - originX) * info.channels + 3];
+      minAlpha = Math.min(minAlpha, alpha);
+      samples++;
+    }
+    expect(samples).toBeGreaterThan(0);
+    expect(minAlpha).toBeGreaterThanOrEqual(128);
+  });
 });

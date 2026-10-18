@@ -57,6 +57,15 @@ def build_pose(spec: dict, plate: Image.Image, key: str, data: dict, scale: floa
     changed_pixels = alpha.point(lambda value: 255 if value >= 128 else 0).histogram()[255]
     if changed_pixels < spec["pose_min_changed_pixels"]:
         raise ValueError(f"{key} pose has only {changed_pixels} changed opaque pixels")
+    silhouette_points = data.get("foreground_silhouette_art")
+    if silhouette_points:
+        silhouette = Image.new("L", frame_size, 0)
+        origin_x, origin_y = x, y
+        local_points = [(round(px - origin_x), round(py - origin_y)) for px, py in silhouette_points]
+        ImageDraw.Draw(silhouette).polygon(local_points, fill=255)
+        dilation = int(data.get("silhouette_dilate_art", 3))
+        silhouette = silhouette.filter(ImageFilter.MaxFilter(dilation * 2 + 1))
+        alpha = ImageChops.lighter(alpha, silhouette)
     frame0 = Image.new("RGBA", frame_size, (0, 0, 0, 0))
     frame1 = edit_art.convert("RGBA")
     frame1.putalpha(alpha)

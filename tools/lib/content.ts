@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { parse } from 'yaml';
 import type { Cast, Item } from '../../src/engine/content.ts';
 import type { Encounter } from '../../src/engine/battle.ts';
-import { parseMap, type FieldMap } from '../../src/engine/map.ts';
+import { inRect, parseMap, type FieldMap } from '../../src/engine/map.ts';
 import { facingVec, REACH, walkableFoot, type Facing } from '../../src/engine/walk.ts';
 import { COMMANDS, DIRS, EMOTES, type ArgKind } from '../../src/story/commands.ts';
 import type { CommandEvent } from '../../src/story/parse.ts';
@@ -108,6 +108,9 @@ export function checkExits(c: Content): string[] {
       if (!to) errs.push(`map ${id}: exit "${e.id}" goes to unknown map "${e.map}"`);
       else if (!to.anchors[e.anchor]) errs.push(`map ${id}: exit "${e.id}" goes to unknown anchor "${e.map}:${e.anchor}"`);
       if (e.sfx && !(c.audioIds?.has(e.sfx) ?? !!c.audio.sfx?.[e.sfx])) errs.push(`map ${id}: exit "${e.id}" has unknown sfx "${e.sfx}"`);
+      for (const [name, anchor] of Object.entries(m.anchors)) {
+        if (inRect(anchor, e)) errs.push(`map ${id}: anchor "${name}" is inside exit "${e.id}"`);
+      }
     }
     if (m.background && !c.artByDir[m.art ?? 'retro']?.has(m.background)) errs.push(`map ${id}: background "${m.background}" has no art file in art/${m.art ?? 'retro'}`);
     for (const k of ['bgm', 'ambience'] as const) {

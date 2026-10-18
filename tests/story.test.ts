@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { compileInk } from '../tools/lib/ink.ts';
-import { loadContent, STORY_ENTRY } from '../tools/lib/content.ts';
+import { checkExits, loadContent, STORY_ENTRY } from '../tools/lib/content.ts';
 import { lintStory } from '../tools/lint-story.ts';
 import { playPath, simulate } from '../tools/sim.ts';
 import { speakerResolver } from '../src/engine/content.ts';
@@ -53,5 +53,21 @@ describe('story', () => {
     expect(validateCommand(good, content)).toEqual([]);
     expect(validateCommand(parseCommand('@goto unknown_map player_start')!, content)).toContain('@goto: unknown map "unknown_map"');
     expect(validateCommand(parseCommand('@goto gate lib_steps')!, content)).toContain('@goto: unknown anchor "gate:lib_steps"');
+  });
+
+  it('rejects anchors inside exit rectangles on any map', () => {
+    const map = content.maps.ming_scriptorium;
+    const invalid = {
+      ...content,
+      maps: {
+        ...content.maps,
+        ming_scriptorium: {
+          ...map,
+          anchors: { ...map.anchors, player_start: { x: 125, y: 350 } },
+        },
+      },
+    };
+    expect(checkExits(invalid)).toContain('map ming_scriptorium: anchor "player_start" is inside exit "to_street"');
+    expect(checkExits(content).filter((error) => error.includes('is inside exit'))).toEqual([]);
   });
 });
