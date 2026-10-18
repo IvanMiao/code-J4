@@ -595,6 +595,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     for (const a of m.actors) {
       const saved = this.mapState[this.mapId]?.[a.id];
       const actor = this.spawn(a.id, saved ?? a);
+      actor.setRenderDepth(a.depth);
       actor.setFace((saved?.face ?? a.face) as Dir);
       if (saved) actor.sprite.setVisible(saved.visible);
     }

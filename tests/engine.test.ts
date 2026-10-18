@@ -62,6 +62,22 @@ describe('map properties', () => {
     });
   });
 
+  it('parses an explicit actor render depth', () => {
+    const fixture = {
+      width: 10, height: 8, tilewidth: 24, tileheight: 24,
+      layers: [{
+        type: 'objectgroup', name: 'actors',
+        objects: [{
+          id: 1, name: 'linu', x: 12, y: 34, point: true,
+          properties: [{ name: 'depth', value: '467' }],
+        }],
+      }],
+    };
+    expect(parseMap(fixture).actors).toEqual([
+      { id: 'linu', x: 12, y: 34, knot: null, face: 'down', depth: 467 },
+    ]);
+  });
+
   it('binds an interaction trigger to its pose actor', () => {
     const fixture = {
       width: 10, height: 8, tilewidth: 24, tileheight: 24,

@@ -52,9 +52,9 @@ maps = {
         {"player_start": (125, 350), "from_street": (125, 350), "debate_spot": (465, 452),
          "behind_chest": (350, 336), "left_extreme": (125, 350), "right_extreme": (835, 350)},
         [pt("kuang", 696, 452, {"knot": "ming_kuang", "face": "left"}),
-         pt("monk_left", *pose_actor["monk_left"]),
-         pt("monk_right", *pose_actor["monk_right"]),
-         pt("linu", *pose_actor["linu"])],
+         pt("monk_left", *pose_actor["monk_left"], {"depth": str(scene["poses"]["monk_left"]["depth"])}),
+         pt("monk_right", *pose_actor["monk_right"], {"depth": str(scene["poses"]["monk_right"]["depth"])}),
+         pt("linu", *pose_actor["linu"], {"depth": str(scene["poses"]["linu"]["depth"])})],
         [rect("to_street", 0, 315, 140, 65, {"exit": "ming_canal_street:from_scriptorium", "face": "left"}),
          rect("ming_reading_table", 430, 333, 220, 38, {"knot": "ming_reading_table", "face": "up"}),
          rect("ming_monk_left", 225, 286, 40, 30, {"knot": "ming_monk_left", "face": "up", "actor": "monk_left"}),
@@ -62,7 +62,13 @@ maps = {
          rect("ming_sutra_chest", 145, 319, 95, 20, {"knot": "ming_sutra_chest", "face": "right"}),
          rect("ming_linu", 255, 319, 80, 20, {"knot": "ming_linu", "face": "right", "actor": "linu"})],
         [amb("motes", 0, 0, 960, 380)],
-        foreground=[([(144, 348), (160, 330), (380, 330), (398, 348), (398, 456), (380, 466), (160, 466), (144, 452)], 466)],
+        foreground=[
+            ([(144, 348), (160, 330), (380, 330), (398, 348), (398, 456), (380, 466), (160, 466), (144, 452)], 466),
+            ([(212, 338), (216, 328), (225, 320), (234, 314), (241, 309), (248, 313), (253, 320),
+              (259, 311), (267, 307), (279, 305), (292, 307), (304, 311), (317, 318), (326, 326),
+              (332, 337), (330, 348), (323, 357), (313, 362), (300, 365), (285, 363), (270, 361),
+              (258, 359), (247, 364), (235, 364), (224, 360), (218, 352)], 466),
+        ],
         intro="ming_scriptorium_intro", scaleFar="1", scaleNear="1", frameInset="10"),
 }
 for mid, m in maps.items():

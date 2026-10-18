@@ -221,6 +221,12 @@ function cardData(asset: ReviewAsset): Record<string, unknown> {
   if (asset.kind === 'bg') {
     const map = asset.data.map as FieldMap;
     const mapId = String(asset.data.mapId);
+    const scene = mapId === 'ming_scriptorium'
+      ? JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_scriptorium.yaml'), 'utf8')) as {
+        pose_min_changed_pixels: number;
+        figures: Record<string, { figure: number[]; height_art: number; feet_art: [number, number] }>;
+      }
+      : null;
     const actors = [...new Set([map.player, ...map.actors.map((actor) => actor.id)])].map((id) => ({
       id, member: cast[id], imageUrl: fileUrl(`public/art/${cast[id]?.art ?? map.art ?? 'retro'}/${cast[id]?.sprite}.png`),
     }));
@@ -231,10 +237,9 @@ function cardData(asset: ReviewAsset): Record<string, unknown> {
       backgroundUrl: fileUrl(asset.path),
       reach: REACH,
       stampPoints: stampPoints(map),
-      paintedFigures: mapId === 'ming_scriptorium'
-        ? Object.entries((JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_scriptorium.yaml'), 'utf8')) as {
-          figures: Record<string, { figure: number[]; height_art: number; feet_art: [number, number] }>;
-        }).figures).map(([id, figure]) => ({
+      poseMinChangedPixels: scene?.pose_min_changed_pixels ?? 100,
+      paintedFigures: scene
+        ? Object.entries(scene.figures).map(([id, figure]) => ({
           id, figure: figure.figure, height: figure.height_art, feet: figure.feet_art, name: cast[id]?.name, member: cast[id],
           spriteUrl: fileUrl(`public/art/${cast[id]?.art ?? map.art}/${cast[id]?.sprite}.png`),
           sourceUrl: fileUrl('assets/raw/ming/scriptorium_pano.png'),

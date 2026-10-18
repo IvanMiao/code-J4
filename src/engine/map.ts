@@ -9,7 +9,7 @@ interface TiledObject {
 interface TiledLayer { type: string; name: string; objects?: TiledObject[] }
 interface TiledMap { width: number; height: number; tilewidth: number; tileheight: number; properties?: TiledProperty[]; layers: TiledLayer[] }
 
-export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string }
+export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string; depth?: number }
 /** `face`: the direction the player must face to use it (i.e. the side it is used from). */
 export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean; actor?: string; icon?: string; sfx?: string }
 
@@ -102,9 +102,13 @@ export function parseMap(raw: string | TiledMap): FieldMap {
       };
     }),
     anchors: Object.fromEntries(layer('anchors').map((o) => [o.name, { x: o.x, y: o.y }])),
-    actors: layer('actors').map((o) => ({
-      id: o.name, x: o.x, y: o.y, knot: (prop(o, 'knot') as string) ?? null, face: (prop(o, 'face') as string) ?? 'down',
-    })),
+    actors: layer('actors').map((o) => {
+      const depth = prop(o, 'depth');
+      return {
+        id: o.name, x: o.x, y: o.y, knot: (prop(o, 'knot') as string) ?? null, face: (prop(o, 'face') as string) ?? 'down',
+        depth: depth == null ? undefined : Number(depth),
+      };
+    }),
     triggers: triggers.filter((o) => !prop(o, 'exit')).map((o) => ({
       ...rect(o),
       knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true, face: (prop(o, 'face') as string) ?? null,

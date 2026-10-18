@@ -13,6 +13,7 @@ export class Actor {
   private readonly mirrorRight: boolean;
   private readonly baseScale: number;
   private depth = { enabled: false, top: 0, bottom: 1, far: 1, near: 1 };
+  private renderDepth?: number;
   private rate = 1;
   private readonly poseCycle?: PoseCycle;
 
@@ -70,6 +71,11 @@ export class Actor {
     this.sync();
   }
 
+  setRenderDepth(depth?: number) {
+    this.renderDepth = depth;
+    this.sync();
+  }
+
   faceToward(p: Vec) {
     this.setFace(facingOf(p.x - this.sprite.x, p.y - this.sprite.y, this.face));
   }
@@ -103,7 +109,7 @@ export class Actor {
   }
 
   private sync() {
-    this.sprite.setDepth(this.sprite.y);
+    this.sprite.setDepth(this.renderDepth ?? this.sprite.y);
     if (this.pose) {
       this.sprite.setScale(1);
       return;

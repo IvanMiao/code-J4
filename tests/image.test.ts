@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { runPost } from '../tools/lib/image.ts';
 
@@ -33,4 +35,31 @@ describe('ground-line removal', () => {
     expect(data[(95 * width + 50) * 4 + 3]).toBe(0);
     expect(data[(88 * width + 30) * 4 + 3]).toBe(255);
   });
+});
+
+describe('Ming pose overlays', () => {
+  const scene = JSON.parse(readFileSync(fileURLToPath(new URL('../assets/scenes/ming_scriptorium.yaml', import.meta.url)), 'utf8')) as {
+    pose_min_changed_pixels: number;
+  };
+
+  for (const id of ['linu', 'monk_left', 'monk_right']) {
+    it(`${id} has an empty frame 0 and enough changed pixels in frame 1`, async () => {
+      const path = fileURLToPath(new URL(`../public/art/ming/pose_${id}.png`, import.meta.url));
+      const { data, info } = await sharp(path).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+      const frameWidth = info.width / 2;
+      expect(Number.isInteger(frameWidth)).toBe(true);
+      let frame0Opaque = 0;
+      let frame1Opaque = 0;
+      for (let y = 0; y < info.height; y++) {
+        for (let x = 0; x < frameWidth; x++) {
+          const frame0Alpha = data[(y * info.width + x) * info.channels + 3];
+          const frame1Alpha = data[(y * info.width + frameWidth + x) * info.channels + 3];
+          if (frame0Alpha > 0) frame0Opaque++;
+          if (frame1Alpha >= 128) frame1Opaque++;
+        }
+      }
+      expect(frame0Opaque).toBe(0);
+      expect(frame1Opaque).toBeGreaterThanOrEqual(scene.pose_min_changed_pixels);
+    });
+  }
 });

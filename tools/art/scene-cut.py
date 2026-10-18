@@ -45,24 +45,24 @@ def build_pose(spec: dict, plate: Image.Image, key: str, data: dict, scale: floa
     edited_roi = box_crop(edit, local_box)
     plate_source = box_crop(plate, roi)
     mask = ImageChops.difference(edited_roi, plate_source).convert("L").point(lambda p: 255 if p > 30 else 0)
-    mask = mask.filter(ImageFilter.MedianFilter(5)).filter(ImageFilter.MaxFilter(13)).filter(ImageFilter.GaussianBlur(3))
+    mask = mask.filter(ImageFilter.MedianFilter(5)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(1.5))
 
     x = round(roi[0] * scale)
     y = round(roi[1] * scale)
     right = round(roi[2] * scale)
     bottom = round(roi[3] * scale)
     frame_size = (right - x, bottom - y)
-    art_roi = plate_source.resize(frame_size, Image.Resampling.LANCZOS)
     edit_art = edited_roi.resize(frame_size, Image.Resampling.LANCZOS)
     alpha = mask.resize(frame_size, Image.Resampling.LANCZOS)
-    frames = []
-    for source in (art_roi, edit_art):
-        frame = source.convert("RGBA")
-        frame.putalpha(alpha)
-        frames.append(frame)
+    changed_pixels = alpha.point(lambda value: 255 if value >= 128 else 0).histogram()[255]
+    if changed_pixels < spec["pose_min_changed_pixels"]:
+        raise ValueError(f"{key} pose has only {changed_pixels} changed opaque pixels")
+    frame0 = Image.new("RGBA", frame_size, (0, 0, 0, 0))
+    frame1 = edit_art.convert("RGBA")
+    frame1.putalpha(alpha)
     sheet = Image.new("RGBA", (frame_size[0] * 2, frame_size[1]), (0, 0, 0, 0))
-    sheet.paste(frames[0], (0, 0))
-    sheet.paste(frames[1], (frame_size[0], 0))
+    sheet.paste(frame0, (0, 0))
+    sheet.paste(frame1, (frame_size[0], 0))
     sheet.save(OUT_DIR / f"pose_{key}.png", optimize=False)
 
     width, height = right - x, bottom - y
@@ -70,6 +70,8 @@ def build_pose(spec: dict, plate: Image.Image, key: str, data: dict, scale: floa
         "origin": [x, y],
         "frame": [width, height],
         "actor": [x + width // 2, bottom],
+        "depth": data["depth"],
+        "changedPixels": changed_pixels,
         "pano_roi": roi,
     }
 

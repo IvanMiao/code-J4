@@ -5,6 +5,7 @@
   "pano_size": [2752, 1536],
   "erase_grow": 10,
   "erase_blur": 12,
+  "pose_min_changed_pixels": 100,
   "figures": {
     "shen": {
       "erase": [1150, 460, 1527, 1316],
@@ -25,17 +26,20 @@
     "monk_left": {
       "source": "assets/raw/ming/pose_monk_left_1.png",
       "crop": [570, 246, 1272, 948],
-      "roi": [632, 307, 1123, 702]
+      "roi": [632, 307, 1123, 702],
+      "depth": 321
     },
     "monk_right": {
       "source": "assets/raw/ming/pose_monk_right_1.png",
       "crop": [1904, 246, 2606, 948],
-      "roi": [2071, 307, 2492, 702]
+      "roi": [2071, 307, 2492, 702],
+      "depth": 321
     },
     "linu": {
       "source": "assets/raw/ming/pose_linu_1.png",
       "crop": [606, 772, 957, 1123],
-      "roi": [623, 869, 948, 1053]
+      "roi": [623, 869, 948, 1053],
+      "depth": 467
     }
   }
 }
