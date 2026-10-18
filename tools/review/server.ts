@@ -249,7 +249,17 @@ function cardData(asset: ReviewAsset): Record<string, unknown> {
   }
   if (asset.kind === 'sprite' || asset.kind === 'pose') {
     const member = asset.data.member as CastMember;
-    if (asset.kind === 'pose') return { ...asset.data, imageUrl: fileUrl(asset.path) };
+    if (asset.kind === 'pose') {
+      const layout = JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_scriptorium.art.json'), 'utf8')) as {
+        poses: Record<string, { origin: [number, number] }>;
+      };
+      return {
+        ...asset.data,
+        imageUrl: fileUrl(asset.path),
+        plateUrl: fileUrl('public/art/ming/bg_scriptorium.png'),
+        origin: layout.poses[String(asset.data.castId)]?.origin ?? null,
+      };
+    }
     const sameArt = Object.entries(cast).filter(([, other]) => (other.art ?? 'retro') === (member.art ?? 'retro')).map(([id, other]) => ({
       id, name: other.name, height: other.height ?? actorHeights[id] ?? 110, sheet: other.sheet ?? 'walk4',
       imageUrl: fileUrl(`public/art/${other.art ?? 'retro'}/${other.sprite}.png`),

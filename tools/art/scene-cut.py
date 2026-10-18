@@ -32,20 +32,24 @@ def match_color(
 ) -> Image.Image:
     union = ImageChops.lighter(changed, silhouette) if silhouette else changed
     outside = ImageChops.invert(union)
+    if outside.getbbox() is None:
+        return edit
     source_stats = ImageStat.Stat(edit_roi, mask=outside)
     target_stats = ImageStat.Stat(plate_roi, mask=outside)
-    channels = edit.split()
-    matched = []
-    for channel, source_mean, source_std, target_mean, target_std in zip(
-        channels, source_stats.mean, source_stats.stddev, target_stats.mean, target_stats.stddev
-    ):
-        scale = target_std / source_std if source_std > 1e-6 else 1
-        lut = [
-            max(0, min(255, round((value - source_mean) * scale + target_mean)))
-            for value in range(256)
-        ]
-        matched.append(channel.point(lut))
-    return Image.merge("RGB", matched)
+    offsets = [target - source for source, target in zip(source_stats.mean, target_stats.mean)]
+    corrected = edit.copy()
+    source = edit.load()
+    target = corrected.load()
+    for y in range(edit.height):
+        for x in range(edit.width):
+            pixel = source[x, y]
+            if 0.2126 * pixel[0] + 0.7152 * pixel[1] + 0.0722 * pixel[2] < 60:
+                continue
+            target[x, y] = tuple(
+                max(0, min(255, round(channel + offset)))
+                for channel, offset in zip(pixel, offsets)
+            )
+    return corrected
 
 
 def build_plate(spec: dict) -> Image.Image:

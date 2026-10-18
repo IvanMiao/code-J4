@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { runPost } from '../tools/lib/image.ts';
+import { compareDarkInk } from '../tools/review/pose-color.js';
 
 describe('ground-line removal', () => {
   it('removes a wide baseline row without keying out feet', async () => {
@@ -95,5 +97,50 @@ describe('Ming pose overlays', () => {
     }
     expect(samples).toBeGreaterThan(0);
     expect(minAlpha).toBeGreaterThanOrEqual(128);
+  });
+
+  it('keeps dark ink neutral while applying mean-only color offsets', () => {
+    const script = `
+import importlib.util, json
+from PIL import Image
+spec = importlib.util.spec_from_file_location("scene_cut", "tools/art/scene-cut.py")
+scene_cut = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(scene_cut)
+edit = Image.new("RGB", (4, 1))
+edit.putdata([(40, 30, 25), (100, 120, 140), (120, 100, 80), (250, 240, 230)])
+plate = Image.new("RGB", (4, 1))
+plate.putdata([(40, 30, 25), (110, 130, 150), (130, 110, 90), (250, 240, 230)])
+changed = Image.new("L", (4, 1), 0)
+changed.putpixel((0, 0), 255)
+changed.putpixel((3, 0), 255)
+output = scene_cut.match_color(edit, edit, plate, changed, None)
+print(json.dumps([list(pixel) for pixel in output.getdata()]))
+`;
+    const output = execFileSync('python3', ['-c', script], { cwd: process.cwd(), encoding: 'utf8' });
+    const pixels = JSON.parse(output.trim().split('\n').at(-1)!) as number[][];
+    expect(pixels).toEqual([
+      [40, 30, 25],
+      [110, 130, 150],
+      [130, 110, 90],
+      [255, 250, 240],
+    ]);
+  });
+
+  it('checks dark-line hue and chroma against a synthetic plate', () => {
+    const plate = new Uint8ClampedArray([35, 30, 25, 255, 45, 36, 30, 255]);
+    const matching = compareDarkInk(plate, 2, 1, plate, 2, 1, 0, 0);
+    expect(matching.ok).toBe(true);
+    expect(matching.chromaDifference).toBe(0);
+
+    const tinted = new Uint8ClampedArray([35, 30, 50, 255, 45, 36, 60, 255]);
+    const mismatch = compareDarkInk(tinted, 2, 1, plate, 2, 1, 0, 0);
+    expect(mismatch.chromaDifference).toBeGreaterThanOrEqual(8);
+    expect(mismatch.ok).toBe(false);
+
+    const hueShift = new Uint8ClampedArray([25, 30, 35, 255, 30, 36, 45, 255]);
+    const hueMismatch = compareDarkInk(hueShift, 2, 1, plate, 2, 1, 0, 0);
+    expect(hueMismatch.chromaDifference).toBeLessThan(8);
+    expect(hueMismatch.hueDifference).toBeGreaterThanOrEqual(15);
+    expect(hueMismatch.ok).toBe(false);
   });
 });
