@@ -1,0 +1,306 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 12,
+ "tileheight": 12,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "经藏院 · 写经房"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_scriptorium"
+  },
+  {
+   "name": "art",
+   "type": "string",
+   "value": "ming"
+  },
+  {
+   "name": "view",
+   "type": "string",
+   "value": "side"
+  },
+  {
+   "name": "player",
+   "type": "string",
+   "value": "shen"
+  },
+  {
+   "name": "dialogue",
+   "type": "string",
+   "value": "bubble"
+  },
+  {
+   "name": "scaleFar",
+   "type": "string",
+   "value": "0.9"
+  },
+  {
+   "name": "scaleNear",
+   "type": "string",
+   "value": "1"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 24,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 380
+      },
+      {
+       "x": 940,
+       "y": 380
+      },
+      {
+       "x": 940,
+       "y": 520
+      },
+      {
+       "x": 0,
+       "y": 520
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 25,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 15,
+       "y": 412
+      },
+      {
+       "x": 205,
+       "y": 412
+      },
+      {
+       "x": 205,
+       "y": 530
+      },
+      {
+       "x": 15,
+       "y": 530
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 26,
+     "name": "from_street",
+     "x": 60,
+     "y": 400,
+     "point": true
+    },
+    {
+     "id": 27,
+     "name": "debate_spot",
+     "x": 560,
+     "y": 470,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": [
+    {
+     "id": 16,
+     "name": "kuang",
+     "x": 720,
+     "y": 470,
+     "point": true,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_kuang"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "left"
+      }
+     ]
+    },
+    {
+     "id": 17,
+     "name": "linu",
+     "x": 165,
+     "y": 418,
+     "point": true,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_linu"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "right"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 18,
+     "name": "to_street",
+     "x": 0,
+     "y": 380,
+     "width": 20,
+     "height": 32,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "ming_canal_street:from_scriptorium"
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "name": "ming_reading_table",
+     "x": 450,
+     "y": 365,
+     "width": 200,
+     "height": 25,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_reading_table"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 20,
+     "name": "ming_monk_left",
+     "x": 200,
+     "y": 355,
+     "width": 140,
+     "height": 25,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_monk_left"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 21,
+     "name": "ming_monk_right",
+     "x": 760,
+     "y": 355,
+     "width": 170,
+     "height": 25,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_monk_right"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 22,
+     "name": "ming_sutra_chest",
+     "x": 180,
+     "y": 430,
+     "width": 25,
+     "height": 60,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_sutra_chest"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "left"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 23,
+     "name": "motes",
+     "x": 0,
+     "y": 0,
+     "width": 960,
+     "height": 380,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

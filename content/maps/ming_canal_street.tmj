@@ -1,0 +1,379 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 105,
+ "height": 45,
+ "tilewidth": 12,
+ "tileheight": 12,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "水乡 · 文林阁前"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_canal_street"
+  },
+  {
+   "name": "art",
+   "type": "string",
+   "value": "ming"
+  },
+  {
+   "name": "view",
+   "type": "string",
+   "value": "side"
+  },
+  {
+   "name": "player",
+   "type": "string",
+   "value": "shen"
+  },
+  {
+   "name": "dialogue",
+   "type": "string",
+   "value": "bubble"
+  },
+  {
+   "name": "scaleFar",
+   "type": "string",
+   "value": "0.9"
+  },
+  {
+   "name": "scaleNear",
+   "type": "string",
+   "value": "1"
+  },
+  {
+   "name": "intro",
+   "type": "string",
+   "value": "ming_intro"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 10,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 0,
+       "y": 450
+      },
+      {
+       "x": 1260,
+       "y": 450
+      },
+      {
+       "x": 1260,
+       "y": 505
+      },
+      {
+       "x": 0,
+       "y": 505
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 330,
+       "y": 400
+      },
+      {
+       "x": 800,
+       "y": 400
+      },
+      {
+       "x": 800,
+       "y": 450
+      },
+      {
+       "x": 330,
+       "y": 450
+      }
+     ]
+    },
+    {
+     "id": 12,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 800,
+       "y": 415
+      },
+      {
+       "x": 975,
+       "y": 415
+      },
+      {
+       "x": 975,
+       "y": 450
+      },
+      {
+       "x": 800,
+       "y": 450
+      }
+     ]
+    },
+    {
+     "id": 13,
+     "name": "w3",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 975,
+       "y": 412
+      },
+      {
+       "x": 1250,
+       "y": 412
+      },
+      {
+       "x": 1250,
+       "y": 450
+      },
+      {
+       "x": 975,
+       "y": 450
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 14,
+     "name": "player_start",
+     "x": 240,
+     "y": 480,
+     "point": true
+    },
+    {
+     "id": 15,
+     "name": "from_scriptorium",
+     "x": 1100,
+     "y": 440,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": [
+    {
+     "id": 1,
+     "name": "andreas",
+     "x": 870,
+     "y": 470,
+     "point": true,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_andreas"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "left"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 2,
+     "name": "ming_bookshop",
+     "x": 50,
+     "y": 425,
+     "width": 140,
+     "height": 25,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_bookshop"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "name": "ming_drying_sheets",
+     "x": 195,
+     "y": 425,
+     "width": 135,
+     "height": 25,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_drying_sheets"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "name": "ming_teahouse",
+     "x": 350,
+     "y": 380,
+     "width": 110,
+     "height": 25,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_teahouse"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "name": "ming_bridge",
+     "x": 500,
+     "y": 380,
+     "width": 230,
+     "height": 25,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_bridge"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "name": "to_scriptorium",
+     "x": 1040,
+     "y": 395,
+     "width": 125,
+     "height": 25,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "ming_scriptorium:from_street"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": []
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 7,
+     "name": "leaves",
+     "x": 330,
+     "y": 40,
+     "width": 280,
+     "height": 300,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "leaves"
+      },
+      {
+       "name": "every",
+       "type": "string",
+       "value": "1400"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "name": "birds",
+     "x": 300,
+     "y": 410,
+     "width": 900,
+     "height": 90,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "birds"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "2"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "name": "motes",
+     "x": 0,
+     "y": 0,
+     "width": 1260,
+     "height": 380,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
