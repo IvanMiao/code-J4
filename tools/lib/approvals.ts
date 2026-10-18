@@ -95,9 +95,7 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
 
   for (const [id, map] of Object.entries(maps)) {
     const path = assetPath(root, map.background, map.art);
-    const scenePath = id === 'ming_scriptorium'
-      ? 'assets/scenes/ming_scriptorium'
-      : id === 'ming_canal_street' ? 'assets/scenes/ming_canal_street' : null;
+    const scenePath = id === 'ming_scriptorium' ? 'assets/scenes/ming_scriptorium' : null;
     const bundle = scenePath
       ? [
         readFileSync(join(root, `${scenePath}.yaml`)),

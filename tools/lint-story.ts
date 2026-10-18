@@ -114,7 +114,6 @@ export async function lintStory(root = '.') {
   }
   const sceneSpecs = {
     ming_scriptorium: 'assets/scenes/ming_scriptorium.yaml',
-    ming_canal_street: 'assets/scenes/ming_canal_street.yaml',
   };
   for (const [mapId, sceneFile] of Object.entries(sceneSpecs)) {
     const map = content.maps[mapId];

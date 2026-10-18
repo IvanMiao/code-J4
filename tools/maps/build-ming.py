@@ -1,5 +1,5 @@
 """Writes content/maps/ming_{canal_street,scriptorium}.tmj (ancient line, side view).
-World = background pixels x1 (bg_canal_street 1260x540, bg_scriptorium 960x540)."""
+World = background pixels x1 (bg_canal_long 4492x540, bg_scriptorium 960x540)."""
 import json
 from pathlib import Path
 
@@ -24,7 +24,7 @@ def imagelayer(name, image, x=0, y=0, parallaxx=1.0, parallaxy=1.0, plane="back"
 SIDE = {"art": "ming", "view": "side", "script": "hant", "player": "shen", "dialogue": "bubble", "scaleFar": "0.38", "scaleNear": "0.42"}
 def tmj(w, h, title, bg, walk, blocked, anchors, actors, triggers, ambient=(), foreground=(), layers=(), **extra):
     layer = lambda n, objs: {"type": "objectgroup", "name": n, "objects": objs}
-    tile = 10 if (w, h) == (1260, 510) else 12
+    tile = 4 if (w, h) == (4492, 540) else 10 if (w, h) == (1260, 510) else 12
     image_layers = list(layers)
     back_layers = [l for l in image_layers if next((p["value"] for p in l.get("properties", []) if p["name"] == "plane"), "back") != "front"]
     front_layers = [l for l in image_layers if next((p["value"] for p in l.get("properties", []) if p["name"] == "plane"), "back") == "front"]
@@ -42,27 +42,32 @@ with open(ROOT / "assets/scenes/ming_scriptorium.art.json", encoding="utf-8") as
     scene = json.load(f)
 with open(ROOT / "assets/scenes/ming_scriptorium.yaml", encoding="utf-8") as f:
     scene_spec = json.load(f)
-with open(ROOT / "assets/scenes/ming_canal_street.art.json", encoding="utf-8") as f:
-    canal_scene = json.load(f)
 pose_actor = {key: data["actor"] for key, data in scene["poses"].items()}
 linu_silhouette = [tuple(p) for p in scene_spec["poses"]["linu"]["foreground_silhouette_art"]]
-canal_feet = {key: tuple(data["feet_art"]) for key, data in canal_scene["figures"].items()}
-maps = {
-    "ming_canal_street": tmj(1260, 510, "水鄉 · 文林閣前", "bg_canal_street",
-        [BOX(80, 402, 1180, 468)],
-        [],
-        {"player_start": canal_feet["shen"], "from_scriptorium": (1130, 463)},
-        [pt("andreas", *canal_feet["andreas"], {"knot": "ming_andreas", "face": "left"})],
-        [rect("ming_bookshop", 50, 345, 120, 45, {"knot": "ming_bookshop", "face": "up"}),
-         rect("ming_drying_sheets", 175, 345, 145, 45, {"knot": "ming_drying_sheets", "face": "up"}),
-         rect("ming_teahouse", 365, 340, 145, 50, {"knot": "ming_teahouse", "face": "up"}),
-         rect("ming_bridge", 570, 340, 280, 50, {"knot": "ming_bridge", "face": "up"}),
-         rect("to_scriptorium", 1110, 405, 90, 45, {"exit": "ming_scriptorium:from_street", "face": "up"})],
-        [amb("leaves", 350, 15, 170, 260, every=1400),
-         amb("leaves", 810, 20, 140, 245, every=1500),
-         amb("motes", 0, 0, 1260, 375)],
-        intro="ming_intro", ground="stone", scaleFar="0.934", scaleNear="0.934", frameInset="10"),
-    "ming_scriptorium": tmj(960, 540, "經藏院 · 寫經房", "bg_scriptorium",
+maps = {}
+maps["ming_canal_street"] = tmj(4492, 540, "水鄉 · 文林閣前", "bg_canal_long",
+        [BOX(20, 408, 2405, 492), BOX(2915, 408, 4472, 492),
+         [(2405, 408), (2600, 352), (2720, 352), (2915, 408),
+          (2915, 440), (2720, 385), (2600, 385), (2405, 440)]],
+        [BOX(1355, 428, 1560, 448), BOX(3340, 400, 3445, 420)],
+        {"player_start": (480, 460), "from_scriptorium": (4100, 472)},
+        [pt("andreas", 3700, 456, {"knot": "ming_andreas", "face": "left"})],
+        [rect("ming_bookshop", 150, 400, 300, 45, {"knot": "ming_bookshop", "face": "up"}),
+         rect("ming_drying_sheets", 640, 400, 280, 45, {"knot": "ming_drying_sheets", "face": "up"}),
+         rect("ming_teahouse", 1190, 400, 500, 58, {"knot": "ming_teahouse", "face": "up"}),
+         rect("ming_bridge", 2600, 340, 120, 40, {"knot": "ming_bridge", "face": "up"}),
+         rect("to_scriptorium", 4010, 398, 180, 32, {"exit": "ming_scriptorium:from_street", "face": "up"})],
+        [amb("leaves", 2190, 20, 110, 300, every=1400),
+         amb("leaves", 2520, 20, 190, 250, every=1500),
+         amb("motes", 0, 0, 4492, 400)],
+        foreground=[
+            ([(2405, 398), (2600, 328), (2720, 328), (2915, 398),
+              (2915, 472), (2405, 472)], 472),
+        ],
+        intro="ming_intro", ground="stone", frameInset="10", paperGrain="0.45",
+        scaleFar="0.34", scaleNear="0.375")
+oid[0] = 12
+maps["ming_scriptorium"] = tmj(960, 540, "經藏院 · 寫經房", "bg_scriptorium",
         [BOX(110, 304, 140, 395), BOX(110, 323, 850, 342), BOX(110, 333, 850, 458)],
         [BOX(144, 341, 398, 458), BOX(850, 300, 960, 458)],
         {"player_start": (145, 336), "from_street": (145, 336), "debate_spot": (465, 452),
@@ -82,8 +87,7 @@ maps = {
             ([(144, 348), (160, 330), (380, 330), (398, 348), (398, 456), (380, 466), (160, 466), (144, 452)], 466),
             (linu_silhouette, 466),
         ],
-        intro="ming_scriptorium_intro", scaleFar="1", scaleNear="1", frameInset="10"),
-}
+        intro="ming_scriptorium_intro", scaleFar="1", scaleNear="1", frameInset="10")
 for mid, m in maps.items():
     with open(ROOT / f"content/maps/{mid}.tmj", "w", encoding="utf-8") as f: json.dump(m, f, ensure_ascii=False, indent=1)
 print("wrote", ", ".join(maps))

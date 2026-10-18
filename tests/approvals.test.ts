@@ -58,4 +58,30 @@ describe('asset approval inputs', () => {
       rmSync(root, { recursive: true, force: true });
     }
   });
+
+  it('builds approval inputs for the canal map without scene files', () => {
+    const root = mkdtempSync(join(tmpdir(), 'code-j4-canal-approval-'));
+    try {
+      mkdirSync(join(root, 'content/maps'), { recursive: true });
+      mkdirSync(join(root, 'content/cast'), { recursive: true });
+      mkdirSync(join(root, 'public/art/ming'), { recursive: true });
+      writeFileSync(join(root, 'content/cast/cast.yaml'), 'shen:\n  art: ming\n  sprite: shen_sprite\n  sheet: side\n');
+      writeFileSync(join(root, 'content/maps/ming_canal_street.tmj'), JSON.stringify({
+        width: 4492, height: 540, tilewidth: 1, tileheight: 1,
+        properties: [
+          { name: 'background', value: 'bg_canal_long' },
+          { name: 'art', value: 'ming' },
+          { name: 'view', value: 'side' },
+          { name: 'player', value: 'shen' },
+        ],
+        layers: [],
+      }));
+      writeFileSync(join(root, 'public/art/ming/bg_canal_long.png'), 'background');
+      writeFileSync(join(root, 'public/art/ming/shen_sprite.png'), 'sprite');
+
+      expect(requiredAssets(root).map((asset) => asset.key)).toContain('bg:ming_canal_street');
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
 });

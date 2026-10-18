@@ -177,6 +177,18 @@ describe('painted scene fit', () => {
     expect(frameInsetErrors({ ...fixture, walkable: [[{ x: 25, y: 105 }, ...fixture.walkable[0].slice(1)]] }, metrics, 90).length).toBeGreaterThan(0);
   });
 
+  it('checks page-frame fit at reachable side-view foot positions', () => {
+    const sideFixture = {
+      width: 100, height: 200, frameInset: 10, scaleFar: 1, scaleNear: 1, view: 'side' as const, blocked: [],
+      walkable: [[{ x: 20, y: 100 }, { x: 80, y: 100 }, { x: 80, y: 190 }, { x: 20, y: 190 }]],
+    };
+    expect(frameInsetErrors(sideFixture, metrics, 90)).toEqual([]);
+    expect(frameInsetErrors({
+      ...sideFixture,
+      walkable: [[{ x: 10, y: 100 }, ...sideFixture.walkable[0].slice(1)]],
+    }, metrics, 90).some((error) => error.includes('crosses the page frame'))).toBe(true);
+  });
+
   it('measures rendered alpha height against the painted reference', () => {
     const rendered = renderedAlphaHeight(metrics, 100);
     expect(rendered).toBe(90);

@@ -43,17 +43,6 @@ function findFiles(dir: string, predicate: (path: string) => boolean): string[] 
 }
 
 function findManifest(map: FieldMap): { prompt?: string; sourceImageUrl?: string; comment?: string; rawUrl?: string } {
-  if (map.background === 'bg_canal_street') {
-    const scene = JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_canal_street.yaml'), 'utf8')) as {
-      pano: string; retouched: string; sourcePrompt: string;
-    };
-    return {
-      prompt: readFileSync(join(ROOT, scene.sourcePrompt), 'utf8'),
-      comment: 'Scene cut from assets/scenes/ming_canal_street.yaml. Every repair and erase is composited only inside its fixed box.',
-      sourceImageUrl: fileUrl(scene.retouched) ?? undefined,
-      rawUrl: fileUrl(scene.pano) ?? undefined,
-    };
-  }
   if (map.background === 'bg_scriptorium') {
     const scene = JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_scriptorium.yaml'), 'utf8')) as { pano: string; clean: string };
     return {
@@ -224,15 +213,21 @@ function stampPoints(map: FieldMap): StampPoint[] {
   const maxX = Math.max(...vertices.map((p) => p.x));
   const minY = Math.min(...vertices.map((p) => p.y));
   const maxY = Math.max(...vertices.map((p) => p.y));
-  const canal = map.background === 'bg_canal_street';
+  const sideView = map.view === 'side';
+  const topPoly = map.walkable.find((poly) => Math.min(...poly.map((p) => p.y)) === minY) ?? map.walkable[0];
+  const bottomPoly = map.walkable.find((poly) => Math.max(...poly.map((p) => p.y)) === maxY) ?? map.walkable[0];
+  const centerAtY = (poly: typeof map.walkable[number], y: number) => {
+    const points = poly.filter((p) => p.y === y);
+    return points.reduce((sum, p) => sum + p.x, 0) / points.length;
+  };
   const extremes: StampPoint[] = map.frameInset ? [
-    { kind: 'extreme' as const, label: 'walkable left', x: minX + 15, y: canal ? (minY + maxY) / 2 : 350, face: 'right' as Facing, valid: true },
-    { kind: 'extreme' as const, label: 'walkable right', x: maxX - 15, y: canal ? (minY + maxY) / 2 : 350, face: 'left' as Facing, valid: true },
-    { kind: 'extreme' as const, label: 'walkable top', x: canal ? (minX + maxX) / 2 : 125, y: minY + 11, face: 'right' as Facing, valid: true },
-    { kind: 'extreme' as const, label: 'walkable bottom', x: canal ? (minX + maxX) / 2 : 500, y: maxY - 10, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable left', x: minX + 15, y: sideView ? (minY + maxY) / 2 : 350, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable right', x: maxX - 15, y: sideView ? (minY + maxY) / 2 : 350, face: 'left' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable top', x: sideView ? centerAtY(topPoly, minY) : 125, y: minY + 11, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable bottom', x: sideView ? centerAtY(bottomPoly, maxY) : 125, y: sideView ? maxY - 10 : 500, face: 'right' as Facing, valid: true },
   ].map((p) => ({ ...p, valid: walkableFoot(p, map.walkable, map.blocked) })) : [];
-  const actors = canal ? map.actors.map((actor) => ({
-    kind: 'actor' as const, actorId: actor.id, label: `painted feet ${actor.id}`, x: actor.x, y: actor.y,
+  const actors = sideView ? map.actors.map((actor) => ({
+    kind: 'actor' as const, actorId: actor.id, label: `actor position ${actor.id}`, x: actor.x, y: actor.y,
     face: (actor.face ?? 'right') as Facing, valid: walkableFoot({ x: actor.x, y: actor.y }, map.walkable, map.blocked),
   })) : [];
   return [...extremes, ...triggers, ...exits, ...actors];
@@ -247,7 +242,7 @@ function cardData(asset: ReviewAsset): Record<string, unknown> {
     const mapId = String(asset.data.mapId);
     const scenePath = mapId === 'ming_scriptorium'
       ? join(ROOT, 'assets/scenes/ming_scriptorium.yaml')
-      : mapId === 'ming_canal_street' ? join(ROOT, 'assets/scenes/ming_canal_street.yaml') : null;
+      : null;
     const scene = scenePath
       ? JSON.parse(readFileSync(scenePath, 'utf8')) as {
         pose_min_changed_pixels?: number;

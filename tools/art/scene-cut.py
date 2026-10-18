@@ -3,18 +3,15 @@
 
 from __future__ import annotations
 
-import argparse
 import json
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps, ImageStat
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageStat
 
 ROOT = Path(__file__).resolve().parents[2]
 SPEC_PATH = ROOT / "assets/scenes/ming_scriptorium.yaml"
 OUT_DIR = ROOT / "public/art/ming"
 SIDECAR = ROOT / "assets/scenes/ming_scriptorium.art.json"
-CANAL_SPEC_PATH = ROOT / "assets/scenes/ming_canal_street.yaml"
-CANAL_SIDECAR = ROOT / "assets/scenes/ming_canal_street.art.json"
 
 
 def box_crop(image: Image.Image, box: list[int]) -> Image.Image:
@@ -135,145 +132,7 @@ def build_pose(spec: dict, plate: Image.Image, key: str, data: dict, scale: floa
     }
 
 
-def feather_mask(size: tuple[int, int], feather: int) -> Image.Image:
-    width, height = size
-    if feather <= 0:
-        return Image.new("L", size, 255)
-    pixels = bytearray(width * height)
-    for y in range(height):
-        edge_y = min(y, height - y - 1)
-        for x in range(width):
-            distance = min(x, width - x - 1, edge_y)
-            t = min(1.0, max(0.0, distance / feather))
-            smooth = t * t * (3 - 2 * t)
-            pixels[y * width + x] = round(smooth * 255)
-    return Image.frombytes("L", size, bytes(pixels))
-
-
-def paste_box_edit(
-    image: Image.Image,
-    patch_path: str,
-    box: list[int],
-    feather: int,
-) -> None:
-    x1, y1, x2, y2 = box
-    size = (x2 - x1, y2 - y1)
-    patch = Image.open(ROOT / patch_path).convert("RGB")
-    patch = ImageOps.fit(patch, size, method=Image.Resampling.LANCZOS)
-    area = image.crop((x1, y1, x2, y2))
-    area.paste(patch, (0, 0), feather_mask(size, feather))
-    image.paste(area, (x1, y1))
-
-
-def prepare_canal_inputs(spec: dict) -> None:
-    pano = Image.open(ROOT / spec["pano"]).convert("RGB")
-    if pano.size != tuple(spec["sourceSize"]):
-        raise ValueError(f"pano size {pano.size} does not match scene spec {spec['sourceSize']}")
-    inputs = [(entry["input"], entry["box"]) for entry in spec["repairs"]]
-    inputs.extend((figure["eraseInput"], figure["erase"]) for figure in spec["figures"].values())
-    for path, box in inputs:
-        pano.crop(tuple(box)).save(ROOT / path)
-        print(f"wrote {path}")
-
-
-def build_canal_scene(spec: dict) -> None:
-    pano = Image.open(ROOT / spec["pano"]).convert("RGB")
-    if pano.size != tuple(spec["sourceSize"]):
-        raise ValueError(f"pano size {pano.size} does not match scene spec {spec['sourceSize']}")
-
-    retouched = pano.copy()
-    for repair in spec["repairs"]:
-        paste_box_edit(retouched, repair["patch"], repair["box"], repair["feather"])
-    retouched.save(ROOT / spec["retouched"], optimize=False)
-
-    clean = retouched.copy()
-    for figure in spec["figures"].values():
-        paste_box_edit(clean, figure["erasePatch"], figure["erase"], figure["eraseFeather"])
-    clean.save(ROOT / spec["clean"], optimize=False)
-
-    crop = tuple(spec["crop"])
-    art_size = tuple(spec["artSize"])
-    crop_size = (crop[2] - crop[0], crop[3] - crop[1])
-    art = clean.crop(crop).resize(art_size, Image.Resampling.LANCZOS)
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    art.save(OUT_DIR / "bg_canal_street.png", optimize=False)
-
-    andreas = spec["figures"]["andreas"]
-    retouched.crop(tuple(andreas["figure"])).save(ROOT / spec["andreasRef"], optimize=False)
-    scale_x = art_size[0] / crop_size[0]
-    scale_y = art_size[1] / crop_size[1]
-    figures = {}
-    for name, figure in spec["figures"].items():
-        x1, y1, x2, y2 = figure["figure"]
-        feet_x, feet_y = figure["feetPano"]
-        height = (y2 - y1) * scale_y
-        feet = [
-            round((feet_x - crop[0]) * scale_x),
-            round((feet_y - crop[1]) * scale_y),
-        ]
-        if abs(height - figure["height_art"]) > 1:
-            raise ValueError(f"{name} painted height differs from scene spec")
-        if feet != figure["feet_art"]:
-            raise ValueError(f"{name} painted feet differ from scene spec: {feet}")
-        figures[name] = {
-            "sprite": figure["sprite"],
-            "figure": figure["figure"],
-            "figure_art": [
-                round((x1 - crop[0]) * scale_x),
-                round((y1 - crop[1]) * scale_y),
-                round((x2 - crop[0]) * scale_x),
-                round((y2 - crop[1]) * scale_y),
-            ],
-            "height_art": round(height, 2),
-            "feet_pano": figure["feetPano"],
-            "feet_art": feet,
-            "erase": figure["erase"],
-        }
-    sidecar = {
-        "map": spec["map"],
-        "crop": spec["crop"],
-        "art_size": art_size,
-        "scale": [scale_x, scale_y],
-        "figures": figures,
-    }
-    CANAL_SIDECAR.write_text(
-        json.dumps(sidecar, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf8",
-    )
-    print(
-        "wrote public/art/ming/bg_canal_street.png, "
-        f"{spec['retouched']}, {spec['clean']}, and {CANAL_SIDECAR.relative_to(ROOT)}"
-    )
-
-
-def apply_canal_art_repairs(spec: dict) -> None:
-    path = OUT_DIR / "bg_canal_street.png"
-    art = Image.open(path).convert("RGB")
-    for repair in spec.get("artRepairs", []):
-        paste_box_edit(art, repair["patch"], repair["box"], repair["feather"])
-    art.save(path, optimize=False)
-    print(f"applied {len(spec.get('artRepairs', []))} fixed-box art repairs to {path.relative_to(ROOT)}")
-
-
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--scene", choices=("ming_scriptorium", "ming_canal_street"), default="ming_scriptorium")
-    parser.add_argument("--prepare-inputs", action="store_true")
-    parser.add_argument("--apply-art-repairs", action="store_true")
-    args = parser.parse_args()
-    if args.scene == "ming_canal_street":
-        spec = json.loads(CANAL_SPEC_PATH.read_text(encoding="utf8"))
-        if args.prepare_inputs:
-            prepare_canal_inputs(spec)
-            return
-        if args.apply_art_repairs:
-            apply_canal_art_repairs(spec)
-            return
-        build_canal_scene(spec)
-        return
-    if args.prepare_inputs:
-        parser.error("--prepare-inputs is only supported for ming_canal_street")
-
     spec = json.loads(SPEC_PATH.read_text(encoding="utf8"))
     scale = spec["art_size"][0] / spec["pano_size"][0]
     OUT_DIR.mkdir(parents=True, exist_ok=True)
