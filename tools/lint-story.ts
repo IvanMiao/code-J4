@@ -2,13 +2,14 @@
  * npm run lint:story — static checks for the ink story against cast, map, items, audio and encounters.
  * Errors fail the command; warnings are printed.
  */
-import { readFileSync } from 'node:fs';
-import { relative } from 'node:path';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join, relative } from 'node:path';
 import { compileInk } from './lib/ink.ts';
 import { checkExits, checkTriggers, entryKnots, loadContent, sourceLines, STORY_ENTRY, validateCommand } from './lib/content.ts';
-import { speakerResolver } from '../src/engine/content.ts';
+import { isValidEmotion, speakerResolver } from '../src/engine/content.ts';
 import { parseCommand, parseStoryLine } from '../src/story/parse.ts';
 import { StoryRunner } from '../src/story/runner.ts';
+import { plainText } from '../src/engine/handwriting.ts';
 
 const MAX_LINE_CHARS = 60;
 
@@ -21,6 +22,17 @@ export function lintStory(root = '.') {
   if (build.errors.length) return { errors, warnings };
 
   const content = loadContent(root);
+  const charsetPath = join(root, 'public/fonts/hands/charset.txt');
+  try {
+    const charset = new Set(readFileSync(charsetPath, 'utf8'));
+    const storyChars = new Set(readdirSync(join(root, 'content/story'))
+      .filter((file) => file.endsWith('.ink'))
+      .flatMap((file) => [...readFileSync(join(root, 'content/story', file), 'utf8')]));
+    const missing = [...storyChars].filter((ch) => !charset.has(ch)).sort();
+    if (missing.length) warnings.push(`story characters missing from charset.txt: ${missing.join('')} (run npm run fonts)`);
+  } catch {
+    warnings.push('handwriting charset.txt is missing (run npm run fonts)');
+  }
   const speakerOf = speakerResolver(content.cast);
   const knots = new StoryRunner(build.json, speakerOf).knots();
   const lineIds = new Map<string, string>();
@@ -43,8 +55,8 @@ export function lintStory(root = '.') {
     }
     if (ev.speaker && ev.emotion) {
       const member = content.cast[ev.speaker];
-      if (!member.portraits[ev.emotion]) {
-        errors.push(`${at(s)}  ${member.name} has no "#${ev.emotion}" portrait (has: ${Object.keys(member.portraits).join(', ')})`);
+      if (!isValidEmotion(member, ev.emotion)) {
+        errors.push(`${at(s)}  ${member.name} has no "#${ev.emotion}" emotion (has: ${[...Object.keys(member.portraits ?? {}), ...(member.emotions ?? [])].join(', ')})`);
       }
     }
     if (ev.voiced && !ev.lineId) errors.push(`${at(s)}  #vo line needs a #line:<id> (run npm run story:ids)`);
@@ -52,7 +64,8 @@ export function lintStory(root = '.') {
       if (lineIds.has(ev.lineId)) errors.push(`${at(s)}  duplicate #line:${ev.lineId} (also ${lineIds.get(ev.lineId)})`);
       lineIds.set(ev.lineId, at(s));
     }
-    if ([...ev.text].length > MAX_LINE_CHARS) warnings.push(`${at(s)}  line is ${[...ev.text].length} chars; the box fits ~${MAX_LINE_CHARS}`);
+    const length = [...plainText(ev.text)].length;
+    if (length > MAX_LINE_CHARS) warnings.push(`${at(s)}  line is ${length} chars; the box fits ~${MAX_LINE_CHARS}`);
   }
 
   errors.push(...checkExits(content), ...checkTriggers(content));

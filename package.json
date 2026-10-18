@@ -12,6 +12,7 @@
     "lint:story": "tsx tools/lint-story.ts",
     "sim": "tsx tools/sim.ts",
     "story:ids": "tsx tools/story-ids.ts",
+    "fonts": "python3 tools/fonts/build-hands.py",
     "gen:art": "tsx tools/gen-art.ts",
     "gen:audio": "tsx tools/gen-audio.ts",
     "check": "npm run typecheck && npm test && npm run lint:story && npm run sim",

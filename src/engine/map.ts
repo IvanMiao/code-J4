@@ -27,6 +27,13 @@ export interface FieldMap {
   width: number;
   height: number;
   background: string;
+  art: string | null;
+  view: 'top' | 'side';
+  player: string;
+  dialogue: 'box' | 'bubble';
+  intro: string | null;
+  scaleFar: number;
+  scaleNear: number;
   bgm: string | null;
   ambience: string | null;
   walkable: Polygon[];
@@ -47,11 +54,22 @@ export function parseMap(raw: string | TiledMap): FieldMap {
   const poly = (o: TiledObject) => (o.polygon ?? []).map((p) => ({ x: p.x + o.x, y: p.y + o.y }));
   const rect = (o: TiledObject) => ({ id: o.name, x: o.x, y: o.y, width: o.width ?? 0, height: o.height ?? 0 });
   const triggers = layer('triggers');
+  const view = String(prop(map, 'view') ?? 'top');
+  const dialogue = String(prop(map, 'dialogue') ?? 'box');
+  const art = prop(map, 'art');
+  const intro = prop(map, 'intro');
   return {
     title: String(prop(map, 'title') ?? ''),
     width: map.width * map.tilewidth,
     height: map.height * map.tileheight,
     background: String(prop(map, 'background') ?? ''),
+    art: art == null || art === '' ? null : String(art),
+    view: view === 'side' ? 'side' : 'top',
+    player: String(prop(map, 'player') ?? 'linxia'),
+    dialogue: dialogue === 'bubble' ? 'bubble' : 'box',
+    intro: intro == null || intro === '' ? null : String(intro),
+    scaleFar: Number(prop(map, 'scaleFar') ?? 1),
+    scaleNear: Number(prop(map, 'scaleNear') ?? 1),
     bgm: (prop(map, 'bgm') as string) ?? null,
     ambience: (prop(map, 'ambience') as string) ?? null,
     walkable: layer('walkable').map(poly),

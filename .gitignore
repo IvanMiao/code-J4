@@ -1,5 +1,7 @@
 node_modules/
 dist/
 assets/raw/
+assets/fonts-src/
+assets/fonts-src/
 .env
 *.log

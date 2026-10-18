@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { facingOf, step, walkable } from '../src/engine/walk.ts';
+import { facingOf, sideFacing, step, walkable } from '../src/engine/walk.ts';
 import { addItem, readSave, writeSave } from '../src/engine/save.ts';
 import { createBattle, outcome, playRound } from '../src/engine/battle.ts';
+import { parseMap } from '../src/engine/map.ts';
+import { readFileSync } from 'node:fs';
 
 const square = [[{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }]];
 
@@ -15,6 +17,40 @@ describe('walk', () => {
     expect(facingOf(1, 0.2, 'down')).toBe('right');
     expect(facingOf(0, -1, 'down')).toBe('up');
     expect(facingOf(0, 0, 'left')).toBe('left');
+  });
+  it('keeps side-view facing horizontal', () => {
+    expect(sideFacing(-1, 'right')).toBe('left');
+    expect(sideFacing(1, 'left')).toBe('right');
+    expect(sideFacing(0, 'left')).toBe('left');
+    expect(sideFacing(0, 'up')).toBe('right');
+    expect(sideFacing(0, 'down')).toBe('right');
+  });
+});
+
+describe('map properties', () => {
+  it('defaults legacy maps to top-view campus settings', () => {
+    const legacy = readFileSync(new URL('../content/maps/gate.tmj', import.meta.url), 'utf8');
+    expect(parseMap(legacy)).toMatchObject({
+      art: null, view: 'top', player: 'linxia', dialogue: 'box', intro: null, scaleFar: 1, scaleNear: 1,
+    });
+  });
+
+  it('parses every optional property from a map fixture', () => {
+    const fixture = {
+      width: 10, height: 8, tilewidth: 24, tileheight: 24, layers: [],
+      properties: [
+        { name: 'art', value: 'ming' },
+        { name: 'view', value: 'side' },
+        { name: 'player', value: 'shen' },
+        { name: 'dialogue', value: 'bubble' },
+        { name: 'intro', value: 'ming_intro' },
+        { name: 'scaleFar', value: '0.8' },
+        { name: 'scaleNear', value: '1.25' },
+      ],
+    };
+    expect(parseMap(fixture)).toMatchObject({
+      art: 'ming', view: 'side', player: 'shen', dialogue: 'bubble', intro: 'ming_intro', scaleFar: 0.8, scaleNear: 1.25,
+    });
   });
 });
 

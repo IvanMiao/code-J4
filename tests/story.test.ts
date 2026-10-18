@@ -5,6 +5,9 @@ import { lintStory } from '../tools/lint-story.ts';
 import { playPath, simulate } from '../tools/sim.ts';
 import { speakerResolver } from '../src/engine/content.ts';
 import { StoryRunner } from '../src/story/runner.ts';
+import { isValidEmotion } from '../src/engine/content.ts';
+import { parseCommand } from '../src/story/parse.ts';
+import { validateCommand } from '../tools/lib/content.ts';
 
 const build = compileInk(STORY_ENTRY);
 const content = loadContent();
@@ -37,5 +40,18 @@ describe('story', () => {
     const b = new StoryRunner(build.json, speakerResolver(content.cast));
     b.restoreVariables(a.variables());
     expect(b.story.variablesState['met_nika']).toBe(true);
+  });
+
+  it('accepts cast emotions without portrait art', () => {
+    const castMember = { name: '测试', sprite: 'x', default: 'calm', emotions: ['wry'] };
+    expect(isValidEmotion(castMember, 'wry')).toBe(true);
+    expect(isValidEmotion(castMember, 'calm')).toBe(false);
+  });
+
+  it('@goto validates the selected map and its own anchors', () => {
+    const good = parseCommand('@goto gate player_start')!;
+    expect(validateCommand(good, content)).toEqual([]);
+    expect(validateCommand(parseCommand('@goto unknown_map player_start')!, content)).toContain('@goto: unknown map "unknown_map"');
+    expect(validateCommand(parseCommand('@goto gate lib_steps')!, content)).toContain('@goto: unknown anchor "gate:lib_steps"');
   });
 });

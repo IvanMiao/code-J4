@@ -35,6 +35,12 @@ export function facingOf(dx: number, dy: number, fallback: Facing): Facing {
   return Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? 'left' : 'right') : dy < 0 ? 'up' : 'down';
 }
 
+export function sideFacing(dx: number, fallback: Facing): Facing {
+  if (dx < 0) return 'left';
+  if (dx > 0) return 'right';
+  return fallback === 'left' || fallback === 'right' ? fallback : 'right';
+}
+
 export function facingVec(f: Facing): Vec {
   return { up: { x: 0, y: -1 }, down: { x: 0, y: 1 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 } }[f];
 }

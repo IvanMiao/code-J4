@@ -1,10 +1,11 @@
 import Phaser from 'phaser';
 import storyJson from '../../../content/story/main.ink';
-import { cast, encounters, FONT, items, maps, params, START, type AudioIndex } from '../config.ts';
+import { cast, encounters, FONT, HANDS, items, maps, params, START, style, type AudioIndex } from '../config.ts';
 import { Actor } from '../Actor.ts';
 import { Ambient } from '../Ambient.ts';
 import { DialogueBox } from '../ui/DialogueBox.ts';
 import { ChoiceMenu } from '../ui/ChoiceMenu.ts';
+import { SpeechBubble } from '../ui/SpeechBubble.ts';
 import type { BattleData } from './Battle.ts';
 import { speakerResolver } from '../../engine/content.ts';
 import { inRect, type MapTrigger } from '../../engine/map.ts';
@@ -12,9 +13,8 @@ import { addItem, readSave, writeSave, type ActorState } from '../../engine/save
 import { DIRS, type Dir } from '../../story/commands.ts';
 import type { CommandEvent, LineEvent } from '../../story/parse.ts';
 import { StoryRunner, type StoryHost } from '../../story/runner.ts';
-import { facingOf, facingVec, step, type Vec, REACH } from '../../engine/walk.ts';
+import { facingOf, facingVec, sideFacing, step, type Vec, REACH } from '../../engine/walk.ts';
 
-const PLAYER = 'linxia';
 const WALK_SPEED = 190;
 const speakerOf = speakerResolver(cast);
 
@@ -26,7 +26,9 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   introDone = false;
   private actors = new Map<string, Actor>();
   private player!: Actor;
-  private dialogue!: DialogueBox;
+  private dialogue!: DialogueBox | SpeechBubble;
+  private dialogueBox!: DialogueBox;
+  private speechBubble!: SpeechBubble;
   private choices!: ChoiceMenu;
   private keys!: Record<string, Phaser.Input.Keyboard.Key>;
   private hint!: Phaser.GameObjects.Text;
@@ -42,6 +44,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private fg: Phaser.GameObjects.Image[] = [];
   private ambient?: Ambient;
   private areaLabel!: Phaser.GameObjects.Text;
+  private controlsLine!: Phaser.GameObjects.Text;
 
   constructor() {
     super('field');
@@ -57,15 +60,17 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
 
   create() {
     this.bg = this.add.image(0, 0, `bg:${this.mapId}`).setOrigin(0).setDepth(-1);
-    this.player = this.spawn(PLAYER, { x: 0, y: 0 });
+    this.player = this.spawn(this.map.player, { x: 0, y: 0 });
 
-    this.dialogue = new DialogueBox(this);
+    this.dialogueBox = new DialogueBox(this);
+    this.speechBubble = new SpeechBubble(this, (id) => this.actors.get(id));
+    this.dialogue = this.dialogueBox;
     this.choices = new ChoiceMenu(this);
     this.hint = this.add.text(0, 0, '空格', { fontFamily: FONT, fontSize: '12px', color: '#1a120a', backgroundColor: '#e6c77a', padding: { x: 4, y: 2 } })
       .setOrigin(0.5, 1).setDepth(9_000).setVisible(false);
     this.toastText = this.add.text(480, 24, '', { fontFamily: FONT, fontSize: '24px', color: '#ffe7a3', backgroundColor: '#131b2fe6', padding: { x: 14, y: 8 } })
       .setOrigin(0.5, 0).setDepth(10_200).setAlpha(0).setScrollFactor(0);
-    this.add.text(10, 520, '方向键/WASD 移动 · 空格/Enter 交谈 · Esc 菜单', { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
+    this.controlsLine = this.add.text(10, 520, '方向键/WASD 移动 · 空格/Enter 交谈 · Esc 菜单', { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
       .setDepth(9_500).setScrollFactor(0);
     this.areaLabel = this.add.text(950, 10, '', { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
       .setOrigin(1, 0).setDepth(9_500).setScrollFactor(0);
@@ -96,7 +101,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     const dy = (k.DOWN.isDown || k.S.isDown ? 1 : 0) - (k.UP.isDown || k.W.isDown ? 1 : 0);
     if (dx || dy) {
       const len = Math.hypot(dx, dy), d = (WALK_SPEED * dt) / 1000;
-      this.player.face = facingOf(dx, dy, this.player.face);
+      this.player.face = this.map.view === 'side' ? sideFacing(dx, this.player.face) : facingOf(dx, dy, this.player.face);
       this.player.setPos(step(this.player.pos, { x: (dx / len) * d, y: (dy / len) * d }, this.map.walkable, this.map.blocked));
       this.player.setMoving(true);
       const exit = this.map.exits.find((e) => inRect(this.player.pos, e));
@@ -180,6 +185,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       }
       case 'battle':
         return this.battle(a0);
+      case 'goto':
+        return this.travel(a0, a1);
       default:
         console.warn(`[story] unknown command @${c.name}`);
     }
@@ -199,7 +206,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.introDone = true;
       this.run(start);
     } else {
-      this.run('intro').then(() => (this.introDone = true));
+      this.run(this.map.intro ?? 'intro').then(() => (this.introDone = true));
     }
   }
 
@@ -226,6 +233,23 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     const p = this.player.pos;
     const f = facingVec(this.player.face);
     const probe = { x: p.x + f.x * REACH, y: p.y + f.y * REACH };
+    if (this.map.view === 'side') {
+      const above = { x: p.x, y: p.y - REACH };
+      for (const a of this.actors.values()) {
+        const knot = this.map.actors.find((m) => m.id === a.id)?.knot;
+        if (a === this.player || !knot || !a.sprite.visible) continue;
+        if (Math.hypot(probe.x - a.pos.x, probe.y - a.pos.y) < 60) {
+          return { actor: a, knot, at: { x: a.pos.x, y: a.pos.y - a.height - 4 } };
+        }
+      }
+      for (const t of this.map.triggers) {
+        const faceOk = !t.face || t.face === 'up' || t.face === 'down' || t.face === this.player.face;
+        if (faceOk && [p, above, probe].some((point) => inRect(point, t))) {
+          return { trigger: t, knot: t.knot, at: { x: t.x + t.width / 2, y: t.y } };
+        }
+      }
+      return null;
+    }
     for (const a of this.actors.values()) {
       const knot = this.map.actors.find((m) => m.id === a.id)?.knot;
       if (a === this.player || !knot || !a.sprite.visible) continue;
@@ -293,6 +317,11 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     if (remember) this.mapState[this.mapId] = here;
     this.mapId = maps[id] ? id : START.map;
     const m = this.map;
+    if (m.player !== this.player.id) {
+      this.player.sprite.destroy();
+      this.actors.delete(this.player.id);
+      this.player = this.spawn(m.player, m.anchors[anchor ?? ''] ?? Object.values(m.anchors)[0] ?? { x: 0, y: 0 });
+    }
     this.bg.setTexture(`bg:${this.mapId}`).setDisplaySize(m.width, m.height);
     for (const f of this.fg) f.destroy();
     this.fg = m.foreground.map((f, i) => this.cutout(`fg:${this.mapId}:${i}`, f.polygon, f.baseline));
@@ -307,10 +336,36 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     if (anchor !== null) this.player.setPos(m.anchors[anchor] ?? Object.values(m.anchors)[0]);
     const cam = this.cameras.main;
     cam.setBounds(0, 0, m.width, m.height);
+    cam.startFollow(this.player.sprite, true, 0.15, 0.15);
     cam.centerOn(this.player.pos.x, this.player.pos.y);
+    const ys = m.walkable.flatMap((poly) => poly.map((p) => p.y));
+    const top = ys.length ? Math.min(...ys) : 0;
+    const bottom = ys.length ? Math.max(...ys) : m.height;
+    for (const actor of this.actors.values()) actor.setDepthMap(m.view === 'side', top, bottom, m.scaleFar, m.scaleNear);
+    const art = m.art ?? style;
+    this.game.canvas.style.imageRendering = art === 'retro' ? 'pixelated' : 'auto';
+    this.dialogue = m.dialogue === 'bubble' ? this.speechBubble : this.dialogueBox;
+    this.choices.setTheme(m.dialogue === 'bubble' ? 'paper' : 'pixel');
+    this.setPaperTheme(m.dialogue === 'bubble');
     if (m.bgm) this.loop('bgm', m.bgm, 1);
     if (m.ambience) this.loop('ambience', m.ambience, 1);
     this.areaLabel.setText(m.title);
+  }
+
+  private setPaperTheme(paper: boolean) {
+    const uiFont = paper ? HANDS.song.family : FONT;
+    this.hint.setStyle(paper
+      ? { fontFamily: uiFont, fontSize: '18px', color: '#22170d', backgroundColor: '#efe3c4' }
+      : { fontFamily: FONT, fontSize: '12px', color: '#1a120a', backgroundColor: '#e6c77a' });
+    this.toastText.setStyle(paper
+      ? { fontFamily: uiFont, fontSize: '22px', color: '#22170d', backgroundColor: '#efe3c4f2' }
+      : { fontFamily: FONT, fontSize: '24px', color: '#ffe7a3', backgroundColor: '#131b2fe6' });
+    this.areaLabel.setStyle(paper
+      ? { fontFamily: uiFont, fontSize: '18px', color: '#22170d', backgroundColor: '#efe3c4' }
+      : { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066' });
+    this.controlsLine.setStyle(paper
+      ? { fontFamily: uiFont, fontSize: '15px', color: '#22170d', backgroundColor: '#efe3c4dd' }
+      : { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066' });
   }
 
   saveGame(slot: number) {
