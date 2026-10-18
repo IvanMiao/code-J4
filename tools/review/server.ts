@@ -224,7 +224,7 @@ function stampPoints(map: FieldMap): StampPoint[] {
     { kind: 'extreme' as const, label: 'walkable left', x: minX + 15, y: sideView ? (minY + maxY) / 2 : 350, face: 'right' as Facing, valid: true },
     { kind: 'extreme' as const, label: 'walkable right', x: maxX - 15, y: sideView ? (minY + maxY) / 2 : 350, face: 'left' as Facing, valid: true },
     { kind: 'extreme' as const, label: 'walkable top', x: sideView ? centerAtY(topPoly, minY) : 125, y: minY + 11, face: 'right' as Facing, valid: true },
-    { kind: 'extreme' as const, label: 'walkable bottom', x: sideView ? centerAtY(bottomPoly, maxY) : 125, y: sideView ? maxY - 10 : 500, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable bottom', x: sideView ? centerAtY(bottomPoly, maxY) : 500, y: sideView ? maxY - 10 : 500, face: 'right' as Facing, valid: true },
   ].map((p) => ({ ...p, valid: walkableFoot(p, map.walkable, map.blocked) })) : [];
   const actors = sideView ? map.actors.map((actor) => ({
     kind: 'actor' as const, actorId: actor.id, label: `actor position ${actor.id}`, x: actor.x, y: actor.y,

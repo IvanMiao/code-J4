@@ -20,6 +20,15 @@ describe('walk', () => {
     expect(walkableFoot({ x: 20, y: 50 }, square)).toBe(true);
     expect(step({ x: 80, y: 50 }, { x: 10, y: 10 }, square)).toEqual({ x: 80, y: 60 });
   });
+  it('follows side-view ramps up and down when walking horizontally', () => {
+    const ramp = [[
+      { x: 0, y: 40 }, { x: 40, y: 40 }, { x: 60, y: 34 }, { x: 80, y: 34 }, { x: 100, y: 40 }, { x: 120, y: 40 },
+      { x: 120, y: 80 }, { x: 100, y: 80 }, { x: 80, y: 74 }, { x: 60, y: 74 }, { x: 40, y: 80 }, { x: 0, y: 80 },
+    ]];
+    expect(step({ x: 30, y: 78 }, { x: 10, y: 0 }, ramp, [], undefined, 1.2)).toEqual({ x: 40, y: 75 });
+    expect(step({ x: 70, y: 46 }, { x: 10, y: 0 }, ramp, [], undefined, 1.2)).toEqual({ x: 80, y: 49 });
+    expect(step({ x: 30, y: 78 }, { x: 10, y: 0 }, ramp, [], undefined, 0)).toEqual({ x: 30, y: 78 });
+  });
   it('picks the dominant facing', () => {
     expect(facingOf(1, 0.2, 'down')).toBe('right');
     expect(facingOf(0, -1, 'down')).toBe('up');
