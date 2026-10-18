@@ -597,7 +597,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.imageLayers = m.layers.map((layer, index) => this.add.image(layer.x, layer.y, `layer:${this.mapId}:${layer.id}`)
       .setOrigin(0)
       .setScrollFactor(layer.parallaxX, layer.parallaxY)
-      .setDepth(layer.plane === 'back' ? -10 + index : 8_900 + index));
+      .setDepth(layer.plane === 'back' ? -10 + index : 8_800 + index));
     this.paperGrain?.destroy();
     this.paperGrain = m.art === 'ming' && m.paperGrain > 0
       ? this.add.tileSprite(0, 0, m.width, m.height, 'paper-grain')
@@ -605,7 +605,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
         .setScrollFactor(1)
         .setBlendMode(Phaser.BlendModes.MULTIPLY)
         .setAlpha(m.paperGrain)
-        .setDepth(8_800)
+        .setDepth(8_950)
       : undefined;
     for (const f of this.fg) f.destroy();
     this.fg = m.foreground.map((f, i) => this.cutout(`fg:${this.mapId}:${i}`, f.polygon, f.baseline));
