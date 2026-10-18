@@ -239,6 +239,9 @@ function stampPoints(map: FieldMap): StampPoint[] {
 }
 
 function cardData(asset: ReviewAsset): Record<string, unknown> {
+  if (asset.kind === 'layer') {
+    return { ...asset.data, imageUrl: fileUrl(asset.path) };
+  }
   if (asset.kind === 'bg') {
     const map = asset.data.map as FieldMap;
     const mapId = String(asset.data.mapId);

@@ -18,19 +18,26 @@ def pt(name, x, y, p=None):
     return o
 def rect(name, x, y, w, h, p): return {"id": nid(), "name": name, "x": x, "y": y, "width": w, "height": h, "properties": props(p)}
 def amb(kind, x, y, w, h, **p): return rect(kind, x, y, w, h, {"kind": kind, **{k: str(v) for k, v in p.items()}})
+def imagelayer(name, image, x=0, y=0, parallaxx=1.0, parallaxy=1.0, plane="back"):
+    return {"id": nid(), "type": "imagelayer", "name": name, "image": image, "offsetx": x, "offsety": y,
+            "parallaxx": parallaxx, "parallaxy": parallaxy, "properties": props({"plane": plane})}
 SIDE = {"art": "ming", "view": "side", "script": "hant", "player": "shen", "dialogue": "bubble", "scaleFar": "0.38", "scaleNear": "0.42"}
-def tmj(w, h, title, bg, walk, blocked, anchors, actors, triggers, ambient=(), foreground=(), **extra):
+def tmj(w, h, title, bg, walk, blocked, anchors, actors, triggers, ambient=(), foreground=(), layers=(), **extra):
     layer = lambda n, objs: {"type": "objectgroup", "name": n, "objects": objs}
     tile = 10 if (w, h) == (1260, 510) else 12
+    image_layers = list(layers)
+    back_layers = [l for l in image_layers if next((p["value"] for p in l.get("properties", []) if p["name"] == "plane"), "back") != "front"]
+    front_layers = [l for l in image_layers if next((p["value"] for p in l.get("properties", []) if p["name"] == "plane"), "back") == "front"]
     return {"type": "map", "orientation": "orthogonal", "width": w // tile, "height": h // tile, "tilewidth": tile, "tileheight": tile, "infinite": False,
             "version": "1.10", "tiledversion": "1.11.0",
             "properties": props({"title": title, "background": bg, **SIDE, **extra}),
-            "layers": [layer("walkable", [poly(f"w{i}", p) for i, p in enumerate(walk)]),
+            "layers": [*back_layers,
+                       layer("walkable", [poly(f"w{i}", p) for i, p in enumerate(walk)]),
                        layer("blocked", [poly(f"b{i}", p) for i, p in enumerate(blocked)]),
                        layer("anchors", [pt(n, x, y) for n, (x, y) in anchors.items()]),
                        layer("actors", actors), layer("triggers", triggers),
                        layer("foreground", [poly(f"fg{i}", p, {"baseline": str(b)}) for i, (p, b) in enumerate(foreground)]),
-                       layer("ambient", list(ambient))]}
+                       layer("ambient", list(ambient)), *front_layers]}
 with open(ROOT / "assets/scenes/ming_scriptorium.art.json", encoding="utf-8") as f:
     scene = json.load(f)
 with open(ROOT / "assets/scenes/ming_scriptorium.yaml", encoding="utf-8") as f:

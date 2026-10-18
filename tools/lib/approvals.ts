@@ -19,7 +19,7 @@ export interface Decision {
 
 export interface RequiredAsset {
   key: string;
-  kind: 'bg' | 'sprite' | 'pose' | 'hand';
+  kind: 'bg' | 'layer' | 'sprite' | 'pose' | 'hand';
   hash: string;
   path: string;
   data: Record<string, unknown>;
@@ -63,6 +63,8 @@ function mapSceneData(map: FieldMap) {
     scaleFar: map.scaleFar,
     scaleNear: map.scaleNear,
     frameInset: map.frameInset,
+    ...(map.layers.length ? { layers: map.layers } : {}),
+    ...(map.paperGrain > 0 ? { paperGrain: map.paperGrain } : {}),
     ...(map.paintedTitle ? { paintedTitle: true } : {}),
     script: map.script,
     player: map.player,
@@ -112,6 +114,16 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
       path: relative(root, path),
       data: { map, mapId: id, backgroundUrl: `/${relative(root, path).replaceAll('\\', '/')}` },
     });
+    for (const layer of map.layers) {
+      const layerPath = assetPath(root, layer.image, map.art);
+      assets.push({
+        key: `layer:${id}:${layer.id}`,
+        kind: 'layer',
+        hash: sha256(readFileSync(layerPath), Buffer.from(JSON.stringify(layer))),
+        path: relative(root, layerPath),
+        data: { mapId: id, layer },
+      });
+    }
   }
 
   const members = placed.filter((id) => cast[id]?.sheet !== 'pose');

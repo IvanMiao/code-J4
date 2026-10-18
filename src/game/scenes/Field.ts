@@ -56,6 +56,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private mapState: Record<string, Record<string, ActorState>> = {};
   private armedExits = new Set<string>();
   private bg!: Phaser.GameObjects.Image;
+  private imageLayers: Phaser.GameObjects.Image[] = [];
+  private paperGrain?: Phaser.GameObjects.TileSprite;
   private frameOverlay!: Phaser.GameObjects.Graphics;
   private fg: Phaser.GameObjects.Image[] = [];
   private ambient?: Ambient;
@@ -591,6 +593,20 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.bindPlayerFootsteps(this.player);
     }
     this.bg.setTexture(`bg:${this.mapId}`).setDisplaySize(m.width, m.height);
+    for (const layer of this.imageLayers) layer.destroy();
+    this.imageLayers = m.layers.map((layer, index) => this.add.image(layer.x, layer.y, `layer:${this.mapId}:${layer.id}`)
+      .setOrigin(0)
+      .setScrollFactor(layer.parallaxX, layer.parallaxY)
+      .setDepth(layer.plane === 'back' ? -10 + index : 8_900 + index));
+    this.paperGrain?.destroy();
+    this.paperGrain = m.art === 'ming' && m.paperGrain > 0
+      ? this.add.tileSprite(0, 0, m.width, m.height, 'paper-grain')
+        .setOrigin(0)
+        .setScrollFactor(1)
+        .setBlendMode(Phaser.BlendModes.MULTIPLY)
+        .setAlpha(m.paperGrain)
+        .setDepth(8_800)
+      : undefined;
     for (const f of this.fg) f.destroy();
     this.fg = m.foreground.map((f, i) => this.cutout(`fg:${this.mapId}:${i}`, f.polygon, f.baseline));
     this.ambient?.destroy();

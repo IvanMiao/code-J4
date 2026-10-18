@@ -6,7 +6,10 @@ interface TiledObject {
   id: number; name: string; x: number; y: number; width?: number; height?: number;
   point?: boolean; polygon?: Vec[]; properties?: TiledProperty[];
 }
-interface TiledLayer { type: string; name: string; objects?: TiledObject[] }
+interface TiledLayer {
+  id?: number; type: string; name: string; objects?: TiledObject[]; image?: string; x?: number; y?: number;
+  offsetx?: number; offsety?: number; parallaxx?: number; parallaxy?: number; properties?: TiledProperty[];
+}
 interface TiledMap { width: number; height: number; tilewidth: number; tileheight: number; properties?: TiledProperty[]; layers: TiledLayer[] }
 
 export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string; depth?: number }
@@ -18,6 +21,16 @@ export interface MapAmbient { kind: string; x: number; y: number; width: number;
 
 /** A piece of the background redrawn above actors whose feet are above `baseline` (tree canopies, roofs). */
 export interface MapForeground { polygon: Polygon; baseline: number }
+
+export interface MapImageLayer {
+  id: string;
+  image: string;
+  x: number;
+  y: number;
+  parallaxX: number;
+  parallaxY: number;
+  plane: 'back' | 'front';
+}
 
 /** Walking into the rect moves the player to `anchor` on `map`. */
 export interface MapExit {
@@ -70,6 +83,7 @@ export interface FieldMap {
   scaleNear: number;
   frameInset: number;
   paintedTitle: boolean;
+  paperGrain: number;
   ground: string;
   bgm: string | null;
   ambience: string | null;
@@ -81,6 +95,7 @@ export interface FieldMap {
   triggers: MapTrigger[];
   foreground: MapForeground[];
   ambient: MapAmbient[];
+  layers: MapImageLayer[];
 }
 
 const prop = (o: { properties?: TiledProperty[] }, name: string) => o.properties?.find((p) => p.name === name)?.value;
@@ -111,6 +126,7 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     scaleNear: Number(prop(map, 'scaleNear') ?? 1),
     frameInset: Number(prop(map, 'frameInset') ?? 0),
     paintedTitle: String(prop(map, 'paintedTitle') ?? 'false') === 'true',
+    paperGrain: Number(prop(map, 'paperGrain') ?? 0),
     ground: String(prop(map, 'ground') ?? 'stone'),
     bgm: (prop(map, 'bgm') as string) ?? null,
     ambience: (prop(map, 'ambience') as string) ?? null,
@@ -147,6 +163,15 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     ambient: layer('ambient').map((o) => ({
       ...rect(o), kind: String(prop(o, 'kind') ?? o.name),
       props: Object.fromEntries((o.properties ?? []).map((p) => [p.name, String(p.value)])),
+    })),
+    layers: map.layers.filter((l) => l.type === 'imagelayer').map((l) => ({
+      id: String(l.id ?? l.name),
+      image: String(l.image ?? ''),
+      x: Number(l.offsetx ?? l.x ?? 0),
+      y: Number(l.offsety ?? l.y ?? 0),
+      parallaxX: Number(l.parallaxx ?? 1),
+      parallaxY: Number(l.parallaxy ?? 1),
+      plane: prop(l, 'plane') === 'front' ? 'front' : 'back',
     })),
   };
 }
