@@ -66,6 +66,69 @@
     "refs": []
   },
   {
+    "id": "retro/bg_archive",
+    "out": "art/retro/bg_archive.png",
+    "prompt": "Layout-first RPG field map: university archives (校史馆) and old boiler room courtyard, stone tortoise stela, lotus pond, retro vending machines, open paved road from left to right, plane trees along lower sidewalk.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_avenue"
+    ]
+  },
+  {
+    "id": "retro/bg_city_overpass",
+    "out": "art/retro/bg_city_overpass.png",
+    "prompt": "Layout-first RPG field map: Under Overpass No. 9 (九号高架桥底), e-bike repair shop (电动车修理), public payphone and transformer box, claypot beef noodle stall (砂锅牛肉面), 302 bus stop, open asphalt street, parked delivery scooters and plastic tables on lower sidewalk.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_avenue"
+    ]
+  },
+  {
+    "id": "retro/bg_suburb_dyeworks",
+    "out": "art/retro/bg_suburb_dyeworks.png",
+    "prompt": "Layout-first RPG field map: Abandoned Dye Works No. 3 (第三印染厂), iridescent rainbow dye lagoon, rusted pipe valve, gravel road, glowing white 2D wireframe ruin on lower lawn, jagged #00FF00 chroma-key tear on the right edge.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_avenue"
+    ]
+  },
+  {
+    "id": "retro/bg_city_tenement",
+    "out": "art/retro/bg_city_tenement.png",
+    "prompt": "Layout-first RPG field map: Old City Backstreet Tenement (背街筒子楼), Old Book Newsstand (旧书报亭), North Back-Alley, Corner Grocery (便民杂货), stone chess table and plane trees along lower sidewalk.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_city_overpass"
+    ]
+  },
+  {
+    "id": "retro/bg_city_ferry",
+    "out": "art/retro/bg_city_ferry.png",
+    "prompt": "Layout-first RPG field map: Old City River Ferry Pier (江城轮渡), concrete flood wall and ticket booth, moored rust-red iron ferry boat with wooden gangplank, cargo crates and riverside bench.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_city_overpass"
+    ]
+  },
+  {
+    "id": "retro/bg_suburb_wireframe",
+    "out": "art/retro/bg_suburb_wireframe.png",
+    "prompt": "Layout-first RPG field map: Suburban Wireframe Villa Commune (烂尾线稿别墅区), half red-brick and half glowing white 2D wireframe villa, campfire kettle, rusted pipeline pump station, concrete drainage pipes and wireframe arch.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_suburb_dyeworks"
+    ]
+  },
+  {
+    "id": "retro/bg_suburb_breakwater",
+    "out": "art/retro/bg_suburb_breakwater.png",
+    "prompt": "Layout-first RPG field map: Chroma-Key Breakwater Pier (绿幕防波堤), corrugated iron barrier reading 清样重地, concrete pier extending into #00FF00 green void, brass surveyor telescope, wireframe tetrapod reefs.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_suburb_dyeworks"
+    ]
+  },
+  {
     "id": "retro/walk_linxia_down",
     "out": "assets/strips/walk_linxia_down.png",
     "prompt": "Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row, evenly spaced, generous empty green space between them, all the same size. ALL THREE frames face DOWN, walking straight toward the viewer (front view, face visible). Frame 1: mid-stride, left foot forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, right foot forward. Seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
@@ -211,6 +274,76 @@
     "refs": [
       "hd/design_juzi"
     ]
+  },
+  {
+    "id": "ming/bg_canal_street",
+    "out": "art/ming/bg_canal_street.png",
+    "prompt": "Game background, one wide side-on street scene of a small Jiangnan canal town around 1600. Layout from LEFT to RIGHT: (1) on the far left a two-storey wooden bookshop with its whole ground-floor front open, racks of freshly printed sheets hanging to dry on a wooden frame in front of it, a hanging signboard reading exactly \"文林阁\"; (2) a tea house with a cloth banner reading exactly \"茶\" under willow trees; (3) in the centre background a stone arch bridge over a canal with a moored wooden boat; (4) a small foreign spice stall under an awning with sacks and brass jars and a resting camel behind it; (5) on the right a Buddhist temple gate with a wide OPEN doorway (you can see a courtyard through it) and a horizontal plaque reading exactly \"经藏院\". The lowest third of the picture is an EMPTY paved stone street running the full width, continuing unobstructed off both the left and right edges: no people, no animals, no objects, no trees on the street. No people anywhere in the picture. The sky is pale paper with a few flat ink clouds and distant hills.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "ming/bg_scriptorium",
+    "out": "art/ming/bg_scriptorium.png",
+    "prompt": "Game background: a side-on cut-away view of the sutra-copying hall of a Buddhist temple. Back wall: tall shelves of rolled scrolls and stitched books, red lacquered pillars, and between the shelves a faded Dunhuang-style mural fragment with flying apsaras. Two monks in red-ochre robes sit at low writing desks copying sutras on the left and right (they are part of the background). On the far LEFT edge an open wooden doorway leading out to daylight. Bottom-left corner: a carved red sutra chest with brass fittings (nothing on top of it). In the middle a low reading table with an open printed book and an ink stone. The lowest third of the picture is an EMPTY wooden floor running the full width: no people, no animals, no objects standing on it except the sutra chest in the corner.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_shen_side",
+    "out": "assets/strips/ming_walk_shen_side.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME person in one horizontal row and nothing else, evenly spaced, generous empty green space between them, all exactly the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: nose, toes and knees point RIGHT, the face is never turned toward the viewer. Frame 1: mid-stride, right leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Flat side-on view, feet on one baseline. No grid lines, no labels, no ground, no shadow. Person: a young county yamen clerk (书吏), slim man in his twenties, plain blue-grey cotton robe tied with a dark sash, black square scholar cap (方巾), cloth shoes, a bundle of documents tucked under one arm, a writing brush behind the ear. Drawn in the woodblock-print book-illustration style (black carved outlines, flat hand-applied colour). Plain flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_shen",
+    "out": "art/ming/walk_shen.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_kuang_side",
+    "out": "assets/strips/ming_walk_kuang_side.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME person in one horizontal row and nothing else, evenly spaced, generous empty green space between them, all exactly the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: nose, toes and knees point RIGHT, the face is never turned toward the viewer. Frame 1: mid-stride, right leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Flat side-on view, feet on one baseline. No grid lines, no labels, no ground, no shadow. Person: an eccentric old scholar-hermit, about seventy, completely shaved bald head, long untidy grey beard, loose undyed hemp robe with one sleeve rolled up, straw sandals, a gnarled walking staff, an amused stubborn expression. Drawn in the woodblock-print book-illustration style (black carved outlines, flat hand-applied colour). Plain flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_kuang",
+    "out": "art/ming/walk_kuang.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_andreas_side",
+    "out": "assets/strips/ming_walk_andreas_side.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME person in one horizontal row and nothing else, evenly spaced, generous empty green space between them, all exactly the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: nose, toes and knees point RIGHT, the face is never turned toward the viewer. Frame 1: mid-stride, right leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Flat side-on view, feet on one baseline. No grid lines, no labels, no ground, no shadow. Person: a European Jesuit scholar in China around 1600 dressed as a Chinese literatus: long dark-purple silk scholar robe, tall black Confucian scholar hat, full brown beard, pale skin, large nose, holding a small book. Drawn in the woodblock-print book-illustration style (black carved outlines, flat hand-applied colour). Plain flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_andreas",
+    "out": "art/ming/walk_andreas.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_linu_side",
+    "out": "assets/strips/ming_walk_linu_side.png",
+    "prompt": "Sprite strip: exactly THREE full-body frames of the SAME cat in one horizontal row and nothing else (no extra cats, no small copies), evenly spaced, generous empty green space between them, all the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: head and nose on the RIGHT, tail on the LEFT, the face never turned toward the viewer. Frame 1: mid-stride, front-left paw forward. Frame 2: passing pose. Frame 3: mid-stride, front-right paw forward. Always on four legs. The cat is about one and a half times as long as it is tall. Flat side-on view, feet on one baseline. No grid lines, no labels, no ground, no shadow. Cat: a sturdy silver tabby-and-white cat: silver back with bold black classic tabby swirls, white muzzle, white chest and belly, four white paws, copper eyes, short ringed tail. Drawn in the woodblock-print book-illustration style (black carved outlines, flat hand-applied colour). Plain flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.",
+    "model": "gemini-3-pro-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_linu",
+    "out": "art/ming/walk_linu.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
   },
   {
     "id": "retro/design_linxia",

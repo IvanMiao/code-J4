@@ -3,6 +3,8 @@
 // @command args key=value             — staging / mechanics, awaited by the game
 // Cats only ever meow out loud; the text box shows what they mean.
 
+INCLUDE ming.ink
+
 VAR met_nika = false
 VAR read_notice = false
 VAR has_snack = false

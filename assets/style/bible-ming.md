@@ -1,0 +1,8 @@
+STYLE BIBLE — "MING WOODBLOCK" (ancient line)
+A 2D narrative investigation game in the spirit of Pentiment (Obsidian, 2022): the world looks like a hand-made historical book illustration come to life. The setting is an invented Chinese past centred on a late-Ming (Wanli, c.1600) Jiangnan canal town, freely mixed with older traces (Tang Chang'an trade, Dunhuang sutra copying and murals) and foreign visitors.
+- Look: late-Ming Huizhou / Jinling woodblock-print book illustration (like the illustrated editions of 《西厢记》 and Chen Hongshou's 《水浒叶子》): crisp black carved ink outlines, flat areas of muted mineral colour applied by hand (indigo, ochre, cinnabar, pale malachite green, umber), aged xuan-paper texture showing through, slight misregistration of colour against line.
+- Camera: flat side-on stage composition like a book page or handscroll. No perspective camera, no vanishing-point depth, no top-down view. Figures stand and walk on a horizontal ground band in the lower part of the picture.
+- Figures: natural proportions (about 6-7 heads tall), simplified faces drawn with a few lines, clothing folds as calligraphic strokes.
+- Mood: grounded everyday life with investigation and quiet strangeness; ghosts and wonders from old books are drawn in the same plain matter-of-fact manner.
+- Signs: carry ONLY the exact Chinese text given in the asset prompt, written vertically or horizontally in clean brush characters; no other writing anywhere, no Latin letters, no numbers, no seals, no signature, no inscription.
+- Never: pixel art, 3D render look, photographic textures, glossy gradients, UI elements, borders, frames, watermarks.
