@@ -17,6 +17,7 @@ export class SpeechBubble {
   private timer?: Phaser.Time.TimerEvent;
   private done?: () => void;
   private index = 0;
+  private focusActorId: string | null = null;
 
   constructor(private scene: Phaser.Scene, private actorFor: (id: string) => Actor | undefined) {
     this.root = scene.add.container(0, 0).setDepth(10_000).setScrollFactor(0).setVisible(false);
@@ -24,6 +25,14 @@ export class SpeechBubble {
 
   get open() {
     return this.root.visible;
+  }
+
+  setDepth(depth: number) {
+    this.root.setDepth(depth);
+  }
+
+  setFocusActor(id: string | null) {
+    this.focusActorId = id;
   }
 
   show(line: LineEvent): Promise<void> {
@@ -35,11 +44,16 @@ export class SpeechBubble {
     this.typing = true;
 
     const member = line.speaker ? cast[line.speaker] : null;
-    const actor = member && line.speaker ? this.actorFor(line.speaker) : undefined;
+    const actor = this.actorFor(line.speaker ?? this.focusActorId ?? '');
+    const handMember = member ?? (this.focusActorId ? cast[this.focusActorId] : null);
     const camera = this.scene.cameras.main;
-    const actorOnscreen = !!actor?.sprite.visible && camera.worldView.contains(actor.pos.x, actor.pos.y);
+    const actorScreenX = actor ? (actor.pos.x - camera.scrollX) * camera.zoom + camera.x : 0;
+    const actorScreenY = actor ? (actor.pos.y - camera.scrollY) * camera.zoom + camera.y : 0;
+    const actorOnscreen = !!actor?.sprite.visible
+      && actorScreenX >= camera.x && actorScreenX <= camera.x + camera.width
+      && actorScreenY >= camera.y && actorScreenY <= camera.y + camera.height;
     const hand = actorOnscreen
-      ? HANDS[member?.hand ?? 'kai'] ?? HANDS.kai
+      ? HANDS[handMember?.hand ?? 'kai'] ?? HANDS.kai
       : HANDS.song;
     const maxCols = actorOnscreen ? 14 : 38;
     const fontSize = hand.size;
@@ -52,12 +66,10 @@ export class SpeechBubble {
     const tail = actorOnscreen ? 20 : 0;
     let x: number;
     let y: number;
-    let speakerX = 0;
-    let speakerY = 0;
+    let speakerX = actorScreenX;
+    let speakerY = actor ? actorScreenY - actor.height * 0.88 * camera.zoom : 0;
     let tailOnTop = false;
     if (actorOnscreen && actor) {
-      speakerX = (actor.pos.x - camera.scrollX) * camera.zoom + camera.x;
-      speakerY = (actor.pos.y - actor.height * 0.88 - camera.scrollY) * camera.zoom + camera.y;
       x = Phaser.Math.Clamp(speakerX - width / 2, 16, WIDTH - width - 16);
       const above = speakerY - height - tail;
       tailOnTop = above < 36;

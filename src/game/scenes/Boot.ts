@@ -51,6 +51,11 @@ export class BootScene extends Phaser.Scene {
   private buildWalkSheet(id: string) {
     const tex = this.textures.get(`sheet:${id}`);
     const src = tex.getSourceImage() as HTMLImageElement;
+    if (cast[id].sheet === 'pose') {
+      const w = Math.floor(src.width / 2);
+      for (let c = 0; c < 2; c++) tex.add(c, 0, c * w, 0, w, src.height);
+      return;
+    }
     const side = cast[id].sheet === 'side';
     const rows = side ? 2 : 4;
     const w = Math.floor(src.width / 3), h = Math.floor(src.height / rows);

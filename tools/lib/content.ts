@@ -163,7 +163,7 @@ export function checkTriggers(c: Content): string[] {
     for (const [name, anchor] of Object.entries(m.anchors))
       if (!walkableFoot(anchor, m.walkable, m.blocked)) errs.push(`map ${id}: anchor "${name}" is not footprint-walkable`);
     for (const a of m.actors)
-      if (!walkableFoot(a, m.walkable, m.blocked)) errs.push(`map ${id}: actor "${a.id}" spawn is not footprint-walkable`);
+      if (c.cast[a.id]?.sheet !== 'pose' && !walkableFoot(a, m.walkable, m.blocked)) errs.push(`map ${id}: actor "${a.id}" spawn is not footprint-walkable`);
     for (const t of m.triggers) {
       if (t.icon && !icons.includes(t.icon)) errs.push(`map ${id}: trigger "${t.id}" has invalid icon "${t.icon}" (use ${icons.join('|')})`);
       if (t.sfx && !(c.audioIds?.has(t.sfx) ?? !!c.audio.sfx?.[t.sfx])) errs.push(`map ${id}: trigger "${t.id}" has unknown sfx "${t.sfx}"`);

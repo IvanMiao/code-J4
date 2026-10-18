@@ -14,6 +14,7 @@
     "sim": "tsx tools/sim.ts",
     "story:ids": "tsx tools/story-ids.ts",
     "fonts": "python3 tools/fonts/build-hands.py",
+    "scene:cut": "python3 tools/art/scene-cut.py",
     "review": "tsx tools/review/server.ts",
     "gen:art": "tsx tools/gen-art.ts",
     "gen:audio": "tsx tools/gen-audio.ts",

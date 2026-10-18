@@ -31,7 +31,7 @@ shen:
   art: ming
   sheet: side
   sprite: walk_shen
-  height: 120
+  height: 284
   hand: kai
   default: calm
   emotions: [calm, shock]
@@ -40,7 +40,7 @@ kuang:
   art: ming
   sheet: side
   sprite: walk_kuang
-  height: 118
+  height: 272
   hand: xing
   default: calm
   emotions: [calm, amused, stern]
@@ -49,7 +49,7 @@ andreas:
   art: ming
   sheet: side
   sprite: walk_andreas
-  height: 126
+  height: 300
   hand: rough
   default: calm
   emotions: [calm]
@@ -57,10 +57,27 @@ linu:
   name: 狸奴
   cat: true
   art: ming
-  sheet: side
-  sprite: walk_linu
-  height: 40
+  sheet: pose
+  sprite: pose_linu
   hand: brush
   default: calm
   emotions: [calm, smug, annoyed]
   meows: { calm: meow_calm, smug: meow_smug, annoyed: meow_annoyed }
+
+monk_left:
+  name: 寫經僧甲
+  art: ming
+  sheet: pose
+  sprite: pose_monk_left
+  hand: song
+  default: calm
+  emotions: [calm]
+
+monk_right:
+  name: 寫經僧乙
+  art: ming
+  sheet: pose
+  sprite: pose_monk_right
+  hand: song
+  default: calm
+  emotions: [calm]

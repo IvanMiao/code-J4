@@ -5,6 +5,7 @@ export type PostStep =
   | { crop: { y: number; h: number } }
   | { resize: { width: number; height: number; fit?: 'cover' | 'contain' | 'fill'; kernel?: 'nearest' | 'lanczos3' } }
   | { chromaKey: { hueMin?: number; hueMax?: number; satMin?: number; valMin?: number } }
+  | { removeGroundLine: true }
   | { trim: true }
   | { quantize: { colors: number; dither?: number } }
   | { pixelate: { factor: number } }
@@ -125,6 +126,24 @@ export async function runPost(input: Buffer, steps: PostStep[]): Promise<Buffer>
       r = await toRaw(await fromRaw(r).resize(s.width, s.height, { fit: s.fit ?? 'cover', kernel: s.kernel ?? 'lanczos3', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer());
     } else if ('chromaKey' in step) {
       r = chromaKey(r, step.chromaKey);
+    } else if ('removeGroundLine' in step) {
+      const out = Buffer.from(r.data);
+      for (let y = Math.floor(r.height * 0.92); y < r.height; y++) {
+        let dark = 0;
+        for (let x = 0; x < r.width; x++) {
+          const i = (y * r.width + x) * 4;
+          if (out[i] < 55 && out[i + 1] < 55 && out[i + 2] < 55) dark++;
+        }
+        if (dark / r.width >= 0.55) {
+          for (let x = 0; x < r.width; x++) {
+            const i = (y * r.width + x) * 4;
+            out[i] = 0;
+            out[i + 1] = 255;
+            out[i + 2] = 0;
+          }
+        }
+      }
+      r = { ...r, data: out };
     } else if ('trim' in step) {
       const b = alphaBox(r, 0, 0, r.width, r.height);
       if (b) r = await toRaw(await fromRaw(r).extract({ left: b.x, top: b.y, width: b.w, height: b.h }).png().toBuffer());

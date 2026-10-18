@@ -19,7 +19,7 @@ export interface Decision {
 
 export interface RequiredAsset {
   key: string;
-  kind: 'bg' | 'sprite' | 'hand';
+  kind: 'bg' | 'sprite' | 'pose' | 'hand';
   hash: string;
   path: string;
   data: Record<string, unknown>;
@@ -45,7 +45,7 @@ function assetPath(root: string, file: string, art: string | null | undefined): 
   return join(root, 'public', 'art', art ?? 'retro', `${file}.png`);
 }
 
-function spriteIds(maps: Record<string, FieldMap>): string[] {
+function placedIds(maps: Record<string, FieldMap>): string[] {
   return [...new Set(Object.values(maps).flatMap((map) => [map.player, ...map.actors.map((actor) => actor.id)]))].sort();
 }
 
@@ -62,6 +62,12 @@ function mapSceneData(map: FieldMap) {
     view: map.view,
     scaleFar: map.scaleFar,
     scaleNear: map.scaleNear,
+    frameInset: map.frameInset,
+    script: map.script,
+    player: map.player,
+    dialogue: map.dialogue,
+    intro: map.intro,
+    ground: map.ground,
     width: map.width,
     height: map.height,
   };
@@ -81,11 +87,20 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
     ]),
   ) as Record<string, FieldMap>;
   const cast = parse(readFileSync(join(root, 'content/cast/cast.yaml'), 'utf8')) as Record<string, CastMember>;
+  const placed = placedIds(maps);
   const assets: RequiredAsset[] = [];
 
   for (const [id, map] of Object.entries(maps)) {
     const path = assetPath(root, map.background, map.art);
-    const hash = sha256(readFileSync(path), Buffer.from(JSON.stringify(mapSceneData(map))));
+    const bundle = id === 'ming_scriptorium'
+      ? [
+        readFileSync(join(root, 'assets/scenes/ming_scriptorium.yaml')),
+        readFileSync(join(root, 'assets/scenes/ming_scriptorium.art.json')),
+        ...[map.player, ...map.actors.map((actor) => actor.id)]
+          .map((actorId) => readFileSync(assetPath(root, cast[actorId].sprite, cast[actorId].art))),
+      ]
+      : [];
+    const hash = sha256(readFileSync(path), Buffer.from(JSON.stringify(mapSceneData(map))), ...bundle);
     assets.push({
       key: `bg:${id}`,
       kind: 'bg',
@@ -95,7 +110,7 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
     });
   }
 
-  const members = spriteIds(maps);
+  const members = placed.filter((id) => cast[id]?.sheet !== 'pose');
   for (const id of members) {
     const member = cast[id];
     if (!member) continue;
@@ -109,6 +124,20 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
     assets.push({
       key: `sprite:${id}`,
       kind: 'sprite',
+      hash: sha256(readFileSync(path), Buffer.from(signature)),
+      path: relative(root, path),
+      data: { castId: id, member, imageUrl: `/${relative(root, path).replaceAll('\\', '/')}` },
+    });
+  }
+
+  for (const id of placed.filter((memberId) => cast[memberId]?.sheet === 'pose')) {
+    const member = cast[id];
+    if (!member) continue;
+    const path = assetPath(root, member.sprite, member.art);
+    const signature = JSON.stringify({ art: member.art ?? null, sheet: member.sheet, sprite: member.sprite, height: member.height ?? null });
+    assets.push({
+      key: `pose:${id}`,
+      kind: 'pose',
       hash: sha256(readFileSync(path), Buffer.from(signature)),
       path: relative(root, path),
       data: { castId: id, member, imageUrl: `/${relative(root, path).replaceAll('\\', '/')}` },

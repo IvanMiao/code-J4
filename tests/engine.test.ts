@@ -3,6 +3,8 @@ import { exitEdge, parseMap } from '../src/engine/map.ts';
 import { facingOf, sideFacing, step, walkable, walkableFoot } from '../src/engine/walk.ts';
 import { addItem, readSave, writeSave } from '../src/engine/save.ts';
 import { createBattle, outcome, playRound } from '../src/engine/battle.ts';
+import { PoseCycle } from '../src/engine/pose.ts';
+import { frameInsetErrors, paintedScalePass, renderedAlphaHeight } from '../tools/lib/scene-fit.ts';
 import { readFileSync } from 'node:fs';
 
 const square = [[{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }]];
@@ -59,6 +61,23 @@ describe('map properties', () => {
       art: 'ming', view: 'side', script: 'hant', player: 'shen', dialogue: 'bubble', intro: 'ming_intro', scaleFar: 0.8, scaleNear: 1.25, ground: 'wood',
     });
   });
+
+  it('binds an interaction trigger to its pose actor', () => {
+    const fixture = {
+      width: 10, height: 8, tilewidth: 24, tileheight: 24,
+      layers: [{
+        type: 'objectgroup', name: 'triggers',
+        objects: [{
+          id: 1, name: 'monk', x: 4, y: 6, width: 10, height: 8,
+          properties: [
+            { name: 'knot', value: 'ming_monk_left' },
+            { name: 'actor', value: 'monk_left' },
+          ],
+        }],
+      }],
+    };
+    expect(parseMap(fixture).triggers[0]).toMatchObject({ knot: 'ming_monk_left', actor: 'monk_left' });
+  });
 });
 
 describe('map exits', () => {
@@ -68,6 +87,46 @@ describe('map exits', () => {
     expect(exitEdge({ x: 30, y: 0, width: 20, height: 10, face: 'down' }, 100, 100)).toBe('up');
     expect(exitEdge({ x: 30, y: 90, width: 20, height: 10, face: 'left' }, 100, 100)).toBe('down');
     expect(exitEdge({ x: 30, y: 30, width: 20, height: 20, face: 'right' }, 100, 100)).toBe('right');
+  });
+});
+
+describe('seated pose cycle', () => {
+  it('waits 2.5–4 seconds before a one-second pose', () => {
+    const cycle = new PoseCycle(() => 0.5);
+    expect(cycle.update(3249)).toBe(0);
+    expect(cycle.update(1)).toBe(1);
+    expect(cycle.update(999)).toBe(1);
+    expect(cycle.update(1)).toBe(0);
+  });
+
+  it('holds the changed pose while engaged and resumes from idle afterward', () => {
+    const cycle = new PoseCycle(() => 0);
+    cycle.setEngaged(true);
+    expect(cycle.update(8000)).toBe(1);
+    cycle.setEngaged(false);
+    expect(cycle.update(0)).toBe(0);
+    expect(cycle.update(2499)).toBe(0);
+    expect(cycle.update(1)).toBe(1);
+  });
+});
+
+describe('painted scene fit', () => {
+  const metrics = { frameWidth: 100, frameHeight: 100, alphaWidth: 40, alphaHeight: 90 };
+  const fixture = {
+    width: 200, height: 140, frameInset: 10, scaleFar: 1, scaleNear: 1,
+    walkable: [[{ x: 30, y: 105 }, { x: 170, y: 105 }, { x: 170, y: 120 }, { x: 30, y: 120 }]],
+  };
+
+  it('accepts an inset walkable polygon and rejects one that crosses the frame', () => {
+    expect(frameInsetErrors(fixture, metrics, 90)).toEqual([]);
+    expect(frameInsetErrors({ ...fixture, walkable: [[{ x: 25, y: 105 }, ...fixture.walkable[0].slice(1)]] }, metrics, 90).length).toBeGreaterThan(0);
+  });
+
+  it('measures rendered alpha height against the painted reference', () => {
+    const rendered = renderedAlphaHeight(metrics, 100);
+    expect(rendered).toBe(90);
+    expect(paintedScalePass(rendered, 92)).toBe(true);
+    expect(paintedScalePass(rendered, 100)).toBe(false);
   });
 });
 

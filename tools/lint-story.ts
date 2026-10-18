@@ -4,8 +4,10 @@
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import sharp from 'sharp';
 import { compileInk } from './lib/ink.ts';
 import { checkExits, checkTriggers, entryKnots, loadContent, sourceLines, STORY_ENTRY, validateCommand } from './lib/content.ts';
+import { frameInsetErrors, paintedScalePass, renderedAlphaHeight, scaleAtFeet, type SpriteMetrics } from './lib/scene-fit.ts';
 import { isValidEmotion, speakerResolver } from '../src/engine/content.ts';
 import { parseCommand, parseStoryLine } from '../src/story/parse.ts';
 import { StoryRunner } from '../src/story/runner.ts';
@@ -15,7 +17,28 @@ import OpenCC from 'opencc-js';
 const MAX_LINE_CHARS = 60;
 const toTraditional = OpenCC.Converter({ from: 'cn', to: 't' });
 
-export function lintStory(root = '.') {
+async function measureSprite(root: string, path: string): Promise<SpriteMetrics> {
+  const { data, info } = await sharp(join(root, path)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const cols = 3, rows = 2, frameWidth = Math.floor(info.width / cols), frameHeight = Math.floor(info.height / rows);
+  let alphaWidth = 0, alphaHeight = 0;
+  for (let row = 0; row < rows; row++) for (let col = 0; col < cols; col++) {
+    let minX = frameWidth, minY = frameHeight, maxX = -1, maxY = -1;
+    for (let y = 0; y < frameHeight; y++) for (let x = 0; x < frameWidth; x++) {
+      const i = ((row * frameHeight + y) * info.width + col * frameWidth + x) * info.channels + info.channels - 1;
+      if (data[i] > 8) {
+        minX = Math.min(minX, x); minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
+      }
+    }
+    if (maxX >= 0) {
+      alphaWidth = Math.max(alphaWidth, maxX - minX + 1);
+      alphaHeight = Math.max(alphaHeight, maxY - minY + 1);
+    }
+  }
+  return { frameWidth, frameHeight, alphaWidth, alphaHeight };
+}
+
+export async function lintStory(root = '.') {
   const errors: string[] = [];
   const warnings: string[] = [];
   const build = compileInk(`${root}/${STORY_ENTRY}`);
@@ -82,6 +105,28 @@ export function lintStory(root = '.') {
   }
 
   errors.push(...checkExits(content), ...checkTriggers(content));
+  for (const [mapId, map] of Object.entries(content.maps)) {
+    if (!map.frameInset) continue;
+    const player = content.cast[map.player];
+    if (!player?.sprite) continue;
+    const metrics = await measureSprite(root, `public/art/${player.art ?? map.art ?? 'retro'}/${player.sprite}.png`);
+    errors.push(...frameInsetErrors(map, metrics, player.height ?? 110).map((e) => `map ${mapId}: ${e}`));
+  }
+  const scenePath = join(root, 'assets/scenes/ming_scriptorium.yaml');
+  if (content.maps.ming_scriptorium) {
+    const scene = JSON.parse(readFileSync(scenePath, 'utf8')) as {
+      figures: Record<string, { height_art: number; feet_art: [number, number] }>;
+    };
+    const map = content.maps.ming_scriptorium;
+    for (const [id, figure] of Object.entries(scene.figures)) {
+      const member = content.cast[id];
+      if (!member?.sprite) continue;
+      const metrics = await measureSprite(root, `public/art/${member.art ?? map.art ?? 'retro'}/${member.sprite}.png`);
+      const rendered = renderedAlphaHeight(metrics, member.height ?? 110, scaleAtFeet(map, figure.feet_art[1]));
+      if (!paintedScalePass(rendered, figure.height_art))
+        errors.push(`map ming_scriptorium: ${id} rendered height ${rendered.toFixed(1)}px differs from painted ${figure.height_art}px by more than 5%`);
+    }
+  }
   const knotScripts = new Map<string, 'hans' | 'hant'>();
   for (const file of build.files) {
     const script = scriptByFile.get(file) === 'hant' ? 'hant' : 'hans';
@@ -100,7 +145,7 @@ export function lintStory(root = '.') {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const { errors, warnings } = lintStory();
+  const { errors, warnings } = await lintStory();
   for (const w of warnings) console.log(`warn  ${w}`);
   for (const e of errors) console.log(`ERROR ${e}`);
   console.log(`lint:story — ${errors.length} error(s), ${warnings.length} warning(s)`);

@@ -4,7 +4,7 @@ export interface CastMember {
   sprite: string;
   default: string;
   art?: string;
-  sheet?: 'walk4' | 'side';
+  sheet?: 'walk4' | 'side' | 'pose';
   height?: number;
   hand?: string;
   portraits?: Record<string, string>;

@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import storyJson from '../../../content/story/main.ink';
-import { cast, encounters, FONT, HANDS, items, maps, params, START, style, type AudioIndex } from '../config.ts';
+import { cast, encounters, FONT, HANDS, HEIGHT, items, maps, params, START, style, WIDTH, type AudioIndex } from '../config.ts';
 import { Actor } from '../Actor.ts';
 import { Ambient } from '../Ambient.ts';
 import { DialogueBox } from '../ui/DialogueBox.ts';
@@ -55,6 +55,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private mapId = START.map;
   private mapState: Record<string, Record<string, ActorState>> = {};
   private bg!: Phaser.GameObjects.Image;
+  private frameOverlay!: Phaser.GameObjects.Graphics;
   private fg: Phaser.GameObjects.Image[] = [];
   private ambient?: Ambient;
   private areaLabel!: Phaser.GameObjects.Text;
@@ -63,6 +64,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private wasBusy = false;
   private lastAmbientPos: Vec | null = null;
   private stillFor = 0;
+  private poseFocusId: string | null = null;
 
   constructor() {
     super('field');
@@ -78,6 +80,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
 
   create() {
     this.bg = this.add.image(0, 0, `bg:${this.mapId}`).setOrigin(0).setDepth(-1);
+    this.frameOverlay = this.add.graphics().setScrollFactor(0).setDepth(9_800);
     this.player = this.spawn(this.map.player, { x: 0, y: 0 });
     this.bindPlayerFootsteps(this.player);
 
@@ -126,6 +129,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
 
   update(_t: number, dt: number) {
     const playerPos = this.player.pos;
+    for (const actor of this.actors.values()) actor.update(dt);
     const moved = this.lastAmbientPos ? Math.hypot(playerPos.x - this.lastAmbientPos.x, playerPos.y - this.lastAmbientPos.y) : 0;
     const playerSpeed = dt > 0 ? moved * 1000 / dt : 0;
     this.stillFor = moved < 0.5 ? this.stillFor + dt : 0;
@@ -180,6 +184,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
 
   async line(e: LineEvent) {
     const member = e.speaker ? cast[e.speaker] : null;
+    const speakerActor = e.speaker ? this.actors.get(e.speaker) : undefined;
+    speakerActor?.setPoseEngaged(true);
     const vo = e.voiced && e.lineId ? `vo:${e.lineId}` : null;
     this.voice?.stop();
     if (vo && this.cache.audio.exists(vo)) {
@@ -188,7 +194,9 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     } else if (member?.meows) {
       this.sfx(member.meows[e.emotion ?? member.default] ?? Object.values(member.meows)[0]);
     }
+    this.speechBubble.setFocusActor(this.poseFocusId);
     await this.dialogue.show(e);
+    if (speakerActor?.id !== this.poseFocusId) speakerActor?.setPoseEngaged(false);
   }
 
   async choose(options: string[]) {
@@ -274,8 +282,15 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   }
 
   private async run(knot: string) {
-    await this.runner.play(knot, this);
-    this.dialogue.hide();
+    try {
+      await this.runner.play(knot, this);
+    } finally {
+      this.dialogue.hide();
+      const focus = this.poseFocusId;
+      this.poseFocusId = null;
+      if (focus) this.actors.get(focus)?.setPoseEngaged(false);
+      this.speechBubble.setFocusActor(null);
+    }
   }
 
   private confirm() {
@@ -290,6 +305,10 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     }
     this.player.setMoving(false);
     if (t.trigger?.sfx) this.sfx(t.trigger.sfx);
+    if (t.actor?.isPose) {
+      this.poseFocusId = t.actor.id;
+      t.actor.setPoseEngaged(true);
+    }
     this.run(t.knot);
   }
 
@@ -309,7 +328,10 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       for (const t of this.map.triggers) {
         const faceOk = !t.face || t.face === 'up' || t.face === 'down' || t.face === this.player.face;
         if (faceOk && [p, above, probe].some((point) => inRect(point, t))) {
-          return { key: `trigger:${t.id}`, trigger: t, knot: t.knot, at: { x: t.x + t.width / 2, y: t.y }, icon: t.icon ?? 'look' };
+          return {
+            key: `trigger:${t.id}`, trigger: t, actor: t.actor ? this.actors.get(t.actor) : undefined,
+            knot: t.knot, at: { x: t.x + t.width / 2, y: t.y }, icon: t.icon ?? 'look',
+          };
         }
       }
       return null;
@@ -323,7 +345,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     for (const t of this.map.triggers) {
       const hit = t.face ? t.face === this.player.face && inRect(probe, t) : inRect(probe, t) || inRect(p, t);
       if (hit) return {
-        key: `trigger:${t.id}`, trigger: t, knot: t.knot,
+        key: `trigger:${t.id}`, trigger: t, actor: t.actor ? this.actors.get(t.actor) : undefined, knot: t.knot,
         at: { x: t.x + t.width / 2, y: Math.min(t.y - 5, p.y - this.player.height - 8) },
         icon: t.icon ?? 'look',
       };
@@ -555,11 +577,32 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     const top = ys.length ? Math.min(...ys) : 0;
     const bottom = ys.length ? Math.max(...ys) : m.height;
     for (const actor of this.actors.values()) actor.setDepthMap(m.view === 'side', top, bottom, m.scaleFar, m.scaleNear);
+    const framed = m.art === 'ming' && m.view === 'side';
+    this.frameOverlay.clear().setVisible(framed);
+    if (framed) {
+      this.frameOverlay.fillStyle(0xefe3c4, 1)
+        .fillRect(0, 0, WIDTH, 10)
+        .fillRect(0, HEIGHT - 10, WIDTH, 10)
+        .fillRect(0, 10, 10, HEIGHT - 20)
+        .fillRect(WIDTH - 10, 10, 10, HEIGHT - 20)
+        .lineStyle(1, 0x2a1d12, 1)
+        .strokeRect(10.5, 10.5, WIDTH - 21, HEIGHT - 21);
+    }
     const art = m.art ?? style;
     this.game.canvas.style.imageRendering = art === 'retro' ? 'pixelated' : 'auto';
     this.dialogue = m.dialogue === 'bubble' ? this.speechBubble : this.dialogueBox;
     this.choices.setTheme(m.dialogue === 'bubble' ? 'paper' : 'pixel');
     this.setPaperTheme(m.dialogue === 'bubble');
+    this.speechBubble.setDepth(framed ? 9_700 : 10_000);
+    this.controlsLine.setDepth(framed ? 9_900 : 9_500);
+    this.areaLabel.setDepth(framed ? 9_900 : 9_500);
+    if (framed) {
+      this.controlsLine.setPosition(12, HEIGHT - 24);
+      this.areaLabel.setPosition(WIDTH - 12, 0);
+    } else {
+      this.controlsLine.setPosition(10, HEIGHT - 20);
+      this.areaLabel.setPosition(WIDTH - 10, 10);
+    }
     this.updateHint(null);
     if (m.bgm) this.loop('bgm', m.bgm, 1.5);
     if (m.ambience) this.loop('ambience', m.ambience, 1.5);

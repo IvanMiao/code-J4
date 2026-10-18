@@ -1,28 +1,34 @@
 import Phaser from 'phaser';
 import { ACTOR_HEIGHT, cast, style } from './config.ts';
 import { facingOf, sideFacing, type Facing, type Vec } from '../engine/walk.ts';
+import { PoseCycle } from '../engine/pose.ts';
 
 export class Actor {
   readonly sprite: Phaser.GameObjects.Sprite;
   face: Facing;
   private moving = false;
   private readonly side: boolean;
+  private readonly pose: boolean;
   private readonly retro: boolean;
   private readonly mirrorRight: boolean;
   private readonly baseScale: number;
   private depth = { enabled: false, top: 0, bottom: 1, far: 1, near: 1 };
   private rate = 1;
+  private readonly poseCycle?: PoseCycle;
 
   constructor(private scene: Phaser.Scene, readonly id: string, x: number, y: number) {
     const member = cast[id];
+    this.pose = member.sheet === 'pose';
     this.side = member.sheet === 'side';
     this.retro = (member.art ?? style) === 'retro';
     this.mirrorRight = (member.art ?? style) === 'hd';
-    this.face = this.side ? 'right' : 'down';
-    this.sprite = scene.add.sprite(x, y, `sheet:${id}`, this.side ? 4 : 1).setOrigin(0.5, 0.96);
+    this.face = this.side || this.pose ? 'right' : 'down';
+    this.sprite = scene.add.sprite(x, y, `sheet:${id}`, this.pose ? 0 : this.side ? 4 : 1)
+      .setOrigin(0.5, this.pose ? 1 : 0.96);
+    if (this.pose) this.poseCycle = new PoseCycle();
     const frameH = this.sprite.frame.height;
     const target = member.height ?? ACTOR_HEIGHT[id] ?? 110;
-    this.baseScale = this.retro ? Math.max(1, Math.round(target / frameH)) : target / frameH;
+    this.baseScale = this.pose ? 1 : this.retro ? Math.max(1, Math.round(target / frameH)) : target / frameH;
     this.sync();
   }
 
@@ -34,12 +40,27 @@ export class Actor {
     return this.sprite.displayHeight;
   }
 
+  get isPose() {
+    return this.pose;
+  }
+
+  update(dt: number) {
+    if (this.pose) this.sprite.setFrame(this.poseCycle!.update(dt));
+  }
+
+  setPoseEngaged(engaged: boolean) {
+    if (!this.pose) return;
+    this.poseCycle!.setEngaged(engaged);
+    this.sprite.setFrame(engaged ? 1 : 0);
+  }
+
   setPos(p: Vec) {
-    this.sprite.setPosition(p.x, p.y);
+    if (!this.pose) this.sprite.setPosition(p.x, p.y);
     this.sync();
   }
 
   setFace(f: Facing) {
+    if (this.pose) return;
     this.face = this.side && (f === 'up' || f === 'down') ? (this.face === 'left' ? 'left' : 'right') : f;
     this.sync();
   }
@@ -54,12 +75,14 @@ export class Actor {
   }
 
   setMoving(m: boolean, rate = 1) {
+    if (this.pose) return;
     this.moving = m;
     this.rate = m ? rate : 1;
     this.sync();
   }
 
   walkTo(p: Vec, speed = 120): Promise<void> {
+    if (this.pose) return Promise.resolve();
     return new Promise((resolve) => {
       const tick = (_t: number, dt: number) => {
         const dx = p.x - this.sprite.x, dy = p.y - this.sprite.y;
@@ -81,6 +104,10 @@ export class Actor {
 
   private sync() {
     this.sprite.setDepth(this.sprite.y);
+    if (this.pose) {
+      this.sprite.setScale(1);
+      return;
+    }
     const scaleT = this.depth.enabled ? Phaser.Math.Clamp((this.sprite.y - this.depth.top) / Math.max(1, this.depth.bottom - this.depth.top), 0, 1) : 0;
     const scale = this.depth.enabled ? this.depth.far + (this.depth.near - this.depth.far) * scaleT : 1;
     this.sprite.setScale(this.baseScale * scale);

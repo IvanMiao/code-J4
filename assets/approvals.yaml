@@ -1,48 +1,48 @@
 bg:archive:
   status: approved
-  hash: d479da6d3c31aae7
+  hash: b2cc9abb179cb2db
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:avenue:
   status: approved
-  hash: 555cb8eb917cd1d8
+  hash: 23050f4b8d7d9f17
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:city_ferry:
   status: approved
-  hash: f7e62dc2e400565d
+  hash: 1f680a9e04bcdfb9
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:city_overpass:
   status: approved
-  hash: a49c4c1e6271e689
+  hash: 1b1539977b67ee03
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:city_tenement:
   status: approved
-  hash: 3ad5f496dacba4c3
+  hash: 3da72f424ba5ac78
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:gate:
   status: approved
-  hash: fd92d036d327b68d
+  hash: 2ee3d7230939e5f8
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:library:
   status: approved
-  hash: 68f7dd9af6275fe8
+  hash: ef352c5f01cc01e9
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
@@ -63,21 +63,21 @@ bg:ming_scriptorium:
   history: []
 bg:suburb_breakwater:
   status: approved
-  hash: 7ab8c9e7f5f5e399
+  hash: 595dcbdb6a03c519
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:suburb_dyeworks:
   status: approved
-  hash: 8d3ebf9e6ada5439
+  hash: e2a9f5212a01d7f8
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:suburb_wireframe:
   status: approved
-  hash: eb5143b388050aba
+  hash: 70f0ecda25ee02af
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
@@ -151,13 +151,6 @@ sprite:kuang:
   at: 2026-10-18
   legacy: false
   history: []
-sprite:linu:
-  status: pending
-  hash: ed37ebac5fa113e6
-  note: ""
-  at: 2026-10-18
-  legacy: false
-  history: []
 sprite:linxia:
   status: approved
   hash: a3d6a327d6f54016
@@ -181,15 +174,36 @@ sprite:shen:
   history: []
 bg:avenue_kiosk:
   status: approved
-  hash: fdb9bde128cc181a
+  hash: 959b15fefa2bf2c0
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:city_backalley:
   status: approved
-  hash: 2411a60c27e4a6b8
+  hash: 47f30b86bfa3a9fd
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
+  history: []
+pose:linu:
+  status: pending
+  hash: cd9f8fecb2ecb2b5
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+pose:monk_left:
+  status: pending
+  hash: 6bd45113c6dab69a
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+pose:monk_right:
+  status: pending
+  hash: bea57b505163d6c0
+  note: ""
+  at: 2026-10-18
+  legacy: false
   history: []

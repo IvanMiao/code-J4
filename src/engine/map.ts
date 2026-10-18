@@ -11,7 +11,7 @@ interface TiledMap { width: number; height: number; tilewidth: number; tileheigh
 
 export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string }
 /** `face`: the direction the player must face to use it (i.e. the side it is used from). */
-export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean; icon?: string; sfx?: string }
+export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean; actor?: string; icon?: string; sfx?: string }
 
 /** Decorative life (fountain spray, swaying grass, birds…) placed in a rect; `kind` picks the effect. */
 export interface MapAmbient { kind: string; x: number; y: number; width: number; height: number; props: Record<string, string> }
@@ -47,6 +47,7 @@ export interface FieldMap {
   intro: string | null;
   scaleFar: number;
   scaleNear: number;
+  frameInset: number;
   ground: string;
   bgm: string | null;
   ambience: string | null;
@@ -86,6 +87,7 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     intro: intro == null || intro === '' ? null : String(intro),
     scaleFar: Number(prop(map, 'scaleFar') ?? 1),
     scaleNear: Number(prop(map, 'scaleNear') ?? 1),
+    frameInset: Number(prop(map, 'frameInset') ?? 0),
     ground: String(prop(map, 'ground') ?? 'stone'),
     bgm: (prop(map, 'bgm') as string) ?? null,
     ambience: (prop(map, 'ambience') as string) ?? null,
@@ -107,6 +109,7 @@ export function parseMap(raw: string | TiledMap): FieldMap {
       ...rect(o),
       knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true, face: (prop(o, 'face') as string) ?? null,
       hidden: String(prop(o, 'hidden')) === 'true',
+      actor: (prop(o, 'actor') as string) ?? undefined,
       icon: (prop(o, 'icon') as string) ?? undefined,
       sfx: (prop(o, 'sfx') as string) ?? undefined,
     })),

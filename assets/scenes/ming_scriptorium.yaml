@@ -1,0 +1,41 @@
+{
+  "pano": "assets/raw/ming/scriptorium_pano.png",
+  "clean": "assets/raw/ming/scriptorium_clean.png",
+  "art_size": [960, 540],
+  "pano_size": [2752, 1536],
+  "erase_grow": 10,
+  "erase_blur": 12,
+  "figures": {
+    "shen": {
+      "erase": [1150, 460, 1527, 1316],
+      "figure": [1150, 482, 1518, 1295],
+      "height_pano": 813,
+      "height_art": 283.6,
+      "feet_art": [465, 452]
+    },
+    "kuang": {
+      "erase": [1808, 518, 2185, 1316],
+      "figure": [1808, 518, 2181, 1297],
+      "height_pano": 779,
+      "height_art": 271.7,
+      "feet_art": [696, 452]
+    }
+  },
+  "poses": {
+    "monk_left": {
+      "source": "assets/raw/ming/pose_monk_left_1.png",
+      "crop": [570, 246, 1272, 948],
+      "roi": [632, 307, 1123, 702]
+    },
+    "monk_right": {
+      "source": "assets/raw/ming/pose_monk_right_1.png",
+      "crop": [1904, 246, 2606, 948],
+      "roi": [2071, 307, 2492, 702]
+    },
+    "linu": {
+      "source": "assets/raw/ming/pose_linu_1.png",
+      "crop": [606, 772, 957, 1123],
+      "roi": [623, 869, 948, 1053]
+    }
+  }
+}

@@ -15,7 +15,7 @@ const content = loadContent();
 describe('story', () => {
   it('compiles, lints and simulates cleanly', async () => {
     expect(build.errors).toEqual([]);
-    expect(lintStory().errors).toEqual([]);
+    expect((await lintStory()).errors).toEqual([]);
     expect((await simulate()).failures).toEqual([]);
   }, 60_000);
 

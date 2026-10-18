@@ -6,7 +6,7 @@ import { parse } from 'yaml';
 import { plainText } from '../../src/engine/handwriting.ts';
 import type { CastMember } from '../../src/engine/content.ts';
 import { inRect, type FieldMap, type MapExit, type MapTrigger } from '../../src/engine/map.ts';
-import { facingVec, REACH, walkable, type Facing, type Vec } from '../../src/engine/walk.ts';
+import { facingVec, REACH, walkableFoot, type Facing, type Vec } from '../../src/engine/walk.ts';
 import { compileInk } from '../lib/ink.ts';
 import { sourceLines } from '../lib/content.ts';
 import {
@@ -43,6 +43,15 @@ function findFiles(dir: string, predicate: (path: string) => boolean): string[] 
 }
 
 function findManifest(map: FieldMap): { prompt?: string; sourceImageUrl?: string; comment?: string; rawUrl?: string } {
+  if (map.background === 'bg_scriptorium') {
+    const scene = JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_scriptorium.yaml'), 'utf8')) as { pano: string; clean: string };
+    return {
+      prompt: 'Scene-first plate: supplied pano with Shen and Kuang erased only inside their measured boxes; seated poses are extracted from the same plate.',
+      comment: 'Scene cut from assets/scenes/ming_scriptorium.yaml. The clean edit is restricted to the two measured erase boxes.',
+      sourceImageUrl: fileUrl(scene.clean) ?? undefined,
+      rawUrl: fileUrl(scene.pano) ?? undefined,
+    };
+  }
   const manifestFiles = findFiles(join(ROOT, 'assets/manifest'), (path) => path.endsWith('.yaml') || path.endsWith('.yml'));
   const expectedId = `${map.art ?? 'retro'}/${map.background}`;
   for (const path of manifestFiles) {
@@ -95,7 +104,7 @@ function missingGlyphs(fontPath: string, lines: string[]): string[] {
 }
 
 interface StampPoint {
-  kind: 'trigger' | 'exit';
+  kind: 'trigger' | 'exit' | 'extreme';
   label: string;
   x: number;
   y: number;
@@ -139,7 +148,7 @@ function topTriggerStand(map: FieldMap, trigger: MapTrigger): { point: Vec; face
     for (let y = y1; y <= y2; y++) {
       for (let x = x1; x <= x2; x++) {
         const point = { x, y };
-        if (!walkable(point, map.walkable, map.blocked) || !triggerHit(map, trigger, point, face)) continue;
+        if (!walkableFoot(point, map.walkable, map.blocked) || !triggerHit(map, trigger, point, face)) continue;
         candidates.push({ point, face, distance: (x - center.x) ** 2 + (y - center.y) ** 2 });
       }
     }
@@ -149,7 +158,7 @@ function topTriggerStand(map: FieldMap, trigger: MapTrigger): { point: Vec; face
     for (let y = Math.max(0, Math.ceil(trigger.y)); y <= Math.min(map.height, Math.floor(trigger.y + trigger.height)); y++) {
       for (let x = Math.max(0, Math.ceil(trigger.x)); x <= Math.min(map.width, Math.floor(trigger.x + trigger.width)); x++) {
         const point = { x, y };
-        if (walkable(point, map.walkable, map.blocked) && triggerHit(map, trigger, point, 'down')) {
+        if (walkableFoot(point, map.walkable, map.blocked) && triggerHit(map, trigger, point, 'down')) {
           candidates.push({ point, face: 'down', distance: (x - center.x) ** 2 + (y - center.y) ** 2 });
         }
       }
@@ -166,7 +175,7 @@ function sideTriggerStand(map: FieldMap, trigger: MapTrigger): { point: Vec; fac
     : ['right', 'left'];
   for (let y = Math.max(0, Math.ceil(trigger.y + trigger.height)); y <= map.height; y++) {
     const point = { x, y };
-    if (!walkable(point, map.walkable, map.blocked)) continue;
+    if (!walkableFoot(point, map.walkable, map.blocked)) continue;
     const face = faces.find((candidate) => triggerHit(map, trigger, point, candidate));
     if (face) return { point, face };
   }
@@ -179,7 +188,7 @@ function exitStand(map: FieldMap, exit: MapExit): { point: Vec; face: Facing } |
   for (let y = Math.max(0, Math.ceil(exit.y)); y <= Math.min(map.height, Math.floor(exit.y + exit.height)); y++) {
     for (let x = Math.max(0, Math.ceil(exit.x)); x <= Math.min(map.width, Math.floor(exit.x + exit.width)); x++) {
       const point = { x, y };
-      if (!walkable(point, map.walkable, map.blocked)) continue;
+      if (!walkableFoot(point, map.walkable, map.blocked)) continue;
       const distance = (x - center.x) ** 2 + (y - center.y) ** 2;
       if (!nearest || distance < nearest.distance) nearest = { point, face: 'right', distance };
     }
@@ -198,12 +207,20 @@ function stampPoints(map: FieldMap): StampPoint[] {
     const point = stand?.point ?? { x: exit.x + exit.width / 2, y: exit.y + exit.height / 2 };
     return { kind: 'exit' as const, label: `${exit.map}:${exit.anchor}`, x: point.x, y: point.y, face: stand?.face ?? 'right', valid: !!stand };
   });
-  return [...triggers, ...exits];
+  const vertices = map.walkable.flat();
+  const extremes: StampPoint[] = map.frameInset ? [
+    { kind: 'extreme' as const, label: 'walkable left', x: Math.min(...vertices.map((p) => p.x)) + 15, y: 350, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable right', x: Math.max(...vertices.map((p) => p.x)) - 15, y: 350, face: 'left' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable top', x: 125, y: Math.min(...vertices.map((p) => p.y)) + 11, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable bottom', x: 500, y: Math.max(...vertices.map((p) => p.y)) - 10, face: 'right' as Facing, valid: true },
+  ].map((p) => ({ ...p, valid: walkableFoot(p, map.walkable, map.blocked) })) : [];
+  return [...extremes, ...triggers, ...exits];
 }
 
 function cardData(asset: ReviewAsset): Record<string, unknown> {
   if (asset.kind === 'bg') {
     const map = asset.data.map as FieldMap;
+    const mapId = String(asset.data.mapId);
     const actors = [...new Set([map.player, ...map.actors.map((actor) => actor.id)])].map((id) => ({
       id, member: cast[id], imageUrl: fileUrl(`public/art/${cast[id]?.art ?? map.art ?? 'retro'}/${cast[id]?.sprite}.png`),
     }));
@@ -214,10 +231,20 @@ function cardData(asset: ReviewAsset): Record<string, unknown> {
       backgroundUrl: fileUrl(asset.path),
       reach: REACH,
       stampPoints: stampPoints(map),
+      paintedFigures: mapId === 'ming_scriptorium'
+        ? Object.entries((JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_scriptorium.yaml'), 'utf8')) as {
+          figures: Record<string, { figure: number[]; height_art: number; feet_art: [number, number] }>;
+        }).figures).map(([id, figure]) => ({
+          id, figure: figure.figure, height: figure.height_art, feet: figure.feet_art, name: cast[id]?.name, member: cast[id],
+          spriteUrl: fileUrl(`public/art/${cast[id]?.art ?? map.art}/${cast[id]?.sprite}.png`),
+          sourceUrl: fileUrl('assets/raw/ming/scriptorium_pano.png'),
+        }))
+        : [],
     };
   }
-  if (asset.kind === 'sprite') {
+  if (asset.kind === 'sprite' || asset.kind === 'pose') {
     const member = asset.data.member as CastMember;
+    if (asset.kind === 'pose') return { ...asset.data, imageUrl: fileUrl(asset.path) };
     const sameArt = Object.entries(cast).filter(([, other]) => (other.art ?? 'retro') === (member.art ?? 'retro')).map(([id, other]) => ({
       id, name: other.name, height: other.height ?? actorHeights[id] ?? 110, sheet: other.sheet ?? 'walk4',
       imageUrl: fileUrl(`public/art/${other.art ?? 'retro'}/${other.sprite}.png`),

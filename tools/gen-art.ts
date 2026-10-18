@@ -24,6 +24,8 @@ const Item = z.object({
   /** Build-only item: stacks other items' outputs as rows (e.g. walk strips into one sheet). No API call. */
   compose: z.array(z.object({ from: z.string(), mirror: z.boolean().default(false) })).optional(),
   refs: z.array(z.string()).default([]),
+  /** Fixed, judged input image; this item is post-processed but never regenerated. */
+  raw: z.string().optional(),
   post: z.array(z.any()).default([]),
   out: z.string(),
 });
@@ -82,10 +84,10 @@ async function buildOnce(id: string): Promise<void> {
   }
   await Promise.all(item.refs.filter((r) => items.has(r)).map(build));
   const hash = hashOf(item, bible);
-  const raw = rawPath(id);
+  const raw = item.raw ? join(ROOT, item.raw) : rawPath(id);
   const stale = !existsSync(raw) || ledger[id]?.promptHash !== hash;
   const targeted = !opt('id') || opt('id') === id;
-  if (!flag('post-only') && targeted && (flag('force') || stale)) {
+  if (!item.raw && !flag('post-only') && targeted && (flag('force') || stale)) {
     const refs = item.refs.map((r) => ({
       mimeType: 'image/png',
       data: readFileSync(items.has(r) ? rawPath(r) : join(ROOT, r)),
