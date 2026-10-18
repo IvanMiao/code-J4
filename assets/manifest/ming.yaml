@@ -20,7 +20,7 @@ items:
   - resize:
       width: 1260
       height: 540
-  out: public/art/ming/bg_canal_street.png
+  out: assets/bg/ming_canal_street_hans.png  # signs repainted to traditional by tools/art/hant-signs.py
 - id: ming/bg_scriptorium
   model: gemini-3-pro-image
   aspect: '16:9'
