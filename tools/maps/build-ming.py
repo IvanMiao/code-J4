@@ -39,14 +39,15 @@ maps = {
     "ming_scriptorium": tmj(960, "经藏院 · 写经房", "bg_scriptorium",
         [BOX(0, 380, 940, 520)],
         [BOX(15, 412, 205, 530)],
-        {"from_street": (60, 400), "debate_spot": (560, 470)},
+        {"player_start": (300, 470), "from_street": (60, 400), "debate_spot": (560, 470)},
         [pt("kuang", 720, 470, {"knot": "ming_kuang", "face": "left"}), pt("linu", 165, 418, {"knot": "ming_linu", "face": "right"})],
         [rect("to_street", 0, 380, 20, 32, {"exit": "ming_canal_street:from_scriptorium"}),
          rect("ming_reading_table", 450, 365, 200, 25, {"knot": "ming_reading_table", "face": "up"}),
          rect("ming_monk_left", 200, 355, 140, 25, {"knot": "ming_monk_left", "face": "up"}),
          rect("ming_monk_right", 760, 355, 170, 25, {"knot": "ming_monk_right", "face": "up"}),
          rect("ming_sutra_chest", 180, 430, 25, 60, {"knot": "ming_sutra_chest", "face": "left"})],
-        [amb("motes", 0, 0, 960, 380)]),
+        [amb("motes", 0, 0, 960, 380)],
+        intro="ming_scriptorium_intro"),
 }
 for mid, m in maps.items():
     with open(f"content/maps/{mid}.tmj", "w", encoding="utf-8") as f: json.dump(m, f, ensure_ascii=False, indent=1)

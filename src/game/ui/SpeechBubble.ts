@@ -122,9 +122,13 @@ export class SpeechBubble {
     }
 
     if (member && actorOnscreen) {
-      this.root.add(this.scene.add.text(10, -24, member.name, {
+      const name = this.scene.add.text(18, -22, member.name, {
         fontFamily: HANDS.song.family, fontSize: '16px', color: CARMINE,
-      }).setResolution(2));
+      }).setResolution(2);
+      const tab = this.scene.add.graphics().fillStyle(PAPER, 0.96).lineStyle(2, 0x2a1d12, 1);
+      tab.fillRoundedRect(8, -28, name.width + 20, 30, 6).strokeRoundedRect(8, -28, name.width + 20, 30, 6);
+      this.root.addAt(tab, 0);
+      this.root.add(name);
     }
     this.arrow = this.scene.add.text(width - 24, height - 22, '▼', {
       fontFamily: hand.family, fontSize: `${Math.min(fontSize, 18)}px`, color: CARMINE,

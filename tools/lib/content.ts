@@ -120,6 +120,7 @@ export function entryKnots(c: Content): string[] {
   const set = new Set(['intro']);
   for (const m of Object.values(c.maps)) {
     for (const a of m.actors) if (a.knot) set.add(a.knot);
+    if (m.intro) set.add(m.intro);
     for (const t of m.triggers) set.add(t.knot);
   }
   return [...set];

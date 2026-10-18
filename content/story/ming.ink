@@ -20,6 +20,12 @@ VAR found_maiwang = false
 沈砚: 先看看书坊，再去经藏院。 #calm
 -> END
 
+=== ming_scriptorium_intro ===
+@fade out time=0
+@fade in time=1.2
+经藏院的写经房里很静，只听得见笔尖擦纸的声音。
+-> END
+
 === ming_bookshop ===
 文林阁的掌柜不在，柜上压着一张字条：“去经藏院对版了。”
 { seen_sheets: 沈砚: 掌柜一早就把版子送去了寺里。版子在路上，字却在这里丢了。 #calm }
@@ -37,7 +43,7 @@ VAR found_maiwang = false
 - -> END
 
 === ming_teahouse ===
-茶馆里有人在说书：“……那脉望食神仙字三次，人得之，夜持向天，可召星使……”
+茶馆里有人在说书——“……那脉望食神仙字三次，人得之，夜持向天，可召星使……”
 ~ heard_maiwang = true
 沈砚: 《酉阳杂俎》里的故事。说书的倒是消息灵通。 #calm
 -> END
@@ -78,7 +84,7 @@ VAR found_maiwang = false
 @sfx page_turn
 案上摊着一部刻本，页边写满了狂草批注。墙上的飞天褪了色，衣带还在飘。
 ~ seen_notes = true
-批注写着：“此处全是假话。”
+页边的批注写着“此处全是假话”。
 -> END
 
 === ming_kuang ===

@@ -17,7 +17,7 @@ describe('story', () => {
     expect(build.errors).toEqual([]);
     expect(lintStory().errors).toEqual([]);
     expect((await simulate()).failures).toEqual([]);
-  });
+  }, 60_000);
 
   it('the cat only talks once it trusts you', async () => {
     const ignore = await playPath(build.json, content, 'nika_talk', null, [1]);

@@ -48,6 +48,11 @@
    "name": "scaleNear",
    "type": "string",
    "value": "1"
+  },
+  {
+   "name": "intro",
+   "type": "string",
+   "value": "ming_scriptorium_intro"
   }
  ],
  "layers": [
@@ -117,13 +122,20 @@
    "objects": [
     {
      "id": 26,
+     "name": "player_start",
+     "x": 300,
+     "y": 470,
+     "point": true
+    },
+    {
+     "id": 27,
      "name": "from_street",
      "x": 60,
      "y": 400,
      "point": true
     },
     {
-     "id": 27,
+     "id": 28,
      "name": "debate_spot",
      "x": 560,
      "y": 470,
