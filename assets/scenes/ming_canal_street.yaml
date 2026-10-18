@@ -42,12 +42,30 @@
     },
     {
       "id": "andreas_hat",
-      "box": [2346, 530, 2480, 596],
+      "box": [2290, 500, 2530, 635],
       "input": "assets/raw/ming/canal_input_andreas_hat.png",
       "patch": "assets/scenes/ming_canal_street/patches/andreas_hat.png",
       "prompt": "assets/scenes/ming_canal_andreas_hat.txt",
       "aspect": "16:9",
-      "feather": 3
+      "feather": 10
+    },
+    {
+      "id": "bookshop_pillar_sign",
+      "box": [720, 535, 825, 700],
+      "input": "assets/raw/ming/canal_input_bookshop_pillar_sign.png",
+      "patch": "assets/scenes/ming_canal_street/patches/bookshop_pillar_sign.png",
+      "prompt": "assets/scenes/ming_canal_bookshop_pillar_sign.txt",
+      "aspect": "2:3",
+      "feather": 7
+    },
+    {
+      "id": "spice_stall_sign",
+      "box": [2035, 610, 2125, 715],
+      "input": "assets/raw/ming/canal_input_spice_stall_sign.png",
+      "patch": "assets/scenes/ming_canal_street/patches/spice_stall_sign.png",
+      "prompt": "assets/scenes/ming_canal_spice_stall_sign.txt",
+      "aspect": "1:1",
+      "feather": 6
     }
   ],
   "figures": {

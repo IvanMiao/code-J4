@@ -6,6 +6,7 @@ import { layoutGlyphs, parseCorrections } from '../../engine/handwriting.ts';
 
 const PAPER = 0xefe3c4;
 const CARMINE = '#9b2d1f';
+const SPEAKER_BUBBLE_OFFSETS: Record<string, number> = { andreas: -160 };
 
 /** Handwritten, actor-anchored dialogue for paper-style maps. */
 export class SpeechBubble {
@@ -77,7 +78,8 @@ export class SpeechBubble {
     if (actorOnscreen && bounds) {
       const speakerX = (bounds.left + bounds.right) / 2;
       const speakerY = (bounds.top + bounds.bottom) / 2;
-      const centeredX = Phaser.Math.Clamp(speakerX - width / 2, 10, WIDTH - width - 10);
+      const bubbleOffsetX = SPEAKER_BUBBLE_OFFSETS[line.speaker ?? ''] ?? 0;
+      const centeredX = Phaser.Math.Clamp(speakerX + bubbleOffsetX - width / 2, 10, WIDTH - width - 10);
       const aboveY = bounds.top - height - tail - 4;
       const nameTabHeight = member ? 28 : 0;
       if (aboveY - nameTabHeight >= 10) {
