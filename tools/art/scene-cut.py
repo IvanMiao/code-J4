@@ -246,15 +246,28 @@ def build_canal_scene(spec: dict) -> None:
     )
 
 
+def apply_canal_art_repairs(spec: dict) -> None:
+    path = OUT_DIR / "bg_canal_street.png"
+    art = Image.open(path).convert("RGB")
+    for repair in spec.get("artRepairs", []):
+        paste_box_edit(art, repair["patch"], repair["box"], repair["feather"])
+    art.save(path, optimize=False)
+    print(f"applied {len(spec.get('artRepairs', []))} fixed-box art repairs to {path.relative_to(ROOT)}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scene", choices=("ming_scriptorium", "ming_canal_street"), default="ming_scriptorium")
     parser.add_argument("--prepare-inputs", action="store_true")
+    parser.add_argument("--apply-art-repairs", action="store_true")
     args = parser.parse_args()
     if args.scene == "ming_canal_street":
         spec = json.loads(CANAL_SPEC_PATH.read_text(encoding="utf8"))
         if args.prepare_inputs:
             prepare_canal_inputs(spec)
+            return
+        if args.apply_art_repairs:
+            apply_canal_art_repairs(spec)
             return
         build_canal_scene(spec)
         return

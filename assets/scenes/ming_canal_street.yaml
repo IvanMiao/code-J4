@@ -50,15 +50,6 @@
       "feather": 10
     },
     {
-      "id": "bookshop_pillar_sign",
-      "box": [720, 535, 825, 700],
-      "input": "assets/raw/ming/canal_input_bookshop_pillar_sign.png",
-      "patch": "assets/scenes/ming_canal_street/patches/bookshop_pillar_sign.png",
-      "prompt": "assets/scenes/ming_canal_bookshop_pillar_sign.txt",
-      "aspect": "2:3",
-      "feather": 7
-    },
-    {
       "id": "spice_stall_sign",
       "box": [2035, 610, 2125, 715],
       "input": "assets/raw/ming/canal_input_spice_stall_sign.png",
@@ -66,6 +57,22 @@
       "prompt": "assets/scenes/ming_canal_spice_stall_sign.txt",
       "aspect": "1:1",
       "feather": 6
+    }
+  ],
+  "artRepairs": [
+    {
+      "id": "bookshop_pillar_sign",
+      "box": [270, 215, 300, 265],
+      "patch": "assets/scenes/ming_canal_street/patches/bookshop_pillar_sign.png",
+      "prompt": "assets/scenes/ming_canal_bookshop_pillar_sign.txt",
+      "feather": 2
+    },
+    {
+      "id": "spice_stall_roof_board",
+      "box": [884, 157, 936, 204],
+      "patch": "assets/scenes/ming_canal_street/patches/spice_stall_roof_board.png",
+      "prompt": "assets/scenes/ming_canal_spice_stall_roof_board.txt",
+      "feather": 2
     }
   ],
   "figures": {

@@ -50,6 +50,7 @@ andreas:
   sheet: side
   sprite: walk_andreas
   height: 297.02
+  bubbleOffsetX: -160
   hand: rough
   default: calm
   emotions: [calm]

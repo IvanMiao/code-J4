@@ -6,6 +6,7 @@ export interface CastMember {
   art?: string;
   sheet?: 'walk4' | 'side' | 'pose';
   height?: number;
+  bubbleOffsetX?: number;
   hand?: string;
   portraits?: Record<string, string>;
   emotions?: string[];
