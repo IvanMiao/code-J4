@@ -8,7 +8,7 @@ import { ChoiceMenu } from '../ui/ChoiceMenu.ts';
 import { SpeechBubble } from '../ui/SpeechBubble.ts';
 import type { BattleData } from './Battle.ts';
 import { speakerResolver } from '../../engine/content.ts';
-import { exitEdge, inRect, type MapExit, type MapTrigger } from '../../engine/map.ts';
+import { exitCanBeUsed, exitEdge, inRect, type MapExit, type MapTrigger } from '../../engine/map.ts';
 import { addItem, readSave, writeSave, type ActorState } from '../../engine/save.ts';
 import { DIRS, type Dir } from '../../story/commands.ts';
 import type { CommandEvent, LineEvent } from '../../story/parse.ts';
@@ -159,7 +159,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.player.face = this.map.view === 'side' ? sideFacing(dx, this.player.face) : facingOf(dx, dy, this.player.face);
       this.player.setPos(step(this.player.pos, { x: (dx / len) * d, y: (dy / len) * d }, this.map.walkable, this.map.blocked));
       this.player.setMoving(true, this.currentSpeed / 190);
-      const exit = this.map.exits.find((e) => inRect(this.player.pos, e));
+      const exit = this.map.exits.find((e) => exitCanBeUsed(e, this.player.face) && inRect(this.player.pos, e));
       if (exit) {
         this.updateHint(null);
         return void this.travel(exit);
@@ -644,6 +644,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     if (m.bgm) this.loop('bgm', m.bgm, 1.5);
     if (m.ambience) this.loop('ambience', m.ambience, 1.5);
     this.areaLabel.setText(m.title);
+    this.areaLabel.setVisible(!m.paintedTitle);
   }
 
   private setPaperTheme(paper: boolean) {

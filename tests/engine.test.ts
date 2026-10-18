@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { exitEdge, parseMap } from '../src/engine/map.ts';
+import { exitCanBeUsed, exitEdge, parseMap } from '../src/engine/map.ts';
 import { facingOf, sideFacing, step, walkable, walkableFoot } from '../src/engine/walk.ts';
 import { addItem, readSave, writeSave } from '../src/engine/save.ts';
 import { createBattle, outcome, playRound } from '../src/engine/battle.ts';
@@ -38,7 +38,7 @@ describe('map properties', () => {
   it('defaults legacy maps to top-view campus settings', () => {
     const legacy = readFileSync(new URL('../content/maps/gate.tmj', import.meta.url), 'utf8');
     expect(parseMap(legacy)).toMatchObject({
-      art: null, view: 'top', script: 'hans', player: 'linxia', dialogue: 'box', intro: null, scaleFar: 1, scaleNear: 1, ground: 'stone',
+      art: null, view: 'top', script: 'hans', player: 'linxia', dialogue: 'box', intro: null, scaleFar: 1, scaleNear: 1, paintedTitle: false, ground: 'stone',
     });
   });
 
@@ -54,11 +54,12 @@ describe('map properties', () => {
         { name: 'intro', value: 'ming_intro' },
         { name: 'scaleFar', value: '0.8' },
         { name: 'scaleNear', value: '1.25' },
+        { name: 'paintedTitle', value: true },
         { name: 'ground', value: 'wood' },
       ],
     };
     expect(parseMap(fixture)).toMatchObject({
-      art: 'ming', view: 'side', script: 'hant', player: 'shen', dialogue: 'bubble', intro: 'ming_intro', scaleFar: 0.8, scaleNear: 1.25, ground: 'wood',
+      art: 'ming', view: 'side', script: 'hant', player: 'shen', dialogue: 'bubble', intro: 'ming_intro', scaleFar: 0.8, scaleNear: 1.25, paintedTitle: true, ground: 'wood',
     });
   });
 
@@ -93,6 +94,15 @@ describe('map properties', () => {
       }],
     };
     expect(parseMap(fixture).triggers[0]).toMatchObject({ knot: 'ming_monk_left', actor: 'monk_left' });
+  });
+});
+
+describe('exit facing', () => {
+  it('requires the declared facing and defaults missing faces to up', () => {
+    expect(exitCanBeUsed({ face: 'up' }, 'up')).toBe(true);
+    expect(exitCanBeUsed({ face: 'up' }, 'down')).toBe(false);
+    expect(exitCanBeUsed({ face: null }, 'up')).toBe(true);
+    expect(exitCanBeUsed({ face: null }, 'down')).toBe(false);
   });
 });
 

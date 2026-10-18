@@ -21,7 +21,7 @@ export interface MapForeground { polygon: Polygon; baseline: number }
 
 /** Walking into the rect moves the player to `anchor` on `map`. */
 export interface MapExit {
-  id: string; x: number; y: number; width: number; height: number; map: string; anchor: string; face: Facing; sfx?: string;
+  id: string; x: number; y: number; width: number; height: number; map: string; anchor: string; face: Facing | null; sfx?: string;
 }
 
 export type ExitEdge = Facing;
@@ -32,6 +32,10 @@ export function exitEdge(exit: Pick<MapExit, 'x' | 'y' | 'width' | 'height' | 'f
   if (exit.y <= 0) return 'up';
   if (exit.y + exit.height >= mapH) return 'down';
   return exit.face ?? 'up';
+}
+
+export function exitCanBeUsed(exit: Pick<MapExit, 'face'>, facing: Facing): boolean {
+  return (exit.face ?? 'up') === facing;
 }
 
 export interface FieldMap {
@@ -48,6 +52,7 @@ export interface FieldMap {
   scaleFar: number;
   scaleNear: number;
   frameInset: number;
+  paintedTitle: boolean;
   ground: string;
   bgm: string | null;
   ambience: string | null;
@@ -88,6 +93,7 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     scaleFar: Number(prop(map, 'scaleFar') ?? 1),
     scaleNear: Number(prop(map, 'scaleNear') ?? 1),
     frameInset: Number(prop(map, 'frameInset') ?? 0),
+    paintedTitle: String(prop(map, 'paintedTitle') ?? 'false') === 'true',
     ground: String(prop(map, 'ground') ?? 'stone'),
     bgm: (prop(map, 'bgm') as string) ?? null,
     ambience: (prop(map, 'ambience') as string) ?? null,
@@ -97,7 +103,7 @@ export function parseMap(raw: string | TiledMap): FieldMap {
       const [m, anchor] = String(prop(o, 'exit')).split(':');
       return {
         ...rect(o), map: m, anchor,
-        face: String(prop(o, 'face') ?? 'up') as Facing,
+        face: prop(o, 'face') == null ? null : String(prop(o, 'face')) as Facing,
         sfx: (prop(o, 'sfx') as string) ?? undefined,
       };
     }),

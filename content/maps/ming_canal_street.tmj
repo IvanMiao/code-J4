@@ -63,6 +63,11 @@
    "name": "ground",
    "type": "string",
    "value": "stone"
+  },
+  {
+   "name": "paintedTitle",
+   "type": "string",
+   "value": "true"
   }
  ],
  "layers": [

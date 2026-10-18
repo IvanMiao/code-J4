@@ -48,7 +48,7 @@ maps = {
          rect("ming_bridge", 500, 380, 230, 25, {"knot": "ming_bridge", "face": "up"}),
          rect("to_scriptorium", 1040, 395, 125, 35, {"exit": "ming_scriptorium:from_street"})],
         [amb("leaves", 330, 40, 280, 300, every=1400), amb("motes", 0, 0, 1260, 380)],
-        intro="ming_intro", ground="stone"),
+        intro="ming_intro", ground="stone", paintedTitle="true"),
     "ming_scriptorium": tmj(960, "經藏院 · 寫經房", "bg_scriptorium",
         [BOX(110, 304, 140, 395), BOX(110, 323, 850, 342), BOX(110, 333, 850, 458)],
         [BOX(144, 341, 398, 458), BOX(850, 300, 960, 458)],

@@ -109,7 +109,11 @@ export function checkExits(c: Content): string[] {
       else if (!to.anchors[e.anchor]) errs.push(`map ${id}: exit "${e.id}" goes to unknown anchor "${e.map}:${e.anchor}"`);
       if (e.sfx && !(c.audioIds?.has(e.sfx) ?? !!c.audio.sfx?.[e.sfx])) errs.push(`map ${id}: exit "${e.id}" has unknown sfx "${e.sfx}"`);
       for (const [name, anchor] of Object.entries(m.anchors)) {
-        if (inRect(anchor, e)) errs.push(`map ${id}: anchor "${name}" is inside exit "${e.id}"`);
+        const arrivalFaces = Object.values(c.maps).flatMap((source) =>
+          source.exits.filter((incoming) => incoming.map === id && incoming.anchor === name).map((incoming) => incoming.face));
+        if (inRect(anchor, e) && (e.face === null || arrivalFaces.includes(e.face))) {
+          errs.push(`map ${id}: anchor "${name}" is inside exit "${e.id}"`);
+        }
       }
     }
     if (m.background && !c.artByDir[m.art ?? 'retro']?.has(m.background)) errs.push(`map ${id}: background "${m.background}" has no art file in art/${m.art ?? 'retro'}`);

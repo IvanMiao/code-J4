@@ -57,17 +57,48 @@ describe('story', () => {
 
   it('rejects anchors inside exit rectangles on any map', () => {
     const map = content.maps.ming_scriptorium;
+    const canal = content.maps.ming_canal_street;
     const invalid = {
       ...content,
       maps: {
         ...content.maps,
         ming_scriptorium: {
           ...map,
-          anchors: { ...map.anchors, player_start: { x: 125, y: 350 } },
+          anchors: { ...map.anchors, from_street: { x: 125, y: 350 } },
+        },
+        ming_canal_street: {
+          ...canal,
+          exits: canal.exits.map((exit) => exit.id === 'to_scriptorium' ? { ...exit, face: 'left' as const } : exit),
         },
       },
     };
-    expect(checkExits(invalid)).toContain('map ming_scriptorium: anchor "player_start" is inside exit "to_street"');
+    expect(checkExits(invalid)).toContain('map ming_scriptorium: anchor "from_street" is inside exit "to_street"');
+
+    const wrongArrivalFace = {
+      ...invalid,
+      maps: {
+        ...invalid.maps,
+        ming_canal_street: {
+          ...invalid.maps.ming_canal_street,
+          exits: invalid.maps.ming_canal_street.exits.map((exit) =>
+            exit.id === 'to_scriptorium' ? { ...exit, face: 'down' as const } : exit),
+        },
+      },
+    };
+    expect(checkExits(wrongArrivalFace)).not.toContain('map ming_scriptorium: anchor "from_street" is inside exit "to_street"');
+
+    const noFace = {
+      ...wrongArrivalFace,
+      maps: {
+        ...wrongArrivalFace.maps,
+        ming_scriptorium: {
+          ...wrongArrivalFace.maps.ming_scriptorium,
+          exits: wrongArrivalFace.maps.ming_scriptorium.exits.map((exit) => exit.id === 'to_street' ? { ...exit, face: null } : exit),
+        },
+      },
+    };
+    expect(checkExits(noFace)).toContain('map ming_scriptorium: anchor "from_street" is inside exit "to_street"');
     expect(checkExits(content).filter((error) => error.includes('is inside exit'))).toEqual([]);
+    expect(content.maps.avenue.anchors.kiosk_front).toEqual({ x: 1570, y: 470 });
   });
 });

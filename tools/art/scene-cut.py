@@ -6,7 +6,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageStat
 
 ROOT = Path(__file__).resolve().parents[2]
 SPEC_PATH = ROOT / "assets/scenes/ming_scriptorium.yaml"
@@ -16,6 +16,36 @@ SIDECAR = ROOT / "assets/scenes/ming_scriptorium.art.json"
 
 def box_crop(image: Image.Image, box: list[int]) -> Image.Image:
     return image.crop(tuple(box))
+
+
+def changed_mask(edit: Image.Image, reference: Image.Image) -> Image.Image:
+    mask = ImageChops.difference(edit, reference).convert("L")
+    return mask.point(lambda value: 255 if value > 30 else 0).filter(ImageFilter.MedianFilter(5)).filter(ImageFilter.MaxFilter(5))
+
+
+def match_color(
+    edit: Image.Image,
+    edit_roi: Image.Image,
+    plate_roi: Image.Image,
+    changed: Image.Image,
+    silhouette: Image.Image | None,
+) -> Image.Image:
+    union = ImageChops.lighter(changed, silhouette) if silhouette else changed
+    outside = ImageChops.invert(union)
+    source_stats = ImageStat.Stat(edit_roi, mask=outside)
+    target_stats = ImageStat.Stat(plate_roi, mask=outside)
+    channels = edit.split()
+    matched = []
+    for channel, source_mean, source_std, target_mean, target_std in zip(
+        channels, source_stats.mean, source_stats.stddev, target_stats.mean, target_stats.stddev
+    ):
+        scale = target_std / source_std if source_std > 1e-6 else 1
+        lut = [
+            max(0, min(255, round((value - source_mean) * scale + target_mean)))
+            for value in range(256)
+        ]
+        matched.append(channel.point(lut))
+    return Image.merge("RGB", matched)
 
 
 def build_plate(spec: dict) -> Image.Image:
@@ -44,8 +74,19 @@ def build_pose(spec: dict, plate: Image.Image, key: str, data: dict, scale: floa
     local_box = [roi[0] - crop_x, roi[1] - crop_y, roi[2] - crop_x, roi[3] - crop_y]
     edited_roi = box_crop(edit, local_box)
     plate_source = box_crop(plate, roi)
-    mask = ImageChops.difference(edited_roi, plate_source).convert("L").point(lambda p: 255 if p > 30 else 0)
-    mask = mask.filter(ImageFilter.MedianFilter(5)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(1.5))
+    initial_mask = changed_mask(edited_roi, plate_source)
+    silhouette_points = data.get("foreground_silhouette_art")
+    silhouette_source = None
+    if silhouette_points:
+        silhouette_source = Image.new("L", plate_source.size, 0)
+        source_points = [(round(px / scale - roi[0]), round(py / scale - roi[1])) for px, py in silhouette_points]
+        ImageDraw.Draw(silhouette_source).polygon(source_points, fill=255)
+        dilation_art = int(data.get("silhouette_dilate_art", 3))
+        dilation_source = max(1, round(dilation_art / scale))
+        silhouette_source = silhouette_source.filter(ImageFilter.MaxFilter(dilation_source * 2 + 1))
+    edit = match_color(edit, edited_roi, plate_source, initial_mask, silhouette_source)
+    edited_roi = box_crop(edit, local_box)
+    mask = changed_mask(edited_roi, plate_source).filter(ImageFilter.GaussianBlur(1.5))
 
     x = round(roi[0] * scale)
     y = round(roi[1] * scale)
@@ -57,7 +98,6 @@ def build_pose(spec: dict, plate: Image.Image, key: str, data: dict, scale: floa
     changed_pixels = alpha.point(lambda value: 255 if value >= 128 else 0).histogram()[255]
     if changed_pixels < spec["pose_min_changed_pixels"]:
         raise ValueError(f"{key} pose has only {changed_pixels} changed opaque pixels")
-    silhouette_points = data.get("foreground_silhouette_art")
     if silhouette_points:
         silhouette = Image.new("L", frame_size, 0)
         origin_x, origin_y = x, y
@@ -65,6 +105,9 @@ def build_pose(spec: dict, plate: Image.Image, key: str, data: dict, scale: floa
         ImageDraw.Draw(silhouette).polygon(local_points, fill=255)
         dilation = int(data.get("silhouette_dilate_art", 3))
         silhouette = silhouette.filter(ImageFilter.MaxFilter(dilation * 2 + 1))
+        feather = float(data.get("silhouette_feather_art", 0))
+        if feather:
+            silhouette = silhouette.filter(ImageFilter.GaussianBlur(feather))
         alpha = ImageChops.lighter(alpha, silhouette)
     frame0 = Image.new("RGBA", frame_size, (0, 0, 0, 0))
     frame1 = edit_art.convert("RGBA")
