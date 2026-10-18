@@ -93,10 +93,13 @@ export function requiredAssets(root = '.'): RequiredAsset[] {
 
   for (const [id, map] of Object.entries(maps)) {
     const path = assetPath(root, map.background, map.art);
-    const bundle = id === 'ming_scriptorium'
+    const scenePath = id === 'ming_scriptorium'
+      ? 'assets/scenes/ming_scriptorium'
+      : id === 'ming_canal_street' ? 'assets/scenes/ming_canal_street' : null;
+    const bundle = scenePath
       ? [
-        readFileSync(join(root, 'assets/scenes/ming_scriptorium.yaml')),
-        readFileSync(join(root, 'assets/scenes/ming_scriptorium.art.json')),
+        readFileSync(join(root, `${scenePath}.yaml`)),
+        readFileSync(join(root, `${scenePath}.art.json`)),
         ...[map.player, ...map.actors.map((actor) => actor.id)]
           .map((actorId) => readFileSync(assetPath(root, cast[actorId].sprite, cast[actorId].art))),
       ]

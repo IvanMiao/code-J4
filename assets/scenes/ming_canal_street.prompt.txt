@@ -1,0 +1,27 @@
+This is a REDRAW of the FIRST reference image in the rendering style of the SECOND reference image.
+FIRST reference = the approved LAYOUT: keep its composition left to right (bookshop, tea house, bridge with boat and boatman, willows, distant mountains, spice stall, temple gate with open doors and steps), the two standing men apart from each other in the same places and sizes, and its flat side-on street with a straight stone kerb along the bottom. Do NOT turn the street into a receding perspective.
+SECOND reference = the approved RENDERING: copy exactly its heavy black woodcut linework with thick-thin carved strokes, the dense parallel hatching on roofs, walls, shadows and paving, the deep indigo-black roof tiles, the flat off-register washes of indigo, cinnabar, ochre and pale malachite, and its warm foxed paper.
+The THIRD reference image is a real Wanli-era woodcut: line quality to aim for.
+The picture runs full-bleed to all four edges of the canvas: no frame line, no border, no paper margin.
+
+Style: this must read as a HAND-CARVED, HAND-COLOURED late-Ming woodcut page, not a soft modern digital illustration: strong black ink linework is the backbone of the image, colour sits in flat hand-applied washes that slightly miss the lines, deep indigo-black roof tiles, cinnabar accents on lanterns and pillars, warm aged paper with visible fibres and foxing everywhere the colour is thin.
+Detail level: like a finely cut Huizhou woodblock book illustration — every roof tile row drawn, lattice windows with fine grids, wood grain in planks, willow leaves as individual strokes, ripple lines on the water, stones of the bridge each outlined, fine fold lines in clothing. Rich but orderly, never cluttered.
+
+Camera: flat side-on stage view like a page of an illustrated book. No vanishing-point perspective, no receding pavement. Nothing is cropped by a border; no frame, no margin, the picture fills the whole canvas edge to edge.
+
+Layout, LEFT to RIGHT:
+1. Far LEFT: a two-storey wooden bookshop with its whole ground-floor front open, shelves of stitched books and a bookseller behind a counter inside; in front of it a wooden frame with freshly printed sheets hung to dry. A horizontal signboard above the door with the three characters 文林閣 (traditional characters, exactly these).
+2. Left of centre: a small tea house with an open front, a tea kettle on a brazier, a few stools, the tea seller sitting inside. A SMALL narrow cloth banner hangs from a pole by the door with ONE small character 茶; the banner is no bigger than a doorway's width and the character is modest in size, not a huge poster.
+3. Centre, behind the street: a high stone arch bridge over the canal with a covered boat under the arch, a boatman with a pole standing on it; weeping willows; far behind, pale ink mountains and a thin mist band.
+4. Right of centre: a small open-air stall of spices and dried goods under a cloth awning, with jars and sacks.
+5. Far RIGHT: the gate of a Buddhist sutra temple: whitewashed wall, tiled gate roof, a horizontal plaque with the three characters 經藏院 (traditional, exactly these), the double door standing OPEN so a stone courtyard is visible through it. Two low stone steps lead from the street straight up into the open door, nothing blocking them.
+
+Figures, all at the same natural adult scale, about 6-7 heads tall, full body with feet on the street:
+(a) standing on the street left of centre, a young county clerk (as in the first reference) (blue-grey cotton robe, black soft scholar cap with tails, cloth shoes, bundle of documents), side view facing RIGHT;
+(b) standing on the street right of centre, a European Jesuit scholar about forty dressed as a Chinese literatus: long dark-purple silk scholar robe, tall black square scholar hat, full brown beard, pale skin, large nose, holding a small book; side view facing LEFT;
+(c) inside the shops only: the bookseller and the tea seller, seated or behind counters.
+No other people on the street. Leave clear empty street around (a) and (b).
+
+The street: a flat band of pale stone paving seen from the side, running across the full width in the lower third of the picture, with a stone kerb along the canal side. The bottom fifth of the picture is EMPTY paving across the full width: no objects, no people, no border.
+
+No writing anywhere except 文林閣 on the bookshop board, 茶 on the small banner and 經藏院 on the temple plaque. No seals, no signature, no Latin letters.

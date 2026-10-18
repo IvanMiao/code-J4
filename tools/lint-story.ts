@@ -112,19 +112,23 @@ export async function lintStory(root = '.') {
     const metrics = await measureSprite(root, `public/art/${player.art ?? map.art ?? 'retro'}/${player.sprite}.png`);
     errors.push(...frameInsetErrors(map, metrics, player.height ?? 110).map((e) => `map ${mapId}: ${e}`));
   }
-  const scenePath = join(root, 'assets/scenes/ming_scriptorium.yaml');
-  if (content.maps.ming_scriptorium) {
-    const scene = JSON.parse(readFileSync(scenePath, 'utf8')) as {
+  const sceneSpecs = {
+    ming_scriptorium: 'assets/scenes/ming_scriptorium.yaml',
+    ming_canal_street: 'assets/scenes/ming_canal_street.yaml',
+  };
+  for (const [mapId, sceneFile] of Object.entries(sceneSpecs)) {
+    const map = content.maps[mapId];
+    if (!map) continue;
+    const scene = JSON.parse(readFileSync(join(root, sceneFile), 'utf8')) as {
       figures: Record<string, { height_art: number; feet_art: [number, number] }>;
     };
-    const map = content.maps.ming_scriptorium;
     for (const [id, figure] of Object.entries(scene.figures)) {
       const member = content.cast[id];
       if (!member?.sprite) continue;
       const metrics = await measureSprite(root, `public/art/${member.art ?? map.art ?? 'retro'}/${member.sprite}.png`);
       const rendered = renderedAlphaHeight(metrics, member.height ?? 110, scaleAtFeet(map, figure.feet_art[1]));
       if (!paintedScalePass(rendered, figure.height_art))
-        errors.push(`map ming_scriptorium: ${id} rendered height ${rendered.toFixed(1)}px differs from painted ${figure.height_art}px by more than 5%`);
+        errors.push(`map ${mapId}: ${id} rendered height ${rendered.toFixed(1)}px differs from painted ${figure.height_art}px by more than 2%`);
     }
   }
   const knotScripts = new Map<string, 'hans' | 'hant'>();

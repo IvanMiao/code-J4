@@ -3,24 +3,6 @@
 style: ming
 bible: assets/style/bible-ming.md
 items:
-- id: ming/bg_canal_street
-  model: gemini-3-pro-image
-  aspect: '21:9'
-  size: 2K
-  prompt: 'Game background, one wide side-on street scene of a small Jiangnan canal town around 1600. Layout from LEFT to RIGHT:
-    (1) on the far left a two-storey wooden bookshop with its whole ground-floor front open, racks of freshly printed sheets hanging
-    to dry on a wooden frame in front of it, a hanging signboard reading exactly "文林阁"; (2) a tea house with a cloth banner reading
-    exactly "茶" under willow trees; (3) in the centre background a stone arch bridge over a canal with a moored wooden boat;
-    (4) a small foreign spice stall under an awning with sacks and brass jars and a resting camel behind it; (5) on the right a Buddhist
-    temple gate with a wide OPEN doorway (you can see a courtyard through it) and a horizontal plaque reading exactly "经藏院".
-    The lowest third of the picture is an EMPTY paved stone street running the full width, continuing unobstructed off both the left
-    and right edges: no people, no animals, no objects, no trees on the street. No people anywhere in the picture.
-    The sky is pale paper with a few flat ink clouds and distant hills.'
-  post:
-  - resize:
-      width: 1260
-      height: 540
-  out: assets/bg/ming_canal_street_hans.png  # signs repainted to traditional by tools/art/hant-signs.py
 - id: ming/walk_shen_side
   raw: assets/raw/ming/walk_shen_side_v2.png
   prompt: 'ASSET: sprite strip for the man in the reference image (the young clerk in the blue-grey robe and black square cap). Redraw THIS SAME man: same face, same costume, same colours, same line weight, same proportions, same woodblock-print drawing manner as the reference crop. Do not restyle him.
@@ -67,16 +49,13 @@ items:
   - from: ming/walk_kuang_side
   out: public/art/ming/walk_kuang.png
 - id: ming/walk_andreas_side
+  raw: assets/scenes/ming_canal_street/andreas_walk_raw.png
   model: gemini-3-pro-image
   aspect: '16:9'
-  prompt: 'Sprite strip: exactly THREE full-body frames of the SAME person in one horizontal row and nothing else, evenly spaced,
-    generous empty green space between them, all exactly the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the
-    RIGHT edge of the image: nose, toes and knees point RIGHT, the face is never turned toward the viewer. Frame 1: mid-stride, right
-    leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Flat side-on view, feet on one baseline.
-    No grid lines, no labels, no ground, no shadow. Person: a European Jesuit scholar in China around 1600 dressed as a Chinese literatus: long dark-purple silk scholar robe, tall black Confucian scholar hat, full brown beard, pale skin, large nose, holding a small book. Drawn in the woodblock-print book-illustration style (black carved
-    outlines, flat hand-applied colour). Plain flat pure chroma-key green background (#00FF00) filling the whole image, no gradient,
-    no paper texture on the background.'
+  prompt: 'The reference image is Andreas, a European Jesuit scholar in China around 1600, cut from the cleaned Ming canal street panorama. Draw the same person in the same black-ink woodcut linework and flat muted colors, with the same pale face, prominent nose, full brown beard, long purple robe, small book, and tall black square 四方平定巾 / 東坡巾 literati hat. Create exactly THREE full-body frames in one horizontal row and nothing else. Every cell is a strict side profile facing RIGHT: nose, knees, and toes point right; never turn toward the viewer. Make the leg poses clearly different, not near-duplicates: frame 1 has the right/front foot planted a short step ahead while the other trails; frame 2 is a passing pose with knees bent and feet nearly underneath the body; frame 3 reverses the stride with the left/back foot planted a short step ahead and the right/front foot trailing. Keep the stride compact: both shoes stay close together in side view and their combined horizontal span is less than 55% of the body width above the knees; never use a wide split stance. Keep the robe hem parted enough to show the distinct foot placement without changing the robe design. Keep head size, hat, robe silhouette, and height consistent across all cells; all soles share one baseline. No extra views, no labels, no grid, no ground line, no shadow. Use a flat pure chroma-key green background (#00FF00), without texture or gradient.'
+  refs: [assets/scenes/ming_canal_street/andreas_painted.png]
   post:
+  - removeGroundLine: true
   - chromaKey: {}
   - sheet:
       cols: 3

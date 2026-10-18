@@ -16,20 +16,7 @@ STROKE = 4
 
 # Whole signs are redrawn in one hand so new and old glyphs match.
 # box: the old glyph's bounding box in the 1x background; angle: board tilt in degrees (clockwise).
-JOBS = [
-    {
-        "src": "assets/bg/ming_canal_street_hans.png",
-        "out": "public/art/ming/bg_canal_street.png",
-        "glyphs": [
-            {"box": (104, 98, 138, 133), "char": "文", "angle": 17, "size": 33},
-            {"box": (143, 108, 178, 144), "char": "林", "angle": 17, "size": 33},
-            {"box": (178, 119, 212, 158), "char": "閣", "angle": 17, "size": 33},
-            {"box": (1050, 96, 1083, 127), "char": "經", "angle": 0, "size": 31},
-            {"box": (1087, 95, 1119, 129), "char": "藏", "angle": 0, "size": 31},
-            {"box": (1124, 97, 1159, 128), "char": "院", "angle": 0, "size": 31},
-        ],
-    },
-]
+JOBS = []
 
 
 def board_colour(im: Image.Image, box: tuple[int, int, int, int]) -> tuple[int, int, int]:

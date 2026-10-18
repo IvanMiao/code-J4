@@ -161,7 +161,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.player.setPos(step(this.player.pos, { x: (dx / len) * d, y: (dy / len) * d }, this.map.walkable, this.map.blocked));
       this.player.setMoving(true, this.currentSpeed / 190);
       this.armedExits = armExits(this.map.exits, this.player.pos, this.armedExits);
-      const exit = pickExit(this.map.exits, this.player.pos, this.player.face, this.armedExits);
+      const exitFacing = this.map.view === 'side' ? facingOf(dx, dy, this.player.face) : this.player.face;
+      const exit = pickExit(this.map.exits, this.player.pos, exitFacing, this.armedExits);
       if (exit) {
         this.updateHint(null);
         return void this.travel(exit);

@@ -19,9 +19,10 @@ def pt(name, x, y, p=None):
 def rect(name, x, y, w, h, p): return {"id": nid(), "name": name, "x": x, "y": y, "width": w, "height": h, "properties": props(p)}
 def amb(kind, x, y, w, h, **p): return rect(kind, x, y, w, h, {"kind": kind, **{k: str(v) for k, v in p.items()}})
 SIDE = {"art": "ming", "view": "side", "script": "hant", "player": "shen", "dialogue": "bubble", "scaleFar": "0.38", "scaleNear": "0.42"}
-def tmj(w, title, bg, walk, blocked, anchors, actors, triggers, ambient=(), foreground=(), **extra):
+def tmj(w, h, title, bg, walk, blocked, anchors, actors, triggers, ambient=(), foreground=(), **extra):
     layer = lambda n, objs: {"type": "objectgroup", "name": n, "objects": objs}
-    return {"type": "map", "orientation": "orthogonal", "width": w // 12, "height": 45, "tilewidth": 12, "tileheight": 12, "infinite": False,
+    tile = 10 if (w, h) == (1260, 510) else 12
+    return {"type": "map", "orientation": "orthogonal", "width": w // tile, "height": h // tile, "tilewidth": tile, "tileheight": tile, "infinite": False,
             "version": "1.10", "tiledversion": "1.11.0",
             "properties": props({"title": title, "background": bg, **SIDE, **extra}),
             "layers": [layer("walkable", [poly(f"w{i}", p) for i, p in enumerate(walk)]),
@@ -34,22 +35,27 @@ with open(ROOT / "assets/scenes/ming_scriptorium.art.json", encoding="utf-8") as
     scene = json.load(f)
 with open(ROOT / "assets/scenes/ming_scriptorium.yaml", encoding="utf-8") as f:
     scene_spec = json.load(f)
+with open(ROOT / "assets/scenes/ming_canal_street.art.json", encoding="utf-8") as f:
+    canal_scene = json.load(f)
 pose_actor = {key: data["actor"] for key, data in scene["poses"].items()}
 linu_silhouette = [tuple(p) for p in scene_spec["poses"]["linu"]["foreground_silhouette_art"]]
+canal_feet = {key: tuple(data["feet_art"]) for key, data in canal_scene["figures"].items()}
 maps = {
-    "ming_canal_street": tmj(1260, "水鄉 · 文林閣前", "bg_canal_street",
-        [BOX(0, 450, 1260, 505), BOX(330, 400, 800, 450), BOX(800, 415, 975, 450), BOX(975, 412, 1250, 450)],
+    "ming_canal_street": tmj(1260, 510, "水鄉 · 文林閣前", "bg_canal_street",
+        [BOX(80, 402, 1180, 468)],
         [],
-        {"player_start": (240, 480), "from_scriptorium": (1100, 440)},
-        [pt("andreas", 870, 470, {"knot": "ming_andreas", "face": "left"})],
-        [rect("ming_bookshop", 50, 425, 140, 25, {"knot": "ming_bookshop", "face": "up"}),
-         rect("ming_drying_sheets", 195, 425, 135, 25, {"knot": "ming_drying_sheets", "face": "up"}),
-         rect("ming_teahouse", 350, 380, 110, 25, {"knot": "ming_teahouse", "face": "up"}),
-         rect("ming_bridge", 500, 380, 230, 25, {"knot": "ming_bridge", "face": "up"}),
-         rect("to_scriptorium", 1040, 395, 125, 35, {"exit": "ming_scriptorium:from_street"})],
-        [amb("leaves", 330, 40, 280, 300, every=1400), amb("motes", 0, 0, 1260, 380)],
-        intro="ming_intro", ground="stone", paintedTitle="true"),
-    "ming_scriptorium": tmj(960, "經藏院 · 寫經房", "bg_scriptorium",
+        {"player_start": canal_feet["shen"], "from_scriptorium": (1130, 463)},
+        [pt("andreas", *canal_feet["andreas"], {"knot": "ming_andreas", "face": "left"})],
+        [rect("ming_bookshop", 50, 345, 120, 45, {"knot": "ming_bookshop", "face": "up"}),
+         rect("ming_drying_sheets", 175, 345, 145, 45, {"knot": "ming_drying_sheets", "face": "up"}),
+         rect("ming_teahouse", 365, 340, 145, 50, {"knot": "ming_teahouse", "face": "up"}),
+         rect("ming_bridge", 570, 340, 280, 50, {"knot": "ming_bridge", "face": "up"}),
+         rect("to_scriptorium", 1110, 405, 90, 45, {"exit": "ming_scriptorium:from_street", "face": "up"})],
+        [amb("leaves", 350, 15, 170, 260, every=1400),
+         amb("leaves", 810, 20, 140, 245, every=1500),
+         amb("motes", 0, 0, 1260, 375)],
+        intro="ming_intro", ground="stone", scaleFar="0.934", scaleNear="0.934", frameInset="10"),
+    "ming_scriptorium": tmj(960, 540, "經藏院 · 寫經房", "bg_scriptorium",
         [BOX(110, 304, 140, 395), BOX(110, 323, 850, 342), BOX(110, 333, 850, 458)],
         [BOX(144, 341, 398, 458), BOX(850, 300, 960, 458)],
         {"player_start": (145, 336), "from_street": (145, 336), "debate_spot": (465, 452),

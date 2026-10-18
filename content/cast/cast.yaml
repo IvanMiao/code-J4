@@ -31,7 +31,7 @@ shen:
   art: ming
   sheet: side
   sprite: walk_shen
-  height: 295
+  height: 295.14
   hand: kai
   default: calm
   emotions: [calm, shock]
@@ -49,7 +49,7 @@ andreas:
   art: ming
   sheet: side
   sprite: walk_andreas
-  height: 300
+  height: 297.02
   hand: rough
   default: calm
   emotions: [calm]

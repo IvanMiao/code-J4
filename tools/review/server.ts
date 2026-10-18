@@ -43,6 +43,17 @@ function findFiles(dir: string, predicate: (path: string) => boolean): string[] 
 }
 
 function findManifest(map: FieldMap): { prompt?: string; sourceImageUrl?: string; comment?: string; rawUrl?: string } {
+  if (map.background === 'bg_canal_street') {
+    const scene = JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_canal_street.yaml'), 'utf8')) as {
+      pano: string; retouched: string; sourcePrompt: string;
+    };
+    return {
+      prompt: readFileSync(join(ROOT, scene.sourcePrompt), 'utf8'),
+      comment: 'Scene cut from assets/scenes/ming_canal_street.yaml. Every repair and erase is composited only inside its fixed box.',
+      sourceImageUrl: fileUrl(scene.retouched) ?? undefined,
+      rawUrl: fileUrl(scene.pano) ?? undefined,
+    };
+  }
   if (map.background === 'bg_scriptorium') {
     const scene = JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_scriptorium.yaml'), 'utf8')) as { pano: string; clean: string };
     return {
@@ -104,8 +115,9 @@ function missingGlyphs(fontPath: string, lines: string[]): string[] {
 }
 
 interface StampPoint {
-  kind: 'trigger' | 'exit' | 'extreme';
+  kind: 'trigger' | 'exit' | 'extreme' | 'actor';
   label: string;
+  actorId?: string;
   x: number;
   y: number;
   face: Facing;
@@ -208,22 +220,35 @@ function stampPoints(map: FieldMap): StampPoint[] {
     return { kind: 'exit' as const, label: `${exit.map}:${exit.anchor}`, x: point.x, y: point.y, face: stand?.face ?? 'right', valid: !!stand };
   });
   const vertices = map.walkable.flat();
+  const minX = Math.min(...vertices.map((p) => p.x));
+  const maxX = Math.max(...vertices.map((p) => p.x));
+  const minY = Math.min(...vertices.map((p) => p.y));
+  const maxY = Math.max(...vertices.map((p) => p.y));
+  const canal = map.background === 'bg_canal_street';
   const extremes: StampPoint[] = map.frameInset ? [
-    { kind: 'extreme' as const, label: 'walkable left', x: Math.min(...vertices.map((p) => p.x)) + 15, y: 350, face: 'right' as Facing, valid: true },
-    { kind: 'extreme' as const, label: 'walkable right', x: Math.max(...vertices.map((p) => p.x)) - 15, y: 350, face: 'left' as Facing, valid: true },
-    { kind: 'extreme' as const, label: 'walkable top', x: 125, y: Math.min(...vertices.map((p) => p.y)) + 11, face: 'right' as Facing, valid: true },
-    { kind: 'extreme' as const, label: 'walkable bottom', x: 500, y: Math.max(...vertices.map((p) => p.y)) - 10, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable left', x: minX + 15, y: canal ? (minY + maxY) / 2 : 350, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable right', x: maxX - 15, y: canal ? (minY + maxY) / 2 : 350, face: 'left' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable top', x: canal ? (minX + maxX) / 2 : 125, y: minY + 11, face: 'right' as Facing, valid: true },
+    { kind: 'extreme' as const, label: 'walkable bottom', x: canal ? (minX + maxX) / 2 : 500, y: maxY - 10, face: 'right' as Facing, valid: true },
   ].map((p) => ({ ...p, valid: walkableFoot(p, map.walkable, map.blocked) })) : [];
-  return [...extremes, ...triggers, ...exits];
+  const actors = canal ? map.actors.map((actor) => ({
+    kind: 'actor' as const, actorId: actor.id, label: `painted feet ${actor.id}`, x: actor.x, y: actor.y,
+    face: (actor.face ?? 'right') as Facing, valid: walkableFoot({ x: actor.x, y: actor.y }, map.walkable, map.blocked),
+  })) : [];
+  return [...extremes, ...triggers, ...exits, ...actors];
 }
 
 function cardData(asset: ReviewAsset): Record<string, unknown> {
   if (asset.kind === 'bg') {
     const map = asset.data.map as FieldMap;
     const mapId = String(asset.data.mapId);
-    const scene = mapId === 'ming_scriptorium'
-      ? JSON.parse(readFileSync(join(ROOT, 'assets/scenes/ming_scriptorium.yaml'), 'utf8')) as {
-        pose_min_changed_pixels: number;
+    const scenePath = mapId === 'ming_scriptorium'
+      ? join(ROOT, 'assets/scenes/ming_scriptorium.yaml')
+      : mapId === 'ming_canal_street' ? join(ROOT, 'assets/scenes/ming_canal_street.yaml') : null;
+    const scene = scenePath
+      ? JSON.parse(readFileSync(scenePath, 'utf8')) as {
+        pose_min_changed_pixels?: number;
+        retouched?: string;
         figures: Record<string, { figure: number[]; height_art: number; feet_art: [number, number] }>;
       }
       : null;
@@ -242,7 +267,7 @@ function cardData(asset: ReviewAsset): Record<string, unknown> {
         ? Object.entries(scene.figures).map(([id, figure]) => ({
           id, figure: figure.figure, height: figure.height_art, feet: figure.feet_art, name: cast[id]?.name, member: cast[id],
           spriteUrl: fileUrl(`public/art/${cast[id]?.art ?? map.art}/${cast[id]?.sprite}.png`),
-          sourceUrl: fileUrl('assets/raw/ming/scriptorium_pano.png'),
+          sourceUrl: fileUrl(scene.retouched ?? 'assets/raw/ming/scriptorium_pano.png'),
         }))
         : [],
     };

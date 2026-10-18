@@ -71,7 +71,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 26,
+     "id": 24,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -95,7 +95,7 @@
      ]
     },
     {
-     "id": 27,
+     "id": 25,
      "name": "w1",
      "x": 0,
      "y": 0,
@@ -119,7 +119,7 @@
      ]
     },
     {
-     "id": 28,
+     "id": 26,
      "name": "w2",
      "x": 0,
      "y": 0,
@@ -149,7 +149,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 29,
+     "id": 27,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -173,7 +173,7 @@
      ]
     },
     {
-     "id": 30,
+     "id": 28,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -203,42 +203,42 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 31,
+     "id": 29,
      "name": "player_start",
      "x": 145,
      "y": 336,
      "point": true
     },
     {
-     "id": 32,
+     "id": 30,
      "name": "from_street",
      "x": 145,
      "y": 336,
      "point": true
     },
     {
-     "id": 33,
+     "id": 31,
      "name": "debate_spot",
      "x": 465,
      "y": 452,
      "point": true
     },
     {
-     "id": 34,
+     "id": 32,
      "name": "behind_chest",
      "x": 350,
      "y": 336,
      "point": true
     },
     {
-     "id": 35,
+     "id": 33,
      "name": "left_extreme",
      "x": 145,
      "y": 336,
      "point": true
     },
     {
-     "id": 36,
+     "id": 34,
      "name": "right_extreme",
      "x": 835,
      "y": 350,
@@ -251,7 +251,7 @@
    "name": "actors",
    "objects": [
     {
-     "id": 15,
+     "id": 13,
      "name": "kuang",
      "x": 696,
      "y": 452,
@@ -270,7 +270,7 @@
      ]
     },
     {
-     "id": 16,
+     "id": 14,
      "name": "monk_left",
      "x": 306,
      "y": 245,
@@ -284,7 +284,7 @@
      ]
     },
     {
-     "id": 17,
+     "id": 15,
      "name": "monk_right",
      "x": 795,
      "y": 245,
@@ -298,7 +298,7 @@
      ]
     },
     {
-     "id": 18,
+     "id": 16,
      "name": "linu",
      "x": 274,
      "y": 367,
@@ -318,7 +318,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 19,
+     "id": 17,
      "name": "to_street",
      "x": 0,
      "y": 315,
@@ -338,7 +338,7 @@
      ]
     },
     {
-     "id": 20,
+     "id": 18,
      "name": "ming_reading_table",
      "x": 430,
      "y": 333,
@@ -358,7 +358,7 @@
      ]
     },
     {
-     "id": 21,
+     "id": 19,
      "name": "ming_monk_left",
      "x": 225,
      "y": 286,
@@ -383,7 +383,7 @@
      ]
     },
     {
-     "id": 22,
+     "id": 20,
      "name": "ming_monk_right",
      "x": 720,
      "y": 286,
@@ -408,7 +408,7 @@
      ]
     },
     {
-     "id": 23,
+     "id": 21,
      "name": "ming_sutra_chest",
      "x": 145,
      "y": 319,
@@ -428,7 +428,7 @@
      ]
     },
     {
-     "id": 24,
+     "id": 22,
      "name": "ming_linu",
      "x": 255,
      "y": 319,
@@ -459,7 +459,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 37,
+     "id": 35,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -506,7 +506,7 @@
      ]
     },
     {
-     "id": 38,
+     "id": 36,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -631,7 +631,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 25,
+     "id": 23,
      "name": "motes",
      "x": 0,
      "y": 0,
