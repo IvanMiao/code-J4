@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { facingOf, sideFacing, step, walkable } from '../src/engine/walk.ts';
+import { exitEdge, parseMap } from '../src/engine/map.ts';
+import { facingOf, sideFacing, step, walkable, walkableFoot } from '../src/engine/walk.ts';
 import { addItem, readSave, writeSave } from '../src/engine/save.ts';
 import { createBattle, outcome, playRound } from '../src/engine/battle.ts';
-import { parseMap } from '../src/engine/map.ts';
 import { readFileSync } from 'node:fs';
 
 const square = [[{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }]];
@@ -10,8 +10,13 @@ const square = [[{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y
 describe('walk', () => {
   it('stays inside the walkable area and slides along edges', () => {
     expect(walkable({ x: 50, y: 50 }, square)).toBe(true);
-    expect(step({ x: 95, y: 50 }, { x: 10, y: 10 }, square)).toEqual({ x: 95, y: 60 });
-    expect(step({ x: 99, y: 99 }, { x: 5, y: 5 }, square)).toEqual({ x: 99, y: 99 });
+    expect(step({ x: 80, y: 50 }, { x: 10, y: 10 }, square)).toEqual({ x: 80, y: 60 });
+    expect(step({ x: 85, y: 90 }, { x: 10, y: 10 }, square)).toEqual({ x: 85, y: 90 });
+  });
+  it('requires the whole footprint to fit and slides it along an edge', () => {
+    expect(walkableFoot({ x: 10, y: 50 }, square)).toBe(false);
+    expect(walkableFoot({ x: 20, y: 50 }, square)).toBe(true);
+    expect(step({ x: 80, y: 50 }, { x: 10, y: 10 }, square)).toEqual({ x: 80, y: 60 });
   });
   it('picks the dominant facing', () => {
     expect(facingOf(1, 0.2, 'down')).toBe('right');
@@ -31,7 +36,7 @@ describe('map properties', () => {
   it('defaults legacy maps to top-view campus settings', () => {
     const legacy = readFileSync(new URL('../content/maps/gate.tmj', import.meta.url), 'utf8');
     expect(parseMap(legacy)).toMatchObject({
-      art: null, view: 'top', script: 'hans', player: 'linxia', dialogue: 'box', intro: null, scaleFar: 1, scaleNear: 1,
+      art: null, view: 'top', script: 'hans', player: 'linxia', dialogue: 'box', intro: null, scaleFar: 1, scaleNear: 1, ground: 'stone',
     });
   });
 
@@ -47,11 +52,22 @@ describe('map properties', () => {
         { name: 'intro', value: 'ming_intro' },
         { name: 'scaleFar', value: '0.8' },
         { name: 'scaleNear', value: '1.25' },
+        { name: 'ground', value: 'wood' },
       ],
     };
     expect(parseMap(fixture)).toMatchObject({
-      art: 'ming', view: 'side', script: 'hant', player: 'shen', dialogue: 'bubble', intro: 'ming_intro', scaleFar: 0.8, scaleNear: 1.25,
+      art: 'ming', view: 'side', script: 'hant', player: 'shen', dialogue: 'bubble', intro: 'ming_intro', scaleFar: 0.8, scaleNear: 1.25, ground: 'wood',
     });
+  });
+});
+
+describe('map exits', () => {
+  it('detects each edge and uses the door-facing direction away from edges', () => {
+    expect(exitEdge({ x: 0, y: 30, width: 10, height: 20, face: 'down' }, 100, 100)).toBe('left');
+    expect(exitEdge({ x: 90, y: 30, width: 10, height: 20, face: 'up' }, 100, 100)).toBe('right');
+    expect(exitEdge({ x: 30, y: 0, width: 20, height: 10, face: 'down' }, 100, 100)).toBe('up');
+    expect(exitEdge({ x: 30, y: 90, width: 20, height: 10, face: 'left' }, 100, 100)).toBe('down');
+    expect(exitEdge({ x: 30, y: 30, width: 20, height: 20, face: 'right' }, 100, 100)).toBe('right');
   });
 });
 

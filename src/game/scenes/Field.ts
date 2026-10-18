@@ -8,7 +8,7 @@ import { ChoiceMenu } from '../ui/ChoiceMenu.ts';
 import { SpeechBubble } from '../ui/SpeechBubble.ts';
 import type { BattleData } from './Battle.ts';
 import { speakerResolver } from '../../engine/content.ts';
-import { inRect, type MapTrigger } from '../../engine/map.ts';
+import { exitEdge, inRect, type MapExit, type MapTrigger } from '../../engine/map.ts';
 import { addItem, readSave, writeSave, type ActorState } from '../../engine/save.ts';
 import { DIRS, type Dir } from '../../story/commands.ts';
 import type { CommandEvent, LineEvent } from '../../story/parse.ts';
@@ -16,11 +16,12 @@ import { StoryRunner, type StoryHost } from '../../story/runner.ts';
 import { facingOf, facingVec, sideFacing, step, type Vec, REACH } from '../../engine/walk.ts';
 import { UI_STRINGS } from '../ui/strings.ts';
 
-const WALK_SPEED = 190;
+const WALK_SPEED = 250;
+const RUN_SPEED = 420;
+const ACCELERATION = 2400;
 const speakerOf = speakerResolver(cast);
 
-type Target = { actor?: Actor; trigger?: MapTrigger; knot: string; at: Vec };
-
+type Target = { key: string; actor?: Actor; trigger?: MapTrigger; knot: string; at: Vec; icon: string };
 export class FieldScene extends Phaser.Scene implements StoryHost {
   runner = new StoryRunner(storyJson, speakerOf);
   inventory: Record<string, number> = {};
@@ -32,7 +33,19 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private speechBubble!: SpeechBubble;
   private choices!: ChoiceMenu;
   private keys!: Record<string, Phaser.Input.Keyboard.Key>;
-  private hint!: Phaser.GameObjects.Text;
+  private hintRoot!: Phaser.GameObjects.Container;
+  private hintBob!: Phaser.GameObjects.Container;
+  private hintBubble!: Phaser.GameObjects.Image;
+  private hintKeyFrame!: Phaser.GameObjects.Graphics;
+  private hintKeyText!: Phaser.GameObjects.Text;
+  private hintTargetKey = '';
+  private hintCurrentKey = '';
+  private hintTransition = 0;
+  private exitCue!: Phaser.GameObjects.Container;
+  private exitCueGraphics!: Phaser.GameObjects.Graphics;
+  private exitCueText!: Phaser.GameObjects.Text;
+  private exitCueKey = '';
+  private exitCueTransition = 0;
   private toastText!: Phaser.GameObjects.Text;
   private loops: Partial<Record<'bgm' | 'ambience', Phaser.Sound.BaseSound>> = {};
   private voice?: Phaser.Sound.BaseSound;
@@ -46,6 +59,10 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private ambient?: Ambient;
   private areaLabel!: Phaser.GameObjects.Text;
   private controlsLine!: Phaser.GameObjects.Text;
+  private currentSpeed = 0;
+  private wasBusy = false;
+  private lastAmbientPos: Vec | null = null;
+  private stillFor = 0;
 
   constructor() {
     super('field');
@@ -62,16 +79,32 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   create() {
     this.bg = this.add.image(0, 0, `bg:${this.mapId}`).setOrigin(0).setDepth(-1);
     this.player = this.spawn(this.map.player, { x: 0, y: 0 });
+    this.bindPlayerFootsteps(this.player);
 
     this.dialogueBox = new DialogueBox(this);
     this.speechBubble = new SpeechBubble(this, (id) => this.actors.get(id));
     this.dialogue = this.dialogueBox;
     this.choices = new ChoiceMenu(this);
-    this.hint = this.add.text(0, 0, UI_STRINGS.hans.interact, { fontFamily: FONT, fontSize: '12px', color: '#1a120a', backgroundColor: '#e6c77a', padding: { x: 4, y: 2 } })
-      .setOrigin(0.5, 1).setDepth(9_000).setVisible(false);
+    this.hintRoot = this.add.container(0, 0).setDepth(9_000).setAlpha(0).setVisible(false);
+    this.hintBob = this.add.container(0, 0);
+    this.hintBubble = this.add.image(-31, 0, 'hint:look').setOrigin(0.5, 1);
+    this.hintKeyFrame = this.add.graphics();
+    this.hintKeyFrame.fillStyle(0x1a120a).fillRect(-6, -35, 58, 26);
+    this.hintKeyFrame.fillStyle(0xf4ead2).fillRect(-5, -34, 56, 21);
+    this.hintKeyFrame.fillStyle(0xfff5dd).fillRect(-4, -33, 54, 2);
+    this.hintKeyFrame.fillStyle(0x8c6e3d).fillRect(-5, -13, 56, 3);
+    this.hintKeyText = this.add.text(23, -23, '空格', { fontFamily: FONT, fontSize: '12px', color: '#1a120a' }).setOrigin(0.5);
+    this.hintBob.add([this.hintBubble, this.hintKeyFrame, this.hintKeyText]);
+    this.hintRoot.add(this.hintBob);
+    this.exitCue = this.add.container(0, 0).setDepth(9_100).setAlpha(0).setVisible(false).setScrollFactor(0);
+    this.exitCueGraphics = this.add.graphics();
+    this.exitCueText = this.add.text(0, 0, '', {
+      fontFamily: FONT, fontSize: '12px', color: '#f4ead2', stroke: '#1a120a', strokeThickness: 3,
+    }).setOrigin(0, 0.5);
+    this.exitCue.add([this.exitCueGraphics, this.exitCueText]);
     this.toastText = this.add.text(480, 24, '', { fontFamily: FONT, fontSize: '24px', color: '#ffe7a3', backgroundColor: '#131b2fe6', padding: { x: 14, y: 8 } })
       .setOrigin(0.5, 0).setDepth(10_200).setAlpha(0).setScrollFactor(0);
-    this.controlsLine = this.add.text(10, 520, UI_STRINGS.hans.controls, { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
+    this.controlsLine = this.add.text(10, 520, UI_STRINGS[this.map.script].controls, { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
       .setDepth(9_500).setScrollFactor(0);
     this.areaLabel = this.add.text(950, 10, '', { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
       .setOrigin(1, 0).setDepth(9_500).setScrollFactor(0);
@@ -79,7 +112,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.placeMap(params.get('map') ?? START.map, START.anchor);
 
     const kb = this.input.keyboard!;
-    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT') as Record<string, Phaser.Input.Keyboard.Key>;
+    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SHIFT') as Record<string, Phaser.Input.Keyboard.Key>;
     for (const k of ['SPACE', 'ENTER', 'Z']) kb.on(`keydown-${k}`, () => this.confirm());
     kb.on('keydown-UP', () => this.choices.move(-1));
     kb.on('keydown-DOWN', () => this.choices.move(1));
@@ -92,27 +125,55 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   }
 
   update(_t: number, dt: number) {
-    this.ambient?.update(dt, this.player.pos);
+    const playerPos = this.player.pos;
+    const moved = this.lastAmbientPos ? Math.hypot(playerPos.x - this.lastAmbientPos.x, playerPos.y - this.lastAmbientPos.y) : 0;
+    const playerSpeed = dt > 0 ? moved * 1000 / dt : 0;
+    this.stillFor = moved < 0.5 ? this.stillFor + dt : 0;
+    this.lastAmbientPos = { ...playerPos };
+    const nika = this.actors.get('nika');
+    const cat = nika?.sprite.visible ? nika.pos : undefined;
+    this.ambient?.update(dt, { pos: playerPos, speed: playerSpeed, stillFor: this.stillFor }, cat);
+    this.updateExitCue();
     if (this.busy) {
-      this.hint.setVisible(false);
+      this.currentSpeed = 0;
+      if (!this.wasBusy) this.player.setMoving(false);
+      this.wasBusy = true;
+      this.updateHint(null);
       return;
     }
+    this.wasBusy = false;
     const k = this.keys;
     const dx = (k.RIGHT.isDown || k.D.isDown ? 1 : 0) - (k.LEFT.isDown || k.A.isDown ? 1 : 0);
     const dy = (k.DOWN.isDown || k.S.isDown ? 1 : 0) - (k.UP.isDown || k.W.isDown ? 1 : 0);
     if (dx || dy) {
-      const len = Math.hypot(dx, dy), d = (WALK_SPEED * dt) / 1000;
+      const targetSpeed = k.SHIFT.isDown ? RUN_SPEED : WALK_SPEED;
+      const change = (ACCELERATION * dt) / 1000;
+      this.currentSpeed = this.currentSpeed < targetSpeed
+        ? Math.min(targetSpeed, this.currentSpeed + change)
+        : Math.max(targetSpeed, this.currentSpeed - change);
+      const len = Math.hypot(dx, dy), d = (this.currentSpeed * dt) / 1000;
       this.player.face = this.map.view === 'side' ? sideFacing(dx, this.player.face) : facingOf(dx, dy, this.player.face);
       this.player.setPos(step(this.player.pos, { x: (dx / len) * d, y: (dy / len) * d }, this.map.walkable, this.map.blocked));
-      this.player.setMoving(true);
+      this.player.setMoving(true, this.currentSpeed / 190);
       const exit = this.map.exits.find((e) => inRect(this.player.pos, e));
-      if (exit) return void this.travel(exit.map, exit.anchor);
+      if (exit) {
+        this.updateHint(null);
+        return void this.travel(exit);
+      }
     } else {
+      this.currentSpeed = 0;
       this.player.setMoving(false);
     }
-    const t = this.target();
-    this.hint.setVisible(!!t && !t.trigger?.hidden);
-    if (t) this.hint.setPosition(t.at.x, t.at.y);
+    this.updateHint(this.target());
+  }
+
+  private bindPlayerFootsteps(actor: Actor) {
+    actor.sprite.on('animationupdate', (_animation: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame) => {
+      if (Number(frame.textureFrame) % 3 !== 1) {
+        const sound = Math.floor(Math.random() * 3) + 1;
+        this.sfx(`step_${this.map.ground}_${sound}`, { volume: 0.25, detune: Math.round(Math.random() * 300) - 150 });
+      }
+    });
   }
 
   // ---------- StoryHost ----------
@@ -142,13 +203,14 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       case 'ambience':
         return this.loop(c.name, a0, num(c.options.fade, 1));
       case 'sfx':
-        return this.sfx(a0);
+        this.sfx(a0);
+        return;
       case 'wait':
         return this.delay(num(a0, 0.5) * 1000);
       case 'fade':
         return this.fade(a0 === 'out', num(c.options.time, 0.6) * 1000);
       case 'scare':
-        this.ambient?.scare();
+        this.ambient?.scare(this.player.pos);
         return;
       case 'shake':
         this.cameras.main.shake(num(c.options.time, 0.3) * 1000, num(c.options.strength, 0.01));
@@ -227,6 +289,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.player.faceToward(t.actor.pos);
     }
     this.player.setMoving(false);
+    if (t.trigger?.sfx) this.sfx(t.trigger.sfx);
     this.run(t.knot);
   }
 
@@ -240,13 +303,13 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
         const knot = this.map.actors.find((m) => m.id === a.id)?.knot;
         if (a === this.player || !knot || !a.sprite.visible) continue;
         if (Math.hypot(probe.x - a.pos.x, probe.y - a.pos.y) < 60) {
-          return { actor: a, knot, at: { x: a.pos.x, y: a.pos.y - a.height - 4 } };
+          return { key: `actor:${a.id}`, actor: a, knot, at: { x: a.pos.x, y: a.pos.y - a.height - 4 }, icon: 'talk' };
         }
       }
       for (const t of this.map.triggers) {
         const faceOk = !t.face || t.face === 'up' || t.face === 'down' || t.face === this.player.face;
         if (faceOk && [p, above, probe].some((point) => inRect(point, t))) {
-          return { trigger: t, knot: t.knot, at: { x: t.x + t.width / 2, y: t.y } };
+          return { key: `trigger:${t.id}`, trigger: t, knot: t.knot, at: { x: t.x + t.width / 2, y: t.y }, icon: t.icon ?? 'look' };
         }
       }
       return null;
@@ -254,13 +317,155 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     for (const a of this.actors.values()) {
       const knot = this.map.actors.find((m) => m.id === a.id)?.knot;
       if (a === this.player || !knot || !a.sprite.visible) continue;
-      if (Math.hypot(probe.x - a.pos.x, probe.y - a.pos.y) < 50) return { actor: a, knot, at: { x: a.pos.x, y: a.pos.y - a.height - 4 } };
+      if (Math.hypot(probe.x - a.pos.x, probe.y - a.pos.y) < 50)
+        return { key: `actor:${a.id}`, actor: a, knot, at: { x: a.pos.x, y: a.pos.y - a.height - 4 }, icon: 'talk' };
     }
     for (const t of this.map.triggers) {
       const hit = t.face ? t.face === this.player.face && inRect(probe, t) : inRect(probe, t) || inRect(p, t);
-      if (hit) return { trigger: t, knot: t.knot, at: { x: t.x + t.width / 2, y: t.y } };
+      if (hit) return {
+        key: `trigger:${t.id}`, trigger: t, knot: t.knot,
+        at: { x: t.x + t.width / 2, y: Math.min(t.y - 5, p.y - this.player.height - 8) },
+        icon: t.icon ?? 'look',
+      };
     }
     return null;
+  }
+
+  private updateHint(target: Target | null) {
+    const next = this.map.view === 'top' && target && !target.trigger?.hidden ? target : null;
+    const key = next?.key ?? '';
+    if (key === this.hintTargetKey) {
+      if (next && this.hintCurrentKey === key) this.positionHint(next);
+      return;
+    }
+    this.hintTargetKey = key;
+    const transition = ++this.hintTransition;
+    this.tweens.killTweensOf(this.hintRoot);
+    this.tweens.killTweensOf(this.hintBob);
+    const show = () => {
+      if (transition !== this.hintTransition) return;
+      if (!next) {
+        this.hintRoot.setVisible(false);
+        this.hintCurrentKey = '';
+        return;
+      }
+      this.hintCurrentKey = key;
+      this.hintBubble.setTexture(`hint:${next.icon}`);
+      this.positionHint(next);
+      this.hintBob.setY(-2);
+      this.hintRoot.setVisible(true).setAlpha(1).setScale(0);
+      this.tweens.add({ targets: this.hintRoot, scale: 1, duration: 140, ease: 'Back.Out' });
+      this.tweens.add({
+        targets: this.hintBob, y: 2, duration: 500, yoyo: true, repeat: -1, ease: 'Sine.InOut',
+        onUpdate: () => this.hintBob.setY(Math.round(this.hintBob.y)),
+      });
+    };
+    if (this.hintCurrentKey) {
+      this.tweens.add({
+        targets: this.hintRoot, alpha: 0, duration: 80,
+        onComplete: () => {
+          this.hintRoot.setVisible(false);
+          this.hintCurrentKey = '';
+          show();
+        },
+      });
+    } else {
+      show();
+    }
+  }
+
+  private positionHint(target: Target) {
+    this.hintRoot.setPosition(Math.round(target.at.x), Math.round(target.at.y));
+  }
+
+  private updateExitCue() {
+    const p = this.player.pos;
+    let nearest: { exit: MapExit; distance: number } | null = null;
+    for (const exit of this.map.exits) {
+      const dx = Math.max(exit.x - p.x, 0, p.x - (exit.x + exit.width));
+      const dy = Math.max(exit.y - p.y, 0, p.y - (exit.y + exit.height));
+      const distance = Math.hypot(dx, dy);
+      if (!nearest || distance < nearest.distance) nearest = { exit, distance };
+    }
+    if (!nearest || nearest.distance > 180) {
+      if (!this.exitCueKey) return;
+      this.exitCueKey = '';
+      const transition = ++this.exitCueTransition;
+      this.tweens.killTweensOf(this.exitCue);
+      this.tweens.add({
+        targets: this.exitCue, alpha: 0, duration: 120,
+        onComplete: () => {
+          if (transition === this.exitCueTransition) this.exitCue.setVisible(false);
+        },
+      });
+      return;
+    }
+
+    const exit = nearest.exit;
+    const edge = exitEdge(exit, this.map.width, this.map.height);
+    const title = (maps[exit.map]?.title ?? exit.map).split('·').pop()?.trim() ?? exit.map;
+    const isMapEdge = exit.x <= 0 || exit.x + exit.width >= this.map.width || exit.y <= 0 || exit.y + exit.height >= this.map.height;
+    const key = `${exit.id}:${edge}:${title}:${isMapEdge ? 'edge' : 'door'}`;
+    const camera = this.cameras.main;
+    const viewWidth = this.scale.width;
+    const viewHeight = this.scale.height;
+    const screenX = Math.round((exit.x + exit.width / 2 - camera.scrollX) * camera.zoom + camera.x);
+    const screenY = Math.round(Math.max(24, Math.min(viewHeight - 24,
+      (exit.y + exit.height / 2 - camera.scrollY) * camera.zoom + camera.y)));
+    this.exitCueText.setText(title);
+    const labelOnLeft = screenX + this.exitCueText.width + 28 > viewWidth;
+    if (isMapEdge && (edge === 'left' || edge === 'right')) {
+      this.exitCue.setPosition(0, screenY);
+    } else if (isMapEdge) {
+      this.exitCue.setPosition(Math.max(100, Math.min(viewWidth - 100, screenX)), edge === 'up' ? 24 : viewHeight - 24);
+    } else {
+      this.exitCue.setPosition(Math.max(40, Math.min(viewWidth - 40, screenX)),
+        Math.max(24, Math.min(viewHeight - 24, (exit.y - camera.scrollY) * camera.zoom + camera.y - 12)));
+    }
+    if (key === this.exitCueKey) return;
+
+    this.exitCueKey = key;
+    this.exitCueTransition++;
+    this.tweens.killTweensOf(this.exitCue);
+    this.exitCue.setAlpha(0).setVisible(true);
+    this.exitCueGraphics.clear();
+    if (isMapEdge && edge === 'left') {
+      this.exitCueGraphics.fillStyle(0x1a120a).fillRect(0, -7, 24, 14);
+      this.exitCueGraphics.fillStyle(0xe6c77a)
+        .fillRect(1, -4, 6, 8).fillRect(6, -2, 16, 4);
+      this.exitCueText.setOrigin(0, 0.5).setPosition(30, 0);
+    } else if (isMapEdge && edge === 'right') {
+      this.exitCueGraphics.fillStyle(0x1a120a).fillRect(viewWidth - 24, -7, 24, 14);
+      this.exitCueGraphics.fillStyle(0xe6c77a)
+        .fillRect(viewWidth - 22, -2, 16, 4).fillRect(viewWidth - 7, -4, 6, 8);
+      this.exitCueText.setOrigin(1, 0.5).setPosition(viewWidth - 30, 0);
+    } else {
+      const x = isMapEdge ? 0 : -20;
+      const textX = labelOnLeft ? -18 : 18;
+      this.exitCueText.setOrigin(labelOnLeft ? 1 : 0, 0.5).setPosition(textX, 0);
+      if (edge === 'up') {
+        this.exitCueGraphics.fillStyle(0x1a120a)
+          .fillRect(x - 10, -10, 20, 4).fillRect(x - 6, -6, 12, 4).fillRect(x - 2, -2, 4, 14);
+        this.exitCueGraphics.fillStyle(0xe6c77a)
+          .fillRect(x - 7, -8, 14, 2).fillRect(x - 4, -6, 8, 3).fillRect(x - 1, -3, 2, 13);
+      } else if (edge === 'down') {
+        this.exitCueGraphics.fillStyle(0x1a120a)
+          .fillRect(x - 2, -8, 4, 14).fillRect(x - 6, 6, 12, 4).fillRect(x - 10, 10, 20, 4);
+        this.exitCueGraphics.fillStyle(0xe6c77a)
+          .fillRect(x - 1, -7, 2, 13).fillRect(x - 4, 6, 8, 3).fillRect(x - 7, 9, 14, 2);
+      } else if (edge === 'left') {
+        this.exitCueGraphics.fillStyle(0x1a120a)
+          .fillRect(x - 10, -2, 4, 4).fillRect(x - 6, -6, 4, 12).fillRect(x - 2, -10, 14, 20);
+        this.exitCueGraphics.fillStyle(0xe6c77a)
+          .fillRect(x - 8, -1, 3, 2).fillRect(x - 5, -4, 3, 8).fillRect(x - 2, -7, 12, 14);
+      } else {
+        this.exitCueGraphics.fillStyle(0x1a120a)
+          .fillRect(x - 4, -10, 14, 20).fillRect(x, -6, 4, 12).fillRect(x + 4, -2, 4, 4);
+        this.exitCueGraphics.fillStyle(0xe6c77a)
+          .fillRect(x - 2, -7, 12, 14).fillRect(x + 1, -4, 2, 8).fillRect(x + 3, -1, 3, 2);
+      }
+    }
+    this.tweens.add({ targets: this.exitCue, alpha: 1, duration: 160 });
   }
 
   private async systemMenu() {
@@ -276,11 +481,13 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   }
 
   /** Walk-off exit: fade, swap map, fade back. */
-  private async travel(map: string, anchor: string) {
+  private async travel(destination: MapExit | string, anchor?: string) {
+    if (typeof destination !== 'string' && destination.sfx) this.sfx(destination.sfx);
     this.changing = true;
     this.player.setMoving(false);
     await this.fade(true, 250);
-    this.placeMap(map, anchor);
+    this.placeMap(typeof destination === 'string' ? destination : destination.map,
+      typeof destination === 'string' ? anchor ?? null : destination.anchor);
     await this.fade(false, 250);
     this.changing = false;
     this.toast(this.map.title);
@@ -323,12 +530,13 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.player.sprite.destroy();
       this.actors.delete(this.player.id);
       this.player = this.spawn(m.player, m.anchors[anchor ?? ''] ?? Object.values(m.anchors)[0] ?? { x: 0, y: 0 });
+      this.bindPlayerFootsteps(this.player);
     }
     this.bg.setTexture(`bg:${this.mapId}`).setDisplaySize(m.width, m.height);
     for (const f of this.fg) f.destroy();
     this.fg = m.foreground.map((f, i) => this.cutout(`fg:${this.mapId}:${i}`, f.polygon, f.baseline));
     this.ambient?.destroy();
-    this.ambient = new Ambient(this, `bg:${this.mapId}`, m.width, m.ambient, (v) => !!this.runner.variables()[v], (id) => void this.sfx(id));
+    this.ambient = new Ambient(this, `bg:${this.mapId}`, m.width, m.height, m.ambient, (v) => !!this.runner.variables()[v], (id, options) => this.sfx(id, options));
     for (const a of m.actors) {
       const saved = this.mapState[this.mapId]?.[a.id];
       const actor = this.spawn(a.id, saved ?? a);
@@ -336,6 +544,9 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       if (saved) actor.sprite.setVisible(saved.visible);
     }
     if (anchor !== null) this.player.setPos(m.anchors[anchor] ?? Object.values(m.anchors)[0]);
+    this.lastAmbientPos = { ...this.player.pos };
+    this.stillFor = 0;
+    this.currentSpeed = 0;
     const cam = this.cameras.main;
     cam.setBounds(0, 0, m.width, m.height);
     cam.startFollow(this.player.sprite, true, 0.15, 0.15);
@@ -349,19 +560,16 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.dialogue = m.dialogue === 'bubble' ? this.speechBubble : this.dialogueBox;
     this.choices.setTheme(m.dialogue === 'bubble' ? 'paper' : 'pixel');
     this.setPaperTheme(m.dialogue === 'bubble');
-    if (m.bgm) this.loop('bgm', m.bgm, 1);
-    if (m.ambience) this.loop('ambience', m.ambience, 1);
+    this.updateHint(null);
+    if (m.bgm) this.loop('bgm', m.bgm, 1.5);
+    if (m.ambience) this.loop('ambience', m.ambience, 1.5);
     this.areaLabel.setText(m.title);
   }
 
   private setPaperTheme(paper: boolean) {
     const text = UI_STRINGS[this.map.script];
-    this.hint.setText(text.interact);
     this.controlsLine.setText(text.controls);
     const uiFont = paper ? HANDS.song.family : FONT;
-    this.hint.setStyle(paper
-      ? { fontFamily: uiFont, fontSize: '18px', color: '#22170d', backgroundColor: '#efe3c4' }
-      : { fontFamily: FONT, fontSize: '12px', color: '#1a120a', backgroundColor: '#e6c77a' });
     this.toastText.setStyle(paper
       ? { fontFamily: uiFont, fontSize: '22px', color: '#22170d', backgroundColor: '#efe3c4f2' }
       : { fontFamily: FONT, fontSize: '24px', color: '#ffe7a3', backgroundColor: '#131b2fe6' });
@@ -431,8 +639,10 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     });
   }
 
-  private sfx(id: string | undefined) {
-    if (id && this.cache.audio.exists(`sfx:${id}`)) this.sound.play(`sfx:${id}`, { volume: 0.7 });
+  private sfx(id: string | undefined, options: { volume?: number; detune?: number } = {}) {
+    if (!id || !this.cache.audio.exists(`sfx:${id}`)) return false;
+    this.sound.play(`sfx:${id}`, { volume: options.volume ?? 0.7, detune: options.detune });
+    return true;
   }
 
   private loop(kind: 'bgm' | 'ambience', id: string, fade: number) {

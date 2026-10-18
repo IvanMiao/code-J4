@@ -61,7 +61,6 @@ VAR nika_paw_told = false
 -> END
 
 === kiosk ===
-@sfx door_chime
 { has_snack: -> sleepy }
 收银台旁边摆着一排小鱼干，五块钱一包。 #line:kiosk_1
 * [买一包]
@@ -264,7 +263,6 @@ VAR nika_paw_told = false
 -> END
 
 === boiler_door ===
-@sfx door_chime
 旧锅炉房的铁门半掩着，门后传出烧废底片的焦糊味。 #line:boiler_1
 里面有个沙哑的声音喊道：“找老焦？等我把这炉旧胶卷烧完！” #line:boiler_2
 林夏: 烧胶卷的烟尘飘在院子里，连空气里的像素网格都变模糊了。 #calm #line:boiler_3
@@ -389,6 +387,35 @@ VAR nika_paw_told = false
 林夏: 歇会儿再往东走，前面就是市郊的未渲染区了。 #smile #line:pbench_2
 -> END
 
+// ---------- 老城区 · 筒子楼后巷 (city_backalley) ----------
+
+=== backalley_sink ===
+公用水池的水龙头滴答滴答，池边搁着三只搪瓷脸盆，盆底各写着一个门牌号。 #line:balley_sink_1
+林夏: 三〇二、三〇四、三〇六……单单少了三〇五。 #calm #line:balley_sink_2
+-> END
+
+=== backalley_batteries ===
+修车铺的后门口码着一摞拆下来的电瓶，最上面那块用粉笔写着“限速器已拆”。 #line:balley_bat_1
+林夏: 老季的后门，比前门还忙。 #smile #line:balley_bat_2
+-> END
+
+=== backalley_stairs ===
+铁皮楼梯贴着墙爬上二楼，楼梯口挂着块木牌：“住户自行车请勿上楼”。 #line:balley_stairs_1
+林夏: 楼上住的是谁，改天再来敲门。 #calm #line:balley_stairs_2
+-> END
+
+// ---------- 江城大学 · 校园超市 (avenue_kiosk) ----------
+
+=== kiosk_freezer ===
+冰柜的玻璃门上结了一层薄霜，里面冻着橘子汽水和绿豆雪糕。 #line:kfreezer_1
+林夏: 绿豆雪糕两块五，比我上学那会儿只涨了五毛。 #smile #line:kfreezer_2
+-> END
+
+=== kiosk_shelf ===
+货架上的方便面按口味排得整整齐齐，只有红烧牛肉那一格是空的。 #line:kshelf_1
+林夏: 看来全校的夜宵口味都一样。 #smile #line:kshelf_2
+-> END
+
 
 // ---------- 市郊 · 烂尾线稿别墅区 (suburb_wireframe) ----------
 
@@ -439,6 +466,5 @@ VAR nika_paw_told = false
 水泥防波堤在这里彻底断开，白纸一样的撕裂边缘外是刺眼的纯绿虚空。 #line:bvoid_1
 林夏: 江城测绘志的最后一站……原来世界的边界真的只是一张没画完的画布。 #calm #line:bvoid_2
 -> END
-
 
 

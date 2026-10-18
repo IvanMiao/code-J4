@@ -20,14 +20,19 @@
    "value": "bg_city_tenement"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
-   "value": "campus_afternoon"
+   "value": "old_town"
   },
   {
    "name": "ambience",
    "type": "string",
-   "value": "campus_day"
+   "value": "tenement_alley"
   }
  ],
  "layers": [
@@ -36,18 +41,18 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 200,
+     "id": 199,
      "name": "w0",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 0,
-       "y": 450
+       "y": 600
       },
       {
        "x": 1920,
-       "y": 450
+       "y": 600
       },
       {
        "x": 1920,
@@ -60,50 +65,26 @@
      ]
     },
     {
-     "id": 201,
+     "id": 200,
      "name": "w1",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 820,
-       "y": 40
+       "y": 0
       },
       {
        "x": 1120,
-       "y": 40
+       "y": 0
       },
       {
        "x": 1120,
-       "y": 450
+       "y": 600
       },
       {
        "x": 820,
-       "y": 450
-      }
-     ]
-    },
-    {
-     "id": 202,
-     "name": "w2",
-     "x": 0,
-     "y": 0,
-     "polygon": [
-      {
-       "x": 1220,
-       "y": 380
-      },
-      {
-       "x": 1680,
-       "y": 380
-      },
-      {
-       "x": 1680,
-       "y": 450
-      },
-      {
-       "x": 1220,
-       "y": 450
+       "y": 600
       }
      ]
     }
@@ -114,7 +95,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 203,
+     "id": 201,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -138,7 +119,7 @@
      ]
     },
     {
-     "id": 204,
+     "id": 202,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -162,7 +143,7 @@
      ]
     },
     {
-     "id": 205,
+     "id": 203,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -186,7 +167,7 @@
      ]
     },
     {
-     "id": 206,
+     "id": 204,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -210,7 +191,7 @@
      ]
     },
     {
-     "id": 207,
+     "id": 205,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -234,7 +215,7 @@
      ]
     },
     {
-     "id": 208,
+     "id": 206,
      "name": "b5",
      "x": 0,
      "y": 0,
@@ -258,7 +239,7 @@
      ]
     },
     {
-     "id": 209,
+     "id": 207,
      "name": "b6",
      "x": 0,
      "y": 0,
@@ -282,7 +263,7 @@
      ]
     },
     {
-     "id": 210,
+     "id": 208,
      "name": "b7",
      "x": 0,
      "y": 0,
@@ -306,7 +287,7 @@
      ]
     },
     {
-     "id": 211,
+     "id": 209,
      "name": "b8",
      "x": 0,
      "y": 0,
@@ -336,21 +317,21 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 212,
+     "id": 210,
      "name": "from_overpass",
      "x": 120,
      "y": 640,
      "point": true
     },
     {
-     "id": 213,
+     "id": 211,
      "name": "from_ferry",
      "x": 1820,
      "y": 640,
      "point": true
     },
     {
-     "id": 214,
+     "id": 212,
      "name": "alley_north",
      "x": 980,
      "y": 140,
@@ -368,7 +349,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 191,
+     "id": 189,
      "name": "to_overpass",
      "x": 0,
      "y": 480,
@@ -383,7 +364,7 @@
      ]
     },
     {
-     "id": 192,
+     "id": 190,
      "name": "to_ferry",
      "x": 1895,
      "y": 480,
@@ -398,12 +379,12 @@
      ]
     },
     {
-     "id": 193,
+     "id": 191,
      "name": "newsstand_stall",
      "x": 460,
-     "y": 495,
+     "y": 570,
      "width": 320,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -414,16 +395,41 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 194,
+     "id": 192,
+     "name": "to_backalley",
+     "x": 900,
+     "y": 0,
+     "width": 180,
+     "height": 25,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "city_backalley:from_tenement"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 193,
      "name": "tenement_alley",
      "x": 900,
-     "y": 40,
+     "y": 55,
      "width": 180,
-     "height": 45,
+     "height": 35,
      "properties": [
       {
        "name": "knot",
@@ -434,16 +440,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 195,
+     "id": 194,
      "name": "grocery_shop",
      "x": 1240,
-     "y": 430,
+     "y": 570,
      "width": 240,
-     "height": 50,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -454,11 +465,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 196,
+     "id": 195,
      "name": "chess_table",
      "x": 830,
      "y": 820,
@@ -474,6 +490,11 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -484,7 +505,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 215,
+     "id": 213,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -531,7 +552,7 @@
      ]
     },
     {
-     "id": 216,
+     "id": 214,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -584,7 +605,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 197,
+     "id": 196,
      "name": "leaves",
      "x": 40,
      "y": 520,
@@ -604,7 +625,7 @@
      ]
     },
     {
-     "id": 198,
+     "id": 197,
      "name": "birds",
      "x": 200,
      "y": 520,
@@ -620,11 +641,16 @@
        "name": "n",
        "type": "string",
        "value": "3"
+      },
+      {
+       "name": "species",
+       "type": "string",
+       "value": "pigeon"
       }
      ]
     },
     {
-     "id": 199,
+     "id": 198,
      "name": "motes",
      "x": 820,
      "y": 40,

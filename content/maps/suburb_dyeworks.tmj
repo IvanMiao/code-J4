@@ -20,14 +20,19 @@
    "value": "bg_suburb_dyeworks"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
-   "value": "campus_afternoon"
+   "value": "outskirts"
   },
   {
    "name": "ambience",
    "type": "string",
-   "value": "campus_day"
+   "value": "dyeworks_yard"
   }
  ],
  "layers": [
@@ -36,7 +41,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 281,
+     "id": 309,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -60,79 +65,79 @@
      ]
     },
     {
-     "id": 282,
+     "id": 310,
      "name": "w1",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 30,
-       "y": 350
+       "y": 400
       },
       {
        "x": 420,
-       "y": 350
+       "y": 400
       },
       {
        "x": 420,
-       "y": 450
+       "y": 430
       },
       {
        "x": 30,
-       "y": 450
+       "y": 430
       }
      ]
     },
     {
-     "id": 283,
+     "id": 311,
      "name": "w2",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 460,
-       "y": 350
+       "y": 385
       },
       {
        "x": 960,
-       "y": 350
+       "y": 385
       },
       {
        "x": 960,
-       "y": 450
+       "y": 430
       },
       {
        "x": 460,
-       "y": 450
+       "y": 430
       }
      ]
     },
     {
-     "id": 284,
+     "id": 312,
      "name": "w3",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 960,
-       "y": 380
+       "y": 395
       },
       {
        "x": 1650,
-       "y": 380
+       "y": 395
       },
       {
        "x": 1650,
-       "y": 450
+       "y": 430
       },
       {
        "x": 960,
-       "y": 450
+       "y": 430
       }
      ]
     },
     {
-     "id": 285,
+     "id": 313,
      "name": "w4",
      "x": 0,
      "y": 0,
@@ -162,7 +167,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 286,
+     "id": 314,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -186,7 +191,7 @@
      ]
     },
     {
-     "id": 287,
+     "id": 315,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -210,7 +215,7 @@
      ]
     },
     {
-     "id": 288,
+     "id": 316,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -234,7 +239,7 @@
      ]
     },
     {
-     "id": 289,
+     "id": 317,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -258,7 +263,7 @@
      ]
     },
     {
-     "id": 290,
+     "id": 318,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -282,7 +287,7 @@
      ]
     },
     {
-     "id": 291,
+     "id": 319,
      "name": "b5",
      "x": 0,
      "y": 0,
@@ -306,7 +311,7 @@
      ]
     },
     {
-     "id": 292,
+     "id": 320,
      "name": "b6",
      "x": 0,
      "y": 0,
@@ -330,7 +335,7 @@
      ]
     },
     {
-     "id": 293,
+     "id": 321,
      "name": "b7",
      "x": 0,
      "y": 0,
@@ -360,35 +365,35 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 294,
+     "id": 322,
      "name": "from_wireframe",
      "x": 120,
      "y": 560,
      "point": true
     },
     {
-     "id": 295,
+     "id": 323,
      "name": "from_breakwater",
      "x": 1560,
      "y": 560,
      "point": true
     },
     {
-     "id": 296,
+     "id": 324,
      "name": "factory_front",
      "x": 690,
      "y": 420,
      "point": true
     },
     {
-     "id": 297,
+     "id": 325,
      "name": "lagoon_front",
      "x": 1320,
-     "y": 430,
+     "y": 425,
      "point": true
     },
     {
-     "id": 298,
+     "id": 326,
      "name": "wireframe_front",
      "x": 1150,
      "y": 1000,
@@ -406,7 +411,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 270,
+     "id": 297,
      "name": "to_wireframe",
      "x": 0,
      "y": 450,
@@ -421,7 +426,7 @@
      ]
     },
     {
-     "id": 271,
+     "id": 298,
      "name": "to_breakwater",
      "x": 1620,
      "y": 450,
@@ -436,12 +441,12 @@
      ]
     },
     {
-     "id": 272,
+     "id": 299,
      "name": "pipe_valve",
      "x": 50,
-     "y": 380,
+     "y": 370,
      "width": 240,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -452,16 +457,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "use"
       }
      ]
     },
     {
-     "id": 273,
+     "id": 300,
      "name": "factory_gate",
      "x": 550,
-     "y": 365,
+     "y": 355,
      "width": 290,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -472,16 +482,26 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
+      },
+      {
+       "name": "sfx",
+       "type": "string",
+       "value": "door_metal"
       }
      ]
     },
     {
-     "id": 274,
+     "id": 301,
      "name": "dye_lagoon",
      "x": 1080,
-     "y": 380,
+     "y": 365,
      "width": 500,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -492,11 +512,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 275,
+     "id": 302,
      "name": "chroma_edge",
      "x": 1560,
      "y": 380,
@@ -512,11 +537,16 @@
        "name": "face",
        "type": "string",
        "value": "right"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 276,
+     "id": 303,
      "name": "wireframe_pavilion",
      "x": 940,
      "y": 940,
@@ -532,6 +562,11 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -542,7 +577,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 299,
+     "id": 327,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -589,7 +624,7 @@
      ]
     },
     {
-     "id": 300,
+     "id": 328,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -642,7 +677,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 277,
+     "id": 304,
      "name": "grass",
      "x": 400,
      "y": 720,
@@ -657,7 +692,7 @@
      ]
     },
     {
-     "id": 278,
+     "id": 305,
      "name": "leaves",
      "x": 0,
      "y": 580,
@@ -677,7 +712,32 @@
      ]
     },
     {
-     "id": 279,
+     "id": 306,
+     "name": "birds",
+     "x": 500,
+     "y": 450,
+     "width": 500,
+     "height": 180,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "birds"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "2"
+      },
+      {
+       "name": "species",
+       "type": "string",
+       "value": "crow"
+      }
+     ]
+    },
+    {
+     "id": 307,
      "name": "motes",
      "x": 1060,
      "y": 110,
@@ -692,7 +752,7 @@
      ]
     },
     {
-     "id": 280,
+     "id": 308,
      "name": "butterflies",
      "x": 400,
      "y": 720,

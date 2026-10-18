@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { birdReaction, SPARROW_PARAMS, type SpeciesParams } from '../engine/birds.ts';
 import type { MapAmbient } from '../engine/map.ts';
 import type { Vec } from '../engine/walk.ts';
 
@@ -6,6 +7,9 @@ import type { Vec } from '../engine/walk.ts';
 const PX = 2;
 
 const SPARROW = { c: '#8a4a26', w: '#f2eee2', k: '#1e1a18', g: '#6b625a', b: '#a07448', B: '#4a3424', p: '#d3c8b6', t: '#5e4632', l: '#7a5a40' };
+const PIGEON = { h: '#b7c2ca', g: '#d7dde0', k: '#202428', G: '#4f927b', P: '#795e91', b: '#8494a1', d: '#505e6b', t: '#3c4650', c: '#ece1c4', o: '#626b72', l: '#b6877f' };
+const GULL = { w: '#f7f5ed', g: '#b4bec4', k: '#292e33', y: '#e6bf53', c: '#b39a61', p: '#c17d72' };
+const CROW = { k: '#202632', b: '#526780', g: '#82909d', p: '#c0c4c6' };
 
 /** Tiny pixel textures; `#` = white (tinted at runtime), other letters map to fixed colours. Birds face left. */
 const SPRITES: Record<string, { rows: string[]; colors?: Record<string, string> }> = {
@@ -20,11 +24,39 @@ const SPRITES: Record<string, { rows: string[]; colors?: Record<string, string> 
   sparrow_peck: { rows: ['..........', '.....bB...', '..cccbbBbt', '.ccccwbBtt', 'gkcwkppb..', '.kkwpppp..', '...l..l...'], colors: SPARROW },
   sparrow_up: { rows: ['....Bb....', '..ccbBb...', '.cccbbBbtt', 'gkwwpbbt..', '.kpppp....'], colors: SPARROW },
   sparrow_down: { rows: ['..cc......', '.ccccbbBtt', 'gkwwpbBt..', '.kppbBb...', '....Bb....'], colors: SPARROW },
+  pigeon: { rows: ['...hhh......', '..hhhhh.....', 'ockhhh......', '.hhGPGgbbbtt', '.gggwwbdbdtt', '..ggwwbdbdtt', '...lll......', '............'], colors: PIGEON },
+  pigeon_peck: { rows: ['............', '.....hhh....', '....hhhhh...', '...ggwwbbttt', '..ggwwbdbdtt', 'ockhGPGg....', '...lll......', '............'], colors: PIGEON },
+  pigeon_up: { rows: ['k..bb....b.k', '.kbbbb..bbk.', '..bbbbbbbb..', '...GwwwwG...', '..ockhhhbbtt', '....ggbbbbtt', '....lll.....', '............'], colors: PIGEON },
+  pigeon_down: { rows: ['..k......k..', '.kgg....ggk.', 'kgggg..ggggk', '.gggggggggg.', '..ockhhhbbtt', '....ggbbbbtt', '....lll.....', '............'], colors: PIGEON },
+  gull: { rows: ['....ww......', '...wwww.....', 'yckwwwgggkk.', '..wwwwwgggkk', '...wwwwgggk.', '....wwggg...', '....p..p....', '............'], colors: GULL },
+  gull_peck: { rows: ['............', '.....ww.....', '....wwww....', '...wwwwwggkk', '..wwwwgggkk.', '.yckwwggggk.', '...wwgg.....', '....p..p....'], colors: GULL },
+  gull_up: { rows: ['k..g....g..k', 'kgggg..ggggk', '.gggggggggg.', '...gwwwwg...', '..ykwgg.....', '....ww......', '....p..p....', '............'], colors: GULL },
+  gull_down: { rows: ['..k......k..', '.kgg....ggk.', 'kgggg..ggggk', '.gggggggggg.', '..ykwgg.....', '....ww......', '....p..p....', '............'], colors: GULL },
+  crow: { rows: ['..kkk.....', '.kkkkk....', 'kkbkbb....', '.kkkbbg...', '..kbbbkk...', '...kkkk....', '...k..k....'], colors: CROW },
+  crow_peck: { rows: ['..........', '.....b....', '..kkkbb....', '.kkbkbbg...', 'kkkbbg.....', '.kkkkk.....', '...k..k....'], colors: CROW },
+  crow_up: { rows: ['....bb....', '..kkbkk...', '.kkbkbb....', 'kkkbbgk....', '.kkkbb.....'], colors: CROW },
+  crow_down: { rows: ['..kkk.....', '.kkbkbb....', 'kkkbbgk....', '.kkkkk.....', '....bb.....'], colors: CROW },
   wing: { rows: ['##.##', '##b##', '.#.#.'], colors: { b: '#3a2a20' } },
 };
 
 type Sway = { obj: Phaser.GameObjects.Image; phase: number; amp: number };
-type Bird = { img: Phaser.GameObjects.Image; shadow: Phaser.GameObjects.Image; area: MapAmbient; state: 'ground' | 'away'; next: number };
+type BirdSpecies = 'sparrow' | 'pigeon' | 'gull' | 'crow';
+type Flock = { area: MapAmbient; center: Vec; species: BirdSpecies; params: SpeciesParams; birds: Bird[]; lastFlush: number; chirpIn: number };
+type Bird = {
+  img: Phaser.GameObjects.Image; shadow: Phaser.GameObjects.Image; flock: Flock;
+  species: BirdSpecies; bold: boolean; state: 'ground' | 'hopping' | 'flush_pending' | 'away';
+  next: number; alertFor: number; alerted: boolean; pecking: boolean;
+  hopsLeft: number; hopVector: Vec; phase: number; mode: 'escape' | 'curious' | null;
+};
+const BIRD_CONFIG: Record<BirdSpecies, {
+  params: SpeciesParams; scale: number; flightDistance: [number, number]; flightMs: [number, number];
+  relandMs: [number, number]; slow: boolean; walker: boolean; sideHop: boolean; glider: boolean;
+}> = {
+  sparrow: { params: SPARROW_PARAMS, scale: 1.5, flightDistance: [380, 480], flightMs: [1100, 1300], relandMs: [7000, 12000], slow: false, walker: false, sideHop: false, glider: false },
+  pigeon: { params: { catRadius: 150, runRadius: 150, panicRadius: 55, walkRadius: 80 }, scale: 1.8, flightDistance: [170, 260], flightMs: [850, 1100], relandMs: [3500, 6500], slow: false, walker: true, sideHop: false, glider: false },
+  gull: { params: { catRadius: 150, runRadius: 190, panicRadius: 55, walkRadius: 90 }, scale: 2, flightDistance: [340, 440], flightMs: [1300, 1700], relandMs: [6000, 9500], slow: true, walker: false, sideHop: false, glider: true },
+  crow: { params: { catRadius: 150, runRadius: 230, panicRadius: 55, walkRadius: 140 }, scale: 1.8, flightDistance: [420, 560], flightMs: [1250, 1650], relandMs: [6500, 10000], slow: false, walker: false, sideHop: true, glider: false },
+};
 type Fly = { img: Phaser.GameObjects.Image; area: MapAmbient; target: Vec; phase: number };
 type Ring = { x: number; y: number; r0: number; r1: number; aspect: number; t: number; dur: number; alpha: number };
 type Pool = { g: Phaser.GameObjects.Graphics; color: number; rings: Ring[] };
@@ -39,24 +71,27 @@ export class Ambient {
   private timers: Phaser.Time.TimerEvent[] = [];
   private sway: Sway[] = [];
   private birds: Bird[] = [];
+  private flocks: Flock[] = [];
   private flies: Fly[] = [];
   private pools: Pool[] = [];
   private t = 0;
-  private lastFlush = -10;
   private pixels: ImageData;
-  private k: number;
+  private kx: number;
+  private ky: number;
 
   constructor(
     private scene: Phaser.Scene,
     bgKey: string,
     mapWidth: number,
+    mapHeight: number,
     specs: MapAmbient[],
     private flag: (name: string) => boolean = () => false,
-    private sound: (id: string) => void = () => undefined,
+    private sound: (id: string, options?: { volume?: number; detune?: number }) => boolean = () => false,
   ) {
     Ambient.ensureTextures(scene);
     const src = scene.textures.get(bgKey).getSourceImage() as HTMLImageElement;
-    this.k = src.width / mapWidth;
+    this.kx = src.width / mapWidth;
+    this.ky = src.height / mapHeight;
     const c = document.createElement('canvas');
     c.width = src.width;
     c.height = src.height;
@@ -81,8 +116,8 @@ export class Ambient {
   }
 
   private color(x: number, y: number): [number, number, number] {
-    const px = Math.min(this.pixels.width - 1, Math.max(0, Math.round(x * this.k)));
-    const py = Math.min(this.pixels.height - 1, Math.max(0, Math.round(y * this.k)));
+    const px = Math.min(this.pixels.width - 1, Math.max(0, Math.round(x * this.kx)));
+    const py = Math.min(this.pixels.height - 1, Math.max(0, Math.round(y * this.ky)));
     const i = (py * this.pixels.width + px) * 4;
     return [this.pixels.data[i], this.pixels.data[i + 1], this.pixels.data[i + 2]];
   }
@@ -147,7 +182,7 @@ export class Ambient {
    * background, then keeps rings expanding from the jet plus small rings where drops land.
    */
   private fountain(a: MapAmbient) {
-    const k = this.k, W = this.pixels.width, d = this.pixels.data;
+    const k = this.kx, W = this.pixels.width, d = this.pixels.data;
     const x0 = Math.floor(a.x * k), y0 = Math.floor(a.y * k), w = Math.ceil(a.width * k), h = Math.ceil(a.height * k);
     const water: number[] = [];
     for (let y = y0; y < y0 + h; y++)
@@ -160,7 +195,8 @@ export class Ambient {
     const median = ls[Math.floor(ls.length / 2)];
     const base = water.find((i) => Math.abs(lum(d[i], d[i + 1], d[i + 2]) - median) < 1.5) ?? water[0];
     const [br, bg, bb] = [d[base], d[base + 1], d[base + 2]];
-    const cover = this.scene.textures.createCanvas(`amb:pool:${a.x}:${a.y}`, w, h) ?? (this.scene.textures.get(`amb:pool:${a.x}:${a.y}`) as Phaser.Textures.CanvasTexture);
+    const key = `amb:pool:${a.x}:${a.y}`;
+    const cover = (this.scene.textures.exists(key) ? this.scene.textures.get(key) : this.scene.textures.createCanvas(key, w, h)) as Phaser.Textures.CanvasTexture;
     cover.context.clearRect(0, 0, w, h);
     cover.context.fillStyle = `rgb(${br},${bg},${bb})`;
     let sx = 0, sy = 0, minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -226,89 +262,276 @@ export class Ambient {
     this.timers.push(this.scene.time.addEvent({ delay: Number(a.props.every ?? 2600), startAt: rand(0, 2000), loop: true, callback: twinkle }));
   }
 
-  /** Sparrows land in a loose group, hop and peck, and flush together when someone comes close. */
   private flock(area: MapAmbient, n: number) {
-    const c = this.spot(area);
+    const requested = area.props.species as BirdSpecies | undefined;
+    const species = requested && requested in BIRD_CONFIG ? requested : 'sparrow';
+    const config = BIRD_CONFIG[species];
+    const center = this.spot(area);
+    const flock: Flock = { area, species, params: config.params, birds: [], center, lastFlush: -Infinity, chirpIn: rand(3000, 9000) };
+    this.flocks.push(flock);
     for (let i = 0; i < n; i++) {
-      const x = Phaser.Math.Clamp(c.x + rand(-60, 60), area.x, area.x + area.width);
-      const y = Phaser.Math.Clamp(c.y + rand(-24, 24), area.y, area.y + area.height);
-      const shadow = this.keep(this.scene.add.image(x, y, 'amb:shadow').setOrigin(0.5, 0.5).setScale(1.5).setAlpha(0.22).setDepth(y - 1));
-      const img = this.keep(this.scene.add.image(x, y, 'amb:sparrow').setOrigin(0.5, 1).setScale(1.5).setDepth(y).setFlipX(Math.random() < 0.5));
-      this.birds.push({ img, shadow, area, state: 'ground', next: rand(300, 1500) });
+      const x = Phaser.Math.Clamp(center.x + rand(-60, 60), area.x, area.x + area.width);
+      const y = Phaser.Math.Clamp(center.y + rand(-24, 24), area.y, area.y + area.height);
+      const shadow = this.keep(this.scene.add.image(x, y, 'amb:shadow').setOrigin(0.5, 0.5).setScale(config.scale).setAlpha(0.22).setDepth(y - 1));
+      const img = this.keep(this.scene.add.image(x, y, `amb:${species}`).setOrigin(0.5, 1).setScale(config.scale).setDepth(y).setFlipX(Math.random() < 0.5));
+      const bird: Bird = {
+        img, shadow, flock, species, bold: Math.random() < 0.25, state: 'ground', next: rand(300, config.slow ? 2600 : 1500),
+        alertFor: 0, alerted: false, pecking: false, hopsLeft: 0, hopVector: { x: 0, y: 0 },
+        phase: rand(0, Math.PI * 2), mode: null,
+      };
+      this.birds.push(bird);
+      flock.birds.push(bird);
     }
   }
 
-  /** Every bird on the map takes off at once (e.g. after a loud noise). */
-  scare() {
-    for (const b of this.birds) if (b.state === 'ground') this.flee(b, b.img.x + (Math.random() < 0.5 ? -1 : 1));
-  }
-
-  private flee(b: Bird, fromX: number) {
-    if (this.t - this.lastFlush > 1.5) {
-      this.lastFlush = this.t;
-      this.sound('sparrow_flush');
+  scare(player?: Vec) {
+    for (const flock of this.flocks) {
+      const active = flock.birds.filter((b) => b.state === 'ground' || b.state === 'hopping');
+      if (!active.length) continue;
+      const origin = active.reduce((p, b) => ({ x: p.x + b.img.x / active.length, y: p.y + b.img.y / active.length }), { x: 0, y: 0 });
+      this.playFlushSound(flock, player ?? origin);
+      for (const b of active) {
+        const angle = Math.atan2(b.img.y - origin.y, b.img.x - origin.x) + rand(-0.44, 0.44);
+        this.scheduleTakeOff(b, angle, rand(0, 260));
+      }
     }
-    for (const o of this.birds) if (o !== b && o.state === 'ground' && Math.hypot(o.img.x - b.img.x, o.img.y - b.img.y) < 160) this.takeOff(o, fromX);
-    this.takeOff(b, fromX);
   }
 
-  private takeOff(b: Bird, fromX: number) {
+  private playFlushSound(flock: Flock, player: Vec) {
+    const distance = Math.min(...flock.birds.map((b) => Math.hypot(b.img.x - player.x, b.img.y - player.y)));
+    const volume = distance <= 150 ? 1 : distance >= 600 ? 0 : 1 - (distance - 150) / 450;
+    if (volume <= 0 || this.t - flock.lastFlush < 0.8) return;
+    flock.lastFlush = this.t;
+    const options = { volume, detune: Math.round(rand(-200, 200)) };
+    const id = `${flock.species}_flush_${Math.floor(rand(1, 4))}`;
+    if (!this.sound(id, options)) this.sound('sparrow_flush', options);
+  }
+
+  private playChirp(b: Bird, player: Vec, multiplier = 1) {
+    const distance = Math.hypot(b.img.x - player.x, b.img.y - player.y);
+    const volume = 0.42 * Math.max(0, 1 - distance / 500) * multiplier;
+    if (volume <= 0) return;
+    this.sound(`${b.species}_chirp_${Math.floor(rand(1, 4))}`, { volume });
+  }
+
+  private startFlush(b: Bird, threat: Vec, player: Vec) {
+    const flock = b.flock;
+    this.playFlushSound(flock, player);
+    const neighbors = flock.birds.filter((o) =>
+      (o.state === 'ground' || o.state === 'hopping') && Math.hypot(o.img.x - b.img.x, o.img.y - b.img.y) < 160,
+    );
+    if (!neighbors.includes(b)) neighbors.unshift(b);
+    for (const [i, bird] of neighbors.entries()) {
+      const base = Math.atan2(bird.img.y - threat.y, bird.img.x - threat.x);
+      const angle = base + rand(-0.44, 0.44);
+      this.scheduleTakeOff(bird, angle, i === 0 ? 0 : rand(0, 260));
+    }
+  }
+
+  private scheduleTakeOff(b: Bird, angle: number, delay: number) {
+    if (b.state !== 'ground' && b.state !== 'hopping') return;
+    this.scene.tweens.killTweensOf(b.img);
+    this.scene.tweens.killTweensOf(b.shadow);
+    b.state = 'flush_pending';
+    b.mode = null;
+    b.pecking = false;
+    this.timers.push(this.scene.time.delayedCall(delay, () => {
+      if (b.state === 'flush_pending') this.takeOff(b, angle);
+    }));
+  }
+
+  private takeOff(b: Bird, angle: number) {
+    const config = BIRD_CONFIG[b.species];
+    const distance = rand(...config.flightDistance);
+    const duration = rand(...config.flightMs);
+    const to = {
+      x: b.img.x + Math.cos(angle) * distance,
+      y: b.img.y + Math.sin(angle) * distance - rand(90, 190),
+    };
     b.state = 'away';
-    b.next = rand(7000, 12000);
+    b.next = rand(...config.relandMs);
     b.shadow.setVisible(false);
-    const dir = b.img.x < fromX ? -1 : 1;
-    b.img.setFlipX(dir > 0).setDepth(4000);
+    b.img.setFlipX(Math.cos(angle) > 0).setDepth(4000);
     this.scene.tweens.add({
-      targets: b.img, x: b.img.x + dir * rand(380, 480), y: b.img.y - rand(320, 420), duration: 1200, ease: 'Sine.easeIn',
-      onUpdate: () => b.img.setTexture(Math.floor(this.t * 14) % 2 ? 'amb:sparrow_up' : 'amb:sparrow_down'),
+      targets: b.img, x: to.x, y: to.y, duration, ease: 'Sine.easeIn',
+      onUpdate: () => {
+        const flap = Math.floor(this.t * (config.glider ? 4 : 14));
+        b.img.setTexture(`amb:${b.species}_${flap % (config.glider ? 4 : 2) === 0 ? 'up' : 'down'}`);
+        b.img.y += Math.sin(this.t * 8 + b.phase) * 2;
+      },
       onComplete: () => b.img.setVisible(false),
     });
   }
 
   private land(b: Bird, player: Vec) {
-    let p = this.spot(b.area);
-    for (let i = 0; i < 6 && Math.hypot(p.x - player.x, p.y - player.y) < 260; i++) p = this.spot(b.area);
-    b.state = 'ground';
-    b.next = rand(800, 2000);
-    b.img.setPosition(p.x + rand(-200, 200), p.y - 220).setVisible(true).setDepth(4000);
+    const { area } = b.flock;
+    let p = this.spot(area);
+    for (let i = 0; i < 6 && Math.hypot(p.x - player.x, p.y - player.y) < 260; i++) p = this.spot(area);
+    b.next = Infinity;
+    b.img.setPosition(p.x, p.y - 220).setVisible(true).setDepth(4000);
     b.img.setFlipX(b.img.x < p.x);
     this.scene.tweens.add({
       targets: b.img, x: p.x, y: p.y, duration: 1000, ease: 'Sine.easeOut',
-      onUpdate: () => b.img.setTexture(Math.floor(this.t * 12) % 2 ? 'amb:sparrow_up' : 'amb:sparrow_down'),
+      onUpdate: () => {
+        const flap = Math.floor(this.t * 12);
+        b.img.setTexture(`amb:${b.species}_${flap % 2 ? 'up' : 'down'}`);
+      },
       onComplete: () => {
-        b.img.setTexture('amb:sparrow').setDepth(p.y);
+        b.state = 'ground';
+        b.next = rand(800, 2000);
+        b.alertFor = 0;
+        b.alerted = false;
+        b.img.setTexture(`amb:${b.species}`).setDepth(p.y);
         b.shadow.setPosition(p.x, p.y).setDepth(p.y - 1).setVisible(true);
       },
     });
   }
 
-  private tickBird(b: Bird, dt: number, player: Vec) {
-    b.next -= dt;
+  private peck(b: Bird) {
+    if (b.state !== 'ground') return;
+    b.pecking = true;
+    b.img.setTexture(`amb:${b.species}_peck`);
+    this.timers.push(this.scene.time.delayedCall(220, () => {
+      if (b.state !== 'ground' || !b.pecking) return;
+      b.pecking = false;
+      b.img.setTexture(`amb:${b.species}`);
+    }));
+  }
+
+  private hopAway(b: Bird, away: Vec) {
+    b.alertFor = 0;
+    b.alerted = false;
+    const length = Math.hypot(away.x, away.y) || 1;
+    b.mode = 'escape';
+    b.hopsLeft = Math.floor(rand(2, 4));
+    b.hopVector = { x: away.x / length, y: away.y / length };
+    this.escapeHop(b);
+  }
+
+  private escapeHop(b: Bird) {
+    const config = BIRD_CONFIG[b.species];
+    const area = b.flock.area;
+    const dx = config.sideHop ? Math.sign(b.hopVector.x || (Math.random() < 0.5 ? -1 : 1)) * rand(24, 38) : b.hopVector.x * rand(24, 38);
+    const dy = config.walker ? b.hopVector.y * rand(2, 8) : b.hopVector.y * rand(18, 30);
+    const to = {
+      x: Phaser.Math.Clamp(b.img.x + dx, area.x, area.x + area.width),
+      y: Phaser.Math.Clamp(b.img.y + dy, area.y, area.y + area.height),
+    };
+    this.hopTo(b, to, config.walker ? 0 : config.sideHop ? 10 : 7, config.walker ? 220 : 150, () => {
+      b.hopsLeft--;
+      if (b.mode === 'escape' && b.hopsLeft > 0) this.escapeHop(b);
+      else {
+        b.state = 'ground';
+        b.mode = null;
+        b.next = rand(400, 1200);
+      }
+    });
+  }
+
+  private hopTo(b: Bird, to: Vec, lift: number, duration: number, done: () => void) {
+    b.state = 'hopping';
+    b.pecking = false;
+    b.img.setTexture(`amb:${b.species}`);
+    b.img.setFlipX(to.x > b.img.x);
+    this.scene.tweens.killTweensOf(b.img);
+    const shadowTarget = { x: to.x, y: to.y };
+    this.scene.tweens.add({ targets: b.shadow, x: shadowTarget.x, y: shadowTarget.y, duration });
+    this.scene.tweens.add({
+      targets: b.img, x: to.x, y: to.y - lift, duration: duration / 2, ease: 'Sine.easeOut',
+      onComplete: () => this.scene.tweens.add({
+        targets: b.img, y: to.y, duration: duration / 2, ease: 'Sine.easeIn',
+        onComplete: () => {
+          b.img.setDepth(to.y);
+          b.shadow.setPosition(to.x, to.y).setDepth(to.y - 1);
+          done();
+        },
+      }),
+    });
+  }
+
+  private curiousHop(b: Bird, player: Vec) {
+    const dx = player.x - b.img.x, dy = player.y - b.img.y;
+    const distance = Math.hypot(dx, dy) || 1;
+    const step = Math.min(34, distance - 70);
+    if (step <= 0) return;
+    this.hopTo(b, {
+      x: Phaser.Math.Clamp(b.img.x + (dx / distance) * step, b.flock.area.x, b.flock.area.x + b.flock.area.width),
+      y: Phaser.Math.Clamp(b.img.y + (dy / distance) * step, b.flock.area.y, b.flock.area.y + b.flock.area.height),
+    }, BIRD_CONFIG[b.species].walker ? 0 : 7, 180, () => {
+      b.state = 'ground';
+      if (Math.hypot(b.img.x - player.x, b.img.y - player.y) <= 70) this.peck(b);
+      else b.next = 0;
+    });
+  }
+
+  private tickBird(b: Bird, dt: number, player: { pos: Vec; speed: number; stillFor: number }, cat?: Vec) {
     if (b.state === 'away') {
-      if (b.next <= 0) this.land(b, player);
+      if (Number.isFinite(b.next)) {
+        b.next -= dt;
+        if (b.next <= 0) this.land(b, player.pos);
+      }
       return;
     }
-    if (!b.img.visible || b.next > 1e8) return;
-    if (Math.hypot(b.img.x - player.x, b.img.y - player.y) < 110) return this.flee(b, player.x);
-    if (b.next > 0) return;
-    b.next = rand(350, 1600);
-    const roll = Math.random();
-    if (roll < 0.45) {
-      b.img.setTexture('amb:sparrow_peck');
-      this.scene.time.delayedCall(160, () => b.state === 'ground' && b.img.setTexture('amb:sparrow'));
-      if (Math.random() < 0.5) this.scene.time.delayedCall(320, () => b.state === 'ground' && b.img.setTexture('amb:sparrow_peck'));
-      this.scene.time.delayedCall(480, () => b.state === 'ground' && b.img.setTexture('amb:sparrow'));
-    } else if (roll < 0.6) {
-      b.img.setFlipX(!b.img.flipX);
-    } else {
-      const facingRight = b.img.flipX;
-      const dx = (facingRight ? 1 : -1) * rand(10, 22);
-      const to = Phaser.Math.Clamp(b.img.x + dx, b.area.x, b.area.x + b.area.width);
-      const y = b.img.y;
-      this.scene.tweens.add({ targets: b.img, x: to, duration: 160 });
-      this.scene.tweens.add({ targets: b.img, y: y - 6, duration: 80, yoyo: true, onComplete: () => b.img.setY(y) });
-      this.scene.tweens.add({ targets: b.shadow, x: to, duration: 160 });
+    if (b.state === 'flush_pending' || b.state === 'hopping' || !b.img.visible) return;
+    const distance = Math.hypot(b.img.x - player.pos.x, b.img.y - player.pos.y);
+    const catDistance = cat ? Math.hypot(b.img.x - cat.x, b.img.y - cat.y) : Infinity;
+    if (player.speed > 0 && distance < b.flock.params.walkRadius) b.alertFor += dt;
+    else {
+      b.alertFor = 0;
+      b.alerted = false;
     }
+    const reaction = birdReaction({
+      distance, playerSpeed: player.speed, stillFor: player.stillFor, catDistance,
+      bold: b.bold, alertFor: b.alertFor, species: b.flock.params,
+    });
+    if (reaction === 'flush') return this.startFlush(b, cat && catDistance < b.flock.params.catRadius ? cat : player.pos, player.pos);
+    if (reaction === 'alert') {
+      b.pecking = false;
+      b.img.setTexture(`amb:${b.species}`).setFlipX(player.pos.x > b.img.x);
+      if (!b.alerted) {
+        b.alerted = true;
+        this.playChirp(b, player.pos, 0.6);
+        this.scene.tweens.add({ targets: b.img, y: b.img.y - 2, duration: 90, yoyo: true, repeat: 1 });
+      }
+      return;
+    }
+    if (reaction === 'hop_away') {
+      return this.hopAway(b, { x: b.img.x - player.pos.x, y: b.img.y - player.pos.y });
+    }
+    if (reaction === 'curious') return this.curiousHop(b, player.pos);
+    b.alerted = false;
+    b.alertFor = 0;
+    b.next -= dt;
+    if (b.next > 0) return;
+    const config = BIRD_CONFIG[b.species];
+    b.next = rand(config.slow ? 1400 : 350, config.slow ? 3200 : 1600);
+    const roll = Math.random();
+    if (roll < 0.45) this.peck(b);
+    else if (roll < 0.6) b.img.setFlipX(!b.img.flipX);
+    else {
+      const sign = b.img.flipX ? 1 : -1;
+      const dx = sign * rand(config.walker ? 18 : 10, config.walker ? 32 : 22);
+      const toX = Phaser.Math.Clamp(b.img.x + dx, b.flock.area.x, b.flock.area.x + b.flock.area.width);
+      const y = config.walker ? b.img.y : Phaser.Math.Clamp(b.img.y + rand(-6, 6), b.flock.area.y, b.flock.area.y + b.flock.area.height);
+      if (config.walker) {
+        const baseY = b.img.y;
+        b.img.setFlipX(dx > 0);
+        this.scene.tweens.add({ targets: b.img, x: toX, duration: 360, onComplete: () => b.img.setY(baseY) });
+        this.scene.tweens.add({ targets: b.img, y: baseY - 1, duration: 90, yoyo: true, repeat: 1, onComplete: () => b.img.setY(baseY) });
+        this.scene.tweens.add({ targets: b.shadow, x: toX, duration: 360 });
+      } else {
+        this.hopTo(b, { x: toX, y }, config.sideHop ? 10 : 7, 160, () => { b.state = 'ground'; });
+      }
+    }
+  }
+
+  private tickFlock(flock: Flock, dt: number, player: { pos: Vec }) {
+    flock.chirpIn -= dt;
+    if (flock.chirpIn > 0) return;
+    flock.chirpIn = rand(3000, 9000);
+    if (Math.hypot(flock.center.x - player.pos.x, flock.center.y - player.pos.y) > 500) return;
+    const bird = pick(flock.birds);
+    if (bird) this.playChirp(bird, player.pos);
   }
 
   private butterfly(area: MapAmbient) {
@@ -317,14 +540,15 @@ export class Ambient {
     this.flies.push({ img, area, target: this.spot(area), phase: rand(0, 10) });
   }
 
-  update(dt: number, player: Vec) {
+  update(dt: number, player: { pos: Vec; speed: number; stillFor: number }, cat?: Vec) {
     this.t += dt / 1000;
     const t = this.t;
     for (const s of this.sway) {
       const gust = Math.max(0, Math.sin(t * 0.7 - s.obj.x * 0.004));
       s.obj.setAngle(s.amp * (0.3 * Math.sin(t * 2.1 + s.phase) + 0.9 * gust * gust));
     }
-    for (const b of this.birds) this.tickBird(b, dt, player);
+    for (const flock of this.flocks) this.tickFlock(flock, dt, player);
+    for (const b of this.birds) this.tickBird(b, dt, player, cat);
     for (const f of this.flies) {
       const dx = f.target.x - f.img.x, dy = f.target.y - f.img.y, d = Math.hypot(dx, dy);
       if (d < 6) f.target = this.spot(f.area);
@@ -338,10 +562,14 @@ export class Ambient {
 
   destroy() {
     for (const tm of this.timers) tm.remove();
-    for (const o of this.objs) o.destroy();
+    for (const o of this.objs) {
+      this.scene.tweens.killTweensOf(o);
+      o.destroy();
+    }
     this.objs = [];
     this.sway = [];
     this.birds = [];
+    this.flocks = [];
     this.flies = [];
     this.pools = [];
   }

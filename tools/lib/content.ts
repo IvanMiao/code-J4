@@ -4,7 +4,7 @@ import { parse } from 'yaml';
 import type { Cast, Item } from '../../src/engine/content.ts';
 import type { Encounter } from '../../src/engine/battle.ts';
 import { parseMap, type FieldMap } from '../../src/engine/map.ts';
-import { facingVec, REACH, walkable, type Facing } from '../../src/engine/walk.ts';
+import { facingVec, REACH, walkableFoot, type Facing } from '../../src/engine/walk.ts';
 import { COMMANDS, DIRS, EMOTES, type ArgKind } from '../../src/story/commands.ts';
 import type { CommandEvent } from '../../src/story/parse.ts';
 
@@ -26,6 +26,7 @@ export interface Content {
   /** Art file names (without .png) available in public/art/retro. */
   art: Set<string>;
   artByDir: Record<string, Set<string>>;
+  audioIds?: Set<string>;
 }
 
 const yaml = <T>(path: string): T => parse(readFileSync(path, 'utf8')) as T;
@@ -48,6 +49,7 @@ export function loadContent(root = '.'): Content {
     anchors: new Set(Object.values(maps).flatMap((m) => Object.keys(m.anchors))),
     art: artByDir.retro ?? new Set<string>(),
     artByDir,
+    audioIds: new Set(Object.keys(JSON.parse(readFileSync(join(root, 'public/audio/index.json'), 'utf8')).sfx ?? {})),
   };
 }
 
@@ -105,6 +107,7 @@ export function checkExits(c: Content): string[] {
       const to = c.maps[e.map];
       if (!to) errs.push(`map ${id}: exit "${e.id}" goes to unknown map "${e.map}"`);
       else if (!to.anchors[e.anchor]) errs.push(`map ${id}: exit "${e.id}" goes to unknown anchor "${e.map}:${e.anchor}"`);
+      if (e.sfx && !(c.audioIds?.has(e.sfx) ?? !!c.audio.sfx?.[e.sfx])) errs.push(`map ${id}: exit "${e.id}" has unknown sfx "${e.sfx}"`);
     }
     if (m.background && !c.artByDir[m.art ?? 'retro']?.has(m.background)) errs.push(`map ${id}: background "${m.background}" has no art file in art/${m.art ?? 'retro'}`);
     for (const k of ['bgm', 'ambience'] as const) {
@@ -155,8 +158,15 @@ export function sourceLines(files: string[]): SourceLine[] {
 export function checkTriggers(c: Content): string[] {
   const errs: string[] = [];
   const faces = ['up', 'down', 'left', 'right'];
+  const icons = ['talk', 'look', 'door', 'use'];
   for (const [id, m] of Object.entries(c.maps)) {
+    for (const [name, anchor] of Object.entries(m.anchors))
+      if (!walkableFoot(anchor, m.walkable, m.blocked)) errs.push(`map ${id}: anchor "${name}" is not footprint-walkable`);
+    for (const a of m.actors)
+      if (!walkableFoot(a, m.walkable, m.blocked)) errs.push(`map ${id}: actor "${a.id}" spawn is not footprint-walkable`);
     for (const t of m.triggers) {
+      if (t.icon && !icons.includes(t.icon)) errs.push(`map ${id}: trigger "${t.id}" has invalid icon "${t.icon}" (use ${icons.join('|')})`);
+      if (t.sfx && !(c.audioIds?.has(t.sfx) ?? !!c.audio.sfx?.[t.sfx])) errs.push(`map ${id}: trigger "${t.id}" has unknown sfx "${t.sfx}"`);
       if (!t.face || !faces.includes(t.face)) {
         errs.push(`map ${id}: trigger "${t.id}" needs face=up|down|left|right (the direction the player faces to use it)`);
         continue;
@@ -165,7 +175,7 @@ export function checkTriggers(c: Content): string[] {
       let ok = false;
       for (let x = t.x; x <= t.x + t.width && !ok; x += 4)
         for (let y = t.y; y <= t.y + t.height && !ok; y += 4)
-          ok = walkable({ x: x - f.x * REACH, y: y - f.y * REACH }, m.walkable, m.blocked);
+          ok = walkableFoot({ x: x - f.x * REACH, y: y - f.y * REACH }, m.walkable, m.blocked);
       if (!ok) errs.push(`map ${id}: trigger "${t.id}" cannot be reached by a player facing ${t.face}`);
     }
   }

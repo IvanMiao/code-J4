@@ -11,6 +11,7 @@ export class Actor {
   private readonly mirrorRight: boolean;
   private readonly baseScale: number;
   private depth = { enabled: false, top: 0, bottom: 1, far: 1, near: 1 };
+  private rate = 1;
 
   constructor(private scene: Phaser.Scene, readonly id: string, x: number, y: number) {
     const member = cast[id];
@@ -52,8 +53,9 @@ export class Actor {
     this.setFace(facingOf(p.x - this.sprite.x, p.y - this.sprite.y, this.face));
   }
 
-  setMoving(m: boolean) {
+  setMoving(m: boolean, rate = 1) {
     this.moving = m;
+    this.rate = m ? rate : 1;
     this.sync();
   }
 
@@ -92,5 +94,6 @@ export class Actor {
         : this.face === 'down' ? 0 : this.face === 'left' ? 1 : this.face === 'right' ? (this.mirrorRight ? 1 : 2) : 3;
       this.sprite.setFrame(row * 3 + 1);
     }
+    this.sprite.anims.timeScale = this.rate;
   }
 }

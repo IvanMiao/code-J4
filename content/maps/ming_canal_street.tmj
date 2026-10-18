@@ -58,6 +58,11 @@
    "name": "intro",
    "type": "string",
    "value": "ming_intro"
+  },
+  {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
   }
  ],
  "layers": [

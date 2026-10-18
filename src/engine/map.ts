@@ -1,4 +1,4 @@
-import type { Polygon, Vec } from './walk.ts';
+import type { Facing, Polygon, Vec } from './walk.ts';
 
 /** The subset of the Tiled .tmj format the game reads. */
 interface TiledProperty { name: string; type?: string; value: unknown }
@@ -11,7 +11,7 @@ interface TiledMap { width: number; height: number; tilewidth: number; tileheigh
 
 export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string }
 /** `face`: the direction the player must face to use it (i.e. the side it is used from). */
-export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean }
+export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean; icon?: string; sfx?: string }
 
 /** Decorative life (fountain spray, swaying grass, birds…) placed in a rect; `kind` picks the effect. */
 export interface MapAmbient { kind: string; x: number; y: number; width: number; height: number; props: Record<string, string> }
@@ -20,7 +20,19 @@ export interface MapAmbient { kind: string; x: number; y: number; width: number;
 export interface MapForeground { polygon: Polygon; baseline: number }
 
 /** Walking into the rect moves the player to `anchor` on `map`. */
-export interface MapExit { id: string; x: number; y: number; width: number; height: number; map: string; anchor: string }
+export interface MapExit {
+  id: string; x: number; y: number; width: number; height: number; map: string; anchor: string; face: Facing; sfx?: string;
+}
+
+export type ExitEdge = Facing;
+
+export function exitEdge(exit: Pick<MapExit, 'x' | 'y' | 'width' | 'height' | 'face'>, mapW: number, mapH: number): ExitEdge {
+  if (exit.x <= 0) return 'left';
+  if (exit.x + exit.width >= mapW) return 'right';
+  if (exit.y <= 0) return 'up';
+  if (exit.y + exit.height >= mapH) return 'down';
+  return exit.face ?? 'up';
+}
 
 export interface FieldMap {
   title: string;
@@ -35,6 +47,7 @@ export interface FieldMap {
   intro: string | null;
   scaleFar: number;
   scaleNear: number;
+  ground: string;
   bgm: string | null;
   ambience: string | null;
   walkable: Polygon[];
@@ -73,13 +86,18 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     intro: intro == null || intro === '' ? null : String(intro),
     scaleFar: Number(prop(map, 'scaleFar') ?? 1),
     scaleNear: Number(prop(map, 'scaleNear') ?? 1),
+    ground: String(prop(map, 'ground') ?? 'stone'),
     bgm: (prop(map, 'bgm') as string) ?? null,
     ambience: (prop(map, 'ambience') as string) ?? null,
     walkable: layer('walkable').map(poly),
     blocked: layer('blocked').map(poly),
     exits: triggers.filter((o) => prop(o, 'exit')).map((o) => {
       const [m, anchor] = String(prop(o, 'exit')).split(':');
-      return { ...rect(o), map: m, anchor };
+      return {
+        ...rect(o), map: m, anchor,
+        face: String(prop(o, 'face') ?? 'up') as Facing,
+        sfx: (prop(o, 'sfx') as string) ?? undefined,
+      };
     }),
     anchors: Object.fromEntries(layer('anchors').map((o) => [o.name, { x: o.x, y: o.y }])),
     actors: layer('actors').map((o) => ({
@@ -89,6 +107,8 @@ export function parseMap(raw: string | TiledMap): FieldMap {
       ...rect(o),
       knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true, face: (prop(o, 'face') as string) ?? null,
       hidden: String(prop(o, 'hidden')) === 'true',
+      icon: (prop(o, 'icon') as string) ?? undefined,
+      sfx: (prop(o, 'sfx') as string) ?? undefined,
     })),
     foreground: layer('foreground').map((o) => {
       const polygon = poly(o);

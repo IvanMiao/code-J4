@@ -20,14 +20,19 @@
    "value": "bg_suburb_wireframe"
   },
   {
+   "name": "ground",
+   "type": "string",
+   "value": "stone"
+  },
+  {
    "name": "bgm",
    "type": "string",
-   "value": "campus_afternoon"
+   "value": "outskirts"
   },
   {
    "name": "ambience",
    "type": "string",
-   "value": "campus_day"
+   "value": "wireframe_estate"
   }
  ],
  "layers": [
@@ -36,7 +41,7 @@
    "name": "walkable",
    "objects": [
     {
-     "id": 251,
+     "id": 278,
      "name": "w0",
      "x": 0,
      "y": 0,
@@ -60,18 +65,18 @@
      ]
     },
     {
-     "id": 252,
+     "id": 279,
      "name": "w1",
      "x": 0,
      "y": 0,
      "polygon": [
       {
        "x": 140,
-       "y": 310
+       "y": 405
       },
       {
        "x": 1420,
-       "y": 310
+       "y": 405
       },
       {
        "x": 1420,
@@ -84,7 +89,7 @@
      ]
     },
     {
-     "id": 253,
+     "id": 280,
      "name": "w2",
      "x": 0,
      "y": 0,
@@ -108,7 +113,7 @@
      ]
     },
     {
-     "id": 254,
+     "id": 281,
      "name": "w3",
      "x": 0,
      "y": 0,
@@ -138,7 +143,7 @@
    "name": "blocked",
    "objects": [
     {
-     "id": 255,
+     "id": 282,
      "name": "b0",
      "x": 0,
      "y": 0,
@@ -162,7 +167,7 @@
      ]
     },
     {
-     "id": 256,
+     "id": 283,
      "name": "b1",
      "x": 0,
      "y": 0,
@@ -186,7 +191,7 @@
      ]
     },
     {
-     "id": 257,
+     "id": 284,
      "name": "b2",
      "x": 0,
      "y": 0,
@@ -210,7 +215,7 @@
      ]
     },
     {
-     "id": 258,
+     "id": 285,
      "name": "b3",
      "x": 0,
      "y": 0,
@@ -234,7 +239,7 @@
      ]
     },
     {
-     "id": 259,
+     "id": 286,
      "name": "b4",
      "x": 0,
      "y": 0,
@@ -258,7 +263,7 @@
      ]
     },
     {
-     "id": 260,
+     "id": 287,
      "name": "b5",
      "x": 0,
      "y": 0,
@@ -282,7 +287,7 @@
      ]
     },
     {
-     "id": 261,
+     "id": 288,
      "name": "b6",
      "x": 0,
      "y": 0,
@@ -306,7 +311,7 @@
      ]
     },
     {
-     "id": 262,
+     "id": 289,
      "name": "b7",
      "x": 0,
      "y": 0,
@@ -330,7 +335,7 @@
      ]
     },
     {
-     "id": 263,
+     "id": 290,
      "name": "b8",
      "x": 0,
      "y": 0,
@@ -354,7 +359,7 @@
      ]
     },
     {
-     "id": 264,
+     "id": 291,
      "name": "b9",
      "x": 0,
      "y": 0,
@@ -384,24 +389,24 @@
    "name": "anchors",
    "objects": [
     {
-     "id": 265,
+     "id": 292,
      "name": "from_ferry",
      "x": 120,
      "y": 560,
      "point": true
     },
     {
-     "id": 266,
+     "id": 293,
      "name": "from_dyeworks",
      "x": 1820,
      "y": 560,
      "point": true
     },
     {
-     "id": 267,
+     "id": 294,
      "name": "villa_front",
      "x": 640,
-     "y": 360,
+     "y": 416,
      "point": true
     }
    ]
@@ -416,7 +421,7 @@
    "name": "triggers",
    "objects": [
     {
-     "id": 240,
+     "id": 266,
      "name": "to_ferry",
      "x": 0,
      "y": 450,
@@ -431,7 +436,7 @@
      ]
     },
     {
-     "id": 241,
+     "id": 267,
      "name": "to_dyeworks",
      "x": 1895,
      "y": 450,
@@ -446,12 +451,12 @@
      ]
     },
     {
-     "id": 242,
+     "id": 268,
      "name": "wireframe_villa",
      "x": 560,
-     "y": 295,
+     "y": 375,
      "width": 180,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -462,11 +467,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "door"
       }
      ]
     },
     {
-     "id": 243,
+     "id": 269,
      "name": "villa_campfire",
      "x": 355,
      "y": 385,
@@ -482,16 +492,21 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 244,
+     "id": 270,
      "name": "pump_station",
      "x": 1440,
-     "y": 375,
+     "y": 365,
      "width": 260,
-     "height": 45,
+     "height": 30,
      "properties": [
       {
        "name": "knot",
@@ -502,11 +517,16 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 245,
+     "id": 271,
      "name": "concrete_pipes",
      "x": 260,
      "y": 710,
@@ -522,11 +542,16 @@
        "name": "face",
        "type": "string",
        "value": "down"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     },
     {
-     "id": 246,
+     "id": 272,
      "name": "wireframe_arch",
      "x": 1420,
      "y": 880,
@@ -542,6 +567,11 @@
        "name": "face",
        "type": "string",
        "value": "up"
+      },
+      {
+       "name": "icon",
+       "type": "string",
+       "value": "look"
       }
      ]
     }
@@ -552,7 +582,7 @@
    "name": "foreground",
    "objects": [
     {
-     "id": 268,
+     "id": 295,
      "name": "fg0",
      "x": 0,
      "y": 0,
@@ -599,7 +629,7 @@
      ]
     },
     {
-     "id": 269,
+     "id": 296,
      "name": "fg1",
      "x": 0,
      "y": 0,
@@ -636,7 +666,7 @@
    "name": "ambient",
    "objects": [
     {
-     "id": 247,
+     "id": 273,
      "name": "grass",
      "x": 880,
      "y": 730,
@@ -651,7 +681,7 @@
      ]
     },
     {
-     "id": 248,
+     "id": 274,
      "name": "leaves",
      "x": 0,
      "y": 560,
@@ -671,7 +701,32 @@
      ]
     },
     {
-     "id": 249,
+     "id": 275,
+     "name": "birds",
+     "x": 700,
+     "y": 440,
+     "width": 500,
+     "height": 170,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "birds"
+      },
+      {
+       "name": "n",
+       "type": "string",
+       "value": "2"
+      },
+      {
+       "name": "species",
+       "type": "string",
+       "value": "crow"
+      }
+     ]
+    },
+    {
+     "id": 276,
      "name": "butterflies",
      "x": 880,
      "y": 720,
@@ -691,7 +746,7 @@
      ]
     },
     {
-     "id": 250,
+     "id": 277,
      "name": "motes",
      "x": 450,
      "y": 20,

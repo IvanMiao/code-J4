@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { artUrl, audioUrl, cast, FONT, maps, style, type AudioIndex } from '../config.ts';
+import { ensureInteractionHintTextures } from '../ui/InteractionHint.ts';
 
 export const DIR_ROW = { down: 0, left: 1, right: 2, up: 3 } as const;
 
@@ -20,6 +21,7 @@ export class BootScene extends Phaser.Scene {
 
   create() {
     for (const id of Object.keys(cast)) this.buildWalkSheet(id);
+    ensureInteractionHintTextures(this);
     for (const [id, m] of Object.entries(maps)) {
       if ((m.art ?? style) === 'retro') this.textures.get(`bg:${id}`).setFilter(Phaser.Textures.FilterMode.NEAREST);
     }

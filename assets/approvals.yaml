@@ -1,48 +1,48 @@
 bg:archive:
   status: approved
-  hash: 2a2ba6d9d06195f7
+  hash: d479da6d3c31aae7
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:avenue:
   status: approved
-  hash: 9d54f0f5d6ab2851
+  hash: 555cb8eb917cd1d8
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:city_ferry:
   status: approved
-  hash: 3b3f14d0fca0fa7f
+  hash: f7e62dc2e400565d
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:city_overpass:
   status: approved
-  hash: 8dc85315604aa757
+  hash: a49c4c1e6271e689
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:city_tenement:
   status: approved
-  hash: 12718839ff7c1237
+  hash: 3ad5f496dacba4c3
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:gate:
   status: approved
-  hash: c7d04b1381e83c47
+  hash: fd92d036d327b68d
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:library:
   status: approved
-  hash: 54d40f98977451bd
+  hash: 68f7dd9af6275fe8
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
@@ -63,21 +63,21 @@ bg:ming_scriptorium:
   history: []
 bg:suburb_breakwater:
   status: approved
-  hash: d5a94fe9b9e0121b
+  hash: 7ab8c9e7f5f5e399
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:suburb_dyeworks:
   status: approved
-  hash: 05bd4e6080db28a9
+  hash: 8d3ebf9e6ada5439
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
   history: []
 bg:suburb_wireframe:
   status: approved
-  hash: fe453115ff5ef725
+  hash: eb5143b388050aba
   note: in main before the review flow
   at: 2026-10-18
   legacy: true
@@ -178,4 +178,18 @@ sprite:shen:
   note: ""
   at: 2026-10-18
   legacy: false
+  history: []
+bg:avenue_kiosk:
+  status: approved
+  hash: fdb9bde128cc181a
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:city_backalley:
+  status: approved
+  hash: 2411a60c27e4a6b8
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
   history: []

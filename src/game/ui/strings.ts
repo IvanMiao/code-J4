@@ -2,7 +2,7 @@ import type { FieldMap } from '../../engine/map.ts';
 
 export const UI_STRINGS = {
   hans: {
-    controls: '方向键/WASD 移动 · 空格/Enter 交谈 · Esc 菜单',
+    controls: '方向键/WASD 移动 · Shift 跑 · 空格/Enter 交互 · Esc 菜单',
     interact: '空格',
     menu: '菜单',
     save: '存档',
@@ -16,7 +16,7 @@ export const UI_STRINGS = {
     reloaded: '剧本已热更新',
   },
   hant: {
-    controls: '方向鍵/WASD 移動 · 空格/Enter 對話 · Esc 選單',
+    controls: '方向鍵/WASD 移動 · Shift 跑步 · 空格/Enter 互動 · Esc 選單',
     interact: '空格',
     menu: '選單',
     save: '存檔',
