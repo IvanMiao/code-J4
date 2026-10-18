@@ -35,7 +35,24 @@ export function exitEdge(exit: Pick<MapExit, 'x' | 'y' | 'width' | 'height' | 'f
 }
 
 export function exitCanBeUsed(exit: Pick<MapExit, 'face'>, facing: Facing): boolean {
-  return (exit.face ?? 'up') === facing;
+  return !exit.face || exit.face === facing;
+}
+
+export function armExits(exits: readonly MapExit[], pos: Vec, armed: ReadonlySet<string>): Set<string> {
+  const next = new Set(armed);
+  for (const exit of exits) {
+    if (!inRect(pos, exit)) next.add(exit.id);
+  }
+  return next;
+}
+
+export function pickExit(
+  exits: readonly MapExit[],
+  pos: Vec,
+  facing: Facing,
+  armed: ReadonlySet<string>,
+): MapExit | undefined {
+  return exits.find((exit) => armed.has(exit.id) && exitCanBeUsed(exit, facing) && inRect(pos, exit));
 }
 
 export interface FieldMap {

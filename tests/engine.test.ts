@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { exitCanBeUsed, exitEdge, parseMap } from '../src/engine/map.ts';
+import { armExits, exitCanBeUsed, exitEdge, parseMap, pickExit } from '../src/engine/map.ts';
 import { facingOf, sideFacing, step, walkable, walkableFoot } from '../src/engine/walk.ts';
 import { addItem, readSave, writeSave } from '../src/engine/save.ts';
 import { createBattle, outcome, playRound } from '../src/engine/battle.ts';
@@ -98,21 +98,50 @@ describe('map properties', () => {
 });
 
 describe('exit facing', () => {
-  it('requires the declared facing and defaults missing faces to up', () => {
+  it('requires the declared facing and allows face-less exits in any direction', () => {
     expect(exitCanBeUsed({ face: 'up' }, 'up')).toBe(true);
     expect(exitCanBeUsed({ face: 'up' }, 'down')).toBe(false);
-    expect(exitCanBeUsed({ face: null }, 'up')).toBe(true);
-    expect(exitCanBeUsed({ face: null }, 'down')).toBe(false);
+    for (const facing of ['up', 'down', 'left', 'right'] as const) {
+      expect(exitCanBeUsed({ face: null }, facing)).toBe(true);
+    }
   });
 });
 
 describe('map exits', () => {
+  const exit = { id: 'door', x: 0, y: 0, width: 10, height: 10, map: 'next', anchor: 'start', face: null };
+
   it('detects each edge and uses the door-facing direction away from edges', () => {
     expect(exitEdge({ x: 0, y: 30, width: 10, height: 20, face: 'down' }, 100, 100)).toBe('left');
     expect(exitEdge({ x: 90, y: 30, width: 10, height: 20, face: 'up' }, 100, 100)).toBe('right');
     expect(exitEdge({ x: 30, y: 0, width: 20, height: 10, face: 'down' }, 100, 100)).toBe('up');
     expect(exitEdge({ x: 30, y: 90, width: 20, height: 10, face: 'left' }, 100, 100)).toBe('down');
     expect(exitEdge({ x: 30, y: 30, width: 20, height: 20, face: 'right' }, 100, 100)).toBe('right');
+  });
+
+  it('disarms exits containing the arrival position until the player leaves, then fires on re-entry', () => {
+    const inside = { x: 5, y: 5 };
+    let armed = armExits([exit], inside, new Set());
+    expect(armed.has(exit.id)).toBe(false);
+    for (const facing of ['up', 'down', 'left', 'right'] as const) {
+      expect(pickExit([exit], inside, facing, armed)).toBeUndefined();
+    }
+    armed = armExits([exit], { x: 6, y: 5 }, armed);
+    expect(pickExit([exit], inside, 'up', armed)).toBeUndefined();
+
+    armed = armExits([exit], { x: 15, y: 5 }, armed);
+    expect(armed.has(exit.id)).toBe(true);
+    armed = armExits([exit], inside, armed);
+    expect(pickExit([exit], inside, 'left', armed)).toEqual(exit);
+  });
+
+  it('requires the matching facing for explicit exits and lets face-less edge exits fire while walking left', () => {
+    const faced = { ...exit, face: 'up' as const };
+    const armedFaced = armExits([faced], { x: 15, y: 5 }, new Set());
+    expect(pickExit([faced], { x: 5, y: 5 }, 'left', armedFaced)).toBeUndefined();
+    expect(pickExit([faced], { x: 5, y: 5 }, 'up', armedFaced)).toEqual(faced);
+
+    const armedEdge = armExits([exit], { x: 15, y: 5 }, new Set());
+    expect(pickExit([exit], { x: 5, y: 5 }, 'left', armedEdge)).toEqual(exit);
   });
 });
 

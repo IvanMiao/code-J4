@@ -8,7 +8,7 @@ import { ChoiceMenu } from '../ui/ChoiceMenu.ts';
 import { SpeechBubble } from '../ui/SpeechBubble.ts';
 import type { BattleData } from './Battle.ts';
 import { speakerResolver } from '../../engine/content.ts';
-import { exitCanBeUsed, exitEdge, inRect, type MapExit, type MapTrigger } from '../../engine/map.ts';
+import { armExits, exitEdge, inRect, pickExit, type MapExit, type MapTrigger } from '../../engine/map.ts';
 import { addItem, readSave, writeSave, type ActorState } from '../../engine/save.ts';
 import { DIRS, type Dir } from '../../story/commands.ts';
 import type { CommandEvent, LineEvent } from '../../story/parse.ts';
@@ -54,6 +54,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private changing = false;
   private mapId = START.map;
   private mapState: Record<string, Record<string, ActorState>> = {};
+  private armedExits = new Set<string>();
   private bg!: Phaser.GameObjects.Image;
   private frameOverlay!: Phaser.GameObjects.Graphics;
   private fg: Phaser.GameObjects.Image[] = [];
@@ -159,7 +160,8 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       this.player.face = this.map.view === 'side' ? sideFacing(dx, this.player.face) : facingOf(dx, dy, this.player.face);
       this.player.setPos(step(this.player.pos, { x: (dx / len) * d, y: (dy / len) * d }, this.map.walkable, this.map.blocked));
       this.player.setMoving(true, this.currentSpeed / 190);
-      const exit = this.map.exits.find((e) => exitCanBeUsed(e, this.player.face) && inRect(this.player.pos, e));
+      this.armedExits = armExits(this.map.exits, this.player.pos, this.armedExits);
+      const exit = pickExit(this.map.exits, this.player.pos, this.player.face, this.armedExits);
       if (exit) {
         this.updateHint(null);
         return void this.travel(exit);
@@ -600,6 +602,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       if (saved) actor.sprite.setVisible(saved.visible);
     }
     if (anchor !== null) this.player.setPos(m.anchors[anchor] ?? Object.values(m.anchors)[0]);
+    this.armedExits = armExits(m.exits, this.player.pos, new Set());
     this.lastAmbientPos = { ...this.player.pos };
     this.stillFor = 0;
     this.currentSpeed = 0;
@@ -679,6 +682,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       a.setFace(s.face);
       a.sprite.setVisible(s.visible);
     }
+    this.armedExits = armExits(this.map.exits, this.player.pos, new Set());
     this.inventory = { ...data.inventory };
     this.runner.loadState(data.ink);
     this.introDone = data.introDone;
