@@ -10,16 +10,21 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "lint:story": "tsx tools/lint-story.ts",
+    "lint:assets": "tsx tools/lint-assets.ts",
     "sim": "tsx tools/sim.ts",
     "story:ids": "tsx tools/story-ids.ts",
     "fonts": "python3 tools/fonts/build-hands.py",
+    "review": "tsx tools/review/server.ts",
     "gen:art": "tsx tools/gen-art.ts",
     "gen:audio": "tsx tools/gen-audio.ts",
-    "check": "npm run typecheck && npm test && npm run lint:story && npm run sim",
+    "check:code": "npm run typecheck && npm test && npm run lint:story && npm run sim",
+    "check": "npm run typecheck && npm run lint:assets && npm test && npm run lint:story && npm run sim",
+    "approvals:seed": "tsx tools/seed-approvals.ts",
     "maps:overlay": "tsx tools/maps/overlay.ts"
   },
   "dependencies": {
     "inkjs": "^2.4.0",
+    "opencc-js": "^1.4.2",
     "phaser": "^4.2.1"
   },
   "devDependencies": {

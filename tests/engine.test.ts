@@ -31,7 +31,7 @@ describe('map properties', () => {
   it('defaults legacy maps to top-view campus settings', () => {
     const legacy = readFileSync(new URL('../content/maps/gate.tmj', import.meta.url), 'utf8');
     expect(parseMap(legacy)).toMatchObject({
-      art: null, view: 'top', player: 'linxia', dialogue: 'box', intro: null, scaleFar: 1, scaleNear: 1,
+      art: null, view: 'top', script: 'hans', player: 'linxia', dialogue: 'box', intro: null, scaleFar: 1, scaleNear: 1,
     });
   });
 
@@ -43,13 +43,14 @@ describe('map properties', () => {
         { name: 'view', value: 'side' },
         { name: 'player', value: 'shen' },
         { name: 'dialogue', value: 'bubble' },
+        { name: 'script', value: 'hant' },
         { name: 'intro', value: 'ming_intro' },
         { name: 'scaleFar', value: '0.8' },
         { name: 'scaleNear', value: '1.25' },
       ],
     };
     expect(parseMap(fixture)).toMatchObject({
-      art: 'ming', view: 'side', player: 'shen', dialogue: 'bubble', intro: 'ming_intro', scaleFar: 0.8, scaleNear: 1.25,
+      art: 'ming', view: 'side', script: 'hant', player: 'shen', dialogue: 'bubble', intro: 'ming_intro', scaleFar: 0.8, scaleNear: 1.25,
     });
   });
 });

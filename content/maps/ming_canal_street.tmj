@@ -12,7 +12,7 @@
   {
    "name": "title",
    "type": "string",
-   "value": "水乡 · 文林阁前"
+   "value": "水鄉 · 文林閣前"
   },
   {
    "name": "background",
@@ -28,6 +28,11 @@
    "name": "view",
    "type": "string",
    "value": "side"
+  },
+  {
+   "name": "script",
+   "type": "string",
+   "value": "hant"
   },
   {
    "name": "player",

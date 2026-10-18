@@ -1,0 +1,161 @@
+bg:archive:
+  status: approved
+  hash: 2a2ba6d9d06195f7
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:avenue:
+  status: approved
+  hash: 9d54f0f5d6ab2851
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:city_ferry:
+  status: approved
+  hash: 3b3f14d0fca0fa7f
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:city_overpass:
+  status: approved
+  hash: 8dc85315604aa757
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:city_tenement:
+  status: approved
+  hash: 12718839ff7c1237
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:gate:
+  status: approved
+  hash: c7d04b1381e83c47
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:library:
+  status: approved
+  hash: 54d40f98977451bd
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:ming_canal_street:
+  status: pending
+  hash: fa8b34f9dbc4c0cf
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+bg:ming_scriptorium:
+  status: pending
+  hash: b390bd4801058aae
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+bg:suburb_breakwater:
+  status: approved
+  hash: d5a94fe9b9e0121b
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:suburb_dyeworks:
+  status: approved
+  hash: 05bd4e6080db28a9
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:suburb_wireframe:
+  status: approved
+  hash: fe453115ff5ef725
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+hand:brush:
+  status: pending
+  hash: 3ab846dc9eebd605
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+hand:kai:
+  status: pending
+  hash: 978908d7e8075407
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+hand:rough:
+  status: pending
+  hash: 440ef303f2bb0fa9
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+hand:song:
+  status: pending
+  hash: e8513292fbda8a45
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+hand:xing:
+  status: pending
+  hash: 6fbfb6a96f348458
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+sprite:andreas:
+  status: pending
+  hash: f1ff3917fdb734cd
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+sprite:kuang:
+  status: pending
+  hash: e8870131a2edae19
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+sprite:linu:
+  status: pending
+  hash: ed37ebac5fa113e6
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+sprite:linxia:
+  status: approved
+  hash: a3d6a327d6f54016
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+sprite:nika:
+  status: approved
+  hash: ad56df485ba767e9
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+sprite:shen:
+  status: pending
+  hash: b9bd2ef509281730
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []

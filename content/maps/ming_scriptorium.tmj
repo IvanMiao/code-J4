@@ -12,7 +12,7 @@
   {
    "name": "title",
    "type": "string",
-   "value": "经藏院 · 写经房"
+   "value": "經藏院 · 寫經房"
   },
   {
    "name": "background",
@@ -28,6 +28,11 @@
    "name": "view",
    "type": "string",
    "value": "side"
+  },
+  {
+   "name": "script",
+   "type": "string",
+   "value": "hant"
   },
   {
    "name": "player",

@@ -81,8 +81,15 @@ python3 -m pip install --user fonttools brotli
 npm run fonts
 ```
 
-The script downloads source fonts into ignored `assets/fonts-src/`, pins Noto Serif SC to weight 600,
-and writes subsetted WOFF2 fonts and their OFL licenses to `public/fonts/hands/`.
+The script downloads source fonts into ignored `assets/fonts-src/`, pins Noto Serif TC to weight 600,
+and writes subsetted WOFF2 fonts and their OFL licenses to `public/fonts/hands/`. The current hands are
+Noto Serif TC, LXGW WenKai TC, Iansui, and Chenyuluoyan; the build checks every non-ASCII character in
+the Ming story against each chosen font before producing output.
+
+Traditional-story files begin with `// script: hant`; the story linter checks their text with
+`opencc-js` (`cn` → `t`) and verifies that knots used by Hant maps are defined in Hant files.
+`npm run review` starts the local asset approval board on port 5174. `npm run check` includes the
+approval gate; use `npm run check:code` for code/story checks before the owner has approved pending art.
 
 **Audio** — `content/audio.yaml` (music, ambience, sfx prompts) plus every story line tagged `#vo`, voiced with the
 speaker's `voice.id` and the emotion's v3 audio tag from `cast.yaml`. Output in `public/audio/`, cached per request hash

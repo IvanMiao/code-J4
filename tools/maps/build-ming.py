@@ -12,7 +12,7 @@ def pt(name, x, y, p=None):
     return o
 def rect(name, x, y, w, h, p): return {"id": nid(), "name": name, "x": x, "y": y, "width": w, "height": h, "properties": props(p)}
 def amb(kind, x, y, w, h, **p): return rect(kind, x, y, w, h, {"kind": kind, **{k: str(v) for k, v in p.items()}})
-SIDE = {"art": "ming", "view": "side", "player": "shen", "dialogue": "bubble", "scaleFar": "0.9", "scaleNear": "1"}
+SIDE = {"art": "ming", "view": "side", "script": "hant", "player": "shen", "dialogue": "bubble", "scaleFar": "0.9", "scaleNear": "1"}
 def tmj(w, title, bg, walk, blocked, anchors, actors, triggers, ambient=(), **extra):
     layer = lambda n, objs: {"type": "objectgroup", "name": n, "objects": objs}
     return {"type": "map", "orientation": "orthogonal", "width": w // 12, "height": 45, "tilewidth": 12, "tileheight": 12, "infinite": False,
@@ -24,7 +24,7 @@ def tmj(w, title, bg, walk, blocked, anchors, actors, triggers, ambient=(), **ex
                        layer("actors", actors), layer("triggers", triggers),
                        layer("foreground", []), layer("ambient", list(ambient))]}
 maps = {
-    "ming_canal_street": tmj(1260, "水乡 · 文林阁前", "bg_canal_street",
+    "ming_canal_street": tmj(1260, "水鄉 · 文林閣前", "bg_canal_street",
         [BOX(0, 450, 1260, 505), BOX(330, 400, 800, 450), BOX(800, 415, 975, 450), BOX(975, 412, 1250, 450)],
         [],
         {"player_start": (240, 480), "from_scriptorium": (1100, 440)},
@@ -36,7 +36,7 @@ maps = {
          rect("to_scriptorium", 1040, 395, 125, 25, {"exit": "ming_scriptorium:from_street"})],
         [amb("leaves", 330, 40, 280, 300, every=1400), amb("birds", 300, 410, 900, 90, n=2), amb("motes", 0, 0, 1260, 380)],
         intro="ming_intro"),
-    "ming_scriptorium": tmj(960, "经藏院 · 写经房", "bg_scriptorium",
+    "ming_scriptorium": tmj(960, "經藏院 · 寫經房", "bg_scriptorium",
         [BOX(0, 380, 940, 520)],
         [BOX(15, 412, 205, 530)],
         {"player_start": (300, 470), "from_street": (60, 400), "debate_spot": (560, 470)},

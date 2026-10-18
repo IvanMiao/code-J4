@@ -29,6 +29,7 @@ export interface FieldMap {
   background: string;
   art: string | null;
   view: 'top' | 'side';
+  script: 'hans' | 'hant';
   player: string;
   dialogue: 'box' | 'bubble';
   intro: string | null;
@@ -55,6 +56,7 @@ export function parseMap(raw: string | TiledMap): FieldMap {
   const rect = (o: TiledObject) => ({ id: o.name, x: o.x, y: o.y, width: o.width ?? 0, height: o.height ?? 0 });
   const triggers = layer('triggers');
   const view = String(prop(map, 'view') ?? 'top');
+  const script = String(prop(map, 'script') ?? 'hans');
   const dialogue = String(prop(map, 'dialogue') ?? 'box');
   const art = prop(map, 'art');
   const intro = prop(map, 'intro');
@@ -65,6 +67,7 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     background: String(prop(map, 'background') ?? ''),
     art: art == null || art === '' ? null : String(art),
     view: view === 'side' ? 'side' : 'top',
+    script: script === 'hant' ? 'hant' : 'hans',
     player: String(prop(map, 'player') ?? 'linxia'),
     dialogue: dialogue === 'bubble' ? 'bubble' : 'box',
     intro: intro == null || intro === '' ? null : String(intro),

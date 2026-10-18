@@ -27,7 +27,7 @@ nika:
 
 # Ancient line (?map=ming_canal_street). Side-view sheets, no portraits yet; `hand` = handwriting font (song kai brush xing rough).
 shen:
-  name: 沈砚
+  name: 沈硯
   art: ming
   sheet: side
   sprite: walk_shen
@@ -36,7 +36,7 @@ shen:
   default: calm
   emotions: [calm, shock]
 kuang:
-  name: 秃翁
+  name: 禿翁
   art: ming
   sheet: side
   sprite: walk_kuang

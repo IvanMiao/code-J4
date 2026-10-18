@@ -14,6 +14,7 @@ import { DIRS, type Dir } from '../../story/commands.ts';
 import type { CommandEvent, LineEvent } from '../../story/parse.ts';
 import { StoryRunner, type StoryHost } from '../../story/runner.ts';
 import { facingOf, facingVec, sideFacing, step, type Vec, REACH } from '../../engine/walk.ts';
+import { UI_STRINGS } from '../ui/strings.ts';
 
 const WALK_SPEED = 190;
 const speakerOf = speakerResolver(cast);
@@ -66,11 +67,11 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     this.speechBubble = new SpeechBubble(this, (id) => this.actors.get(id));
     this.dialogue = this.dialogueBox;
     this.choices = new ChoiceMenu(this);
-    this.hint = this.add.text(0, 0, '空格', { fontFamily: FONT, fontSize: '12px', color: '#1a120a', backgroundColor: '#e6c77a', padding: { x: 4, y: 2 } })
+    this.hint = this.add.text(0, 0, UI_STRINGS.hans.interact, { fontFamily: FONT, fontSize: '12px', color: '#1a120a', backgroundColor: '#e6c77a', padding: { x: 4, y: 2 } })
       .setOrigin(0.5, 1).setDepth(9_000).setVisible(false);
     this.toastText = this.add.text(480, 24, '', { fontFamily: FONT, fontSize: '24px', color: '#ffe7a3', backgroundColor: '#131b2fe6', padding: { x: 14, y: 8 } })
       .setOrigin(0.5, 0).setDepth(10_200).setAlpha(0).setScrollFactor(0);
-    this.controlsLine = this.add.text(10, 520, '方向键/WASD 移动 · 空格/Enter 交谈 · Esc 菜单', { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
+    this.controlsLine = this.add.text(10, 520, UI_STRINGS.hans.controls, { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
       .setDepth(9_500).setScrollFactor(0);
     this.areaLabel = this.add.text(950, 10, '', { fontFamily: FONT, fontSize: '12px', color: '#ffffffcc', backgroundColor: '#00000066', padding: { x: 4, y: 2 } })
       .setOrigin(1, 0).setDepth(9_500).setScrollFactor(0);
@@ -180,7 +181,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
       case 'take': {
         const n = num(c.options.n, 1) * (c.name === 'give' ? 1 : -1);
         addItem(this.inventory, a0, n);
-        this.toast(`${n > 0 ? '获得' : '失去'}　${items[a0]?.name ?? a0}${Math.abs(n) > 1 ? ` ×${Math.abs(n)}` : ''}`);
+        this.toast(`${n > 0 ? UI_STRINGS[this.map.script].gained : UI_STRINGS[this.map.script].lost}　${items[a0]?.name ?? a0}${Math.abs(n) > 1 ? ` ×${Math.abs(n)}` : ''}`);
         return;
       }
       case 'battle':
@@ -264,12 +265,13 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
 
   private async systemMenu() {
     if (this.busy) return;
-    const pick = await this.choices.show(['存档', '读档', '返回'], { x: 360, y: 150, title: '菜单' });
+    const text = UI_STRINGS[this.map.script];
+    const pick = await this.choices.show([text.save, text.load, text.back], { x: 360, y: 150, title: text.menu });
     if (pick === 0) {
       this.saveGame(1);
-      this.toast('已存档');
+      this.toast(UI_STRINGS[this.map.script].saved);
     } else if (pick === 1) {
-      this.toast(this.loadGame(1) ? '已读档' : '没有存档');
+      this.toast(this.loadGame(1) ? UI_STRINGS[this.map.script].loaded : UI_STRINGS[this.map.script].noSave);
     }
   }
 
@@ -353,6 +355,9 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   }
 
   private setPaperTheme(paper: boolean) {
+    const text = UI_STRINGS[this.map.script];
+    this.hint.setText(text.interact);
+    this.controlsLine.setText(text.controls);
     const uiFont = paper ? HANDS.song.family : FONT;
     this.hint.setStyle(paper
       ? { fontFamily: uiFont, fontSize: '18px', color: '#22170d', backgroundColor: '#efe3c4' }
@@ -395,7 +400,7 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
     const vars = this.runner.variables();
     this.runner = new StoryRunner(json, speakerOf);
     this.runner.restoreVariables(vars);
-    this.toast('剧本已热更新');
+    this.toast(UI_STRINGS[this.map.script].reloaded);
     const start = params.get('start');
     if (start && this.runner.hasKnot(start) && !this.busy) this.run(start);
   }

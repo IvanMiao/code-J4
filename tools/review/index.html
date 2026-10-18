@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>資產審核｜文林閣</title>
+  <style>
+    :root{color-scheme:dark;--bg:#171612;--panel:#24221d;--ink:#eee4ca;--red:#a43a2a;--green:#567a5d;--gold:#c8ad74}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+    header{background:#171612ed;border-bottom:1px solid #524b3d;padding:14px 22px}
+    h1{font:24px/1.2 Georgia,serif;margin:0 0 10px}.tabs{display:flex;gap:8px;flex-wrap:wrap}
+    button,select{color:var(--ink);background:#38342c;border:1px solid #71664f;padding:7px 12px;border-radius:5px;cursor:pointer}
+    button:hover{background:#514936}.tab.active{background:#8d392c;border-color:#d08b70}
+    main{max-width:1400px;margin:auto;padding:18px;display:grid;gap:18px}
+    .card{background:var(--panel);border:1px solid #514b40;border-radius:8px;padding:16px;box-shadow:0 8px 24px #0004;scroll-margin-top:110px}
+    .card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.card h2{font:20px Georgia,serif;margin:0}
+    .badge{padding:3px 9px;border-radius:99px;background:#625b4b;color:#fff}.badge.approved{background:#315b3e}.badge.pending{background:#8b702e}.badge.rejected{background:#8d392c}.badge.stale{outline:2px solid #e27662}
+    .decision{margin-left:auto;display:flex;align-items:center;gap:8px}.decision textarea{min-width:230px;min-height:38px;resize:vertical;background:#171612;color:var(--ink);border:1px solid #625b4b;padding:8px;border-radius:4px}
+    .approve{background:#315b3e}.reject{background:#8d392c}
+    .canvas-wrap{overflow:auto;max-height:75vh;background:#111;border:1px solid #514b40;padding:8px}
+    .scene-canvas{display:block;max-width:100%;height:auto;margin:auto;image-rendering:auto}
+    .overlay{display:flex;gap:12px;flex-wrap:wrap;margin:9px 0}.overlay label{white-space:nowrap}
+    details{margin-top:8px}summary{cursor:pointer;color:#d8c28f}pre{white-space:pre-wrap;background:#171612;padding:12px;max-height:300px;overflow:auto}
+    .source-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.source-pair img{width:100%;height:auto;border:1px solid #625b4b}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px}.cell{padding:8px;background:#171612;border:1px solid #4a463c;text-align:center}
+    .checker{background-color:#eee;background-image:linear-gradient(45deg,#bbb 25%,transparent 25%),linear-gradient(-45deg,#bbb 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#bbb 75%),linear-gradient(-45deg,transparent 75%,#bbb 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0}
+    .cell canvas{max-width:100%;height:auto}.check-list{padding-left:20px}.pass{color:#8bd49e}.warn{color:#f0c66a}.fail{color:#ff8b78}
+    .compare{display:flex;align-items:end;gap:12px;overflow:auto;background:#171612;padding:12px}.compare figure{margin:0;text-align:center;min-width:85px}.compare img{object-fit:contain;max-width:100px}
+    .specimen{font-size:25px;line-height:1.7;background:#efe3c4;color:#22170d;padding:16px;margin:10px 0;min-height:100px;white-space:pre-wrap}
+    .candidate{border-left:3px solid var(--gold);padding:8px 12px;margin:8px 0;background:#171612}.candidate small{display:block;color:#c9bea4}
+    .warning{color:#ffd67c}.muted{color:#b9af98}.empty{padding:50px;text-align:center;color:#aaa}
+    @media(max-width:650px){.decision{margin-left:0;width:100%;flex-wrap:wrap}.decision textarea{width:100%}.source-pair{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header><h1>資產審核 · 場景適配檢查</h1><nav class="tabs" id="tabs"></nav></header>
+<main id="cards"><div class="empty">正在載入資產…</div></main>
+<script>
+const filters=['pending','stale','rejected','approved','all'], labels={pending:'待審',stale:'已過期',rejected:'退回',approved:'已通過',all:'全部'};
+let assets=[], filter='pending';
+const $=(s,p=document)=>p.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cardId=key=>`card-${key.replaceAll(':','-')}`;
+async function load(){assets=await fetch('/api/assets').then(r=>r.json());renderTabs();renderCards()}
+function renderTabs(){const nav=$('#tabs');nav.innerHTML=filters.map(f=>`<button class="tab ${filter===f?'active':''}" data-filter="${f}">${labels[f]}</button>`).join('');nav.querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;renderTabs();renderCards()})}
+function state(a){return a.stale?'stale':a.decision?.status??'pending'}
+function renderCards(){const shown=assets.filter(a=>filter==='all'||state(a)===filter);$('#cards').innerHTML=shown.length?shown.map(cardHtml).join(''):'<div class="empty">此篩選沒有資產。</div>';shown.forEach(a=>setup(a))}
+function cardHtml(a){return `<article class="card" id="${cardId(a.key)}"><div class="card-head"><h2>${esc(a.key)}</h2><span class="badge ${state(a)}">${labels[state(a)]}</span>${a.stale?'<span class="warning">內容雜湊已變更</span>':''}<div class="decision"><textarea placeholder="審核備註">${esc(a.decision?.note??'')}</textarea><button class="approve">核准</button><button class="reject">退回</button></div></div><div class="card-body"></div></article>`}
+async function decide(a,card,status){const note=$('textarea',card).value;const r=await fetch('/api/decision',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key:a.key,status,note})});if(!r.ok){alert('儲存失敗');return}await load()}
+function setup(a){const card=$(`#${cardId(a.key)}`);if(!card)return;$('.approve',card).onclick=()=>decide(a,card,'approved');$('.reject',card).onclick=()=>decide(a,card,'rejected');const body=$('.card-body',card);if(a.kind==='bg')bgCard(a,body);else if(a.kind==='sprite')spriteCard(a,body);else handCard(a,body)}
+const point=(ctx,p,color)=>{ctx.fillStyle=color;ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);ctx.fill()};
+function bgCard(a,body){const d=a.data,m=d.map;body.innerHTML=`<div class="overlay">${[['walk','步行區'],['blocked','阻擋區'],['triggers','互動點'],['exits','出口'],['anchors','錨點'],['foreground','前景'],['actors','角色'],['stamps','玩家站位測試']].map(([k,l])=>`<label><input type="checkbox" data-layer="${k}" checked> ${l}</label>`).join('')}</div><div class="canvas-wrap"><canvas class="scene-canvas" width="${m.width}" height="${m.height}"></canvas></div>${d.manifest?.sourceImageUrl?`<h3>畫面來源與簽牌後成品</h3><div class="source-pair"><figure><img src="${d.manifest.sourceImageUrl}"><figcaption>原始生成圖</figcaption></figure><figure><img src="${d.backgroundUrl}"><figcaption>遊戲使用圖</figcaption></figure></div>`:`<img class="scene-canvas" src="${d.backgroundUrl}">`}<details><summary>提示詞／清單註記／原始素材</summary><p>${esc(d.manifest?.comment||'')}</p><pre>${esc(d.manifest?.prompt||'找不到對應 manifest prompt')}</pre>${d.manifest?.rawUrl?`<a href="${d.manifest.rawUrl}">開啟 raw 素材</a>`:''}</details><p class="muted">深度比例沿用 Actor.sync：baseScale = cast.height / frameHeight；t = clamp((y - walkableTop)/(walkableBottom - walkableTop),0,1)；scale = scaleFar + (scaleNear-scaleFar) × t。</p>`;
+const canvas=$('canvas',body),ctx=canvas.getContext('2d'),bg=new Image(),actorImageCache=new Map();bg.onload=draw;bg.src=d.backgroundUrl;
+body.querySelectorAll('[data-layer]').forEach(x=>x.onchange=draw);
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(bg,0,0);const enabled=k=>$(`[data-layer="${k}"]`,body).checked;const bounds=m.walkable.flat().reduce((b,p)=>({top:Math.min(b.top,p.y),bottom:Math.max(b.bottom,p.y)}),{top:Infinity,bottom:-Infinity});
+const polygon=(poly,color,fill)=>{ctx.beginPath();poly.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();if(fill){ctx.fillStyle=fill;ctx.fill()}};
+if(enabled('walk'))m.walkable.forEach(p=>polygon(p,'#46df73','#35d26533'));if(enabled('blocked'))m.blocked.forEach(p=>polygon(p,'#ff554e','#ff554e44'));
+if(enabled('foreground'))m.foreground.forEach(f=>{polygon(f.polygon,'#63c5e8','#63c5e833');ctx.strokeStyle='#62d7ff';ctx.beginPath();ctx.moveTo(0,f.baseline);ctx.lineTo(m.width,f.baseline);ctx.stroke()});
+if(enabled('anchors'))Object.entries(m.anchors).forEach(([name,p])=>{point(ctx,p,'#ffd34d');ctx.fillStyle='#fff';ctx.fillText(name,p.x+7,p.y-7)});
+if(enabled('triggers'))m.triggers.forEach(t=>{ctx.strokeStyle='#ffe353';ctx.strokeRect(t.x,t.y,t.width,t.height);ctx.fillStyle='#fff';ctx.fillText(`${t.knot} ${({up:'↑',down:'↓',left:'←',right:'→'})[t.face]||'↕'}`,t.x,t.y-4)});
+if(enabled('exits'))m.exits.forEach(e=>{ctx.strokeStyle='#64d7ff';ctx.strokeRect(e.x,e.y,e.width,e.height);ctx.fillStyle='#fff';ctx.fillText(`${e.map}:${e.anchor}`,e.x,e.y-4)});
+const imageFor=id=>d.actors.find(x=>x.id===id);const depth=y=>m.scaleFar+(m.scaleNear-m.scaleFar)*Math.max(0,Math.min(1,(y-bounds.top)/Math.max(1,bounds.bottom-bounds.top)));
+const drawActor=(id,x,y)=>{const a=imageFor(id);if(!a?.imageUrl)return;let img=actorImageCache.get(a.imageUrl);if(!img){img=new Image();img.onload=draw;img.src=a.imageUrl;actorImageCache.set(a.imageUrl,img)}if(!img.complete)return;const cols=a.member.sheet==='side'?3:4,rows=a.member.sheet==='side'?2:4,fw=img.width/cols,fh=img.height/rows,row=a.member.sheet==='side'?1:0,frame=a.member.sheet==='side'?1:0,scale=(a.member.height||110)/fh*depth(y);ctx.drawImage(img,frame*fw,row*fh,fw,fh,x-fw*scale/2,y-fh*scale*.96,fw*scale,fh*scale)};
+if(enabled('actors')){m.actors.forEach(a=>drawActor(a.id,a.x,a.y));const p=m.anchors.player_start||m.anchors.start||{x:m.width/2,y:bounds.bottom};drawActor(m.player,p.x,p.y)}
+if(enabled('stamps'))d.stampPoints.forEach(p=>{const face=p.face||'down',vec={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[face];const x=p.x+p.width/2-(vec?.[0]||0)*30,y=p.y+p.height/2-(vec?.[1]||1)*30;drawActor(m.player,x,y);ctx.fillStyle='#fff';ctx.fillText(p.label,x+7,y-8)})}
+}
+function spriteCard(a,body){const d=a.data,m=d.member;body.innerHTML=`<p>影格語義：${m.sheet==='side'?'左向／右向':'下／左／右／上'}；動畫序列 [0,1,2,1]，${d.frameRate} fps；閒置影格 1。</p><div class="grid animations"></div><h3>全部影格（3×）</h3><div class="grid cells"></div><h3>自動檢查</h3><ul class="check-list checks"></ul><h3>同畫風角色遊戲尺寸比較</h3><div class="compare"></div>`;
+const img=new Image();img.onload=()=>{const cols=m.sheet==='side'?3:4,rows=m.sheet==='side'?2:4,fw=img.width/cols,fh=img.height/rows,grid=$('.cells',body),checks=[];let min=Infinity,max=0,bases=[],empty=0;
+const sequence=[0,1,2,1];for(let r=0;r<rows;r++){const preview=document.createElement('div'),canv=document.createElement('canvas'),ctx=canv.getContext('2d');preview.className='cell';canv.width=fw*2;canv.height=fh*2;canv.className='checker';preview.append(canv,document.createElement('br'),document.createTextNode(`${m.sheet==='side'?(r===0?'left':'right'):['down','left','right','up'][r]} · 動畫`));$('.animations',body).append(preview);let frame=0;const drawFrame=()=>{ctx.clearRect(0,0,canv.width,canv.height);ctx.drawImage(img,sequence[frame]*fw,r*fh,fw,fh,0,0,canv.width,canv.height);frame=(frame+1)%sequence.length};drawFrame();setInterval(drawFrame,1000/d.frameRate)}
+for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const cell=document.createElement('div');cell.className='cell';const canv=document.createElement('canvas');canv.width=fw*3;canv.height=fh*3;canv.className='checker';canv.getContext('2d').drawImage(img,c*fw,r*fh,fw,fh,0,0,canv.width,canv.height);cell.append(canv,document.createElement('br'),document.createTextNode(`${m.sheet==='side'?(r===0?'left':'right'):['down','left','right','up'][r]} · ${c}${c===1?' · idle':''}`));grid.append(cell);
+const pix=(()=>{const t=document.createElement('canvas');t.width=fw;t.height=fh;const x=t.getContext('2d');x.drawImage(img,c*fw,r*fh,fw,fh,0,0,fw,fh);return x.getImageData(0,0,fw,fh).data})();let top=fh,bottom=-1;for(let y=0;y<fh;y++)for(let x=0;x<fw;x++)if(pix[(y*fw+x)*4+3]>8){top=Math.min(top,y);bottom=Math.max(bottom,y)}if(bottom<0)empty++;else{const h=bottom-top+1;min=Math.min(min,h);max=Math.max(max,h);bases.push(bottom)}
+}
+const add=(cls,text)=>checks.push(`<li class="${cls}">${text}</li>`);if(empty)add('fail',`${empty} empty cell(s): FAIL`);else add('pass','No empty cells: PASS');if(max/min>1.08)add('warn',`Alpha-bbox height spread ${(max/min).toFixed(3)} > 1.08: WARN`);else add('pass',`Alpha-bbox height spread ${(max/min).toFixed(3)}: PASS`);const baseline=Math.max(...bases)-Math.min(...bases);if(baseline>3)add('warn',`Foot baseline spread ${baseline}px > 3px: WARN`);else add('pass',`Foot baseline spread ${baseline}px: PASS`);
+if(m.sheet==='side'){let diff=0,total=0;for(let c=0;c<cols;c++){const tmp=document.createElement('canvas');tmp.width=fw;tmp.height=fh;const t=tmp.getContext('2d');t.translate(fw,0);t.scale(-1,1);t.drawImage(img,c*fw,0,fw,fh,0,0,fw,fh);const left=t.getImageData(0,0,fw,fh).data;const right=document.createElement('canvas');right.width=fw;right.height=fh;right.getContext('2d').drawImage(img,c*fw,fh,fw,fh,0,0,fw,fh);const rp=right.getContext('2d').getImageData(0,0,fw,fh).data;for(let i=0;i<left.length;i+=4){total++;if(Math.abs(left[i]-rp[i])+Math.abs(left[i+1]-rp[i+1])+Math.abs(left[i+2]-rp[i+2])+Math.abs(left[i+3]-rp[i+3])>12)diff++}}add(diff?'warn':'pass',`Right row flipped-pixel diff ${(100*diff/total).toFixed(2)}%`)}
+$('.checks',body).innerHTML=checks.join('');
+const compare=$('.compare',body);d.sameArt.forEach(ch=>{const fig=document.createElement('figure'),label=document.createElement('figcaption'),other=new Image();label.textContent=ch.name||ch.id;fig.append(label);other.onload=()=>{const c=document.createElement('canvas'),cx=c.getContext('2d'),cCols=ch.sheet==='side'?3:4,cRows=ch.sheet==='side'?2:4,cw=other.width/cCols,hh=other.height/cRows,scale=ch.height/hh;c.width=cw*scale;c.height=ch.height;cx.drawImage(other,cw,0,cw,hh,0,0,c.width,c.height);fig.insertBefore(c,label)};other.src=ch.imageUrl;compare.append(fig)});
+};img.src=d.imageUrl}
+function handCard(a,body){const d=a.data;const family=`Review-${a.key.replace(':','-')}`;const face=new FontFace(family,`url(${d.fontUrl})`);face.load().then(f=>document.fonts.add(f));const samples=d.lines.length?d.lines.slice(0,8).join('\n'):'（此字型目前沒有對應台詞）';body.innerHTML=`<p>遊戲字體大小：${d.fontSize}px · 缺字：${d.missingGlyphs.length?esc(d.missingGlyphs.join('')):'無'}</p><div class="specimen" style="font-family:'${family}';font-size:${d.fontSize}px">${esc(samples)}</div><h3>候選字體（含已淘汰項）</h3>${d.candidates.map((c,i)=>{const candidateFamily=`Candidate-${a.key.replace(':','-')}-${i}`;if(c.previewUrl)new FontFace(candidateFamily,`url(${c.previewUrl})`).load().then(f=>document.fonts.add(f));return `<div class="candidate"><b>${esc(c.name)}</b> ${c.selected?'<span class="pass">目前使用</span>':''}<small>${esc(c.role)} · ${esc(c.license)}</small><a href="${esc(c.source)}" target="_blank" rel="noreferrer">官方來源</a> · <a href="${esc(c.licenseUrl)}" target="_blank" rel="noreferrer">授權檔／說明</a>${c.previewUrl?`<div style="font:22px/1.6 '${candidateFamily}';color:#efe3c4">${esc(samples.slice(0,80))}</div>`:''}</div>`}).join('')}`}
+load().catch(e=>{$('#cards').innerHTML=`<pre>${esc(e)}</pre>`});
+</script>
+</body>
+</html>
