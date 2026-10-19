@@ -5,6 +5,7 @@ export type PostStep =
   | { crop: { y: number; h: number } }
   | { resize: { width: number; height: number; fit?: 'cover' | 'contain' | 'fill'; kernel?: 'nearest' | 'lanczos3' } }
   | { chromaKey: { hueMin?: number; hueMax?: number; satMin?: number; valMin?: number } }
+  | { dropIslands: { minArea: number } }
   | { removeGroundLine: true }
   | { trim: true }
   | { quantize: { colors: number; dither?: number } }
@@ -57,6 +58,48 @@ export function chromaKey(r: Raw, o: { hueMin?: number; hueMax?: number; satMin?
     }
   }
   return { ...r, data: out };
+}
+
+function dropIslands(r: Raw, minArea: number): Raw {
+  const pixelCount = r.width * r.height;
+  const seen = new Uint8Array(pixelCount);
+  const queue = new Int32Array(pixelCount);
+  const data = Buffer.from(r.data);
+  for (let start = 0; start < pixelCount; start++) {
+    if (seen[start] || data[start * 4 + 3] === 0) continue;
+    let head = 0;
+    let tail = 0;
+    queue[tail++] = start;
+    seen[start] = 1;
+    while (head < tail) {
+      const pixel = queue[head++];
+      const x = pixel % r.width;
+      const y = Math.floor(pixel / r.width);
+      for (let dy = -1; dy <= 1; dy++) {
+        const ny = y + dy;
+        if (ny < 0 || ny >= r.height) continue;
+        for (let dx = -1; dx <= 1; dx++) {
+          if (dx === 0 && dy === 0) continue;
+          const nx = x + dx;
+          if (nx < 0 || nx >= r.width) continue;
+          const neighbor = ny * r.width + nx;
+          if (seen[neighbor] || data[neighbor * 4 + 3] === 0) continue;
+          seen[neighbor] = 1;
+          queue[tail++] = neighbor;
+        }
+      }
+    }
+    if (tail < minArea) {
+      for (let i = 0; i < tail; i++) {
+        const offset = queue[i] * 4;
+        data[offset] = 0;
+        data[offset + 1] = 0;
+        data[offset + 2] = 0;
+        data[offset + 3] = 0;
+      }
+    }
+  }
+  return { ...r, data };
 }
 
 function alphaBox(r: Raw, x0: number, y0: number, w: number, h: number) {
@@ -126,6 +169,8 @@ export async function runPost(input: Buffer, steps: PostStep[]): Promise<Buffer>
       r = await toRaw(await fromRaw(r).resize(s.width, s.height, { fit: s.fit ?? 'cover', kernel: s.kernel ?? 'lanczos3', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer());
     } else if ('chromaKey' in step) {
       r = chromaKey(r, step.chromaKey);
+    } else if ('dropIslands' in step) {
+      r = dropIslands(r, step.dropIslands.minArea);
     } else if ('removeGroundLine' in step) {
       const out = Buffer.from(r.data);
       for (let y = Math.floor(r.height * 0.88); y < r.height; y++) {

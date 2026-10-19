@@ -46,7 +46,7 @@ pose_actor = {key: data["actor"] for key, data in scene["poses"].items()}
 linu_silhouette = [tuple(p) for p in scene_spec["poses"]["linu"]["foreground_silhouette_art"]]
 maps = {}
 maps["ming_canal_street"] = tmj(4492, 540, "水鄉 · 文林閣前", "bg_canal_long",
-        [BOX(20, 408, 2405, 492), BOX(2915, 408, 4472, 492),
+        [BOX(25, 408, 2405, 492), BOX(2915, 408, 4467, 492),
          [(2405, 408), (2600, 352), (2720, 352), (2915, 408),
           (2915, 492), (2850, 422), (2720, 385), (2600, 385),
           (2470, 421), (2405, 492)]],

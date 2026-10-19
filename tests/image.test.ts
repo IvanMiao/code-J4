@@ -39,6 +39,44 @@ describe('ground-line removal', () => {
   });
 });
 
+describe('alpha island removal', () => {
+  it('removes a 3-pixel speck and leaves the main blob unchanged', async () => {
+    const width = 12;
+    const height = 8;
+    const pixels = Buffer.alloc(width * height * 4);
+    for (let y = 1; y <= 3; y++) {
+      for (let x = 1; x <= 3; x++) {
+        const i = (y * width + x) * 4;
+        pixels[i] = 20;
+        pixels[i + 1] = 40;
+        pixels[i + 2] = 60;
+        pixels[i + 3] = 255;
+      }
+    }
+    for (const [x, y] of [[7, 1], [8, 2], [9, 3]]) {
+      const i = (y * width + x) * 4;
+      pixels[i] = 80;
+      pixels[i + 1] = 100;
+      pixels[i + 2] = 120;
+      pixels[i + 3] = 255;
+    }
+
+    const input = await sharp(pixels, { raw: { width, height, channels: 4 } }).png().toBuffer();
+    const output = await runPost(input, [{ dropIslands: { minArea: 4 } }]);
+    const { data } = await sharp(output).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+
+    for (let y = 1; y <= 3; y++) {
+      for (let x = 1; x <= 3; x++) {
+        const i = (y * width + x) * 4;
+        expect([...data.subarray(i, i + 4)]).toEqual([20, 40, 60, 255]);
+      }
+    }
+    for (const [x, y] of [[7, 1], [8, 2], [9, 3]]) {
+      expect(data[(y * width + x) * 4 + 3]).toBe(0);
+    }
+  });
+});
+
 describe('Ming pose overlays', () => {
   const scene = JSON.parse(readFileSync(fileURLToPath(new URL('../assets/scenes/ming_scriptorium.yaml', import.meta.url)), 'utf8')) as {
     pose_min_changed_pixels: number;
