@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import storyJson from '../../../content/story/main.ink';
-import { cast, encounters, FONT, HANDS, HEIGHT, items, maps, params, START, style, WIDTH, type AudioIndex } from '../config.ts';
+import { ANCIENT_START, cast, encounters, FONT, HANDS, HEIGHT, items, maps, params, START, style, WIDTH, type AudioIndex } from '../config.ts';
 import { Actor } from '../Actor.ts';
 import { Ambient } from '../Ambient.ts';
 import { DialogueBox } from '../ui/DialogueBox.ts';
@@ -531,12 +531,21 @@ export class FieldScene extends Phaser.Scene implements StoryHost {
   private async systemMenu() {
     if (this.busy) return;
     const text = UI_STRINGS[this.map.script];
-    const pick = await this.choices.show([text.save, text.load, text.back], { x: 360, y: 150, title: text.menu });
+    const travelLabel = this.map.art === 'ming' ? text.toCampus : text.toMing;
+    const pick = await this.choices.show([text.save, text.load, travelLabel, text.back], { x: 360, y: 150, title: text.menu });
     if (pick === 0) {
       this.saveGame(1);
       this.toast(UI_STRINGS[this.map.script].saved);
     } else if (pick === 1) {
       this.toast(this.loadGame(1) ? UI_STRINGS[this.map.script].loaded : UI_STRINGS[this.map.script].noSave);
+    } else if (pick === 2) {
+      if (this.map.art === 'ming') {
+        await this.travel(START.map, START.anchor);
+      } else {
+        await this.travel(ANCIENT_START.map, ANCIENT_START.anchor);
+        const intro = this.map.intro;
+        if (intro && this.runner.hasKnot(intro)) await this.run(intro);
+      }
     }
   }
 

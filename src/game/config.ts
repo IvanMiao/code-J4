@@ -24,6 +24,7 @@ export const maps: Record<string, FieldMap> = Object.fromEntries(
   Object.entries(mapFiles).map(([path, raw]) => [path.split('/').pop()!.replace(/\.tmj$/, ''), parseMap(raw)]),
 );
 export const START = { map: 'gate', anchor: 'player_start' };
+export const ANCIENT_START = { map: 'ming_canal_street', anchor: 'player_start' };
 
 /** On-screen height (px, 960×540 world) of each actor's walk frame. */
 export const ACTOR_HEIGHT: Record<string, number> = { linxia: 96, nika: 64 };
