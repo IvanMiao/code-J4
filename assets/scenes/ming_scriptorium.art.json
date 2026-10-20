@@ -1,0 +1,72 @@
+{
+  "map": "ming_scriptorium",
+  "scale": 0.3488372093023256,
+  "poses": {
+    "monk_left": {
+      "origin": [
+        220,
+        107
+      ],
+      "frame": [
+        172,
+        138
+      ],
+      "actor": [
+        306,
+        245
+      ],
+      "depth": 321,
+      "changedPixels": 7043,
+      "pano_roi": [
+        632,
+        307,
+        1123,
+        702
+      ]
+    },
+    "monk_right": {
+      "origin": [
+        722,
+        107
+      ],
+      "frame": [
+        147,
+        138
+      ],
+      "actor": [
+        795,
+        245
+      ],
+      "depth": 321,
+      "changedPixels": 5379,
+      "pano_roi": [
+        2071,
+        307,
+        2492,
+        702
+      ]
+    },
+    "linu": {
+      "origin": [
+        217,
+        303
+      ],
+      "frame": [
+        114,
+        64
+      ],
+      "actor": [
+        274,
+        367
+      ],
+      "depth": 467,
+      "changedPixels": 1310,
+      "pano_roi": [
+        623,
+        869,
+        948,
+        1053
+      ]
+    }
+  }
+}

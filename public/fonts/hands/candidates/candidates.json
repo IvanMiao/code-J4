@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Iansui",
+    "font": "/fonts/hands/candidates/brush.woff2",
+    "license": "SIL OFL 1.1 — ButTaiwan/iansui"
+  },
+  {
+    "name": "ChenYuluoyan",
+    "font": "/fonts/hands/candidates/xing.woff2",
+    "license": "SIL OFL 1.1 — Chenyu-otf/chenyuluoyan_thin"
+  },
+  {
+    "name": "LXGW-WenKai-TC",
+    "font": "/fonts/hands/candidates/kai.woff2",
+    "license": "SIL OFL 1.1 — lxgw/LxgwWenKaiTC"
+  }
+]

@@ -1,0 +1,94 @@
+# Ancient line (Pentiment-like woodblock illustration). Regenerate: npm run gen:art -- --style ming
+# Placeholder characters and places — names and looks are Yifan's to decide.
+style: ming
+bible: assets/style/bible-ming.md
+items:
+- id: ming/walk_shen_side
+  raw: assets/raw/ming/walk_shen_side_v3.png
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: |
+    ASSET: character design strip for a 2D side-scrolling game set in a late-Ming Jiangnan canal town. The FIRST image is the game's background plate: match ITS drawing manner exactly (it is the style reference: same black ink contour weight, same hatching manner, same flat muted washes of indigo, ochre, cinnabar and malachite, same warm paper tone in the figure's colours). The figure will be shown only about 110 px tall on a 540 px screen, standing in that street, so draw him like a figure that belongs IN that plate: bold clean outer contour, few simple inner lines, flat colour areas, clear readable silhouette, natural adult proportions (6.5 heads tall), no tiny fussy detail.
+    Exactly THREE full-body frames of the same man in one horizontal row and nothing else, evenly spaced, generous space between them, all the same size, soles on one baseline. ALL THREE are strict SIDE PROFILE facing RIGHT (nose, knees and toes point right; never turn toward the viewer): frame 1 mid-stride right leg forward, frame 2 passing pose with legs together, frame 3 mid-stride left leg forward. Compact Ming walking stride; the robe hem moves with the legs.
+    No grid lines, no labels, no text, no ground, no shadow. Flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.
+
+
+    THE MAN: Shen Yan, a young county-office clerk: slim, clean-shaven, calm face, a dark blue-grey long scholar robe with a pale collar and a black sash, a black square cloth cap, black cloth shoes, a bundle of tied documents held under his left arm. The SECOND image (if present) shows his current costume design; keep the costume and colours, but redraw him in the plate manner.
+  refs: [assets/raw/ming/style_crop_canal_long.png]
+  post:
+  - removeGroundLine: true
+  - chromaKey: {}
+  - dropIslands:
+      minArea: 49
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 180
+      frameHeight: 284
+      padding: 11
+  - dropIslands:
+      minArea: 49
+  out: assets/strips/ming_walk_shen_side.png
+- id: ming/walk_shen
+  compose:
+  - from: ming/walk_shen_side
+    mirror: true
+  - from: ming/walk_shen_side
+  out: public/art/ming/walk_shen.png
+- id: ming/walk_kuang_side
+  raw: assets/raw/ming/walk_kuang_side_v2.png
+  prompt: 'ASSET: sprite strip for the man in the reference image (the bald old hermit with the long grey beard, hemp robe and gnarled staff). Redraw THIS SAME man: same face, same costume, same colours, same line weight, same proportions, same woodblock-print drawing manner as the reference crop. Do not restyle him.
+    Exactly THREE full-body frames of him in one horizontal row and nothing else, evenly spaced, generous empty space between them, all exactly the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: nose, toes and knees point RIGHT, the face is never turned toward the viewer. Frame 1: mid-stride, right leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Feet on one baseline. He walks slowly with the staff in his front hand, the staff tip touching the baseline in every frame.
+    No grid lines, no labels, no ground, no shadow. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.'
+  refs: [assets/raw/ming/crop_kuang_ref.png]
+  post:
+  - removeGroundLine: true
+  - chromaKey: {}
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 220
+      frameHeight: 272
+      padding: 11
+      fitHeight: 261
+  out: assets/strips/ming_walk_kuang_side.png
+- id: ming/walk_kuang
+  compose:
+  - from: ming/walk_kuang_side
+    mirror: true
+  - from: ming/walk_kuang_side
+  out: public/art/ming/walk_kuang.png
+- id: ming/walk_andreas_side
+  raw: assets/raw/ming/walk_andreas_side_v3.png
+  model: gemini-3-pro-image
+  aspect: '16:9'
+  size: 2K
+  prompt: |
+    ASSET: character design strip for a 2D side-scrolling game set in a late-Ming Jiangnan canal town. The FIRST image is the game's background plate: match ITS drawing manner exactly (it is the style reference: same black ink contour weight, same hatching manner, same flat muted washes of indigo, ochre, cinnabar and malachite, same warm paper tone in the figure's colours). The figure will be shown only about 110 px tall on a 540 px screen, standing in that street, so draw him like a figure that belongs IN that plate: bold clean outer contour, few simple inner lines, flat colour areas, clear readable silhouette, natural adult proportions (6.5 heads tall), no tiny fussy detail.
+    Exactly THREE full-body frames of the same man in one horizontal row and nothing else, evenly spaced, generous space between them, all the same size, soles on one baseline. ALL THREE are strict SIDE PROFILE facing RIGHT (nose, knees and toes point right; never turn toward the viewer): frame 1 mid-stride right leg forward, frame 2 passing pose with legs together, frame 3 mid-stride left leg forward. Compact Ming walking stride; the robe hem moves with the legs.
+    No grid lines, no labels, no text, no ground, no shadow. Flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.
+
+
+    THE MAN: Andreas, a European Jesuit scholar in China around 1600, dressed as a Chinese literatus: tall, pale face, prominent nose, full brown beard, a long purple scholar robe, a tall black square literati hat (四方平定巾 / 東坡巾), black cloth shoes, a small book held in one hand. The SECOND image (if present) shows his current costume design; keep the costume and colours, but redraw him in the plate manner.
+  refs: [assets/raw/ming/style_crop_canal_long.png, assets/raw/ming/andreas_old_ref.png]
+  post:
+  - removeGroundLine: true
+  - chromaKey: {}
+  - dropIslands:
+      minArea: 49
+  - sheet:
+      cols: 3
+      rows: 1
+      frameWidth: 140
+      frameHeight: 240
+      fitHeight: 230
+  - dropIslands:
+      minArea: 49
+  out: assets/strips/ming_walk_andreas_side.png
+- id: ming/walk_andreas
+  compose:
+  - from: ming/walk_andreas_side
+    mirror: true
+  - from: ming/walk_andreas_side
+  out: public/art/ming/walk_andreas.png

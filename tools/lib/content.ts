@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { parse } from 'yaml';
 import type { Cast, Item } from '../../src/engine/content.ts';
 import type { Encounter } from '../../src/engine/battle.ts';
-import { parseMap, type FieldMap } from '../../src/engine/map.ts';
+import { inRect, parseMap, type FieldMap } from '../../src/engine/map.ts';
 import { facingVec, REACH, walkableFoot, type Facing } from '../../src/engine/walk.ts';
 import { COMMANDS, DIRS, EMOTES, type ArgKind } from '../../src/story/commands.ts';
 import type { CommandEvent } from '../../src/story/parse.ts';
@@ -25,6 +25,7 @@ export interface Content {
   anchors: Set<string>;
   /** Art file names (without .png) available in public/art/retro. */
   art: Set<string>;
+  artByDir: Record<string, Set<string>>;
   audioIds?: Set<string>;
 }
 
@@ -34,6 +35,11 @@ export function loadContent(root = '.'): Content {
   const mapDir = join(root, 'content/maps');
   const maps: Record<string, FieldMap> = {};
   for (const f of readdirSync(mapDir).filter((f) => f.endsWith('.tmj'))) maps[f.replace(/\.tmj$/, '')] = parseMap(readFileSync(join(mapDir, f), 'utf8'));
+  const artRoot = join(root, 'public/art');
+  const artByDir = Object.fromEntries(readdirSync(artRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => [entry.name, new Set(readdirSync(join(artRoot, entry.name))
+      .filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, '')))]));
   return {
     cast: yaml(join(root, 'content/cast/cast.yaml')),
     items: yaml(join(root, 'content/data/items.yaml')),
@@ -41,7 +47,8 @@ export function loadContent(root = '.'): Content {
     audio: yaml(join(root, 'content/audio.yaml')),
     maps,
     anchors: new Set(Object.values(maps).flatMap((m) => Object.keys(m.anchors))),
-    art: new Set(readdirSync(join(root, 'public/art/retro')).filter((f) => f.endsWith('.png')).map((f) => f.replace(/\.png$/, ''))),
+    art: artByDir.retro ?? new Set<string>(),
+    artByDir,
     audioIds: new Set(Object.keys(JSON.parse(readFileSync(join(root, 'public/audio/index.json'), 'utf8')).sfx ?? {})),
   };
 }
@@ -50,6 +57,7 @@ function checkArg(kind: ArgKind, value: string, cmd: string, c: Content): string
   const ok = (cond: boolean, what: string) => (cond ? null : `unknown ${what} "${value}"`);
   switch (kind) {
     case 'actor': return ok(value in c.cast, 'actor');
+    case 'map': return ok(value in c.maps, 'map');
     case 'anchor': return ok(c.anchors.has(value), 'map anchor');
     case 'actorOrAnchor': return ok(value in c.cast || c.anchors.has(value) || (DIRS as readonly string[]).includes(value), 'actor/anchor/direction');
     case 'dir': return ok((DIRS as readonly string[]).includes(value), 'direction');
@@ -85,6 +93,9 @@ export function validateCommand(cmd: CommandEvent, c: Content): string[] {
     }
   }
   if (cmd.name === 'walk' && !cmd.options.to) errs.push(`@walk needs to=<anchor>`);
+  if (cmd.name === 'goto' && c.maps[cmd.args[0]] && !c.maps[cmd.args[0]].anchors[cmd.args[1]]) {
+    errs.push(`@goto: unknown anchor "${cmd.args[0]}:${cmd.args[1]}"`);
+  }
   return errs;
 }
 
@@ -97,8 +108,15 @@ export function checkExits(c: Content): string[] {
       if (!to) errs.push(`map ${id}: exit "${e.id}" goes to unknown map "${e.map}"`);
       else if (!to.anchors[e.anchor]) errs.push(`map ${id}: exit "${e.id}" goes to unknown anchor "${e.map}:${e.anchor}"`);
       if (e.sfx && !(c.audioIds?.has(e.sfx) ?? !!c.audio.sfx?.[e.sfx])) errs.push(`map ${id}: exit "${e.id}" has unknown sfx "${e.sfx}"`);
+      for (const [name, anchor] of Object.entries(m.anchors)) {
+        const arrivalFaces = Object.values(c.maps).flatMap((source) =>
+          source.exits.filter((incoming) => incoming.map === id && incoming.anchor === name).map((incoming) => incoming.face));
+        if (inRect(anchor, e) && (e.face === null || arrivalFaces.includes(e.face))) {
+          errs.push(`map ${id}: anchor "${name}" is inside exit "${e.id}"`);
+        }
+      }
     }
-    if (m.background && !c.art.has(m.background)) errs.push(`map ${id}: background "${m.background}" has no art file`);
+    if (m.background && !c.artByDir[m.art ?? 'retro']?.has(m.background)) errs.push(`map ${id}: background "${m.background}" has no art file in art/${m.art ?? 'retro'}`);
     for (const k of ['bgm', 'ambience'] as const) {
       const v = m[k];
       if (v && !c.audio[k]?.[v]) errs.push(`map ${id}: unknown ${k} "${v}"`);
@@ -112,6 +130,7 @@ export function entryKnots(c: Content): string[] {
   const set = new Set(['intro']);
   for (const m of Object.values(c.maps)) {
     for (const a of m.actors) if (a.knot) set.add(a.knot);
+    if (m.intro) set.add(m.intro);
     for (const t of m.triggers) set.add(t.knot);
   }
   return [...set];
@@ -151,7 +170,7 @@ export function checkTriggers(c: Content): string[] {
     for (const [name, anchor] of Object.entries(m.anchors))
       if (!walkableFoot(anchor, m.walkable, m.blocked)) errs.push(`map ${id}: anchor "${name}" is not footprint-walkable`);
     for (const a of m.actors)
-      if (!walkableFoot(a, m.walkable, m.blocked)) errs.push(`map ${id}: actor "${a.id}" spawn is not footprint-walkable`);
+      if (c.cast[a.id]?.sheet !== 'pose' && !walkableFoot(a, m.walkable, m.blocked)) errs.push(`map ${id}: actor "${a.id}" spawn is not footprint-walkable`);
     for (const t of m.triggers) {
       if (t.icon && !icons.includes(t.icon)) errs.push(`map ${id}: trigger "${t.id}" has invalid icon "${t.icon}" (use ${icons.join('|')})`);
       if (t.sfx && !(c.audioIds?.has(t.sfx) ?? !!c.audio.sfx?.[t.sfx])) errs.push(`map ${id}: trigger "${t.id}" has unknown sfx "${t.sfx}"`);

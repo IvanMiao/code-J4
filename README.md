@@ -44,7 +44,7 @@ The story is plain [ink](https://github.com/inkle/ink/blob/master/Documentation/
 - Speakers and emotions come from `content/cast/cast.yaml`; a line with an unknown speaker is narration.
 - Cats (`cat: true`) never get a human voice: every cat line plays the emotion's meow from `meows:`, and the text box shows what the cat means.
 - Maps are `content/maps/*.tmj` (Tiled JSON; layers `walkable`, `blocked`, `anchors`, `actors`, `triggers`). The player starts a knot by talking to a map actor or a trigger with a `knot` property; a trigger with `exit: <map>:<anchor>` changes map. `tools/maps/build-campus.py` wrote the current three. `intro` runs on a new game.
-- Commands: `@bgm @ambience @sfx @fade @wait @walk @face @emote @shake @show @hide @give @take @battle`. The list, arguments and help text live in `src/story/commands.ts`.
+- Commands: `@bgm @ambience @sfx @fade @wait @walk @face @emote @shake @show @hide @give @take @battle @goto`. The list, arguments and help text live in `src/story/commands.ts`.
 
 Checks:
 
@@ -71,7 +71,25 @@ npm run gen:art -- --style retro --post-only       # re-run post-processing, no 
 
 Campus signs are drawn by Gemini from the exact Chinese text in the prompt (`assets/style/bible-campus.md`).
 UI font: [Fusion Pixel](https://github.com/TakWolf/fusion-pixel-font) 12px (OFL, `public/fonts/`), used at 12/24px only.
-Walk sheets are 3 columns × 4 rows (down, left, right, up); the game mirrors the left row for right.
+Walk sheets are 3 columns × 4 rows (down, left, right, up), or 3 × 2 for side-view characters.
+
+Paper-style dialogue uses OFL handwriting fonts. Install the build dependencies and regenerate the
+subsets after adding or changing story text:
+
+```bash
+python3 -m pip install --user fonttools brotli
+npm run fonts
+```
+
+The script downloads source fonts into ignored `assets/fonts-src/`, pins Noto Serif TC to weight 600,
+and writes subsetted WOFF2 fonts and their OFL licenses to `public/fonts/hands/`. The current hands are
+Noto Serif TC, LXGW WenKai TC, Iansui, and Chenyuluoyan; the build checks every non-ASCII character in
+the Ming story against each chosen font before producing output.
+
+Traditional-story files begin with `// script: hant`; the story linter checks their text with
+`opencc-js` (`cn` → `t`) and verifies that knots used by Hant maps are defined in Hant files.
+`npm run review` starts the local asset approval board on port 5174. `npm run check` includes the
+approval gate; use `npm run check:code` for code/story checks before the owner has approved pending art.
 
 **Audio** — `content/audio.yaml` (music, ambience, sfx prompts) plus every story line tagged `#vo`, voiced with the
 speaker's `voice.id` and the emotion's v3 audio tag from `cast.yaml`. Output in `public/audio/`, cached per request hash

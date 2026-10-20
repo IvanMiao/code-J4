@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { cast, FONT, PORTRAIT_HEIGHT } from '../config.ts';
 import type { LineEvent } from '../../story/parse.ts';
 import { pixelFrame } from './frame.ts';
+import { plainText } from '../../engine/handwriting.ts';
 
 const BOX = { x: 16, y: 392, w: 928, h: 136 };
 const CPS = 36;
@@ -38,7 +39,7 @@ export class DialogueBox {
 
   show(line: LineEvent): Promise<void> {
     const member = line.speaker ? cast[line.speaker] : null;
-    const emo = member && line.emotion && member.portraits[line.emotion] ? line.emotion : member?.default;
+    const emo = member && line.emotion && member.portraits?.[line.emotion] ? line.emotion : member?.default;
     const key = member ? `portrait:${line.speaker}:${emo}` : null;
     let textX = BOX.x + 32;
     if (key && this.scene.textures.exists(key)) {
@@ -58,7 +59,7 @@ export class DialogueBox {
       this.namePlate.fillStyle(0x4a2f17, 1).fillRect(textX + 4, BOX.y - 32, w - 8, 30);
     }
     this.body.setX(textX).setWordWrapWidth(BOX.x + BOX.w - 40 - textX);
-    this.full = line.text;
+    this.full = plainText(line.text);
     this.shown = 0;
     this.body.setText('');
     this.arrow.setVisible(false);

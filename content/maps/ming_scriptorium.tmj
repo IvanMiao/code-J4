@@ -1,0 +1,651 @@
+{
+ "type": "map",
+ "orientation": "orthogonal",
+ "width": 80,
+ "height": 45,
+ "tilewidth": 12,
+ "tileheight": 12,
+ "infinite": false,
+ "version": "1.10",
+ "tiledversion": "1.11.0",
+ "properties": [
+  {
+   "name": "title",
+   "type": "string",
+   "value": "經藏院 · 寫經房"
+  },
+  {
+   "name": "background",
+   "type": "string",
+   "value": "bg_scriptorium"
+  },
+  {
+   "name": "art",
+   "type": "string",
+   "value": "ming"
+  },
+  {
+   "name": "view",
+   "type": "string",
+   "value": "side"
+  },
+  {
+   "name": "script",
+   "type": "string",
+   "value": "hant"
+  },
+  {
+   "name": "player",
+   "type": "string",
+   "value": "shen"
+  },
+  {
+   "name": "dialogue",
+   "type": "string",
+   "value": "bubble"
+  },
+  {
+   "name": "scaleFar",
+   "type": "string",
+   "value": "1"
+  },
+  {
+   "name": "scaleNear",
+   "type": "string",
+   "value": "1"
+  },
+  {
+   "name": "intro",
+   "type": "string",
+   "value": "ming_scriptorium_intro"
+  },
+  {
+   "name": "frameInset",
+   "type": "string",
+   "value": "10"
+  }
+ ],
+ "layers": [
+  {
+   "type": "objectgroup",
+   "name": "walkable",
+   "objects": [
+    {
+     "id": 24,
+     "name": "w0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 110,
+       "y": 304
+      },
+      {
+       "x": 140,
+       "y": 304
+      },
+      {
+       "x": 140,
+       "y": 395
+      },
+      {
+       "x": 110,
+       "y": 395
+      }
+     ]
+    },
+    {
+     "id": 25,
+     "name": "w1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 110,
+       "y": 323
+      },
+      {
+       "x": 850,
+       "y": 323
+      },
+      {
+       "x": 850,
+       "y": 342
+      },
+      {
+       "x": 110,
+       "y": 342
+      }
+     ]
+    },
+    {
+     "id": 26,
+     "name": "w2",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 110,
+       "y": 333
+      },
+      {
+       "x": 850,
+       "y": 333
+      },
+      {
+       "x": 850,
+       "y": 458
+      },
+      {
+       "x": 110,
+       "y": 458
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "blocked",
+   "objects": [
+    {
+     "id": 27,
+     "name": "b0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 144,
+       "y": 341
+      },
+      {
+       "x": 398,
+       "y": 341
+      },
+      {
+       "x": 398,
+       "y": 458
+      },
+      {
+       "x": 144,
+       "y": 458
+      }
+     ]
+    },
+    {
+     "id": 28,
+     "name": "b1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 850,
+       "y": 300
+      },
+      {
+       "x": 960,
+       "y": 300
+      },
+      {
+       "x": 960,
+       "y": 458
+      },
+      {
+       "x": 850,
+       "y": 458
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "anchors",
+   "objects": [
+    {
+     "id": 29,
+     "name": "player_start",
+     "x": 145,
+     "y": 336,
+     "point": true
+    },
+    {
+     "id": 30,
+     "name": "from_street",
+     "x": 145,
+     "y": 336,
+     "point": true
+    },
+    {
+     "id": 31,
+     "name": "debate_spot",
+     "x": 465,
+     "y": 452,
+     "point": true
+    },
+    {
+     "id": 32,
+     "name": "behind_chest",
+     "x": 350,
+     "y": 336,
+     "point": true
+    },
+    {
+     "id": 33,
+     "name": "left_extreme",
+     "x": 145,
+     "y": 336,
+     "point": true
+    },
+    {
+     "id": 34,
+     "name": "right_extreme",
+     "x": 835,
+     "y": 350,
+     "point": true
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "actors",
+   "objects": [
+    {
+     "id": 13,
+     "name": "kuang",
+     "x": 696,
+     "y": 452,
+     "point": true,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_kuang"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "left"
+      }
+     ]
+    },
+    {
+     "id": 14,
+     "name": "monk_left",
+     "x": 306,
+     "y": 245,
+     "point": true,
+     "properties": [
+      {
+       "name": "depth",
+       "type": "string",
+       "value": "321"
+      }
+     ]
+    },
+    {
+     "id": 15,
+     "name": "monk_right",
+     "x": 795,
+     "y": 245,
+     "point": true,
+     "properties": [
+      {
+       "name": "depth",
+       "type": "string",
+       "value": "321"
+      }
+     ]
+    },
+    {
+     "id": 16,
+     "name": "linu",
+     "x": 274,
+     "y": 367,
+     "point": true,
+     "properties": [
+      {
+       "name": "depth",
+       "type": "string",
+       "value": "467"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "triggers",
+   "objects": [
+    {
+     "id": 17,
+     "name": "to_street",
+     "x": 0,
+     "y": 315,
+     "width": 140,
+     "height": 65,
+     "properties": [
+      {
+       "name": "exit",
+       "type": "string",
+       "value": "ming_canal_street:from_scriptorium"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "left"
+      }
+     ]
+    },
+    {
+     "id": 18,
+     "name": "ming_reading_table",
+     "x": 430,
+     "y": 333,
+     "width": 220,
+     "height": 38,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_reading_table"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      }
+     ]
+    },
+    {
+     "id": 19,
+     "name": "ming_monk_left",
+     "x": 225,
+     "y": 286,
+     "width": 40,
+     "height": 30,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_monk_left"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      },
+      {
+       "name": "actor",
+       "type": "string",
+       "value": "monk_left"
+      }
+     ]
+    },
+    {
+     "id": 20,
+     "name": "ming_monk_right",
+     "x": 720,
+     "y": 286,
+     "width": 170,
+     "height": 30,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_monk_right"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "up"
+      },
+      {
+       "name": "actor",
+       "type": "string",
+       "value": "monk_right"
+      }
+     ]
+    },
+    {
+     "id": 21,
+     "name": "ming_sutra_chest",
+     "x": 145,
+     "y": 319,
+     "width": 95,
+     "height": 20,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_sutra_chest"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "right"
+      }
+     ]
+    },
+    {
+     "id": 22,
+     "name": "ming_linu",
+     "x": 255,
+     "y": 319,
+     "width": 80,
+     "height": 20,
+     "properties": [
+      {
+       "name": "knot",
+       "type": "string",
+       "value": "ming_linu"
+      },
+      {
+       "name": "face",
+       "type": "string",
+       "value": "right"
+      },
+      {
+       "name": "actor",
+       "type": "string",
+       "value": "linu"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "foreground",
+   "objects": [
+    {
+     "id": 35,
+     "name": "fg0",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 144,
+       "y": 348
+      },
+      {
+       "x": 160,
+       "y": 330
+      },
+      {
+       "x": 380,
+       "y": 330
+      },
+      {
+       "x": 398,
+       "y": 348
+      },
+      {
+       "x": 398,
+       "y": 456
+      },
+      {
+       "x": 380,
+       "y": 466
+      },
+      {
+       "x": 160,
+       "y": 466
+      },
+      {
+       "x": 144,
+       "y": 452
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "466"
+      }
+     ]
+    },
+    {
+     "id": 36,
+     "name": "fg1",
+     "x": 0,
+     "y": 0,
+     "polygon": [
+      {
+       "x": 212,
+       "y": 338
+      },
+      {
+       "x": 216,
+       "y": 328
+      },
+      {
+       "x": 225,
+       "y": 320
+      },
+      {
+       "x": 234,
+       "y": 314
+      },
+      {
+       "x": 241,
+       "y": 309
+      },
+      {
+       "x": 248,
+       "y": 313
+      },
+      {
+       "x": 253,
+       "y": 320
+      },
+      {
+       "x": 259,
+       "y": 311
+      },
+      {
+       "x": 267,
+       "y": 307
+      },
+      {
+       "x": 279,
+       "y": 305
+      },
+      {
+       "x": 292,
+       "y": 307
+      },
+      {
+       "x": 304,
+       "y": 311
+      },
+      {
+       "x": 317,
+       "y": 318
+      },
+      {
+       "x": 326,
+       "y": 326
+      },
+      {
+       "x": 332,
+       "y": 337
+      },
+      {
+       "x": 330,
+       "y": 348
+      },
+      {
+       "x": 323,
+       "y": 357
+      },
+      {
+       "x": 313,
+       "y": 362
+      },
+      {
+       "x": 300,
+       "y": 365
+      },
+      {
+       "x": 285,
+       "y": 363
+      },
+      {
+       "x": 270,
+       "y": 361
+      },
+      {
+       "x": 258,
+       "y": 359
+      },
+      {
+       "x": 247,
+       "y": 364
+      },
+      {
+       "x": 235,
+       "y": 364
+      },
+      {
+       "x": 224,
+       "y": 360
+      },
+      {
+       "x": 218,
+       "y": 352
+      }
+     ],
+     "properties": [
+      {
+       "name": "baseline",
+       "type": "string",
+       "value": "466"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "objectgroup",
+   "name": "ambient",
+   "objects": [
+    {
+     "id": 23,
+     "name": "motes",
+     "x": 0,
+     "y": 0,
+     "width": 960,
+     "height": 380,
+     "properties": [
+      {
+       "name": "kind",
+       "type": "string",
+       "value": "motes"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

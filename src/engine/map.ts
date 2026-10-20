@@ -6,12 +6,15 @@ interface TiledObject {
   id: number; name: string; x: number; y: number; width?: number; height?: number;
   point?: boolean; polygon?: Vec[]; properties?: TiledProperty[];
 }
-interface TiledLayer { type: string; name: string; objects?: TiledObject[] }
+interface TiledLayer {
+  id?: number; type: string; name: string; objects?: TiledObject[]; image?: string; x?: number; y?: number;
+  offsetx?: number; offsety?: number; parallaxx?: number; parallaxy?: number; properties?: TiledProperty[];
+}
 interface TiledMap { width: number; height: number; tilewidth: number; tileheight: number; properties?: TiledProperty[]; layers: TiledLayer[] }
 
-export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string }
+export interface MapActor { id: string; x: number; y: number; knot: string | null; face: string; depth?: number }
 /** `face`: the direction the player must face to use it (i.e. the side it is used from). */
-export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean; icon?: string; sfx?: string }
+export interface MapTrigger { id: string; x: number; y: number; width: number; height: number; knot: string; auto: boolean; face: string | null; hidden: boolean; actor?: string; icon?: string; sfx?: string }
 
 /** Decorative life (fountain spray, swaying grass, birds…) placed in a rect; `kind` picks the effect. */
 export interface MapAmbient { kind: string; x: number; y: number; width: number; height: number; props: Record<string, string> }
@@ -19,9 +22,19 @@ export interface MapAmbient { kind: string; x: number; y: number; width: number;
 /** A piece of the background redrawn above actors whose feet are above `baseline` (tree canopies, roofs). */
 export interface MapForeground { polygon: Polygon; baseline: number }
 
+export interface MapImageLayer {
+  id: string;
+  image: string;
+  x: number;
+  y: number;
+  parallaxX: number;
+  parallaxY: number;
+  plane: 'back' | 'front';
+}
+
 /** Walking into the rect moves the player to `anchor` on `map`. */
 export interface MapExit {
-  id: string; x: number; y: number; width: number; height: number; map: string; anchor: string; face: Facing; sfx?: string;
+  id: string; x: number; y: number; width: number; height: number; map: string; anchor: string; face: Facing | null; sfx?: string;
 }
 
 export type ExitEdge = Facing;
@@ -34,11 +47,43 @@ export function exitEdge(exit: Pick<MapExit, 'x' | 'y' | 'width' | 'height' | 'f
   return exit.face ?? 'up';
 }
 
+export function exitCanBeUsed(exit: Pick<MapExit, 'face'>, facing: Facing): boolean {
+  return !exit.face || exit.face === facing;
+}
+
+export function armExits(exits: readonly MapExit[], pos: Vec, armed: ReadonlySet<string>): Set<string> {
+  const next = new Set(armed);
+  for (const exit of exits) {
+    if (!inRect(pos, exit)) next.add(exit.id);
+  }
+  return next;
+}
+
+export function pickExit(
+  exits: readonly MapExit[],
+  pos: Vec,
+  facing: Facing,
+  armed: ReadonlySet<string>,
+): MapExit | undefined {
+  return exits.find((exit) => armed.has(exit.id) && exitCanBeUsed(exit, facing) && inRect(pos, exit));
+}
+
 export interface FieldMap {
   title: string;
   width: number;
   height: number;
   background: string;
+  art: string | null;
+  view: 'top' | 'side';
+  script: 'hans' | 'hant';
+  player: string;
+  dialogue: 'box' | 'bubble';
+  intro: string | null;
+  scaleFar: number;
+  scaleNear: number;
+  frameInset: number;
+  paintedTitle: boolean;
+  paperGrain: number;
   ground: string;
   bgm: string | null;
   ambience: string | null;
@@ -50,6 +95,7 @@ export interface FieldMap {
   triggers: MapTrigger[];
   foreground: MapForeground[];
   ambient: MapAmbient[];
+  layers: MapImageLayer[];
 }
 
 const prop = (o: { properties?: TiledProperty[] }, name: string) => o.properties?.find((p) => p.name === name)?.value;
@@ -60,11 +106,27 @@ export function parseMap(raw: string | TiledMap): FieldMap {
   const poly = (o: TiledObject) => (o.polygon ?? []).map((p) => ({ x: p.x + o.x, y: p.y + o.y }));
   const rect = (o: TiledObject) => ({ id: o.name, x: o.x, y: o.y, width: o.width ?? 0, height: o.height ?? 0 });
   const triggers = layer('triggers');
+  const view = String(prop(map, 'view') ?? 'top');
+  const script = String(prop(map, 'script') ?? 'hans');
+  const dialogue = String(prop(map, 'dialogue') ?? 'box');
+  const art = prop(map, 'art');
+  const intro = prop(map, 'intro');
   return {
     title: String(prop(map, 'title') ?? ''),
     width: map.width * map.tilewidth,
     height: map.height * map.tileheight,
     background: String(prop(map, 'background') ?? ''),
+    art: art == null || art === '' ? null : String(art),
+    view: view === 'side' ? 'side' : 'top',
+    script: script === 'hant' ? 'hant' : 'hans',
+    player: String(prop(map, 'player') ?? 'linxia'),
+    dialogue: dialogue === 'bubble' ? 'bubble' : 'box',
+    intro: intro == null || intro === '' ? null : String(intro),
+    scaleFar: Number(prop(map, 'scaleFar') ?? 1),
+    scaleNear: Number(prop(map, 'scaleNear') ?? 1),
+    frameInset: Number(prop(map, 'frameInset') ?? 0),
+    paintedTitle: String(prop(map, 'paintedTitle') ?? 'false') === 'true',
+    paperGrain: Number(prop(map, 'paperGrain') ?? 0),
     ground: String(prop(map, 'ground') ?? 'stone'),
     bgm: (prop(map, 'bgm') as string) ?? null,
     ambience: (prop(map, 'ambience') as string) ?? null,
@@ -74,18 +136,23 @@ export function parseMap(raw: string | TiledMap): FieldMap {
       const [m, anchor] = String(prop(o, 'exit')).split(':');
       return {
         ...rect(o), map: m, anchor,
-        face: String(prop(o, 'face') ?? 'up') as Facing,
+        face: prop(o, 'face') == null ? null : String(prop(o, 'face')) as Facing,
         sfx: (prop(o, 'sfx') as string) ?? undefined,
       };
     }),
     anchors: Object.fromEntries(layer('anchors').map((o) => [o.name, { x: o.x, y: o.y }])),
-    actors: layer('actors').map((o) => ({
-      id: o.name, x: o.x, y: o.y, knot: (prop(o, 'knot') as string) ?? null, face: (prop(o, 'face') as string) ?? 'down',
-    })),
+    actors: layer('actors').map((o) => {
+      const depth = prop(o, 'depth');
+      return {
+        id: o.name, x: o.x, y: o.y, knot: (prop(o, 'knot') as string) ?? null, face: (prop(o, 'face') as string) ?? 'down',
+        depth: depth == null ? undefined : Number(depth),
+      };
+    }),
     triggers: triggers.filter((o) => !prop(o, 'exit')).map((o) => ({
       ...rect(o),
       knot: String(prop(o, 'knot') ?? o.name), auto: prop(o, 'auto') === true, face: (prop(o, 'face') as string) ?? null,
       hidden: String(prop(o, 'hidden')) === 'true',
+      actor: (prop(o, 'actor') as string) ?? undefined,
       icon: (prop(o, 'icon') as string) ?? undefined,
       sfx: (prop(o, 'sfx') as string) ?? undefined,
     })),
@@ -96,6 +163,15 @@ export function parseMap(raw: string | TiledMap): FieldMap {
     ambient: layer('ambient').map((o) => ({
       ...rect(o), kind: String(prop(o, 'kind') ?? o.name),
       props: Object.fromEntries((o.properties ?? []).map((p) => [p.name, String(p.value)])),
+    })),
+    layers: map.layers.filter((l) => l.type === 'imagelayer').map((l) => ({
+      id: String(l.id ?? l.name),
+      image: String(l.image ?? ''),
+      x: Number(l.offsetx ?? l.x ?? 0),
+      y: Number(l.offsety ?? l.y ?? 0),
+      parallaxX: Number(l.parallaxx ?? 1),
+      parallaxY: Number(l.parallaxy ?? 1),
+      plane: prop(l, 'plane') === 'front' ? 'front' : 'back',
     })),
   };
 }

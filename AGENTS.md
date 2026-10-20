@@ -54,6 +54,11 @@ AI art and hand-written map data drift apart easily. Most bugs so far come from 
 - Gemini copies the layout of a reference design sheet into its output (extra rows of sitting poses). Use `crop` to keep only the band you asked for, or drop the ref and describe the character in text.
 - Every story trigger has `face` (the direction the player must face to use it). `lint:story` fails if a trigger has no `face` or no walkable spot in front of it.
 - Canopies, roofs and other things actors walk behind go in the `foreground` layer: a polygon hugging the object plus `baseline` (its ground y). Do not use loose rectangles; they hide actors on open ground.
+- Paint a scene once with its figures present, then measure those figures against the finished plate before building map geometry.
+- Erase only inside supplied, measured boxes; keep seated figures in the plate and cut their small pose loops from that same picture.
+- Keep pose loops subtle and fixed in place; do not replace painted seated figures with separately generated characters.
+- Draw the paper frame above actors and lint every walkable point for sprite-width and head clearance inside its inset.
+- Hard-check map review stamps and painted-reference scale before an asset can be approved.
 
 ## Ambient and hidden spots
 - Scene motion lives in each map's `ambient` object layer (`kind`: grass, flowers, leaves, motes, fountain, birds, butterflies, glint). Grass and flowers sample the background colour under them, so only place them over real lawns and beds.
@@ -64,4 +69,3 @@ AI art and hand-written map data drift apart easily. Most bugs so far come from 
 - Passing a multi-pose design sheet as a ref makes Gemini copy its grid layout (2x3, 2x2) instead of one row of three. Generate the down strip with no ref, then use finished strips (single-row) as refs for the others. Never blind-`crop` a strip: check the raw first.
 - Equal box height is not equal size. A cat's front/back view includes the raised tail and foreshortened body, so use per-strip `fitHeight` (sheet post step) and compare head width across rows, not frame height.
 - Animated effects on top of painted art: if the background already paints the effect (fountain ripples), cover it first (the fountain ambient flattens the water) or the result reads as static art plus a second layer.
-

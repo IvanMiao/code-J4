@@ -1,0 +1,209 @@
+bg:archive:
+  status: approved
+  hash: b2cc9abb179cb2db
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:avenue:
+  status: approved
+  hash: 23050f4b8d7d9f17
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:city_ferry:
+  status: approved
+  hash: 1f680a9e04bcdfb9
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:city_overpass:
+  status: approved
+  hash: 1b1539977b67ee03
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:city_tenement:
+  status: approved
+  hash: 3da72f424ba5ac78
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:gate:
+  status: approved
+  hash: 2ee3d7230939e5f8
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:library:
+  status: approved
+  hash: ef352c5f01cc01e9
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:ming_canal_street:
+  status: pending
+  hash: fa8b34f9dbc4c0cf
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+bg:ming_scriptorium:
+  status: pending
+  hash: b390bd4801058aae
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+bg:suburb_breakwater:
+  status: approved
+  hash: 595dcbdb6a03c519
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:suburb_dyeworks:
+  status: approved
+  hash: e2a9f5212a01d7f8
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:suburb_wireframe:
+  status: approved
+  hash: 70f0ecda25ee02af
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+hand:brush:
+  status: pending
+  hash: db9eecfa3e8eb9be
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history:
+    - status: pending
+      hash: 3ab846dc9eebd605
+      note: ""
+      at: 2026-10-18
+hand:kai:
+  status: pending
+  hash: 008e65524c1a21ed
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history:
+    - status: pending
+      hash: 978908d7e8075407
+      note: ""
+      at: 2026-10-18
+hand:rough:
+  status: pending
+  hash: 85ecc0c424c3ea62
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history:
+    - status: pending
+      hash: 440ef303f2bb0fa9
+      note: ""
+      at: 2026-10-18
+hand:song:
+  status: pending
+  hash: a398499d7576c1b7
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history:
+    - status: pending
+      hash: e8513292fbda8a45
+      note: ""
+      at: 2026-10-18
+hand:xing:
+  status: pending
+  hash: 832fb6f3d31834f3
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history:
+    - status: pending
+      hash: 6fbfb6a96f348458
+      note: ""
+      at: 2026-10-18
+sprite:andreas:
+  status: pending
+  hash: f1ff3917fdb734cd
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+sprite:kuang:
+  status: pending
+  hash: e8870131a2edae19
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+sprite:linxia:
+  status: approved
+  hash: a3d6a327d6f54016
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+sprite:nika:
+  status: approved
+  hash: ad56df485ba767e9
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+sprite:shen:
+  status: pending
+  hash: b9bd2ef509281730
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+bg:avenue_kiosk:
+  status: approved
+  hash: 959b15fefa2bf2c0
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+bg:city_backalley:
+  status: approved
+  hash: 47f30b86bfa3a9fd
+  note: in main before the review flow
+  at: 2026-10-18
+  legacy: true
+  history: []
+pose:linu:
+  status: pending
+  hash: cd9f8fecb2ecb2b5
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+pose:monk_left:
+  status: pending
+  hash: 6bd45113c6dab69a
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []
+pose:monk_right:
+  status: pending
+  hash: bea57b505163d6c0
+  note: ""
+  at: 2026-10-18
+  legacy: false
+  history: []

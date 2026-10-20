@@ -1,4 +1,4 @@
-/** Draws each map's collision and trigger layers over its retro background at 1x: `npm run maps:overlay [outDir]`. */
+/** Draws each map's collision and trigger layers over its background (retro unless the map sets `art`) at 1x: `npm run maps:overlay [outDir]`. */
 import { readdirSync, readFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
@@ -10,8 +10,10 @@ mkdirSync(outDir, { recursive: true });
 
 for (const f of readdirSync(join(ROOT, 'content/maps')).filter((f) => f.endsWith('.tmj'))) {
   const id = f.replace('.tmj', '');
-  const m = parseMap(JSON.parse(readFileSync(join(ROOT, 'content/maps', f), 'utf8')));
-  const bg = join(ROOT, 'public/art/retro', `${m.background}.png`);
+  const raw = JSON.parse(readFileSync(join(ROOT, 'content/maps', f), 'utf8'));
+  const m = parseMap(raw);
+  const art = raw.properties?.find((p: { name: string }) => p.name === 'art')?.value ?? 'retro';
+  const bg = join(ROOT, 'public/art', art, `${m.background}.png`);
   const meta = await sharp(bg).metadata();
   const k = meta.width! / m.width;
   const pts = (p: { x: number; y: number }[]) => p.map((v) => `${v.x * k},${v.y * k}`).join(' ');
@@ -24,6 +26,7 @@ for (const f of readdirSync(join(ROOT, 'content/maps')).filter((f) => f.endsWith
     ...m.foreground.map((f) => `<polygon points="${pts(f.polygon)}" fill="none" stroke="#ff00ff" stroke-dasharray="3"/>`),
     ...m.triggers.map((t) => rect(t, 'fill="#3399ff" fill-opacity="0.4" stroke="#3399ff"')),
     ...m.exits.map((e) => rect(e, 'fill="#ffff00" fill-opacity="0.5"')),
+    ...m.actors.map((a) => `<circle cx="${a.x * k}" cy="${a.y * k}" r="4" fill="#ff8800"/>`),
     ...(m.ambient ?? []).map((a) => rect(a, 'fill="none" stroke="#00ffff" stroke-dasharray="2"')),
     '</svg>',
   ].join('');

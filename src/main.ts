@@ -1,11 +1,17 @@
 import Phaser from 'phaser';
-import { HEIGHT, WIDTH } from './game/config.ts';
+import { HANDS, HEIGHT, WIDTH } from './game/config.ts';
 import { BootScene } from './game/scenes/Boot.ts';
 import { FieldScene } from './game/scenes/Field.ts';
 import { BattleScene } from './game/scenes/Battle.ts';
 
-// Canvas text needs the CJK web font loaded before the first Text object is drawn.
-await Promise.race([document.fonts.load('12px "Fusion Pixel"', '中文字体'), new Promise((r) => setTimeout(r, 3000))]);
+// Canvas text needs the CJK web fonts loaded before the first Text object is drawn.
+await Promise.race([
+  Promise.all([
+    document.fonts.load('12px "Fusion Pixel"', '中文字体'),
+    ...Object.values(HANDS).map(({ family }) => document.fonts.load(`24px "${family}"`, '中文字体')),
+  ]),
+  new Promise((r) => setTimeout(r, 3000)),
+]);
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -13,7 +19,8 @@ const game = new Phaser.Game({
   width: WIDTH,
   height: HEIGHT,
   backgroundColor: '#07090f',
-  pixelArt: true,
+  pixelArt: false,
+  roundPixels: true,
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   scene: [BootScene, FieldScene, BattleScene],
 });

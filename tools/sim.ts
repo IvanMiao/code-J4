@@ -9,9 +9,10 @@
  */
 import { compileInk } from './lib/ink.ts';
 import { entryKnots, loadContent, STORY_ENTRY, validateCommand, type Content } from './lib/content.ts';
-import { speakerResolver } from '../src/engine/content.ts';
+import { isValidEmotion, speakerResolver } from '../src/engine/content.ts';
 import { COMMANDS } from '../src/story/commands.ts';
 import { StoryRunner } from '../src/story/runner.ts';
+import { plainText } from '../src/engine/handwriting.ts';
 
 const MAX_EVENTS = 2000;
 const MAX_PATHS_PER_RUN = 400;
@@ -40,8 +41,8 @@ export async function playPath(json: string, content: Content, knot: string, sta
       async line(e) {
         tick();
         const m = e.speaker ? cast[e.speaker] : null;
-        if (m && e.emotion && !m.portraits[e.emotion]) errors.push(`${m.name} has no #${e.emotion} portrait: "${e.text}"`);
-        transcript.push(`${m ? m.name + '：' : ''}${e.text}${e.emotion ? `  #${e.emotion}` : ''}`);
+        if (m && e.emotion && !isValidEmotion(m, e.emotion)) errors.push(`${m.name} has no #${e.emotion} emotion: "${plainText(e.text)}"`);
+        transcript.push(`${m ? m.name + '：' : ''}${plainText(e.text)}${e.emotion ? `  #${e.emotion}` : ''}`);
       },
       async command(c) {
         tick();

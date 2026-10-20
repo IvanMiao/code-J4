@@ -340,5 +340,41 @@
       "retro/walk_nika_down"
     ],
     "generatedAt": "2026-10-10T15:23:20.594Z"
+  },
+  "ming/walk_shen_side": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "7fcb1fb252bc67af",
+    "refs": [],
+    "generatedAt": "2026-10-18T13:17:13.705Z"
+  },
+  "ming/bg_scriptorium": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "5ee79ea4f06a77c6",
+    "refs": [],
+    "generatedAt": "2026-10-18T13:17:19.531Z"
+  },
+  "ming/bg_canal_street": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "239598137eba5e3f",
+    "refs": [],
+    "generatedAt": "2026-10-18T13:17:21.296Z"
+  },
+  "ming/walk_kuang_side": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "b8fd23296027894e",
+    "refs": [],
+    "generatedAt": "2026-10-18T13:17:32.845Z"
+  },
+  "ming/walk_andreas_side": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "75a903da89876bb6",
+    "refs": [],
+    "generatedAt": "2026-10-18T13:17:36.789Z"
+  },
+  "ming/walk_linu_side": {
+    "model": "gemini-3-pro-image",
+    "promptHash": "5ea6cd8e9867fde9",
+    "refs": [],
+    "generatedAt": "2026-10-18T13:17:51.639Z"
   }
 }

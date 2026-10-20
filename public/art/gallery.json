@@ -66,6 +66,69 @@
     "refs": []
   },
   {
+    "id": "retro/bg_archive",
+    "out": "art/retro/bg_archive.png",
+    "prompt": "Layout-first RPG field map: university archives (校史馆) and old boiler room courtyard, stone tortoise stela, lotus pond, retro vending machines, open paved road from left to right, plane trees along lower sidewalk.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_avenue"
+    ]
+  },
+  {
+    "id": "retro/bg_city_overpass",
+    "out": "art/retro/bg_city_overpass.png",
+    "prompt": "Layout-first RPG field map: Under Overpass No. 9 (九号高架桥底), e-bike repair shop (电动车修理), public payphone and transformer box, claypot beef noodle stall (砂锅牛肉面), 302 bus stop, open asphalt street, parked delivery scooters and plastic tables on lower sidewalk.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_avenue"
+    ]
+  },
+  {
+    "id": "retro/bg_suburb_dyeworks",
+    "out": "art/retro/bg_suburb_dyeworks.png",
+    "prompt": "Layout-first RPG field map: Abandoned Dye Works No. 3 (第三印染厂), iridescent rainbow dye lagoon, rusted pipe valve, gravel road, glowing white 2D wireframe ruin on lower lawn, jagged #00FF00 chroma-key tear on the right edge.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_avenue"
+    ]
+  },
+  {
+    "id": "retro/bg_city_tenement",
+    "out": "art/retro/bg_city_tenement.png",
+    "prompt": "Layout-first RPG field map: Old City Backstreet Tenement (背街筒子楼), Old Book Newsstand (旧书报亭), North Back-Alley, Corner Grocery (便民杂货), stone chess table and plane trees along lower sidewalk.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_city_overpass"
+    ]
+  },
+  {
+    "id": "retro/bg_city_ferry",
+    "out": "art/retro/bg_city_ferry.png",
+    "prompt": "Layout-first RPG field map: Old City River Ferry Pier (江城轮渡), concrete flood wall and ticket booth, moored rust-red iron ferry boat with wooden gangplank, cargo crates and riverside bench.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_city_overpass"
+    ]
+  },
+  {
+    "id": "retro/bg_suburb_wireframe",
+    "out": "art/retro/bg_suburb_wireframe.png",
+    "prompt": "Layout-first RPG field map: Suburban Wireframe Villa Commune (烂尾线稿别墅区), half red-brick and half glowing white 2D wireframe villa, campfire kettle, rusted pipeline pump station, concrete drainage pipes and wireframe arch.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_suburb_dyeworks"
+    ]
+  },
+  {
+    "id": "retro/bg_suburb_breakwater",
+    "out": "art/retro/bg_suburb_breakwater.png",
+    "prompt": "Layout-first RPG field map: Chroma-Key Breakwater Pier (绿幕防波堤), corrugated iron barrier reading 清样重地, concrete pier extending into #00FF00 green void, brass surveyor telescope, wireframe tetrapod reefs.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "retro/bg_suburb_dyeworks"
+    ]
+  },
+  {
     "id": "retro/walk_linxia_down",
     "out": "assets/strips/walk_linxia_down.png",
     "prompt": "Sprite strip: exactly THREE full-body frames of the SAME character in one horizontal row, evenly spaced, generous empty green space between them, all the same size. ALL THREE frames face DOWN, walking straight toward the viewer (front view, face visible). Frame 1: mid-stride, left foot forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, right foot forward. Seen from the oblique 3/4 top-down game camera. No grid lines, no labels. Character: a 26-year-old Chinese woman, short black bob hair, tired but kind eyes, oversized olive-green bomber jacket over a cream hoodie, dark jeans, white sneakers, small black backpack. Match the reference design sheet exactly. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no shadow on the ground, no gradient. Give the subject a thin 2px white outline so it separates cleanly from the green.",
@@ -211,6 +274,55 @@
     "refs": [
       "hd/design_juzi"
     ]
+  },
+  {
+    "id": "ming/walk_shen_side",
+    "out": "assets/strips/ming_walk_shen_side.png",
+    "prompt": "ASSET: character design strip for a 2D side-scrolling game set in a late-Ming Jiangnan canal town. The FIRST image is the game's background plate: match ITS drawing manner exactly (it is the style reference: same black ink contour weight, same hatching manner, same flat muted washes of indigo, ochre, cinnabar and malachite, same warm paper tone in the figure's colours). The figure will be shown only about 110 px tall on a 540 px screen, standing in that street, so draw him like a figure that belongs IN that plate: bold clean outer contour, few simple inner lines, flat colour areas, clear readable silhouette, natural adult proportions (6.5 heads tall), no tiny fussy detail.\nExactly THREE full-body frames of the same man in one horizontal row and nothing else, evenly spaced, generous space between them, all the same size, soles on one baseline. ALL THREE are strict SIDE PROFILE facing RIGHT (nose, knees and toes point right; never turn toward the viewer): frame 1 mid-stride right leg forward, frame 2 passing pose with legs together, frame 3 mid-stride left leg forward. Compact Ming walking stride; the robe hem moves with the legs.\nNo grid lines, no labels, no text, no ground, no shadow. Flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.\n\n\nTHE MAN: Shen Yan, a young county-office clerk: slim, clean-shaven, calm face, a dark blue-grey long scholar robe with a pale collar and a black sash, a black square cloth cap, black cloth shoes, a bundle of tied documents held under his left arm. The SECOND image (if present) shows his current costume design; keep the costume and colours, but redraw him in the plate manner.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "assets/raw/ming/style_crop_canal_long.png"
+    ]
+  },
+  {
+    "id": "ming/walk_shen",
+    "out": "art/ming/walk_shen.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_kuang_side",
+    "out": "assets/strips/ming_walk_kuang_side.png",
+    "prompt": "ASSET: sprite strip for the man in the reference image (the bald old hermit with the long grey beard, hemp robe and gnarled staff). Redraw THIS SAME man: same face, same costume, same colours, same line weight, same proportions, same woodblock-print drawing manner as the reference crop. Do not restyle him. Exactly THREE full-body frames of him in one horizontal row and nothing else, evenly spaced, generous empty space between them, all exactly the same size. ALL THREE frames are in strict SIDE PROFILE walking toward the RIGHT edge of the image: nose, toes and knees point RIGHT, the face is never turned toward the viewer. Frame 1: mid-stride, right leg forward. Frame 2: passing pose, legs together. Frame 3: mid-stride, left leg forward. Feet on one baseline. He walks slowly with the staff in his front hand, the staff tip touching the baseline in every frame. No grid lines, no labels, no ground, no shadow. Plain flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.",
+    "model": "gemini-3.1-flash-image",
+    "refs": [
+      "assets/raw/ming/crop_kuang_ref.png"
+    ]
+  },
+  {
+    "id": "ming/walk_kuang",
+    "out": "art/ming/walk_kuang.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
+  },
+  {
+    "id": "ming/walk_andreas_side",
+    "out": "assets/strips/ming_walk_andreas_side.png",
+    "prompt": "ASSET: character design strip for a 2D side-scrolling game set in a late-Ming Jiangnan canal town. The FIRST image is the game's background plate: match ITS drawing manner exactly (it is the style reference: same black ink contour weight, same hatching manner, same flat muted washes of indigo, ochre, cinnabar and malachite, same warm paper tone in the figure's colours). The figure will be shown only about 110 px tall on a 540 px screen, standing in that street, so draw him like a figure that belongs IN that plate: bold clean outer contour, few simple inner lines, flat colour areas, clear readable silhouette, natural adult proportions (6.5 heads tall), no tiny fussy detail.\nExactly THREE full-body frames of the same man in one horizontal row and nothing else, evenly spaced, generous space between them, all the same size, soles on one baseline. ALL THREE are strict SIDE PROFILE facing RIGHT (nose, knees and toes point right; never turn toward the viewer): frame 1 mid-stride right leg forward, frame 2 passing pose with legs together, frame 3 mid-stride left leg forward. Compact Ming walking stride; the robe hem moves with the legs.\nNo grid lines, no labels, no text, no ground, no shadow. Flat pure chroma-key green background (#00FF00) filling the whole image, no gradient, no paper texture on the background.\n\n\nTHE MAN: Andreas, a European Jesuit scholar in China around 1600, dressed as a Chinese literatus: tall, pale face, prominent nose, full brown beard, a long purple scholar robe, a tall black square literati hat (四方平定巾 / 東坡巾), black cloth shoes, a small book held in one hand. The SECOND image (if present) shows his current costume design; keep the costume and colours, but redraw him in the plate manner.",
+    "model": "gemini-3-pro-image",
+    "refs": [
+      "assets/raw/ming/style_crop_canal_long.png",
+      "assets/raw/ming/andreas_old_ref.png"
+    ]
+  },
+  {
+    "id": "ming/walk_andreas",
+    "out": "art/ming/walk_andreas.png",
+    "prompt": "",
+    "model": "gemini-3.1-flash-image",
+    "refs": []
   },
   {
     "id": "retro/design_linxia",

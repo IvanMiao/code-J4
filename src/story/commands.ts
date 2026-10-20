@@ -1,6 +1,6 @@
 /** Every `@command` the story may use. Shared by the game, `lint:story` and the headless sim. */
 export interface CommandSpec {
-  /** Positional args in order. `actor` = cast id, `anchor` = map anchor, `actorOrAnchor` = either. */
+  /** Positional args in order. `actor` = cast id, `map` = map id, `anchor` = map anchor. */
   args: ArgKind[];
   /** Allowed `key=value` options and their kinds. */
   options?: Record<string, ArgKind>;
@@ -9,7 +9,7 @@ export interface CommandSpec {
   help: string;
 }
 
-export type ArgKind = 'actor' | 'anchor' | 'actorOrAnchor' | 'dir' | 'emote' | 'number' | 'audio' | 'item' | 'id' | 'inOut';
+export type ArgKind = 'actor' | 'map' | 'anchor' | 'actorOrAnchor' | 'dir' | 'emote' | 'number' | 'audio' | 'item' | 'id' | 'inOut';
 
 export const COMMANDS: Record<string, CommandSpec> = {
   bgm: { args: ['audio'], options: { fade: 'number' }, help: 'Play looping music: @bgm campus_afternoon fade=2  (@bgm stop to stop)' },
@@ -24,6 +24,7 @@ export const COMMANDS: Record<string, CommandSpec> = {
   shake: { args: [], options: { time: 'number', strength: 'number' }, help: 'Shake the camera: @shake time=0.3' },
   show: { args: ['actor'], options: { at: 'anchor', face: 'dir' }, help: 'Place an actor on the map: @show nika at=lib_steps face=left' },
   hide: { args: ['actor'], help: 'Remove an actor from the map: @hide nika' },
+  goto: { args: ['map', 'anchor'], help: 'Travel to an anchor on another map: @goto ming_village gate' },
   give: { args: ['item'], options: { n: 'number' }, help: 'Add an item to the bag: @give fish_snack n=1' },
   take: { args: ['item'], options: { n: 'number' }, help: 'Remove an item from the bag: @take cat_treat' },
   battle: {

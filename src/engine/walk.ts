@@ -28,11 +28,20 @@ export function walkableFoot(p: Vec, areas: Polygon[], blocked: Polygon[] = [], 
 }
 
 /** Moves from `from` by `delta`, sliding along edges when the full step leaves the walkable area. */
-export function step(from: Vec, delta: Vec, areas: Polygon[], blocked: Polygon[] = [], foot = FOOT): Vec {
+export function step(from: Vec, delta: Vec, areas: Polygon[], blocked: Polygon[] = [], foot = FOOT, climb = 0): Vec {
   const full = { x: from.x + delta.x, y: from.y + delta.y };
   if (walkableFoot(full, areas, blocked, foot)) return full;
   const xOnly = { x: from.x + delta.x, y: from.y };
   if (delta.x && walkableFoot(xOnly, areas, blocked, foot)) return xOnly;
+  if (delta.x && climb > 0) {
+    const maxOffset = Math.ceil(Math.abs(delta.x) * climb);
+    for (let offset = 1; offset <= maxOffset; offset++) {
+      for (const dy of [-offset, offset]) {
+        const candidate = { x: from.x + delta.x, y: from.y + dy };
+        if (walkableFoot(candidate, areas, blocked, foot)) return candidate;
+      }
+    }
+  }
   const yOnly = { x: from.x, y: from.y + delta.y };
   if (delta.y && walkableFoot(yOnly, areas, blocked, foot)) return yOnly;
   return from;
@@ -43,6 +52,12 @@ export type Facing = 'up' | 'down' | 'left' | 'right';
 export function facingOf(dx: number, dy: number, fallback: Facing): Facing {
   if (!dx && !dy) return fallback;
   return Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? 'left' : 'right') : dy < 0 ? 'up' : 'down';
+}
+
+export function sideFacing(dx: number, fallback: Facing): Facing {
+  if (dx < 0) return 'left';
+  if (dx > 0) return 'right';
+  return fallback === 'left' || fallback === 'right' ? fallback : 'right';
 }
 
 export function facingVec(f: Facing): Vec {

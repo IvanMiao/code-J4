@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { compileInk } from '../tools/lib/ink.ts';
-import { loadContent, STORY_ENTRY } from '../tools/lib/content.ts';
+import { checkExits, loadContent, STORY_ENTRY } from '../tools/lib/content.ts';
 import { lintStory } from '../tools/lint-story.ts';
 import { playPath, simulate } from '../tools/sim.ts';
 import { speakerResolver } from '../src/engine/content.ts';
 import { StoryRunner } from '../src/story/runner.ts';
+import { isValidEmotion } from '../src/engine/content.ts';
+import { parseCommand } from '../src/story/parse.ts';
+import { validateCommand } from '../tools/lib/content.ts';
 
 const build = compileInk(STORY_ENTRY);
 const content = loadContent();
@@ -12,9 +15,9 @@ const content = loadContent();
 describe('story', () => {
   it('compiles, lints and simulates cleanly', async () => {
     expect(build.errors).toEqual([]);
-    expect(lintStory().errors).toEqual([]);
+    expect((await lintStory()).errors).toEqual([]);
     expect((await simulate()).failures).toEqual([]);
-  });
+  }, 60_000);
 
   it('the cat only talks once it trusts you', async () => {
     const ignore = await playPath(build.json, content, 'nika_talk', null, [1]);
@@ -37,5 +40,65 @@ describe('story', () => {
     const b = new StoryRunner(build.json, speakerResolver(content.cast));
     b.restoreVariables(a.variables());
     expect(b.story.variablesState['met_nika']).toBe(true);
+  });
+
+  it('accepts cast emotions without portrait art', () => {
+    const castMember = { name: '测试', sprite: 'x', default: 'calm', emotions: ['wry'] };
+    expect(isValidEmotion(castMember, 'wry')).toBe(true);
+    expect(isValidEmotion(castMember, 'calm')).toBe(false);
+  });
+
+  it('@goto validates the selected map and its own anchors', () => {
+    const good = parseCommand('@goto gate player_start')!;
+    expect(validateCommand(good, content)).toEqual([]);
+    expect(validateCommand(parseCommand('@goto unknown_map player_start')!, content)).toContain('@goto: unknown map "unknown_map"');
+    expect(validateCommand(parseCommand('@goto gate lib_steps')!, content)).toContain('@goto: unknown anchor "gate:lib_steps"');
+  });
+
+  it('rejects anchors inside exit rectangles on any map', () => {
+    const map = content.maps.ming_scriptorium;
+    const canal = content.maps.ming_canal_street;
+    const invalid = {
+      ...content,
+      maps: {
+        ...content.maps,
+        ming_scriptorium: {
+          ...map,
+          anchors: { ...map.anchors, from_street: { x: 125, y: 350 } },
+        },
+        ming_canal_street: {
+          ...canal,
+          exits: canal.exits.map((exit) => exit.id === 'to_scriptorium' ? { ...exit, face: 'left' as const } : exit),
+        },
+      },
+    };
+    expect(checkExits(invalid)).toContain('map ming_scriptorium: anchor "from_street" is inside exit "to_street"');
+
+    const wrongArrivalFace = {
+      ...invalid,
+      maps: {
+        ...invalid.maps,
+        ming_canal_street: {
+          ...invalid.maps.ming_canal_street,
+          exits: invalid.maps.ming_canal_street.exits.map((exit) =>
+            exit.id === 'to_scriptorium' ? { ...exit, face: 'down' as const } : exit),
+        },
+      },
+    };
+    expect(checkExits(wrongArrivalFace)).not.toContain('map ming_scriptorium: anchor "from_street" is inside exit "to_street"');
+
+    const noFace = {
+      ...wrongArrivalFace,
+      maps: {
+        ...wrongArrivalFace.maps,
+        ming_scriptorium: {
+          ...wrongArrivalFace.maps.ming_scriptorium,
+          exits: wrongArrivalFace.maps.ming_scriptorium.exits.map((exit) => exit.id === 'to_street' ? { ...exit, face: null } : exit),
+        },
+      },
+    };
+    expect(checkExits(noFace)).toContain('map ming_scriptorium: anchor "from_street" is inside exit "to_street"');
+    expect(checkExits(content).filter((error) => error.includes('is inside exit'))).toEqual([]);
+    expect(content.maps.avenue.anchors.kiosk_front).toEqual({ x: 1570, y: 470 });
   });
 });

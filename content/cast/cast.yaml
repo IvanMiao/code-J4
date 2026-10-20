@@ -24,3 +24,61 @@ nika:
     annoyed: portrait_nika_annoyed
   # Cats are never voiced: every line plays a meow (sfx id per emotion); the text box shows what it means.
   meows: { calm: meow_calm, smug: meow_smug, annoyed: meow_annoyed }
+
+# Ancient line (?map=ming_canal_street). Side-view sheets, no portraits yet; `hand` = handwriting font (song kai brush xing rough).
+shen:
+  name: 沈硯
+  art: ming
+  sheet: side
+  sprite: walk_shen
+  height: 295.14
+  hand: kai
+  default: calm
+  emotions: [calm, shock]
+kuang:
+  name: 禿翁
+  art: ming
+  sheet: side
+  sprite: walk_kuang
+  height: 283.15
+  hand: xing
+  default: calm
+  emotions: [calm, amused, stern]
+andreas:
+  name: 安德肋
+  art: ming
+  sheet: side
+  sprite: walk_andreas
+  height: 297.02
+  bubbleOffsetX: -160
+  hand: rough
+  default: calm
+  emotions: [calm]
+linu:
+  name: 狸奴
+  cat: true
+  art: ming
+  sheet: pose
+  sprite: pose_linu
+  hand: brush
+  default: calm
+  emotions: [calm, smug, annoyed]
+  meows: { calm: meow_calm, smug: meow_smug, annoyed: meow_annoyed }
+
+monk_left:
+  name: 寫經僧甲
+  art: ming
+  sheet: pose
+  sprite: pose_monk_left
+  hand: song
+  default: calm
+  emotions: [calm]
+
+monk_right:
+  name: 寫經僧乙
+  art: ming
+  sheet: pose
+  sprite: pose_monk_right
+  hand: song
+  default: calm
+  emotions: [calm]
